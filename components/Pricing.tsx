@@ -1,109 +1,150 @@
+"use client";
+import { motion } from "framer-motion";
+import { stagger, scaleIn, fadeUp } from "@/lib/animations";
+
 const websiteFeatures = [
   "Full website (up to 6 service pages)",
   "About, Gallery, FAQ, Contact pages",
   "Google review widget above the fold",
   "On-page SEO and schema markup",
-  "Google Maps embed",
-  "Trust badges and lead capture form",
-  "Mobile-optimized and fast-loading",
-  "Two revision rounds included",
+  "Mobile-first, fast-loading",
+  "Free homepage mockup before you pay",
 ];
 
 const retainerFeatures = [
   "Everything in the website build",
-  "Monthly Google Business profile updates",
-  "Seasonal blog posts (2 per month)",
-  "Local keyword rank tracking",
-  "Monthly performance report",
-  "Priority support and site edits",
+  "Monthly Google Business Profile update",
+  "Two seasonal blog posts per month",
+  "Local keyword rank tracking + reports",
+  "Priority site edits and changes",
+  "Cancel anytime — no lock-in",
 ];
-
-function Check({ highlighted }: { highlighted?: boolean }) {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4 flex-shrink-0">
-      <circle cx="8" cy="8" r="7" fill="#99E58C" fillOpacity={highlighted ? 0.25 : 0.12} />
-      <path d="M5 8l2.5 2.5L11 6" stroke="#99E58C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
 
 export function Pricing() {
   return (
-    <section id="pricing" className="bg-surface py-20 md:py-28">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <p className="text-green-dark font-semibold text-xs tracking-widest uppercase mb-4">Pricing</p>
-          <h2 className="text-ink font-extrabold text-4xl md:text-5xl tracking-tight mb-4">
-            Simple, transparent pricing
-          </h2>
-          <p className="text-slate-500 text-lg max-w-xl mx-auto">
-            One package. One add-on. No hidden fees.
-          </p>
-        </div>
+    <section id="pricing" className="bg-[#0C1A0D] py-24 md:py-32 relative overflow-hidden">
+      {/* Subtle dewdrop image bg */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/dewdrop-lawn.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 w-full h-full object-cover opacity-8"
+      />
+      <div className="absolute inset-0 bg-[#0C1A0D]/80" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          {/* Website Build */}
-          <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm flex flex-col">
-            <p className="text-slate-400 text-xs font-semibold tracking-widest uppercase mb-3">
-              Website Build
-            </p>
-            <h3 className="text-ink font-extrabold text-4xl mb-1">$1,200</h3>
-            <p className="text-slate-400 text-sm mb-6">one-time</p>
-            <p className="text-slate-600 leading-relaxed mb-8 text-sm">
-              A complete, professional website built to convert irrigation leads. Designed around what homeowners actually need to see before they call.
-            </p>
-            <ul className="space-y-3 mb-8 flex-1">
+      {/* Green glow orb */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-green/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="relative max-w-6xl mx-auto px-6">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-14"
+        >
+          <p className="text-green font-semibold text-xs tracking-widest uppercase mb-4">Pricing</p>
+          <h2 className="text-white font-extrabold text-4xl md:text-5xl tracking-tight mb-4">
+            Simple, honest pricing.
+          </h2>
+          <p className="text-white/45 text-lg max-w-xl mx-auto">
+            50% deposit on design approval. 50% on delivery. No retainer traps.
+          </p>
+        </motion.div>
+
+        {/* Cards */}
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto"
+        >
+          {/* Website Build card */}
+          <motion.div
+            variants={scaleIn}
+            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:border-green/25 hover:bg-white/8 transition-all duration-300"
+          >
+            <p className="text-white/50 text-xs font-semibold tracking-widest uppercase mb-6">Website Build</p>
+            <div className="flex items-baseline gap-1 mb-2">
+              <span className="text-white font-extrabold text-5xl">$1,200</span>
+            </div>
+            <p className="text-white/35 text-sm mb-8">One-time. Full site. Ready to convert.</p>
+
+            <ul className="space-y-3.5 mb-10">
               {websiteFeatures.map((f) => (
-                <li key={f} className="flex items-center gap-3">
-                  <Check />
-                  <span className="text-slate-600 text-sm">{f}</span>
+                <li key={f} className="flex items-start gap-3 text-white/60 text-sm">
+                  <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4 text-green/70 flex-shrink-0 mt-0.5">
+                    <path d="M3 8l3.5 3.5L13 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  {f}
                 </li>
               ))}
             </ul>
+
             <a
-              href="#contact"
-              className="block w-full text-center bg-ink text-white font-semibold px-6 py-3.5 rounded-full text-sm transition-colors hover:bg-[#1a2b1b] cursor-pointer"
+              href="mailto:andrewedwardmurray@gmail.com?subject=Website%20Build%20Inquiry"
+              className="block w-full text-center border border-white/20 text-white font-bold px-6 py-3.5 rounded-full text-sm hover:bg-white/8 hover:border-white/35 transition-colors cursor-pointer"
             >
               Get started
             </a>
-          </div>
+          </motion.div>
 
-          {/* Website + Retainer */}
-          <div className="bg-[#060C07] rounded-3xl p-8 border border-[#99E58C]/20 shadow-2xl flex flex-col relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-48 h-48 bg-[#99E58C]/8 rounded-full blur-2xl pointer-events-none" />
-            <div className="relative flex flex-col h-full">
-              <div className="inline-block bg-[#99E58C]/15 text-green text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-3 w-fit">
-                Recommended
-              </div>
-              <p className="text-white/40 text-xs font-semibold tracking-widest uppercase mb-3">
-                Website + Monthly Retainer
-              </p>
-              <h3 className="text-white font-extrabold text-4xl mb-1">$1,200</h3>
-              <p className="text-green text-sm font-semibold mb-6">+ $500 / month</p>
-              <p className="text-white/60 leading-relaxed mb-8 text-sm">
-                Everything in the website build, plus ongoing SEO, monthly updates, and rank tracking so you stay ahead of every competitor in your market.
-              </p>
-              <ul className="space-y-3 mb-8 flex-1">
-                {retainerFeatures.map((f) => (
-                  <li key={f} className="flex items-center gap-3">
-                    <Check highlighted />
-                    <span className="text-white/70 text-sm">{f}</span>
-                  </li>
-                ))}
-              </ul>
-              <a
-                href="#contact"
-                className="block w-full text-center bg-green text-[#060C07] font-bold px-6 py-3.5 rounded-full text-sm transition-colors hover:bg-green-light cursor-pointer"
-              >
-                Schedule a free call
-              </a>
+          {/* Retainer card — recommended */}
+          <motion.div
+            variants={scaleIn}
+            className="relative bg-green/8 backdrop-blur-sm border border-green/30 rounded-3xl p-8 hover:border-green/50 hover:bg-green/12 transition-all duration-300"
+          >
+            {/* Recommended badge */}
+            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
+              <span className="bg-green text-[#060C07] text-xs font-bold px-4 py-1.5 rounded-full whitespace-nowrap">
+                Most Popular
+              </span>
             </div>
-          </div>
-        </div>
 
-        <p className="text-center text-slate-400 text-sm mt-8">
-          50% deposit on design approval. 50% on delivery. Retainer billed monthly, cancel anytime.
-        </p>
+            <p className="text-green/80 text-xs font-semibold tracking-widest uppercase mb-6">Build + Monthly SEO</p>
+            <div className="flex items-baseline gap-1 mb-1">
+              <span className="text-white font-extrabold text-5xl">$1,200</span>
+            </div>
+            <p className="text-white/50 text-sm mb-1">one-time build +</p>
+            <div className="flex items-baseline gap-1 mb-2">
+              <span className="text-green font-extrabold text-2xl">$500</span>
+              <span className="text-white/40 text-sm">/mo retainer</span>
+            </div>
+            <p className="text-white/35 text-sm mb-8">Cancel anytime. No contract.</p>
+
+            <ul className="space-y-3.5 mb-10">
+              {retainerFeatures.map((f) => (
+                <li key={f} className="flex items-start gap-3 text-white/70 text-sm">
+                  <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4 text-green flex-shrink-0 mt-0.5">
+                    <path d="M3 8l3.5 3.5L13 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  {f}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href="mailto:andrewedwardmurray@gmail.com?subject=Build%20%2B%20Retainer%20Inquiry"
+              className="block w-full text-center bg-green text-[#060C07] font-bold px-6 py-3.5 rounded-full text-sm hover:bg-green-light transition-colors cursor-pointer"
+            >
+              Get started
+            </a>
+          </motion.div>
+        </motion.div>
+
+        {/* Disclaimer */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="text-center text-white/25 text-sm mt-10"
+        >
+          First client (Sunline Irrigation) was at the introductory rate of $750. Standard pricing applies going forward.
+        </motion.p>
       </div>
     </section>
   );

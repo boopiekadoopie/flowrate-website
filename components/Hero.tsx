@@ -1,124 +1,174 @@
+"use client";
+import { motion } from "framer-motion";
+import { fadeUp, stagger, slideRight } from "@/lib/animations";
+
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
-      {/* Full-bleed background photo */}
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-[#060C07]">
+      {/* Background irrigation photo */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/hero-bg.jpg"
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-cover object-center"
+        className="absolute inset-0 w-full h-full object-cover object-center opacity-30"
       />
+      {/* Gradient: heavy left, fades right so Andrew shows on desktop */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#060C07]/98 via-[#060C07]/80 to-[#060C07]/20" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#060C07]/70 via-transparent to-[#060C07]/30" />
 
-      {/* Dark gradient overlay — heavier left so text is readable */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#060C07]/95 via-[#060C07]/80 to-[#060C07]/50" />
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#060C07] to-transparent" />
+      <div className="relative max-w-7xl mx-auto px-6 pt-28 pb-20 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-4 items-center w-full min-h-screen">
+        {/* Left: Text content */}
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          animate="show"
+          className="z-10 flex flex-col justify-center"
+        >
+          {/* Eyebrow badge */}
+          <motion.div variants={fadeUp} className="mb-7">
+            <span className="inline-flex items-center gap-2.5 bg-green/10 border border-green/20 text-green text-xs font-semibold tracking-widest uppercase px-4 py-2.5 rounded-full">
+              <span className="w-1.5 h-1.5 rounded-full bg-green animate-pulse flex-shrink-0" />
+              Irrigation Web Design Specialist
+            </span>
+          </motion.div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          {/* Headline */}
+          <motion.h1
+            variants={fadeUp}
+            className="text-white font-extrabold text-5xl md:text-6xl lg:text-[64px] tracking-tight leading-[1.04] mb-6"
+          >
+            Your clients are
+            <br />
+            searching right{" "}
+            <span className="text-green">now.</span>
+          </motion.h1>
 
-          {/* ── Left column: copy ── */}
-          <div>
-            {/* Eyebrow badge */}
-            <div className="inline-flex items-center gap-2 bg-green/10 border border-green/25 rounded-full px-4 py-1.5 mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-green animate-pulse" />
-              <span className="text-green font-semibold text-xs tracking-widest uppercase">
-                Irrigation Web Design Specialist
-              </span>
-            </div>
+          <motion.p
+            variants={fadeUp}
+            className="text-white/60 text-lg md:text-xl leading-relaxed max-w-[500px] mb-10"
+          >
+            I build websites for irrigation contractors that win homeowners
+            before they ever pick up the phone. Full site in two weeks.
+            Free mockup first. No invoice if you walk.
+          </motion.p>
 
-            <h1 className="text-white font-extrabold text-5xl md:text-6xl lg:text-[3.8rem] leading-[1.05] tracking-tight mb-6">
-              Your Clients Are Searching Right Now.
-              <span className="block text-green mt-2">Make Sure They Find You.</span>
-            </h1>
-
-            <p className="text-white/70 text-lg md:text-xl leading-relaxed max-w-xl mb-10">
-              I build high-converting websites for irrigation contractors — designed around the specific fears of homeowners choosing who to trust with their lawn.
-            </p>
-
-            {/* Stats row */}
-            <div className="flex flex-wrap gap-6 mb-10">
-              {[
-                { value: "2 weeks", label: "Build to live" },
-                { value: "Free", label: "First mockup" },
-                { value: "100%", label: "Satisfaction guarantee" },
-              ].map((s) => (
-                <div key={s.label} className="flex flex-col">
-                  <span className="text-green font-extrabold text-2xl leading-none">{s.value}</span>
-                  <span className="text-white/50 text-xs mt-1 tracking-wide uppercase">{s.label}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <a
-                href="#contact"
-                className="bg-green text-[#060C07] font-bold px-8 py-4 rounded-full text-base hover:bg-green-light transition-colors cursor-pointer text-center"
-              >
-                Schedule a Free Call
-              </a>
-              <a
-                href="#portfolio"
-                className="border border-white/25 text-white font-semibold px-8 py-4 rounded-full text-base hover:bg-white/8 hover:border-white/50 transition-colors cursor-pointer text-center"
-              >
-                See Our Work
-              </a>
-            </div>
-
-            <p className="mt-5 text-white/40 text-sm">
-              No commitment. I design your homepage first — free.
-            </p>
-          </div>
-
-          {/* ── Right column: Andrew's photo ── */}
-          <div className="hidden lg:flex flex-col items-center gap-6">
-            {/* Main portrait */}
-            <div className="relative">
-              <div className="w-72 h-80 rounded-3xl overflow-hidden ring-2 ring-green/30 shadow-2xl bg-[#0C1A0D]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/andrew.jpg"
-                  alt="Andrew Murray, Founder of Flowrate Agency"
-                  className="w-full h-full object-cover object-top"
-                />
-                {/* Bottom name plate */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#060C07] to-transparent">
-                  <p className="text-white font-bold text-sm">Andrew Murray</p>
-                  <p className="text-green text-xs">Founder, Flowrate Agency</p>
-                </div>
+          {/* Stats row */}
+          <motion.div variants={fadeUp} className="flex items-center gap-8 mb-10">
+            {[
+              { value: "2 wks", label: "build time" },
+              { value: "Free", label: "mockup first" },
+              { value: "100%", label: "satisfaction" },
+            ].map((s) => (
+              <div key={s.label} className="flex flex-col">
+                <span className="text-green font-extrabold text-2xl leading-none">{s.value}</span>
+                <span className="text-white/35 text-xs mt-1">{s.label}</span>
               </div>
+            ))}
+          </motion.div>
 
-              {/* Floating badge — top right */}
-              <div className="absolute -top-4 -right-4 bg-[#0C1A0D] border border-green/30 rounded-2xl px-4 py-3 shadow-xl">
-                <p className="text-green font-extrabold text-lg leading-none">1</p>
-                <p className="text-white/60 text-[10px] mt-0.5 leading-tight">Client site<br />live</p>
-              </div>
+          {/* CTAs */}
+          <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
+            <a
+              href="mailto:andrewedwardmurray@gmail.com?subject=Free%20Mockup%20Request"
+              className="bg-green text-[#060C07] font-bold px-8 py-4 rounded-full text-base hover:bg-green-light transition-colors cursor-pointer"
+            >
+              Schedule a free call
+            </a>
+            <a
+              href="#portfolio"
+              className="border border-white/20 text-white font-semibold px-8 py-4 rounded-full text-base hover:bg-white/6 hover:border-white/35 transition-colors cursor-pointer"
+            >
+              See our work
+            </a>
+          </motion.div>
+        </motion.div>
 
-              {/* Floating badge — bottom left */}
-              <div className="absolute -bottom-4 -left-4 bg-[#0C1A0D] border border-green/30 rounded-2xl px-4 py-3 shadow-xl flex items-center gap-3">
-                <div className="w-7 h-7 rounded-full bg-green/15 flex items-center justify-center">
-                  <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5">
-                    <circle cx="8" cy="8" r="8" fill="#99E58C" fillOpacity="0.2" />
-                    <path d="M4.5 8L7 10.5L11.5 6" stroke="#99E58C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        {/* Right: Andrew's portrait */}
+        <motion.div
+          variants={slideRight}
+          initial="hidden"
+          animate="show"
+          transition={{ delay: 0.35 }}
+          className="relative hidden lg:flex justify-end items-end"
+        >
+          <div className="relative">
+            {/* Portrait container — crops banner to show Andrew's face */}
+            <div
+              className="relative rounded-2xl overflow-hidden"
+              style={{ width: 400, height: 560 }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/andrew-banner.png"
+                alt="Andrew Murray — Flowrate Agency founder"
+                className="w-full h-full object-cover"
+                style={{ objectPosition: "52% center" }}
+              />
+              {/* Dark overlay to dim banner text, keep Andrew's face as focal point */}
+              <div className="absolute inset-0 bg-[#060C07]/40 pointer-events-none" />
+              {/* Fade bottom and top into bg */}
+              <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#060C07] to-transparent pointer-events-none" />
+              <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#060C07]/70 to-transparent pointer-events-none" />
+              <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-[#060C07] to-transparent pointer-events-none" />
+              {/* Green glow ring */}
+              <div className="absolute inset-0 rounded-2xl ring-1 ring-green/15 pointer-events-none" />
+            </div>
+
+            {/* Floating badge: client live */}
+            <motion.div
+              initial={{ opacity: 0, y: 12, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ delay: 1.1, duration: 0.5, type: "spring", stiffness: 200 }}
+              className="absolute -left-14 top-16 bg-[#0C1A0D]/95 border border-green/25 backdrop-blur-sm rounded-2xl px-4 py-3 shadow-xl"
+            >
+              <div className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-full bg-green/15 flex items-center justify-center flex-shrink-0">
+                  <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5 text-green">
+                    <path d="M3 8l3.5 3.5L13 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
                 <div>
-                  <p className="text-white font-semibold text-xs leading-none">Irrigation-only</p>
-                  <p className="text-white/40 text-[10px] mt-0.5">specialist agency</p>
+                  <p className="text-white font-semibold text-xs leading-none mb-0.5">Sunline Irrigation</p>
+                  <p className="text-green text-xs">Site is live</p>
                 </div>
               </div>
-            </div>
+            </motion.div>
+
+            {/* Floating badge: stars */}
+            <motion.div
+              initial={{ opacity: 0, y: 12, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ delay: 1.3, duration: 0.5, type: "spring", stiffness: 200 }}
+              className="absolute -right-8 top-40 bg-[#0C1A0D]/95 border border-green/25 backdrop-blur-sm rounded-2xl px-4 py-3 shadow-xl"
+            >
+              <div className="flex items-center gap-0.5 mb-1">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} viewBox="0 0 12 12" fill="currentColor" className="w-3 h-3 text-green">
+                    <path d="M6 1l1.27 2.57L10 4.1l-2 1.95.47 2.75L6 7.57 3.53 8.8 4 6.05 2 4.1l2.73-.53z" />
+                  </svg>
+                ))}
+              </div>
+              <p className="text-white/60 text-xs">Irrigation-only specialist</p>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-40">
-        <span className="text-white/50 text-[10px] tracking-widest uppercase">Scroll</span>
-        <div className="w-px h-8 bg-gradient-to-b from-white/40 to-transparent" />
-      </div>
+      {/* Scroll cue */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2"
+      >
+        <span className="text-white/20 text-[10px] tracking-[0.2em] uppercase">scroll</span>
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
+          className="w-px h-10 bg-gradient-to-b from-green/30 to-transparent"
+        />
+      </motion.div>
     </section>
   );
 }

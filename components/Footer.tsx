@@ -72,7 +72,7 @@ export function Footer() {
             &copy; {new Date().getFullYear()} Flowrate Agency. All rights reserved.
           </p>
           <p className="text-white/25 text-xs">
-            Irrigation web design specialist — Austin, TX &amp; beyond
+            Irrigation web design specialist · Austin, TX &amp; beyond
           </p>
         </div>
       </div>
