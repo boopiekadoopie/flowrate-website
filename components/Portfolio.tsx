@@ -115,7 +115,7 @@ export function Portfolio() {
               </div>
               <p className="text-white/70 text-sm leading-relaxed italic mb-4">
                 &ldquo;Andrew built exactly what he promised. The site looks premium
-                and professional — completely different from what we had before.&rdquo;
+                and professional. Completely different from what we had before.&rdquo;
               </p>
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-full bg-green/20 flex items-center justify-center">

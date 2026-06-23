@@ -4,7 +4,7 @@ import { slideLeft, slideRight, stagger, fadeUp } from "@/lib/animations";
 
 const bullets = [
   "2 years hands-on at Controlled Irrigation CC, Johannesburg",
-  "Saw great contractors lose bids to worse ones — bad websites",
+  "Saw great contractors lose bids to worse ones. Bad websites.",
   "Built Flowrate to fix that problem permanently",
   "Every site is built around what homeowners fear, not a template",
   "Irrigation-only focus means deeper expertise than any generalist",
@@ -22,19 +22,18 @@ export function About() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true }}
-            className="relative min-h-[480px] lg:min-h-[640px] overflow-hidden"
+            className="relative min-h-[480px] lg:min-h-[640px] overflow-hidden flex items-end justify-center"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/andrew-banner.png"
-              alt="Andrew Murray — Flowrate Agency founder"
-              className="w-full h-full object-cover"
-              style={{ objectPosition: "20% center" }}
+              src="/andrew-portrait.png"
+              alt="Andrew Murray, Flowrate Agency founder"
+              className="w-full h-full object-contain object-bottom"
             />
             {/* Right edge blend into the text column */}
-            <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#060C07] to-transparent" />
+            <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#060C07] to-transparent pointer-events-none" />
             {/* Bottom fade */}
-            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#060C07] to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#060C07] to-transparent pointer-events-none" />
 
             {/* Name plate on photo */}
             <div className="absolute bottom-8 left-8">
@@ -64,8 +63,8 @@ export function About() {
 
             <motion.p variants={fadeUp} className="text-white/55 text-base leading-relaxed mb-10 max-w-md">
               I spent two years at Controlled Irrigation CC in Johannesburg. Every week
-              I watched skilled contractors lose jobs to worse companies — because their
-              website looked untrustworthy. Homeowners chose the one that looked credible,
+              I watched skilled contractors lose jobs to worse companies. Bad websites.
+              Homeowners chose the one that looked credible,
               not the one that was better. I built Flowrate to fix that.
             </motion.p>
 

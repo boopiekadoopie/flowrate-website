@@ -93,26 +93,19 @@ export function Hero() {
           className="relative hidden lg:flex justify-end items-end"
         >
           <div className="relative">
-            {/* Portrait container — crops banner to show Andrew's face */}
+            {/* Portrait container — clean cutout photo, white bg eliminated via multiply */}
             <div
-              className="relative rounded-2xl overflow-hidden"
-              style={{ width: 400, height: 560 }}
+              className="relative overflow-hidden"
+              style={{ width: 420, height: 600 }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/andrew-banner.png"
-                alt="Andrew Murray — Flowrate Agency founder"
-                className="w-full h-full object-cover"
-                style={{ objectPosition: "52% center" }}
+                src="/andrew-portrait.png"
+                alt="Andrew Murray, Flowrate Agency founder"
+                className="w-full h-full object-contain object-bottom"
               />
-              {/* Dark overlay to dim banner text, keep Andrew's face as focal point */}
-              <div className="absolute inset-0 bg-[#060C07]/40 pointer-events-none" />
-              {/* Fade bottom and top into bg */}
-              <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#060C07] to-transparent pointer-events-none" />
-              <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#060C07]/70 to-transparent pointer-events-none" />
-              <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-[#060C07] to-transparent pointer-events-none" />
-              {/* Green glow ring */}
-              <div className="absolute inset-0 rounded-2xl ring-1 ring-green/15 pointer-events-none" />
+              {/* Subtle bottom fade to anchor figure to the section */}
+              <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#060C07] to-transparent pointer-events-none" />
             </div>
 
             {/* Floating badge: client live */}

@@ -17,7 +17,7 @@ const retainerFeatures = [
   "Two seasonal blog posts per month",
   "Local keyword rank tracking + reports",
   "Priority site edits and changes",
-  "Cancel anytime — no lock-in",
+  "Cancel anytime. No lock-in.",
 ];
 
 export function Pricing() {

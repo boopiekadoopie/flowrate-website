@@ -10,12 +10,12 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Flowrate Agency — Web Design for Irrigation Contractors",
+  title: "Flowrate Agency: Web Design for Irrigation Contractors",
   description:
     "Flowrate builds high-converting websites for irrigation companies. Homeowners Google three contractors. Make sure they call yours.",
   metadataBase: new URL("https://flowrate.agency"),
   openGraph: {
-    title: "Flowrate Agency — Web Design for Irrigation Contractors",
+    title: "Flowrate Agency: Web Design for Irrigation Contractors",
     description:
       "I build websites that win the trust of homeowners who are anxious about being overcharged.",
     url: "https://flowrate.agency",

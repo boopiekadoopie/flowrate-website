@@ -4,7 +4,7 @@ import { useState } from "react";
 const faqs = [
   {
     q: "How long does a website take to build?",
-    a: "Two weeks from deposit to live site. Most projects finish in 10 business days. You see a full homepage design before we start — if revisions are needed, we address them before building the rest.",
+    a: "Two weeks from deposit to live site. Most projects finish in 10 business days. You see a full homepage design before we start. If revisions are needed, we address them before building the rest.",
   },
   {
     q: "Do I need to provide my own content and photos?",
@@ -16,7 +16,7 @@ const faqs = [
   },
   {
     q: "Do you work with non-irrigation contractors?",
-    a: "No. Flowrate works exclusively with irrigation companies. That specialization is why the sites convert better — every trust signal, every CRO decision, and every word of copy is built around the homeowner choosing an irrigation contractor specifically.",
+    a: "No. Flowrate works exclusively with irrigation companies. That specialization is why the sites convert better. Every trust signal, every CRO decision, and every word of copy is built around the homeowner choosing an irrigation contractor specifically.",
   },
   {
     q: "What does the monthly retainer include?",
@@ -24,7 +24,7 @@ const faqs = [
   },
   {
     q: "What if I already have a website?",
-    a: "That is actually the most common situation. I will audit your current site, show you exactly what is costing you leads, and build a replacement that fixes those issues. Your current domain stays the same — no disruption to your existing traffic.",
+    a: "That is actually the most common situation. I will audit your current site, show you exactly what is costing you leads, and build a replacement that fixes those issues. Your current domain stays the same. No disruption to your existing traffic.",
   },
 ];
 
