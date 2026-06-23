@@ -48,12 +48,20 @@ export function About() {
           </div>
 
           <div className="relative">
-            <div className="aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-white/10">
+            <div className="aspect-[4/5] rounded-2xl overflow-hidden ring-1 ring-white/10 relative bg-navy">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/andrew.jpg"
                 alt="Andrew Murray, Founder of Flowrate Agency"
                 className="w-full h-full object-cover object-top"
+              />
+              {/* Vignette to blend white photo bg into the dark section */}
+              <div
+                className="absolute inset-0 pointer-events-none rounded-2xl"
+                style={{
+                  background:
+                    "radial-gradient(ellipse 82% 78% at 50% 32%, transparent 42%, #080B20 84%)",
+                }}
               />
             </div>
             <div className="absolute -bottom-3 -right-3 w-20 h-20 bg-gold/10 rounded-xl -z-10 hidden lg:block" />
