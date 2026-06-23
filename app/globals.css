@@ -1,17 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  --color-navy: #080B20;
-  --color-navy-surface: #0D1630;
-  --color-navy-card: #111827;
-  --color-teal: #0E7490;
-  --color-teal-light: #0891B2;
-  --color-gold: #E4A44A;
-  --color-gold-light: #F0B85E;
-  --color-fr-green: #99E58C;
-  --color-ink: #0F172A;
-  --color-surface: #F8FAFC;
+  /* Flowrate green brand system */
+  --color-deep: #080D08;
+  --color-deep-card: #0E180E;
+  --color-deep-border: rgba(153, 229, 140, 0.12);
+  --color-green: #99E58C;
+  --color-green-light: #B4EDAA;
+  --color-green-dark: #70BE62;
+  --color-green-glow: rgba(153, 229, 140, 0.15);
+  --color-ink: #0C1A0D;
+  --color-surface: #F4F8F4;
+  --color-white: #FFFFFF;
   --color-silver: #94A3B8;
+  --color-slate: #64748B;
   --font-sans: var(--font-jakarta);
 }
 
@@ -22,7 +24,7 @@ html {
 
 body {
   font-family: var(--font-jakarta), system-ui, -apple-system, sans-serif;
-  color: #0F172A;
+  color: #0C1A0D;
   background: #ffffff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -33,15 +33,15 @@ const problems = [
 
 export function Problem() {
   return (
-    <section className="bg-surface py-20 md:py-28">
-      <div className="max-w-6xl mx-auto px-6">
+    <section className="bg-[#060C07] py-20 md:py-28">
+      <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-ink font-extrabold text-4xl md:text-5xl tracking-tight mb-4">
+          <p className="text-green font-semibold text-xs tracking-widest uppercase mb-4">The Problem</p>
+          <h2 className="text-white font-extrabold text-4xl md:text-5xl tracking-tight mb-4">
             Why most irrigation websites lose leads
           </h2>
-          <p className="text-slate-500 text-lg max-w-xl mx-auto leading-relaxed">
-            The homeowner is already anxious. Your website either removes that
-            anxiety or confirms it.
+          <p className="text-white/50 text-lg max-w-xl mx-auto leading-relaxed">
+            The homeowner is already anxious. Your website either removes that anxiety or confirms it.
           </p>
         </div>
 
@@ -49,13 +49,13 @@ export function Problem() {
           {problems.map((problem) => (
             <div
               key={problem.title}
-              className="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm hover:shadow-md transition-shadow"
+              className="bg-[#0C1A0D] rounded-2xl p-8 border border-[#99E58C]/10 hover:border-[#99E58C]/25 transition-colors"
             >
-              <div className="w-12 h-12 bg-teal/10 rounded-xl flex items-center justify-center mb-6 text-teal">
+              <div className="w-12 h-12 bg-green/10 rounded-xl flex items-center justify-center mb-6 text-green">
                 {problem.icon}
               </div>
-              <h3 className="text-ink font-bold text-lg mb-3">{problem.title}</h3>
-              <p className="text-slate-500 leading-relaxed text-sm">{problem.description}</p>
+              <h3 className="text-white font-bold text-lg mb-3">{problem.title}</h3>
+              <p className="text-white/50 leading-relaxed text-sm">{problem.description}</p>
             </div>
           ))}
         </div>
