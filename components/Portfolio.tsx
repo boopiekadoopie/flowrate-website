@@ -134,11 +134,11 @@ export function Portfolio() {
               </p>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-green/15 flex items-center justify-center flex-shrink-0">
-                  <span className="text-green font-bold">S</span>
+                  <span className="text-green font-bold">A</span>
                 </div>
                 <div>
-                  <p className="text-white font-semibold text-sm">Sunline Irrigation</p>
-                  <p className="text-white/35 text-xs">Austin, TX · Client #1</p>
+                  <p className="text-white font-semibold text-sm">Irrigation Contractor</p>
+                  <p className="text-white/35 text-xs">Austin, TX · First build</p>
                 </div>
               </div>
             </div>

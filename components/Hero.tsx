@@ -87,7 +87,7 @@ export function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Right: Browser mockup of the Sunline site — shows the actual product */}
+        {/* Right: Laptop mockup showing client site */}
         <motion.div
           variants={slideRight}
           initial="hidden"
@@ -95,42 +95,58 @@ export function Hero() {
           transition={{ delay: 0.35 }}
           className="relative hidden lg:flex justify-end items-center"
         >
-          <div className="relative">
-            {/* Browser mockup card */}
-            <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/60" style={{ width: 480 }}>
-              {/* Browser chrome bar */}
-              <div className="bg-[#1A2B1A] px-4 py-3 flex items-center gap-2.5 border-b border-white/8">
-                <div className="flex gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-white/15" />
-                  <div className="w-3 h-3 rounded-full bg-white/15" />
-                  <div className="w-3 h-3 rounded-full bg-white/15" />
-                </div>
-                <div className="flex-1 bg-[#060C07]/60 rounded-md px-3 py-1.5 flex items-center gap-2">
-                  <svg viewBox="0 0 16 16" fill="none" className="w-3 h-3 text-green/60 flex-shrink-0">
-                    <path d="M8 1a7 7 0 100 14A7 7 0 008 1zM1 8h14M8 1c-2 2-3 4.5-3 7s1 5 3 7M8 1c2 2 3 4.5 3 7s-1 5-3 7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-                  </svg>
-                  <span className="text-white/50 text-xs font-medium">sunlineirrigation.com</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <div className="w-1.5 h-1.5 rounded-full bg-green animate-pulse" />
-                  <span className="text-green text-xs font-semibold">Live</span>
+          <div className="relative" style={{ paddingLeft: 20, paddingBottom: 20 }}>
+            {/* MacBook-style laptop frame — medium-gray aluminum so it reads on dark bg */}
+            <div style={{ width: 460 }}>
+              {/* Lid */}
+              <div
+                style={{
+                  background: "linear-gradient(160deg, #4A4A4C 0%, #3A3A3C 60%, #2E2E30 100%)",
+                  borderRadius: "14px 14px 0 0",
+                  padding: "16px 16px 10px 16px",
+                  boxShadow: "0 0 0 1px rgba(255,255,255,0.12), inset 0 1px 0 rgba(255,255,255,0.18), 0 40px 80px rgba(0,0,0,0.9)",
+                }}
+              >
+                {/* Camera dot */}
+                <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#1A1A1C", margin: "0 auto 10px", boxShadow: "inset 0 1px 2px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,0,0,0.4)" }} />
+                {/* Screen glass */}
+                <div style={{ borderRadius: 6, overflow: "hidden", height: 272, boxShadow: "0 0 0 1px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.04)" }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/sunline-screenshot.png"
+                    alt="Sunline Irrigation website built by Flowrate Agency"
+                    className="w-full object-cover object-top"
+                    style={{ height: 272, display: "block" }}
+                  />
                 </div>
               </div>
-              {/* Real Sunline screenshot */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/sunline-screenshot.png"
-                alt="Sunline Irrigation website built by Flowrate Agency"
-                className="w-full"
-              />
+              {/* Hinge */}
+              <div style={{ height: 3, background: "linear-gradient(to right, #1A1A1C 0%, #2A2A2C 50%, #1A1A1C 100%)" }} />
+              {/* Keyboard base — wider than lid */}
+              <div
+                style={{
+                  position: "relative",
+                  height: 26,
+                  margin: "0 -10px",
+                  background: "linear-gradient(to bottom, #3C3C3E, #2C2C2E)",
+                  borderRadius: "0 0 14px 14px",
+                  boxShadow: "0 0 0 1px rgba(255,255,255,0.09), inset 0 1px 0 rgba(255,255,255,0.12), 0 20px 48px rgba(0,0,0,0.7)",
+                }}
+              >
+                {/* Trackpad */}
+                <div style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 84, height: 12, borderRadius: 4, background: "#282828", boxShadow: "inset 0 1px 0 rgba(0,0,0,0.5)" }} />
+              </div>
+              {/* Surface shadow */}
+              <div style={{ height: 4, margin: "0 -10px", background: "#0d0d0e", borderRadius: "0 0 3px 3px", boxShadow: "0 16px 40px rgba(0,0,0,0.8)" }} />
             </div>
 
-            {/* Floating badge: built in 2 weeks */}
+            {/* Badge: client live — top left, overlapping lid edge */}
             <motion.div
               initial={{ opacity: 0, y: 12, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ delay: 1.1, duration: 0.5, type: "spring", stiffness: 200 }}
-              className="absolute -left-10 top-10 bg-[#0C1A0D]/95 border border-green/25 backdrop-blur-sm rounded-2xl px-4 py-3 shadow-xl"
+              className="absolute bg-[#0C1A0D]/95 border border-green/25 backdrop-blur-sm rounded-2xl px-4 py-3 shadow-xl"
+              style={{ left: -16, top: 24 }}
             >
               <div className="flex items-center gap-2.5">
                 <div className="w-7 h-7 rounded-full bg-green/15 flex items-center justify-center flex-shrink-0">
@@ -145,32 +161,23 @@ export function Hero() {
               </div>
             </motion.div>
 
-            {/* Floating badge: stars */}
+            {/* Badge: 5 stars + free mockup — bottom right, clear of stars badge */}
             <motion.div
               initial={{ opacity: 0, y: 12, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ delay: 1.3, duration: 0.5, type: "spring", stiffness: 200 }}
-              className="absolute -right-6 bottom-16 bg-[#0C1A0D]/95 border border-green/25 backdrop-blur-sm rounded-2xl px-4 py-3 shadow-xl"
+              className="absolute bg-[#0C1A0D]/95 border border-green/25 backdrop-blur-sm rounded-2xl px-4 py-3 shadow-xl"
+              style={{ right: -20, bottom: 28 }}
             >
-              <div className="flex items-center gap-0.5 mb-1">
+              <div className="flex items-center gap-0.5 mb-1.5">
                 {[...Array(5)].map((_, i) => (
                   <svg key={i} viewBox="0 0 12 12" fill="currentColor" className="w-3 h-3 text-green">
                     <path d="M6 1l1.27 2.57L10 4.1l-2 1.95.47 2.75L6 7.57 3.53 8.8 4 6.05 2 4.1l2.73-.53z" />
                   </svg>
                 ))}
               </div>
-              <p className="text-white font-semibold text-xs">Irrigation-only specialist</p>
-            </motion.div>
-
-            {/* Floating stat: free mockup */}
-            <motion.div
-              initial={{ opacity: 0, x: 12, scale: 0.9 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              transition={{ delay: 1.5, duration: 0.5, type: "spring", stiffness: 200 }}
-              className="absolute -right-6 top-32 bg-green/10 border border-green/30 backdrop-blur-sm rounded-2xl px-4 py-3 shadow-xl"
-            >
-              <p className="text-green font-extrabold text-xl leading-none">Free</p>
-              <p className="text-white/50 text-xs mt-0.5">mockup first</p>
+              <p className="text-white font-semibold text-xs leading-none mb-0.5">Free mockup first</p>
+              <p className="text-white/40 text-[11px]">No invoice if you walk</p>
             </motion.div>
           </div>
         </motion.div>
