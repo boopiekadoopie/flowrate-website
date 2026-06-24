@@ -5,17 +5,20 @@ import { fadeUp, stagger, slideRight } from "@/lib/animations";
 export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-[#060C07]">
-      {/* Background irrigation photo */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/hero-bg.jpg"
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 w-full h-full object-cover object-center opacity-30"
-      />
-      {/* Gradient: heavy left, fades right so Andrew shows on desktop */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#060C07]/98 via-[#060C07]/80 to-[#060C07]/20" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#060C07]/70 via-transparent to-[#060C07]/30" />
+      {/* Looping sprinkler video — premium feel */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover object-center opacity-40"
+        poster="/hero-video-fallback.jpg"
+      >
+        <source src="/hero-sprinkler.mp4" type="video/mp4" />
+      </video>
+      {/* Gradient overlays: heavy left so text reads, fades right for the mockup */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#060C07]/98 via-[#060C07]/85 to-[#060C07]/30" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#060C07]/80 via-transparent to-[#060C07]/30" />
 
       <div className="relative max-w-7xl mx-auto px-6 pt-28 pb-20 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-4 items-center w-full min-h-screen">
         {/* Left: Text content */}
@@ -84,36 +87,50 @@ export function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Right: Andrew's portrait */}
+        {/* Right: Browser mockup of the Sunline site — shows the actual product */}
         <motion.div
           variants={slideRight}
           initial="hidden"
           animate="show"
           transition={{ delay: 0.35 }}
-          className="relative hidden lg:flex justify-end items-end"
+          className="relative hidden lg:flex justify-end items-center"
         >
           <div className="relative">
-            {/* Portrait container — clean cutout photo, white bg eliminated via multiply */}
-            <div
-              className="relative overflow-hidden"
-              style={{ width: 420, height: 600 }}
-            >
+            {/* Browser mockup card */}
+            <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/60" style={{ width: 480 }}>
+              {/* Browser chrome bar */}
+              <div className="bg-[#1A2B1A] px-4 py-3 flex items-center gap-2.5 border-b border-white/8">
+                <div className="flex gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-white/15" />
+                  <div className="w-3 h-3 rounded-full bg-white/15" />
+                  <div className="w-3 h-3 rounded-full bg-white/15" />
+                </div>
+                <div className="flex-1 bg-[#060C07]/60 rounded-md px-3 py-1.5 flex items-center gap-2">
+                  <svg viewBox="0 0 16 16" fill="none" className="w-3 h-3 text-green/60 flex-shrink-0">
+                    <path d="M8 1a7 7 0 100 14A7 7 0 008 1zM1 8h14M8 1c-2 2-3 4.5-3 7s1 5 3 7M8 1c2 2 3 4.5 3 7s-1 5-3 7" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+                  </svg>
+                  <span className="text-white/50 text-xs font-medium">sunlineirrigation.com</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-1.5 h-1.5 rounded-full bg-green animate-pulse" />
+                  <span className="text-green text-xs font-semibold">Live</span>
+                </div>
+              </div>
+              {/* Real Sunline screenshot */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/andrew-portrait.png"
-                alt="Andrew Murray, Flowrate Agency founder"
-                className="w-full h-full object-contain object-bottom"
+                src="/sunline-screenshot.png"
+                alt="Sunline Irrigation website built by Flowrate Agency"
+                className="w-full"
               />
-              {/* Subtle bottom fade to anchor figure to the section */}
-              <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#060C07] to-transparent pointer-events-none" />
             </div>
 
-            {/* Floating badge: client live */}
+            {/* Floating badge: built in 2 weeks */}
             <motion.div
               initial={{ opacity: 0, y: 12, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ delay: 1.1, duration: 0.5, type: "spring", stiffness: 200 }}
-              className="absolute -left-14 top-16 bg-[#0C1A0D]/95 border border-green/25 backdrop-blur-sm rounded-2xl px-4 py-3 shadow-xl"
+              className="absolute -left-10 top-10 bg-[#0C1A0D]/95 border border-green/25 backdrop-blur-sm rounded-2xl px-4 py-3 shadow-xl"
             >
               <div className="flex items-center gap-2.5">
                 <div className="w-7 h-7 rounded-full bg-green/15 flex items-center justify-center flex-shrink-0">
@@ -123,7 +140,7 @@ export function Hero() {
                 </div>
                 <div>
                   <p className="text-white font-semibold text-xs leading-none mb-0.5">Sunline Irrigation</p>
-                  <p className="text-green text-xs">Site is live</p>
+                  <p className="text-green text-xs">Live in under 2 weeks</p>
                 </div>
               </div>
             </motion.div>
@@ -133,7 +150,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 12, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ delay: 1.3, duration: 0.5, type: "spring", stiffness: 200 }}
-              className="absolute -right-8 top-40 bg-[#0C1A0D]/95 border border-green/25 backdrop-blur-sm rounded-2xl px-4 py-3 shadow-xl"
+              className="absolute -right-6 bottom-16 bg-[#0C1A0D]/95 border border-green/25 backdrop-blur-sm rounded-2xl px-4 py-3 shadow-xl"
             >
               <div className="flex items-center gap-0.5 mb-1">
                 {[...Array(5)].map((_, i) => (
@@ -142,7 +159,18 @@ export function Hero() {
                   </svg>
                 ))}
               </div>
-              <p className="text-white/60 text-xs">Irrigation-only specialist</p>
+              <p className="text-white font-semibold text-xs">Irrigation-only specialist</p>
+            </motion.div>
+
+            {/* Floating stat: free mockup */}
+            <motion.div
+              initial={{ opacity: 0, x: 12, scale: 0.9 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ delay: 1.5, duration: 0.5, type: "spring", stiffness: 200 }}
+              className="absolute -right-6 top-32 bg-green/10 border border-green/30 backdrop-blur-sm rounded-2xl px-4 py-3 shadow-xl"
+            >
+              <p className="text-green font-extrabold text-xl leading-none">Free</p>
+              <p className="text-white/50 text-xs mt-0.5">mockup first</p>
             </motion.div>
           </div>
         </motion.div>
