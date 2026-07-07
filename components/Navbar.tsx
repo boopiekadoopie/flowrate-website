@@ -29,6 +29,18 @@ function PhoneIcon() {
   );
 }
 
+function HamburgerIcon({ open }: { open: boolean }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6">
+      {open ? (
+        <path d="M6 6l12 12M6 18L18 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      ) : (
+        <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      )}
+    </svg>
+  );
+}
+
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -48,77 +60,80 @@ export function Navbar() {
         scrolled ? "border-b border-green/10 shadow-lg shadow-black/30" : "border-b border-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-5 lg:px-8 h-16 lg:h-20 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
-        {/* Left: nav links */}
-        <nav className="hidden lg:flex items-center gap-7 justify-start">
-          {leftLinks.map((l) => (
-            <a
-              key={l.label}
-              href={l.href}
-              className={`inline-flex items-center gap-1 text-[15px] font-semibold transition-colors duration-200 ${
-                l.active ? "text-green" : "text-white/85 hover:text-white"
-              }`}
-            >
-              {l.label}
-              {l.chevron && <Chevron />}
-            </a>
-          ))}
-        </nav>
-
-        {/* Mobile: hamburger on the left so the mascot stays centered */}
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="lg:hidden justify-self-start p-2 -ml-2 text-white/80 hover:text-white transition-colors cursor-pointer"
-          aria-label="Toggle menu"
-        >
-          <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6">
-            {menuOpen ? (
-              <path d="M6 6l12 12M6 18L18 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-            ) : (
-              <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-            )}
-          </svg>
-        </button>
-
-        {/* Center: mascot, hangs slightly below the bar like the King Contractor nav */}
-        <a href="/" aria-label="Flowrate Agency home" className="justify-self-center relative z-10">
-          <Image
-            src="/mascot.png"
-            alt="Flowrate Agency mascot"
-            width={1002}
-            height={1530}
-            priority
-            className="h-16 lg:h-[104px] w-auto lg:-mb-8 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]"
-          />
-        </a>
-
-        {/* Right: contact cluster */}
-        <div className="hidden lg:flex items-center gap-6 justify-end">
-          <a
-            href="#contact"
-            className="text-[15px] font-semibold text-white/85 hover:text-white transition-colors duration-200"
-          >
-            Contact Us
+      <div className="max-w-7xl mx-auto px-5 lg:px-8 h-16 lg:h-20">
+        {/* Mobile bar: mascot on the left, hamburger on the right */}
+        <div className="lg:hidden flex items-center justify-between h-full">
+          <a href="/" aria-label="Flowrate Agency home" className="flex items-center">
+            <Image
+              src="/mascot.png"
+              alt="Flowrate Agency mascot"
+              width={1002}
+              height={1530}
+              priority
+              className="h-11 w-auto drop-shadow-[0_6px_12px_rgba(0,0,0,0.5)]"
+            />
           </a>
-          <a
-            href={PHONE_TEL}
-            className="inline-flex items-center gap-2 text-[15px] font-bold text-white hover:text-green transition-colors duration-200"
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="p-2 -mr-2 text-white/80 hover:text-white transition-colors cursor-pointer"
+            aria-label="Toggle menu"
           >
-            <span className="text-green"><PhoneIcon /></span>
-            {PHONE_DISPLAY}
-          </a>
-          <a
-            href={CALENDLY_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-green text-[#060C07] font-extrabold uppercase tracking-wide px-5 py-3 rounded-lg text-[13px] hover:bg-green-light transition-colors shadow-[0_0_24px_rgba(153,229,140,0.35)] cursor-pointer"
-          >
-            Free Custom Design
-          </a>
+            <HamburgerIcon open={menuOpen} />
+          </button>
         </div>
 
-        {/* Mobile: spacer to balance the grid */}
-        <span className="lg:hidden justify-self-end w-6" aria-hidden="true" />
+        {/* Desktop bar: links / centered mascot / contact cluster */}
+        <div className="hidden lg:grid grid-cols-[1fr_auto_1fr] items-center gap-4 h-full">
+          <nav className="flex items-center gap-7 justify-start">
+            {leftLinks.map((l) => (
+              <a
+                key={l.label}
+                href={l.href}
+                className={`inline-flex items-center gap-1 text-[15px] font-semibold transition-colors duration-200 ${
+                  l.active ? "text-green" : "text-white/85 hover:text-white"
+                }`}
+              >
+                {l.label}
+                {l.chevron && <Chevron />}
+              </a>
+            ))}
+          </nav>
+
+          <a href="/" aria-label="Flowrate Agency home" className="justify-self-center relative z-10">
+            <Image
+              src="/mascot.png"
+              alt="Flowrate Agency mascot"
+              width={1002}
+              height={1530}
+              priority
+              className="h-[104px] w-auto -mb-8 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]"
+            />
+          </a>
+
+          <div className="flex items-center gap-6 justify-end">
+            <a
+              href="#contact"
+              className="text-[15px] font-semibold text-white/85 hover:text-white transition-colors duration-200"
+            >
+              Contact Us
+            </a>
+            <a
+              href={PHONE_TEL}
+              className="inline-flex items-center gap-2 text-[15px] font-bold text-white hover:text-green transition-colors duration-200"
+            >
+              <span className="text-green"><PhoneIcon /></span>
+              {PHONE_DISPLAY}
+            </a>
+            <a
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-green text-[#060C07] font-extrabold uppercase tracking-wide px-5 py-3 rounded-lg text-[13px] hover:bg-green-light transition-colors shadow-[0_0_24px_rgba(153,229,140,0.35)] cursor-pointer"
+            >
+              Free Custom Design
+            </a>
+          </div>
+        </div>
       </div>
 
       {/* Mobile menu */}
