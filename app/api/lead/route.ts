@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { Resend } from "resend";
 
 export const runtime = "nodejs";
 
@@ -56,31 +57,20 @@ export async function POST(req: Request) {
     "SOP: docs/free-breakdown-sop.md in the flowrate-website repo.",
   ].join("\n");
 
-  try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: process.env.LEAD_FROM || "Flowrate Website <onboarding@resend.dev>",
-        to: [LEAD_TO],
-        reply_to: lead.email,
-        subject: `New lead: ${lead.name} (free breakdown request)`,
-        text,
-      }),
-    });
+  const resend = new Resend(apiKey);
 
-    if (!res.ok) {
-      const detail = await res.text();
-      console.error(`Resend error ${res.status}: ${detail}`);
-      return NextResponse.json({ error: "Email delivery failed" }, { status: 502 });
-    }
+  const { data, error } = await resend.emails.send({
+    from: process.env.LEAD_FROM || "Flowrate Website <onboarding@resend.dev>",
+    to: [LEAD_TO],
+    replyTo: lead.email,
+    subject: `New lead: ${lead.name} (free breakdown request)`,
+    text,
+  });
 
-    return NextResponse.json({ ok: true });
-  } catch (error) {
-    console.error("Lead email send failed:", error);
+  if (error) {
+    console.error("Resend error:", error);
     return NextResponse.json({ error: "Email delivery failed" }, { status: 502 });
   }
+
+  return NextResponse.json({ ok: true, id: data?.id });
 }
