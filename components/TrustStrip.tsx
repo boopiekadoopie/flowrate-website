@@ -1,8 +1,8 @@
 const items = [
-  "2-week build time",
-  "Free homepage mockup",
+  "Built in 3 to 4 weeks",
+  "Free design direction first",
   "100% satisfaction guarantee",
-  "Irrigation specialists only",
+  "Irrigation & landscaping specialists",
   "Mobile-first design",
   "SEO-optimized from day one",
   "Cancel retainer anytime",

@@ -3,54 +3,75 @@ import { useState } from "react";
 
 const faqs = [
   {
-    q: "How long does a website take to build?",
-    a: "Two weeks from deposit to live site. Most projects finish in 10 business days. You see a full homepage design before we start. If revisions are needed, we address them before building the rest.",
+    q: "What services does Flowrate Agency offer?",
+    a: "Flowrate is a full-service web design and marketing partner for irrigation, landscaping, and home service companies. We build custom, conversion-focused websites and run local SEO, Google Business Profile management, blog content, and monthly performance reporting.",
   },
   {
-    q: "Do I need to provide my own content and photos?",
-    a: "No. I write all the copy, source industry imagery, and handle everything. You provide basic business details (services, service areas, phone number) and I do the rest. If you have your own photos, even better.",
+    q: "How does the website design process work with Flowrate?",
+    a: "It starts with a free strategy call. We gather your business info and goals, then show you the design direction before any build work begins. Once you approve it, we build the full site in 3 to 4 weeks, review it together, and launch.",
   },
   {
-    q: "What if I don&apos;t like the design?",
-    a: "I design your homepage first, for free, before any payment. You approve the direction before work begins. Once in the build phase, two revision rounds are included. If you never approve the mockup, there is no charge.",
+    q: "How long does it take to build my website?",
+    a: "Typically 3 to 4 weeks depending on complexity. We would rather take the time to get it right than rush out something generic.",
   },
   {
-    q: "Do you work with non-irrigation contractors?",
-    a: "No. Flowrate works exclusively with irrigation companies. That specialization is why the sites convert better. Every trust signal, every CRO decision, and every word of copy is built around the homeowner choosing an irrigation contractor specifically.",
+    q: "How much does a website cost?",
+    a: "Every build is custom-quoted, decided live on a free strategy call. There is no fixed price list because no two businesses need the same site. Book the call and we will scope it together.",
   },
   {
-    q: "What does the monthly retainer include?",
-    a: "The $500/month retainer covers: Google Business Profile updates each month, two seasonal blog posts, local keyword rank tracking with monthly reports, priority site edits, and ongoing SEO maintenance. You can cancel at any time with 30 days notice.",
+    q: "How much does SEO cost?",
+    a: "SEO runs $500 to $5,000 per month depending on your market competition and goals. Unlike paid ads, which stop generating leads the moment you stop paying, SEO builds long-term equity that keeps generating leads for years.",
   },
   {
-    q: "What if I already have a website?",
-    a: "That is actually the most common situation. I will audit your current site, show you exactly what is costing you leads, and build a replacement that fixes those issues. Your current domain stays the same. No disruption to your existing traffic.",
+    q: "Can you help me update my existing website?",
+    a: "Yes, and it is the most common situation. We audit your current site, show you exactly what is costing you leads, and build a replacement that fixes it. Your domain stays the same, so there is no disruption to your existing traffic.",
+  },
+  {
+    q: "What if I don't like the design?",
+    a: "We show you the design direction before any build work begins. If you don't like it, we revise it or you walk away at no cost. Nothing is invoiced until you approve the direction.",
+  },
+  {
+    q: "How do I get started with Flowrate Agency?",
+    a: "Book your free 30-minute Website and SEO Strategy Call, or send a message through the chat in the corner. You can also email andrew@flowrate.agency and Andrew will get back to you personally.",
   },
 ];
 
-function Item({ q, a }: { q: string; a: string }) {
-  const [open, setOpen] = useState(false);
+function Item({ q, a, defaultOpen = false }: { q: string; a: string; defaultOpen?: boolean }) {
+  const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="border-b border-slate-100 last:border-0">
+    <div
+      className={`rounded-2xl border transition-colors duration-300 ${
+        open
+          ? "bg-[#0A0A0A] border-[#0A0A0A]"
+          : "bg-white border-slate-200/60 shadow-sm"
+      }`}
+    >
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between py-5 text-left gap-4 cursor-pointer"
+        className="w-full flex items-center justify-between px-6 md:px-8 py-6 text-left gap-4 cursor-pointer"
         aria-expanded={open}
       >
-        <span className="text-ink font-semibold text-base">{q}</span>
-        <svg
-          viewBox="0 0 16 16"
-          fill="none"
-          className={`w-5 h-5 flex-shrink-0 text-green transition-transform duration-200 ${open ? "rotate-45" : ""}`}
+        <span
+          className={`font-extrabold uppercase tracking-wide text-sm md:text-base ${
+            open ? "text-white" : "text-ink"
+          }`}
         >
-          <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        </svg>
+          {q}
+        </span>
+        <span className="w-9 h-9 rounded-full bg-green flex items-center justify-center flex-shrink-0">
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            className={`w-4 h-4 text-[#060C07] transition-transform duration-200 ${open ? "rotate-45" : ""}`}
+          >
+            <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        </span>
       </button>
       {open && (
-        <p
-          className="text-slate-500 text-sm leading-relaxed pb-5"
-          dangerouslySetInnerHTML={{ __html: a }}
-        />
+        <p className="text-white/60 text-sm md:text-base leading-relaxed px-6 md:px-8 pb-7 -mt-1">
+          {a}
+        </p>
       )}
     </div>
   );
@@ -58,21 +79,24 @@ function Item({ q, a }: { q: string; a: string }) {
 
 export function FAQ() {
   return (
-    <section className="bg-white py-20 md:py-28">
-      <div className="max-w-3xl mx-auto px-6">
+    <section className="bg-[#F4F5F4] py-20 md:py-28">
+      <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-14">
           <p className="text-green-dark font-semibold text-xs tracking-widest uppercase mb-4">FAQ</p>
-          <h2 className="text-ink font-extrabold text-4xl md:text-5xl tracking-tight mb-4">
-            Common questions
+          <h2
+            className="text-ink uppercase text-3xl md:text-5xl tracking-tight mb-4"
+            style={{ fontFamily: "var(--font-display), var(--font-jakarta), sans-serif" }}
+          >
+            Frequently Asked <span className="text-green-dark italic">Questions</span>
           </h2>
           <p className="text-slate-500 text-lg">
-            If it is not here, email me directly.
+            If it is not here, email us directly or ask the chat in the corner.
           </p>
         </div>
 
-        <div className="bg-surface rounded-3xl p-6 md:p-10 border border-slate-100">
-          {faqs.map((f) => (
-            <Item key={f.q} q={f.q} a={f.a} />
+        <div className="space-y-4">
+          {faqs.map((f, i) => (
+            <Item key={f.q} q={f.q} a={f.a} defaultOpen={i === 0} />
           ))}
         </div>
       </div>

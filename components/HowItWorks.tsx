@@ -16,10 +16,10 @@ const steps = [
     number: "02",
     title: "You approve, we build",
     description:
-      "Once you're happy with the direction, I build the full site in under two weeks. You provide your business details. I handle everything else.",
+      "Once you're happy with the direction, I build the full site in 3 to 4 weeks. You provide your business details. I handle everything else.",
     image: "/nighttime-sprinkler.png",
     imageAlt: "Nighttime illuminated irrigation system in action",
-    tag: "2 weeks",
+    tag: "3-4 weeks",
   },
   {
     number: "03",
@@ -51,7 +51,7 @@ export function HowItWorks() {
             Three steps, no risk.
           </h2>
           <p className="text-slate-500 text-lg max-w-xl mx-auto">
-            From first conversation to a live, lead-generating site in under two weeks.
+            From first conversation to a live, lead-generating site in 3 to 4 weeks. We take the time to get it right.
           </p>
         </motion.div>
 
@@ -107,7 +107,7 @@ export function HowItWorks() {
           className="text-center mt-14"
         >
           <a
-            href="mailto:andrewedwardmurray@gmail.com?subject=Free%20Mockup%20Request"
+            href="mailto:andrew@flowrate.agency?subject=Free%20Mockup%20Request"
             className="inline-flex items-center gap-2.5 bg-ink text-white font-bold px-8 py-4 rounded-full text-base hover:bg-[#1a2e1b] transition-colors cursor-pointer"
           >
             Start with step 1. It&apos;s free

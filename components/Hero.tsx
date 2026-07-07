@@ -1,201 +1,160 @@
 "use client";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import { fadeUp, stagger, slideRight } from "@/lib/animations";
+import { fadeUp, stagger } from "@/lib/animations";
+import { LawnReveal } from "./LawnReveal";
+
+const CALENDLY_URL = "https://calendly.com/andrewedwardmurray/30min";
+
+const chips = [
+  { label: "Irrigation & Sprinklers", color: "#99E58C" },
+  { label: "Landscaping & Lawn Care", color: "#99E58C" },
+  { label: "HVAC", color: "#60A5FA" },
+  { label: "Plumbing", color: "#FBBF24" },
+];
+
+function Check({ color }: { color: string }) {
+  return (
+    <span
+      className="w-4.5 h-4.5 rounded-full flex items-center justify-center flex-shrink-0"
+      style={{ backgroundColor: color }}
+    >
+      <svg viewBox="0 0 16 16" fill="none" className="w-2.5 h-2.5 text-[#050505]">
+        <path d="M3.5 8l3 3L12.5 5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </span>
+  );
+}
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-[#060C07]">
-      {/* Looping sprinkler video — premium feel */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover object-center opacity-40"
-        poster="/hero-video-fallback.jpg"
-      >
-        <source src="/hero-sprinkler.mp4" type="video/mp4" />
-      </video>
-      {/* Gradient overlays: heavy left so text reads, fades right for the mockup */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#060C07]/98 via-[#060C07]/85 to-[#060C07]/30" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#060C07]/80 via-transparent to-[#060C07]/30" />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050505]">
+      {/* Base layer: dry lawn */}
+      <div className="absolute inset-0 z-[1] bg-center bg-cover bg-no-repeat" style={{ backgroundImage: "url(/dry-lawn.jpg)" }} />
 
-      <div className="relative max-w-7xl mx-auto px-6 pt-28 pb-20 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-4 items-center w-full min-h-screen">
-        {/* Left: Text content */}
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          animate="show"
-          className="z-10 flex flex-col justify-center"
-        >
-          {/* Eyebrow badge */}
-          <motion.div variants={fadeUp} className="mb-7">
-            <span className="inline-flex items-center gap-2.5 bg-green/10 border border-green/20 text-green text-xs font-semibold tracking-widest uppercase px-4 py-2.5 rounded-full">
-              <span className="w-1.5 h-1.5 rounded-full bg-green animate-pulse flex-shrink-0" />
-              Irrigation Web Design Specialist
-            </span>
-          </motion.div>
+      {/* Reveal layer: green lawn under the cursor */}
+      <LawnReveal />
 
-          {/* Headline */}
-          <motion.h1
-            variants={fadeUp}
-            className="text-white font-extrabold text-5xl md:text-6xl lg:text-[64px] tracking-tight leading-[1.04] mb-6"
-          >
-            Your clients are
-            <br />
-            searching right{" "}
-            <span className="text-green">now.</span>
-          </motion.h1>
+      {/* Heavy dark overlays so the section reads near-black like the reference */}
+      <div className="absolute inset-0 z-[4] bg-[#050505]/85" />
+      <div className="absolute inset-0 z-[5] bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(5,5,5,0.82)_100%)]" />
 
-          <motion.p
-            variants={fadeUp}
-            className="text-white/60 text-lg md:text-xl leading-relaxed max-w-[500px] mb-10"
-          >
-            I build websites for irrigation contractors that win homeowners
-            before they ever pick up the phone. Full site in two weeks.
-            Free mockup first. No invoice if you walk.
-          </motion.p>
+      {/* Subtle grid lines */}
+      <div
+        className="absolute inset-0 z-[6] pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)",
+          backgroundSize: "56px 56px",
+        }}
+      />
 
-          {/* Stats row */}
-          <motion.div variants={fadeUp} className="flex items-center gap-8 mb-10">
-            {[
-              { value: "2 wks", label: "build time" },
-              { value: "Free", label: "mockup first" },
-              { value: "100%", label: "satisfaction" },
-            ].map((s) => (
-              <div key={s.label} className="flex flex-col">
-                <span className="text-green font-extrabold text-2xl leading-none">{s.value}</span>
-                <span className="text-white/35 text-xs mt-1">{s.label}</span>
-              </div>
-            ))}
-          </motion.div>
+      {/* Gold glows behind the corner laptops */}
+      <div className="absolute z-[6] bottom-[-12%] left-[-8%] w-[46vw] h-[60vh] pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(255,199,44,0.16)_0%,transparent_65%)]" />
+      <div className="absolute z-[6] bottom-[-12%] right-[-8%] w-[46vw] h-[60vh] pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(255,199,44,0.16)_0%,transparent_65%)]" />
+      {/* Faint green brand tint top center */}
+      <div className="absolute z-[6] top-[-20%] left-1/2 -translate-x-1/2 w-[70vw] h-[50vh] pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(153,229,140,0.08)_0%,transparent_65%)]" />
 
-          {/* CTAs */}
-          <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
-            <a
-              href="mailto:andrewedwardmurray@gmail.com?subject=Free%20Mockup%20Request"
-              className="bg-green text-[#060C07] font-bold px-8 py-4 rounded-full text-base hover:bg-green-light transition-colors cursor-pointer"
-            >
-              Schedule a free call
-            </a>
-            <a
-              href="#portfolio"
-              className="border border-white/20 text-white font-semibold px-8 py-4 rounded-full text-base hover:bg-white/6 hover:border-white/35 transition-colors cursor-pointer"
-            >
-              See our work
-            </a>
-          </motion.div>
-        </motion.div>
-
-        {/* Right: Laptop mockup showing client site */}
-        <motion.div
-          variants={slideRight}
-          initial="hidden"
-          animate="show"
-          transition={{ delay: 0.35 }}
-          className="relative hidden lg:flex justify-end items-center"
-        >
-          <div className="relative" style={{ paddingLeft: 20, paddingBottom: 20 }}>
-            {/* MacBook-style laptop frame — medium-gray aluminum so it reads on dark bg */}
-            <div style={{ width: 460 }}>
-              {/* Lid */}
-              <div
-                style={{
-                  background: "linear-gradient(160deg, #4A4A4C 0%, #3A3A3C 60%, #2E2E30 100%)",
-                  borderRadius: "14px 14px 0 0",
-                  padding: "16px 16px 10px 16px",
-                  boxShadow: "0 0 0 1px rgba(255,255,255,0.12), inset 0 1px 0 rgba(255,255,255,0.18), 0 40px 80px rgba(0,0,0,0.9)",
-                }}
-              >
-                {/* Camera dot */}
-                <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#1A1A1C", margin: "0 auto 10px", boxShadow: "inset 0 1px 2px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,0,0,0.4)" }} />
-                {/* Screen glass */}
-                <div style={{ borderRadius: 6, overflow: "hidden", height: 272, boxShadow: "0 0 0 1px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.04)" }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/sunline-screenshot.png"
-                    alt="Sunline Irrigation website built by Flowrate Agency"
-                    className="w-full object-cover object-top"
-                    style={{ height: 272, display: "block" }}
-                  />
-                </div>
-              </div>
-              {/* Hinge */}
-              <div style={{ height: 3, background: "linear-gradient(to right, #1A1A1C 0%, #2A2A2C 50%, #1A1A1C 100%)" }} />
-              {/* Keyboard base — wider than lid */}
-              <div
-                style={{
-                  position: "relative",
-                  height: 26,
-                  margin: "0 -10px",
-                  background: "linear-gradient(to bottom, #3C3C3E, #2C2C2E)",
-                  borderRadius: "0 0 14px 14px",
-                  boxShadow: "0 0 0 1px rgba(255,255,255,0.09), inset 0 1px 0 rgba(255,255,255,0.12), 0 20px 48px rgba(0,0,0,0.7)",
-                }}
-              >
-                {/* Trackpad */}
-                <div style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 84, height: 12, borderRadius: 4, background: "#282828", boxShadow: "inset 0 1px 0 rgba(0,0,0,0.5)" }} />
-              </div>
-              {/* Surface shadow */}
-              <div style={{ height: 4, margin: "0 -10px", background: "#0d0d0e", borderRadius: "0 0 3px 3px", boxShadow: "0 16px 40px rgba(0,0,0,0.8)" }} />
-            </div>
-
-            {/* Badge: client live — top left, overlapping lid edge */}
-            <motion.div
-              initial={{ opacity: 0, y: 12, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ delay: 1.1, duration: 0.5, type: "spring", stiffness: 200 }}
-              className="absolute bg-[#0C1A0D]/95 border border-green/25 backdrop-blur-sm rounded-2xl px-4 py-3 shadow-xl"
-              style={{ left: -16, top: 24 }}
-            >
-              <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-full bg-green/15 flex items-center justify-center flex-shrink-0">
-                  <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5 text-green">
-                    <path d="M3 8l3.5 3.5L13 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-white font-semibold text-xs leading-none mb-0.5">Sunline Irrigation</p>
-                  <p className="text-green text-xs">Live in under 2 weeks</p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Badge: 5 stars + free mockup — bottom right, clear of stars badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 12, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ delay: 1.3, duration: 0.5, type: "spring", stiffness: 200 }}
-              className="absolute bg-[#0C1A0D]/95 border border-green/25 backdrop-blur-sm rounded-2xl px-4 py-3 shadow-xl"
-              style={{ right: -20, bottom: 28 }}
-            >
-              <div className="flex items-center gap-0.5 mb-1.5">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} viewBox="0 0 12 12" fill="currentColor" className="w-3 h-3 text-green">
-                    <path d="M6 1l1.27 2.57L10 4.1l-2 1.95.47 2.75L6 7.57 3.53 8.8 4 6.05 2 4.1l2.73-.53z" />
-                  </svg>
-                ))}
-              </div>
-              <p className="text-white font-semibold text-xs leading-none mb-0.5">Free mockup first</p>
-              <p className="text-white/40 text-[11px]">No invoice if you walk</p>
-            </motion.div>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Scroll cue */}
+      {/* Left laptop: stone pedestal */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2"
+        initial={{ opacity: 0, y: 120 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+        className="hidden lg:block absolute z-[8] bottom-0 left-[-2%] pointer-events-none"
       >
-        <span className="text-white/20 text-[10px] tracking-[0.2em] uppercase">scroll</span>
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
-          className="w-px h-10 bg-gradient-to-b from-green/30 to-transparent"
-        />
+          animate={{ y: [0, -8, 0] }}
+          transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+        >
+          <Image
+            src="/laptop-mockup-left.png"
+            alt="Irrigation contractor website on a laptop, on a mossy stone pedestal"
+            width={786}
+            height={944}
+            priority
+            className="h-[52vh] max-h-[540px] w-auto drop-shadow-[0_40px_60px_rgba(0,0,0,0.8)]"
+          />
+        </motion.div>
+      </motion.div>
+
+      {/* Right laptop: wood stump */}
+      <motion.div
+        initial={{ opacity: 0, y: 120 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.65, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+        className="hidden lg:block absolute z-[8] bottom-0 right-[-2%] pointer-events-none"
+      >
+        <motion.div
+          animate={{ y: [0, -8, 0] }}
+          transition={{ repeat: Infinity, duration: 5.6, ease: "easeInOut" }}
+        >
+          <Image
+            src="/laptop-mockup-right.png"
+            alt="Sunline Irrigation website on a laptop, on a tree stump"
+            width={1466}
+            height={1964}
+            priority
+            className="h-[52vh] max-h-[540px] w-auto drop-shadow-[0_40px_60px_rgba(0,0,0,0.8)]"
+          />
+        </motion.div>
+      </motion.div>
+
+      {/* Centered content */}
+      <motion.div
+        variants={stagger}
+        initial="hidden"
+        animate="show"
+        className="relative z-[10] max-w-6xl mx-auto px-6 pt-36 pb-24 lg:pt-44 lg:pb-32 flex flex-col items-center text-center"
+      >
+        {/* Headline */}
+        <motion.h1
+          variants={fadeUp}
+          className="text-white text-[40px] md:text-[54px] xl:text-[64px] uppercase leading-[1.05] tracking-tight mb-7"
+          style={{ fontFamily: "var(--font-display), var(--font-jakarta), sans-serif" }}
+        >
+          The AI Agency for America&apos;s
+          <br />
+          <span className="text-green italic">Home Service Brands</span>
+        </motion.h1>
+
+        {/* Subheadline */}
+        <motion.p
+          variants={fadeUp}
+          className="text-white/65 text-lg md:text-xl leading-relaxed max-w-2xl mb-10"
+        >
+          Custom websites, SEO, and content built for irrigation and landscape
+          contractors, so the homeowners searching in your area find you and
+          call you first.
+        </motion.p>
+
+        {/* Service chips */}
+        <motion.div variants={fadeUp} className="flex flex-wrap justify-center gap-3 mb-12">
+          {chips.map((c) => (
+            <span
+              key={c.label}
+              className="inline-flex items-center gap-2 bg-[#0A0A0A]/80 backdrop-blur-sm text-[13px] font-bold px-3.5 py-2 rounded-full border"
+              style={{ color: c.color, borderColor: `${c.color}55` }}
+            >
+              <Check color={c.color} />
+              {c.label}
+            </span>
+          ))}
+        </motion.div>
+
+        {/* CTA */}
+        <motion.div variants={fadeUp}>
+          <a
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 bg-green text-[#060C07] font-extrabold uppercase tracking-wide text-base md:text-lg px-10 py-5 rounded-xl hover:bg-green-light transition-colors shadow-[0_0_50px_rgba(153,229,140,0.4)] cursor-pointer"
+          >
+            Get Your Free Custom Design
+            <svg viewBox="0 0 20 20" fill="none" className="w-5 h-5">
+              <path d="M3 10h13m0 0l-5-5m5 5l-5 5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
+        </motion.div>
       </motion.div>
     </section>
   );

@@ -14,7 +14,9 @@
   --color-white: #FFFFFF;
   --color-silver: #94A3B8;
   --color-slate: #64748B;
+  --color-gold: #FFC72C;
   --font-sans: var(--font-jakarta);
+  --font-display: var(--font-archivo);
 }
 
 html {

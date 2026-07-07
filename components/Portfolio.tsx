@@ -4,9 +4,9 @@ import { stagger, fadeUp, scaleIn } from "@/lib/animations";
 
 const results = [
   {
-    stat: "14",
-    unit: "days",
-    label: "Average build time",
+    stat: "3-4",
+    unit: "weeks",
+    label: "Typical build time",
     sub: "From deposit to a live, ranking site",
   },
   {
@@ -61,7 +61,7 @@ export function Portfolio() {
             Everything your site needs.<br />Nothing you don&apos;t.
           </h2>
           <p className="text-white/45 text-lg max-w-xl mx-auto">
-            One flat price. No retainer traps. No hourly billing. A complete, conversion-ready website delivered in two weeks.
+            Custom-quoted on a free call. No retainer traps. No hourly billing. A complete, conversion-ready website delivered in 3 to 4 weeks.
           </p>
         </motion.div>
 
@@ -151,7 +151,7 @@ export function Portfolio() {
               viewport={{ once: true }}
             >
               <a
-                href="mailto:andrewedwardmurray@gmail.com?subject=Free%20Mockup%20Request"
+                href="mailto:andrew@flowrate.agency?subject=Free%20Mockup%20Request"
                 className="inline-flex items-center gap-2.5 bg-green text-[#060C07] font-bold px-8 py-4 rounded-full text-base hover:bg-green-light transition-colors cursor-pointer"
               >
                 Get your free mockup

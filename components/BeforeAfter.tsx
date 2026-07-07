@@ -208,7 +208,7 @@ export function BeforeAfter() {
           className="text-center mt-16"
         >
           <a
-            href="mailto:andrewedwardmurray@gmail.com?subject=Free%20Mockup%20Request"
+            href="mailto:andrew@flowrate.agency?subject=Free%20Mockup%20Request"
             className="inline-flex items-center gap-2.5 bg-ink text-white font-bold px-8 py-4 rounded-full text-base hover:bg-[#1a2e1b] transition-colors cursor-pointer"
           >
             Get your free mockup

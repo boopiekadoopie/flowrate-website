@@ -116,7 +116,7 @@ export function Problem() {
             {/* CTA nudge */}
             <motion.div variants={slideRight}>
               <a
-                href="mailto:andrewedwardmurray@gmail.com?subject=Free%20Mockup%20Request"
+                href="mailto:andrew@flowrate.agency?subject=Free%20Mockup%20Request"
                 className="inline-flex items-center gap-2 text-green font-semibold text-sm hover:gap-3 transition-all duration-200"
               >
                 Fix all three. Get a free mockup
