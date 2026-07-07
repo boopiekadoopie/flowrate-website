@@ -141,10 +141,10 @@ export function Hero() {
             href={CALENDLY_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 md:gap-3 bg-green text-[#060C07] font-extrabold uppercase tracking-wide text-sm md:text-lg px-6 py-3.5 md:px-10 md:py-5 rounded-xl hover:bg-green-light transition-colors shadow-[0_0_50px_rgba(153,229,140,0.4)] cursor-pointer"
+            className="inline-flex items-center gap-1.5 md:gap-3 bg-green text-[#060C07] font-extrabold uppercase tracking-normal md:tracking-wide text-xs md:text-lg px-5 py-2.5 md:px-10 md:py-5 rounded-lg md:rounded-xl hover:bg-green-light transition-colors shadow-[0_0_50px_rgba(153,229,140,0.4)] cursor-pointer whitespace-nowrap"
           >
             Get Your Free Custom Design
-            <svg viewBox="0 0 20 20" fill="none" className="w-4 h-4 md:w-5 md:h-5">
+            <svg viewBox="0 0 20 20" fill="none" className="w-3 h-3 md:w-5 md:h-5">
               <path d="M3 10h13m0 0l-5-5m5 5l-5 5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </a>

@@ -13,7 +13,7 @@ export function TrustStrip() {
   const doubled = [...items, ...items];
 
   return (
-    <div className="bg-[#0A170A] border-y border-green/10 py-4 overflow-hidden">
+    <div className="relative z-20 -mt-10 lg:mt-0 bg-[#0A170A] border-y border-green/10 py-4 overflow-hidden">
       <div className="flex animate-marquee whitespace-nowrap">
         {doubled.map((item, i) => (
           <span
