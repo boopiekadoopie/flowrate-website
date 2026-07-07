@@ -13,7 +13,6 @@ const fields = [
 
 const promises = [
   {
-    inverted: false,
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-7 h-7">
         <circle cx="11" cy="11" r="7" />
@@ -24,7 +23,6 @@ const promises = [
     text: "An honest review of your current website: what works, and what is quietly costing you jobs.",
   },
   {
-    inverted: true,
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-7 h-7">
         <path d="M4 20V10M10 20V4M16 20v-8M21 20H3" />
@@ -33,7 +31,6 @@ const promises = [
     text: "How you stack up on Google against the companies winning your service area right now.",
   },
   {
-    inverted: false,
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-7 h-7">
         <path d="M4 6h16M4 12h16M4 18h10" />
@@ -43,7 +40,6 @@ const promises = [
     text: "The exact fixes we would make first, in plain words you can act on with or without us.",
   },
   {
-    inverted: false,
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-7 h-7">
         <rect x="3" y="5" width="18" height="14" rx="2" />
@@ -201,13 +197,9 @@ export function LeadCapture() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.1 + i * 0.1, duration: 0.5 }}
-                className={`flex items-center gap-5 rounded-2xl border px-6 py-5 ${
-                  p.inverted
-                    ? "bg-[#0A0A0A] border-[#0A0A0A] text-white"
-                    : "bg-white border-slate-300 text-ink"
-                }`}
+                className="group flex items-center gap-5 rounded-2xl border border-slate-300 bg-white text-ink px-6 py-5 transition-colors duration-300 cursor-default hover:bg-[#0A0A0A] hover:border-[#0A0A0A] hover:text-white"
               >
-                <span className={`flex-shrink-0 ${p.inverted ? "text-green" : "text-green-dark"}`}>{p.icon}</span>
+                <span className="flex-shrink-0 text-green-dark transition-colors duration-300 group-hover:text-green">{p.icon}</span>
                 <p className="font-bold text-sm md:text-base leading-snug uppercase">{p.text}</p>
               </motion.div>
             ))}

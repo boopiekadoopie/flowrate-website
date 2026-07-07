@@ -227,15 +227,15 @@ export function About() {
             </div>
 
             {/* Signature block — fills the space below the photo */}
-            <motion.div variants={fadeUp} className="w-full max-w-sm mt-20 flex flex-col items-start">
+            <motion.div variants={fadeUp} className="w-full max-w-sm mt-14 flex flex-col items-start">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/signature.svg"
+                src="/signature-white.png"
                 alt="Andrew Murray signature"
-                className="w-52 h-auto mb-1 [filter:brightness(0)_invert(1)]"
+                className="w-40 h-auto mb-2"
               />
               <p className="text-white font-bold text-base">Andrew Murray</p>
-              <p className="text-amber-400 font-semibold text-sm tracking-wide mb-6">Founder, Flowrate Agency</p>
+              <p className="text-amber-400 font-semibold text-sm tracking-wide mb-5">Founder, Flowrate Agency</p>
 
               <a
                 href="mailto:andrew@flowrate.agency?subject=Free%20Mockup%20Request"
