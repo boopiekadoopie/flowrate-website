@@ -7,19 +7,19 @@ import { LawnReveal } from "./LawnReveal";
 const CALENDLY_URL = "https://calendly.com/andrewedwardmurray/30min";
 
 const chips = [
-  { label: "Irrigation & Sprinklers", color: "#99E58C" },
-  { label: "Landscaping & Lawn Care", color: "#99E58C" },
-  { label: "HVAC", color: "#60A5FA" },
-  { label: "Plumbing", color: "#FBBF24" },
+  { label: "Irrigation & Sprinklers", shortLabel: "Irrigation", color: "#99E58C" },
+  { label: "Landscaping & Lawn Care", shortLabel: "Landscaping", color: "#99E58C" },
+  { label: "HVAC", shortLabel: "HVAC", color: "#60A5FA" },
+  { label: "Plumbing", shortLabel: "Plumbing", color: "#FBBF24" },
 ];
 
 function Check({ color }: { color: string }) {
   return (
     <span
-      className="w-4.5 h-4.5 rounded-full flex items-center justify-center flex-shrink-0"
+      className="w-3 h-3 md:w-4.5 md:h-4.5 rounded-full flex items-center justify-center flex-shrink-0"
       style={{ backgroundColor: color }}
     >
-      <svg viewBox="0 0 16 16" fill="none" className="w-2.5 h-2.5 text-[#050505]">
+      <svg viewBox="0 0 16 16" fill="none" className="w-1.5 h-1.5 md:w-2.5 md:h-2.5 text-[#050505]">
         <path d="M3.5 8l3 3L12.5 5" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </span>
@@ -94,7 +94,7 @@ export function Hero() {
         variants={stagger}
         initial="hidden"
         animate="show"
-        className="relative z-[10] w-full max-w-6xl mx-auto px-6 pt-24 pb-6 lg:pt-44 lg:pb-32 flex flex-col items-center text-center"
+        className="relative z-[10] w-full max-w-6xl mx-auto px-6 pt-24 pb-0 lg:pt-44 lg:pb-32 flex flex-col items-center text-center"
       >
         {/* Headline */}
         <motion.h1
@@ -118,15 +118,19 @@ export function Hero() {
         </motion.p>
 
         {/* Service chips */}
-        <motion.div variants={fadeUp} className="flex flex-wrap justify-center gap-2 md:gap-3 mb-6 md:mb-12">
+        <motion.div
+          variants={fadeUp}
+          className="flex flex-nowrap md:flex-wrap justify-center gap-1 md:gap-3 mb-6 md:mb-12 max-w-full overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
           {chips.map((c) => (
             <span
               key={c.label}
-              className="inline-flex items-center gap-1.5 md:gap-2 bg-[#0A0A0A]/80 backdrop-blur-sm text-[11px] md:text-[13px] font-bold px-3 py-1.5 md:px-3.5 md:py-2 rounded-full border"
+              className="inline-flex items-center gap-1 md:gap-2 flex-shrink-0 bg-[#0A0A0A]/80 backdrop-blur-sm text-[9px] md:text-[13px] font-bold px-2 py-1 md:px-3.5 md:py-2 rounded-full border whitespace-nowrap"
               style={{ color: c.color, borderColor: `${c.color}55` }}
             >
               <Check color={c.color} />
-              {c.label}
+              <span className="md:hidden">{c.shortLabel}</span>
+              <span className="hidden md:inline">{c.label}</span>
             </span>
           ))}
         </motion.div>
@@ -148,7 +152,7 @@ export function Hero() {
       </motion.div>
 
       {/* Mobile-only laptop row: small mockups peeking below the CTA, King-style */}
-      <div className="lg:hidden relative z-[10] w-full flex items-end justify-between px-3 mt-2 pb-8">
+      <div className="lg:hidden relative z-[10] w-full flex items-end justify-between px-3 -mt-4 pb-6">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
