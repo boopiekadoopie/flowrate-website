@@ -17,12 +17,12 @@ const archivo = Archivo_Black({
 });
 
 export const metadata: Metadata = {
-  title: "Flowrate Agency | Irrigation & Landscaping Marketing Agency That Books More Jobs",
+  title: "Irrigation & Landscaping Marketing Agency That Books More Jobs",
   description:
     "Flowrate builds high-converting websites for irrigation companies. Homeowners Google three contractors. Make sure they call yours.",
   metadataBase: new URL("https://flowrate.agency"),
   openGraph: {
-    title: "Flowrate Agency | Irrigation & Landscaping Marketing Agency That Books More Jobs",
+    title: "Irrigation & Landscaping Marketing Agency That Books More Jobs",
     description:
       "I build websites that win the trust of homeowners who are anxious about being overcharged.",
     url: "https://flowrate.agency",
