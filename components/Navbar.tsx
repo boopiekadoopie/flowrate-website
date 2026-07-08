@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-const CALENDLY_URL = "https://calendly.com/andrewedwardmurray/30min";
+const CALENDLY_URL = "https://calendly.com/flowrate/30min";
 const PHONE_DISPLAY = "+1 (469) 461-4225";
 const PHONE_TEL = "tel:+14694614225";
 

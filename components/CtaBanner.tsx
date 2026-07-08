@@ -1,4 +1,4 @@
-const CALENDLY_URL = "https://calendly.com/andrewedwardmurray/30min";
+const CALENDLY_URL = "https://calendly.com/flowrate/30min";
 
 export function CtaBanner() {
   return (

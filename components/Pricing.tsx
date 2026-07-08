@@ -194,7 +194,7 @@ export function Pricing() {
             </ul>
 
             <a
-              href="https://calendly.com/andrewedwardmurray/30min"
+              href="https://calendly.com/flowrate/30min"
               target="_blank"
               rel="noopener noreferrer"
               className="block w-full text-center border border-white/20 text-white font-bold px-6 py-3.5 rounded-full text-sm hover:bg-white/10 hover:border-white/40 transition-colors cursor-pointer"
@@ -236,7 +236,7 @@ export function Pricing() {
             </ul>
 
             <a
-              href="https://calendly.com/andrewedwardmurray/30min"
+              href="https://calendly.com/flowrate/30min"
               target="_blank"
               rel="noopener noreferrer"
               className="block w-full text-center bg-green text-[#060C07] font-bold px-6 py-3.5 rounded-full text-sm hover:bg-green-light transition-colors cursor-pointer shadow-lg shadow-green/20"

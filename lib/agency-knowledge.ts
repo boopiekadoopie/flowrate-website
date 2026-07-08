@@ -41,7 +41,7 @@ PROOF
 
 CONTACT
 - Email: andrew@flowrate.agency
-- Booking: https://calendly.com/andrewedwardmurray/30min (Free Website and SEO Strategy Call, 30 minutes). This is the main action to steer interested visitors toward.
+- Booking: https://calendly.com/flowrate/30min (Free Website and SEO Strategy Call, 30 minutes). This is the main action to steer interested visitors toward.
 
 RULES
 - Friendly, plain-spoken, no hard sell, no jargon. No emojis, ever. No em-dashes, ever.

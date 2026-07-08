@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { fadeUp, stagger } from "@/lib/animations";
 import { LawnReveal } from "./LawnReveal";
 
-const CALENDLY_URL = "https://calendly.com/andrewedwardmurray/30min";
+const CALENDLY_URL = "https://calendly.com/flowrate/30min";
 
 const chips = [
   { label: "Irrigation & Sprinklers", shortLabel: "Irrigation", color: "#99E58C" },

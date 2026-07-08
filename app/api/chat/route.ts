@@ -58,7 +58,7 @@ export async function POST(req: Request) {
     if (!reply) {
       return NextResponse.json({
         reply:
-          "I could not answer that one. Andrew will follow up personally if you email andrew@flowrate.agency or book a free call at calendly.com/andrewedwardmurray/30min.",
+          "I could not answer that one. Andrew will follow up personally if you email andrew@flowrate.agency or book a free call at calendly.com/flowrate/30min.",
       });
     }
 
@@ -72,7 +72,7 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         reply:
-          "The chat is having trouble right now. You can reach Andrew directly at andrew@flowrate.agency or book a free call at calendly.com/andrewedwardmurray/30min.",
+          "The chat is having trouble right now. You can reach Andrew directly at andrew@flowrate.agency or book a free call at calendly.com/flowrate/30min.",
       },
       { status: 200 },
     );
