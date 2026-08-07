@@ -39,7 +39,7 @@ export async function generateMetadata({
 
   const title = `${demo.clientName} — a quick look from Flowrate`;
   const description = `A short walkthrough Andrew put together for ${demo.clientName}.`;
-  const imageUrl = "/flowrate-banner-og.png";
+  const imageUrl = "/flowrate-banner-og.jpg";
 
   return {
     title,
@@ -50,7 +50,7 @@ export async function generateMetadata({
       url: `/demo/${slug}`,
       siteName: "Flowrate Agency",
       type: "website",
-      images: [{ url: imageUrl, width: 3168, height: 1344, alt: "Flowrate" }],
+      images: [{ url: imageUrl, width: 1200, height: 509, alt: "Flowrate" }],
     },
     twitter: {
       card: "summary_large_image",
