@@ -10,8 +10,8 @@ export type DemoEntry = {
 // (loom.com/share/<id> -> use <id>).
 export const demos: Record<string, DemoEntry> = {
   "total-lawn": {
-    clientName: "Total Lawn & Sprinkler",
-    loomId: "REPLACE_WITH_LOOM_ID",
+    clientName: "Total Lawn & Sprinkler Inc",
+    loomId: "20c881249cca427ab11deb9706456f72",
     demoSiteUrl: "https://total-lawn-sprinkler.vercel.app",
     calendlyUrl: "https://calendly.com/andrewedwardmurray/30min",
   },
