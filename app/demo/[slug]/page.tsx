@@ -36,9 +36,28 @@ export async function generateMetadata({
   const { slug } = await params;
   const demo = await resolveDemo(slug, await searchParams);
   if (!demo) return {};
+
+  const title = `${demo.clientName} — a quick look from Flowrate`;
+  const description = `A short walkthrough Andrew put together for ${demo.clientName}.`;
+  const imageUrl = "/flowrate-banner-og.png";
+
   return {
-    title: `${demo.clientName} — a quick look from Flowrate`,
-    description: `A short walkthrough Andrew put together for ${demo.clientName}.`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `/demo/${slug}`,
+      siteName: "Flowrate Agency",
+      type: "website",
+      images: [{ url: imageUrl, width: 3168, height: 1344, alt: "Flowrate" }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [imageUrl],
+    },
   };
 }
 
