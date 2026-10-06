@@ -35,7 +35,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const demo = await resolveDemo(slug, await searchParams);
-  if (!demo) return {};
+  if (!demo) return { robots: { index: false, follow: false } };
 
   const title = `${demo.clientName} — a quick look from Flowrate`;
   const description = `A short walkthrough Andrew put together for ${demo.clientName}.`;
@@ -44,6 +44,7 @@ export async function generateMetadata({
   return {
     title,
     description,
+    robots: { index: false, follow: false },
     openGraph: {
       title,
       description,

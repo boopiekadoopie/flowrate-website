@@ -5,17 +5,18 @@ export const runtime = "nodejs";
 
 const LEAD_TO = "andrew@flowrate.agency";
 const MAX_FIELD = 300;
+const MAX_MESSAGE = 3000;
 
 type LeadBody = {
   name?: string;
   phone?: string;
   email?: string;
-  website?: string;
-  jobs?: string;
+  company?: string;
+  message?: string;
 };
 
-function clean(value: unknown): string {
-  return typeof value === "string" ? value.trim().slice(0, MAX_FIELD) : "";
+function clean(value: unknown, max = MAX_FIELD): string {
+  return typeof value === "string" ? value.trim().slice(0, max) : "";
 }
 
 export async function POST(req: Request) {
@@ -30,8 +31,8 @@ export async function POST(req: Request) {
     name: clean(body.name),
     phone: clean(body.phone),
     email: clean(body.email),
-    website: clean(body.website),
-    jobs: clean(body.jobs),
+    company: clean(body.company),
+    message: clean(body.message, MAX_MESSAGE),
   };
 
   if (!lead.name || !lead.email || !lead.email.includes("@")) {
@@ -46,15 +47,15 @@ export async function POST(req: Request) {
   }
 
   const text = [
-    "New free breakdown request from the website.",
+    "New enquiry from the website.",
     "",
     `Name: ${lead.name}`,
-    `Phone: ${lead.phone || "not given"}`,
     `Email: ${lead.email}`,
-    `Website: ${lead.website || "none / not given"}`,
-    `Jobs per week: ${lead.jobs || "not given"}`,
+    `Business: ${lead.company || "not given"}`,
+    `Phone: ${lead.phone || "not given"}`,
     "",
-    "SOP: docs/free-breakdown-sop.md in the flowrate-website repo.",
+    "The job they want to stop doing by hand:",
+    lead.message || "(not given)",
   ].join("\n");
 
   const resend = new Resend(apiKey);
@@ -63,7 +64,7 @@ export async function POST(req: Request) {
     from: process.env.LEAD_FROM || "Flowrate Website <onboarding@resend.dev>",
     to: [LEAD_TO],
     replyTo: lead.email,
-    subject: `New lead: ${lead.name} (free breakdown request)`,
+    subject: `New enquiry: ${lead.name}${lead.company ? ` (${lead.company})` : ""}`,
     text,
   });
 

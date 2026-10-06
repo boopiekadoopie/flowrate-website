@@ -17,6 +17,21 @@
   --color-gold: #FFC72C;
   --font-sans: var(--font-jakarta);
   --font-display: var(--font-archivo);
+
+  /* Light systems palette (reference: Orderful). Green stays CTA-only. */
+  --color-canvas: #F5F5F5;
+  --color-paper: #FFFFFF;
+  --color-heading: #101828;
+  --color-body: #4A5565;
+  --color-muted: #6A7282;
+  --color-faint: #99A1AF;
+  --color-line: #E5E7EB;
+  --color-line-strong: #D4D4D4;
+  --color-carbon: #1F1F1F;
+  --color-ok: #1D6B2B;
+  --color-ok-bg: #EAF8E6;
+  --color-hold: #92400E;
+  --color-hold-bg: #FEF3C7;
 }
 
 html {
@@ -49,4 +64,8 @@ body {
     scroll-behavior: auto !important;
   }
   .animate-marquee { animation: none; }
+}
+
+section[id] {
+  scroll-margin-top: 80px;
 }

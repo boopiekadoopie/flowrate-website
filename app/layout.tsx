@@ -17,16 +17,16 @@ const archivo = Archivo_Black({
 });
 
 export const metadata: Metadata = {
-  title: "Irrigation & Landscaping Marketing Agency That Books More Jobs",
+  title: "Flowrate | Custom business systems, built around how you work",
   description:
-    "Flowrate builds high-converting websites for irrigation companies. Homeowners Google three contractors. Make sure they call yours.",
+    "Flowrate builds admin systems, driver and field apps, reporting and websites around the way your business already works, so the retyping, the chasing and the month-end scramble stop.",
   metadataBase: new URL("https://flowrate.agency"),
   openGraph: {
-    title: "Irrigation & Landscaping Marketing Agency That Books More Jobs",
+    title: "Flowrate | We build the systems your business runs on",
     description:
-      "I build websites that win the trust of homeowners who are anxious about being overcharged.",
+      "Admin systems, driver and field apps, reporting and websites, built around the way you already work.",
     url: "https://flowrate.agency",
-    siteName: "Flowrate Agency",
+    siteName: "Flowrate",
     type: "website",
   },
 };

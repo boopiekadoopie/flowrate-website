@@ -1,105 +1,102 @@
 "use client";
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Container, EMAIL, H2, Lede } from "./ui";
 
-const faqs = [
+export const faqs = [
   {
-    q: "What services does Flowrate Agency offer?",
-    a: "Flowrate is a full-service web design and marketing partner for irrigation, landscaping, and home service companies. We build custom, conversion-focused websites and run local SEO, Google Business Profile management, blog content, and monthly performance reporting.",
+    q: "What kind of systems do you build?",
+    a: "Admin systems that track every job from first call to paid invoice, apps your drivers or field team use on their phones, reports that show what really happened, and websites. Most projects are a mix: the point is that information gets entered once and flows everywhere it needs to go.",
   },
   {
-    q: "How does the website design process work with Flowrate?",
-    a: "It starts with a free strategy call. We gather your business info and goals, then show you the design direction before any build work begins. Once you approve it, we build the full site in 3 to 4 weeks, review it together, and launch.",
+    q: "Do you only work with certain industries?",
+    a: "No. The process matters more than the industry. If your business has work that gets retyped, chased, or kept in someone’s head, it’s a good candidate for a system.",
   },
   {
-    q: "How long does it take to build my website?",
-    a: "Typically 3 to 4 weeks depending on complexity. We would rather take the time to get it right than rush out something generic.",
+    q: "Do I actually need custom software?",
+    a: "Not always. If a spreadsheet or an off-the-shelf tool will do the job, we’ll tell you on the first call. Custom makes sense when your process is what sets you apart, or when you’ve been bending your business around software that doesn’t fit.",
   },
   {
-    q: "How much does a website cost?",
-    a: "Every build is custom-quoted, decided live on a free strategy call. There is no fixed price list because no two businesses need the same site. Book the call and we will scope it together.",
+    q: "Will it work with the tools we already use?",
+    a: "Usually, yes. Systems can connect to accounting software such as Xero, to spreadsheets, storage and email, so nobody has to copy information from one place to another.",
   },
   {
-    q: "How much does SEO cost?",
-    a: "SEO runs $500 to $5,000 per month depending on your market competition and goals. Unlike paid ads, which stop generating leads the moment you stop paying, SEO builds long-term equity that keeps generating leads for years.",
+    q: "What if my team works where there’s no signal?",
+    a: "Field and driver apps can be built to work offline. The phone saves the job and sends it on its own when signal comes back, so nothing is lost on the road.",
   },
   {
-    q: "Can you help me update my existing website?",
-    a: "Yes, and it is the most common situation. We audit your current site, show you exactly what is costing you leads, and build a replacement that fixes it. Your domain stays the same, so there is no disruption to your existing traffic.",
+    q: "How much does a system cost?",
+    a: "Every system is scoped and quoted on a call, because no two businesses need the same thing. Book a free call and we’ll work out what you need before talking numbers.",
   },
   {
-    q: "What if I don't like the design?",
-    a: "We show you the design direction before any build work begins. If you don't like it, we revise it or you walk away at no cost. Nothing is invoiced until you approve the direction.",
+    q: "How long does a build take?",
+    a: "It depends on the size of the system. You’ll get a timeline with your quote, and you’ll see how it works before the build starts.",
   },
   {
-    q: "How do I get started with Flowrate Agency?",
-    a: "Book your free 30-minute Website and SEO Strategy Call, or send a message through the chat in the corner. You can also email andrew@flowrate.agency and Andrew will get back to you personally.",
+    q: "Do you still build websites?",
+    a: "Yes. Websites are part of what we build, often alongside a system that handles what happens after someone gets in touch.",
   },
 ];
 
-function Item({ q, a, defaultOpen = false }: { q: string; a: string; defaultOpen?: boolean }) {
-  const [open, setOpen] = useState(defaultOpen);
+function Item({ q, a, open, onToggle }: { q: string; a: string; open: boolean; onToggle: () => void }) {
   return (
-    <div
-      className={`rounded-2xl border transition-colors duration-300 ${
-        open
-          ? "bg-[#0A0A0A] border-[#0A0A0A]"
-          : "bg-white border-slate-200/60 shadow-sm"
-      }`}
-    >
+    <div className="border-b border-line">
       <button
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between px-6 md:px-8 py-6 text-left gap-4 cursor-pointer"
+        onClick={onToggle}
         aria-expanded={open}
+        className="w-full flex items-center justify-between gap-6 py-5 text-left cursor-pointer group"
       >
+        <span className="text-heading text-[17px] font-semibold group-hover:text-black">{q}</span>
         <span
-          className={`font-extrabold uppercase tracking-wide text-sm md:text-base ${
-            open ? "text-white" : "text-ink"
+          className={`w-8 h-8 rounded-lg border flex items-center justify-center flex-shrink-0 transition-colors duration-200 ${
+            open ? "bg-carbon border-carbon text-white" : "border-line-strong text-heading"
           }`}
         >
-          {q}
-        </span>
-        <span className="w-9 h-9 rounded-full bg-green flex items-center justify-center flex-shrink-0">
-          <svg
-            viewBox="0 0 16 16"
-            fill="none"
-            className={`w-4 h-4 text-[#060C07] transition-transform duration-200 ${open ? "rotate-45" : ""}`}
-          >
+          <svg viewBox="0 0 16 16" fill="none" className={`w-3.5 h-3.5 transition-transform duration-200 ${open ? "rotate-45" : ""}`} aria-hidden>
             <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
           </svg>
         </span>
       </button>
-      {open && (
-        <p className="text-white/60 text-sm md:text-base leading-relaxed px-6 md:px-8 pb-7 -mt-1">
-          {a}
-        </p>
-      )}
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden"
+          >
+            <p className="text-body text-[16px] leading-[1.65] pb-6 pr-14 max-w-[640px]">{a}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
 export function FAQ() {
+  const [open, setOpen] = useState(0);
   return (
-    <section className="bg-[#F4F5F4] py-20 md:py-28">
-      <div className="max-w-4xl mx-auto px-6">
-        <div className="text-center mb-14">
-          <p className="text-green-dark font-semibold text-xs tracking-widest uppercase mb-4">FAQ</p>
-          <h2
-            className="text-ink uppercase text-3xl md:text-5xl tracking-tight mb-4"
-            style={{ fontFamily: "var(--font-display), var(--font-jakarta), sans-serif" }}
-          >
-            Frequently Asked <span className="text-green-dark italic">Questions</span>
-          </h2>
-          <p className="text-slate-500 text-lg">
-            If it is not here, email us directly or ask the chat in the corner.
-          </p>
+    <section id="faq" className="bg-paper py-20 md:py-28 border-y border-line">
+      <Container>
+        <div className="grid lg:grid-cols-[0.8fr_1.2fr] gap-10 lg:gap-20">
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <H2 className="mb-5">Questions people ask first.</H2>
+            <Lede>
+              Not covered here? Ask the assistant in the corner, or email{" "}
+              <a href={`mailto:${EMAIL}`} className="text-heading font-semibold underline underline-offset-4 decoration-line-strong hover:decoration-heading">
+                {EMAIL}
+              </a>
+              .
+            </Lede>
+          </div>
+          <div className="border-t border-line">
+            {faqs.map((f, i) => (
+              <Item key={f.q} q={f.q} a={f.a} open={open === i} onToggle={() => setOpen(open === i ? -1 : i)} />
+            ))}
+          </div>
         </div>
-
-        <div className="space-y-4">
-          {faqs.map((f, i) => (
-            <Item key={f.q} q={f.q} a={f.a} defaultOpen={i === 0} />
-          ))}
-        </div>
-      </div>
+      </Container>
     </section>
   );
 }

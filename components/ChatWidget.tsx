@@ -5,11 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
 const GREETING =
-  "Hey, I'm Flowrate's AI assistant. Ask me anything about websites, SEO, pricing, or how working with Andrew goes.";
+  "Hi, I'm Flowrate's AI assistant. Ask me about the systems we build, how a project works, or how to get started.";
 
 function Avatar({ size = "w-7 h-7" }: { size?: string }) {
   return (
-    <div className={`${size} rounded-full overflow-hidden bg-[#060C07] border border-white/10 flex-shrink-0`}>
+    <div className={`${size} rounded-full overflow-hidden bg-canvas border border-line flex-shrink-0`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/andrew.jpg" alt="Andrew from Flowrate" className="w-full h-full object-cover object-top" />
     </div>
@@ -83,48 +83,48 @@ export function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="w-80 bg-[#0D1F0E] border border-white/10 rounded-3xl shadow-2xl shadow-black/60 overflow-hidden"
+            className="w-[min(20rem,calc(100vw-3rem))] bg-paper border border-line rounded-lg shadow-[0_24px_48px_-12px_rgba(16,24,40,0.25)] overflow-hidden"
           >
             {/* Header */}
-            <div className="bg-green px-5 py-4 flex items-center justify-between">
+            <div className="bg-carbon px-5 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-white/30 bg-[#060C07] flex-shrink-0">
+                <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-white/20 bg-carbon flex-shrink-0">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/andrew.jpg" alt="Andrew from Flowrate" className="w-full h-full object-cover object-top" />
                 </div>
                 <div>
-                  <p className="text-[#060C07] font-bold text-sm leading-tight">Flowrate AI Assistant</p>
+                  <p className="text-white font-bold text-sm leading-tight">Flowrate AI Assistant</p>
                   <div className="flex items-center gap-1.5 mt-0.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#060C07]/60 animate-pulse" />
-                    <p className="text-[#060C07]/70 text-xs font-medium">Answers instantly</p>
+                    <div className="w-1.5 h-1.5 rounded-full bg-green animate-pulse" />
+                    <p className="text-white/60 text-xs font-medium">Answers instantly</p>
                   </div>
                 </div>
               </div>
               <button
                 onClick={() => setOpen(false)}
-                className="w-7 h-7 rounded-full bg-[#060C07]/15 hover:bg-[#060C07]/25 flex items-center justify-center transition-colors cursor-pointer"
+                className="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer"
                 aria-label="Close chat"
               >
-                <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5 text-[#060C07]">
+                <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5 text-white">
                   <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
                 </svg>
               </button>
             </div>
 
             {/* Messages area */}
-            <div ref={scrollRef} className="px-4 py-4 space-y-3 h-80 overflow-y-auto">
+            <div ref={scrollRef} className="px-4 py-4 space-y-3 h-80 overflow-y-auto bg-[#fafafa]">
               {messages.map((m, i) =>
                 m.role === "assistant" ? (
                   <div key={i} className="flex items-start gap-2.5">
                     <Avatar />
-                    <div className="bg-white/8 rounded-2xl rounded-tl-sm px-4 py-3 max-w-[220px]">
-                      <p className="text-white/80 text-sm leading-relaxed whitespace-pre-wrap">{m.content}</p>
+                    <div className="bg-paper border border-line rounded-lg rounded-tl-sm px-4 py-3 max-w-[220px]">
+                      <p className="text-heading text-sm leading-relaxed whitespace-pre-wrap">{m.content}</p>
                     </div>
                   </div>
                 ) : (
                   <div key={i} className="flex justify-end">
-                    <div className="bg-green/90 rounded-2xl rounded-tr-sm px-4 py-3 max-w-[220px]">
-                      <p className="text-[#060C07] text-sm font-medium whitespace-pre-wrap">{m.content}</p>
+                    <div className="bg-carbon rounded-lg rounded-tr-sm px-4 py-3 max-w-[220px]">
+                      <p className="text-white text-sm font-medium whitespace-pre-wrap">{m.content}</p>
                     </div>
                   </div>
                 ),
@@ -133,14 +133,14 @@ export function ChatWidget() {
               {thinking && (
                 <div className="flex items-start gap-2.5">
                   <Avatar />
-                  <div className="bg-white/8 rounded-2xl rounded-tl-sm px-4 py-3">
+                  <div className="bg-paper border border-line rounded-lg rounded-tl-sm px-4 py-3">
                     <div className="flex items-center gap-1.5">
                       {[0, 1, 2].map((i) => (
                         <motion.span
                           key={i}
                           animate={{ opacity: [0.25, 1, 0.25] }}
                           transition={{ repeat: Infinity, duration: 1.1, delay: i * 0.18 }}
-                          className="w-1.5 h-1.5 rounded-full bg-white/60"
+                          className="w-1.5 h-1.5 rounded-full bg-faint"
                         />
                       ))}
                     </div>
@@ -150,20 +150,20 @@ export function ChatWidget() {
             </div>
 
             {/* Input */}
-            <div className="px-4 pb-4">
-              <div className="flex items-center gap-2 bg-white/6 border border-white/10 rounded-2xl px-4 py-2.5 focus-within:border-green/40 transition-colors">
+            <div className="px-4 pb-4 pt-3 border-t border-line">
+              <div className="flex items-center gap-2 bg-paper border border-line-strong rounded-lg px-4 py-2.5 focus-within:border-heading transition-colors">
                 <input
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                  placeholder="Ask about websites, SEO, process..."
-                  className="flex-1 bg-transparent text-white/80 text-sm placeholder-white/25 outline-none"
+                  placeholder="Ask about systems, process, cost..."
+                  className="flex-1 bg-transparent text-heading text-sm placeholder:text-faint outline-none"
                 />
                 <button
                   onClick={handleSend}
                   disabled={!input.trim() || thinking}
-                  className="w-7 h-7 rounded-full bg-green disabled:bg-white/10 flex items-center justify-center transition-colors cursor-pointer disabled:cursor-default flex-shrink-0"
+                  className="w-7 h-7 rounded-lg bg-green disabled:bg-canvas flex items-center justify-center transition-colors cursor-pointer disabled:cursor-default flex-shrink-0"
                   aria-label="Send"
                 >
                   <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5 text-[#060C07]">
@@ -171,7 +171,7 @@ export function ChatWidget() {
                   </svg>
                 </button>
               </div>
-              <p className="text-white/20 text-[10px] text-center mt-2">
+              <p className="text-muted text-[11px] text-center mt-2">
                 AI assistant. For anything it can&apos;t answer, Andrew follows up personally.
               </p>
             </div>
@@ -188,13 +188,13 @@ export function ChatWidget() {
             exit={{ opacity: 0, y: 8, scale: 0.9 }}
             transition={{ duration: 0.3 }}
             onClick={() => { setOpen(true); setShowBubble(false); }}
-            className="bg-[#0D1F0E] border border-white/12 rounded-2xl px-4 py-3 shadow-xl shadow-black/40 cursor-pointer hover:border-green/30 transition-colors max-w-[220px]"
+            className="max-sm:hidden bg-paper border border-line rounded-lg px-4 py-3 shadow-[0_12px_32px_-8px_rgba(16,24,40,0.2)] cursor-pointer hover:border-line-strong transition-colors max-w-[230px]"
           >
             <div className="flex items-start gap-2.5">
               <Avatar />
               <div>
-                <p className="text-white/80 text-xs leading-relaxed">
-                  Questions about websites or SEO? Ask our AI assistant.
+                <p className="text-heading text-xs leading-relaxed">
+                  Wondering if your process could be a system? Ask our AI assistant.
                 </p>
               </div>
             </div>
@@ -208,7 +208,7 @@ export function ChatWidget() {
         animate={{ scale: 1 }}
         transition={{ delay: 1.5, type: "spring", stiffness: 300, damping: 20 }}
         onClick={() => { setOpen(!open); setShowBubble(false); }}
-        className="w-14 h-14 rounded-full bg-green shadow-lg shadow-green/30 flex items-center justify-center cursor-pointer hover:bg-green-light transition-colors relative"
+        className="w-14 h-14 rounded-full bg-green shadow-[0_8px_24px_-6px_rgba(16,24,40,0.3)] flex items-center justify-center cursor-pointer hover:bg-green-light transition-colors relative"
         aria-label="Chat with the Flowrate AI assistant"
       >
         <AnimatePresence mode="wait">
@@ -239,7 +239,7 @@ export function ChatWidget() {
 
         {/* Notification dot */}
         {!open && (
-          <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-white rounded-full border-2 border-[#060C07] animate-pulse" />
+          <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-white rounded-full border-2 border-carbon animate-pulse" />
         )}
       </motion.button>
 

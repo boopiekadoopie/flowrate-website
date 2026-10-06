@@ -1,30 +1,21 @@
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 
 const CALENDLY_URL = "https://calendly.com/flowrate/30min";
-const PHONE_DISPLAY = "+1 (469) 461-4225";
-const PHONE_TEL = "tel:+14694614225";
 
 const leftLinks = [
-  { label: "Home", href: "/", active: true, chevron: false },
-  { label: "About Us", href: "#about", active: false, chevron: true },
-  { label: "Services", href: "#services", active: false, chevron: true },
+  { label: "What we build", href: "#services", active: false, chevron: false },
+  { label: "How it works", href: "#how-it-works", active: false, chevron: false },
+  { label: "About", href: "#about", active: false, chevron: false },
 ];
 
 function Chevron() {
   return (
     <svg viewBox="0 0 12 12" fill="none" className="w-3 h-3 mt-px">
       <path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function PhoneIcon() {
-  return (
-    <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
-      <path d="M4.2 2.6c.4-.4 1-.5 1.5-.2l2.4 1.5c.5.3.7.9.5 1.4l-.7 1.9c-.1.4 0 .8.3 1.1l3.5 3.5c.3.3.7.4 1.1.3l1.9-.7c.5-.2 1.1 0 1.4.5l1.5 2.4c.3.5.2 1.1-.2 1.5l-1.3 1.3c-.5.5-1.2.7-1.9.5-2.6-.8-5-2.3-7.1-4.4-2.1-2.1-3.6-4.5-4.4-7.1-.2-.7 0-1.4.5-1.9l1-1.6z" />
     </svg>
   );
 }
@@ -56,26 +47,26 @@ export function Navbar() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className={`fixed top-0 inset-x-0 z-50 bg-[#050505]/95 backdrop-blur-md transition-all duration-300 ${
-        scrolled ? "border-b border-green/10 shadow-lg shadow-black/30" : "border-b border-transparent"
+      className={`fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur-md border-b border-[#e5e7eb] transition-shadow duration-300 ${
+        scrolled ? "shadow-[0_1px_3px_rgba(0,0,0,0.06)]" : ""
       }`}
     >
-      <div className="max-w-7xl mx-auto px-5 lg:px-8 h-16 lg:h-20">
+      <div className="max-w-7xl mx-auto px-5 lg:px-8 h-16">
         {/* Mobile bar: mascot on the left, hamburger on the right */}
         <div className="lg:hidden flex items-center justify-between h-full">
-          <a href="/" aria-label="Flowrate Agency home" className="flex items-center">
+          <Link href="/" aria-label="Flowrate home" className="flex items-center">
             <Image
               src="/mascot.png"
-              alt="Flowrate Agency mascot"
+              alt="Flowrate"
               width={1002}
               height={1530}
               priority
-              className="h-11 w-auto drop-shadow-[0_6px_12px_rgba(0,0,0,0.5)]"
+              className="h-11 w-auto drop-shadow-[0_4px_8px_rgba(16,24,40,0.18)]"
             />
-          </a>
+          </Link>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="p-2 -mr-2 text-white/80 hover:text-white transition-colors cursor-pointer"
+            className="p-2 -mr-2 text-[#364153] hover:text-[#101828] transition-colors cursor-pointer"
             aria-label="Toggle menu"
           >
             <HamburgerIcon open={menuOpen} />
@@ -89,8 +80,8 @@ export function Navbar() {
               <a
                 key={l.label}
                 href={l.href}
-                className={`inline-flex items-center gap-1 text-[15px] font-semibold transition-colors duration-200 ${
-                  l.active ? "text-green" : "text-white/85 hover:text-white"
+                className={`inline-flex items-center gap-1 text-[14px] font-semibold transition-colors duration-200 ${
+                  l.active ? "text-[#101828]" : "text-[#4a5565] hover:text-[#101828]"
                 }`}
               >
                 {l.label}
@@ -99,38 +90,31 @@ export function Navbar() {
             ))}
           </nav>
 
-          <a href="/" aria-label="Flowrate Agency home" className="justify-self-center relative z-10">
+          <Link href="/" aria-label="Flowrate home" className="justify-self-center relative z-10">
             <Image
               src="/mascot.png"
-              alt="Flowrate Agency mascot"
+              alt="Flowrate"
               width={1002}
               height={1530}
               priority
-              className="h-[104px] w-auto -mb-8 drop-shadow-[0_10px_18px_rgba(0,0,0,0.55)]"
+              className="h-[92px] w-auto -mb-9 drop-shadow-[0_8px_14px_rgba(16,24,40,0.22)]"
             />
-          </a>
+          </Link>
 
           <div className="flex items-center gap-6 justify-end">
             <a
               href="#contact"
-              className="text-[15px] font-semibold text-white/85 hover:text-white transition-colors duration-200"
+              className="text-[14px] font-semibold text-[#4a5565] hover:text-[#101828] transition-colors duration-200"
             >
-              Contact Us
-            </a>
-            <a
-              href={PHONE_TEL}
-              className="inline-flex items-center gap-2 text-[15px] font-bold text-white hover:text-green transition-colors duration-200"
-            >
-              <span className="text-green"><PhoneIcon /></span>
-              {PHONE_DISPLAY}
+              Contact
             </a>
             <a
               href={CALENDLY_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-green text-[#060C07] font-extrabold uppercase tracking-wide px-5 py-3 rounded-lg text-[13px] hover:bg-green-light transition-colors shadow-[0_0_24px_rgba(153,229,140,0.35)] cursor-pointer"
+              className="bg-green text-[#0C1A0D] font-bold uppercase tracking-[0.025em] px-5 py-2.5 rounded-lg text-[13px] hover:bg-green-light transition-colors cursor-pointer"
             >
-              Free Custom Design
+              Book a call
             </a>
           </div>
         </div>
@@ -141,7 +125,7 @@ export function Navbar() {
         <motion.div
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="lg:hidden bg-[#050505]/98 border-t border-green/10 px-6 py-6 flex flex-col gap-4"
+          className="lg:hidden bg-white border-t border-[#e5e7eb] px-6 py-6 flex flex-col gap-4"
         >
           {leftLinks.map((l) => (
             <a
@@ -149,7 +133,7 @@ export function Navbar() {
               href={l.href}
               onClick={() => setMenuOpen(false)}
               className={`text-base font-medium transition-colors py-1 ${
-                l.active ? "text-green" : "text-white/75 hover:text-white"
+                l.active ? "text-[#101828]" : "text-[#4a5565] hover:text-[#101828]"
               }`}
             >
               {l.label}
@@ -158,24 +142,17 @@ export function Navbar() {
           <a
             href="#contact"
             onClick={() => setMenuOpen(false)}
-            className="text-white/75 text-base font-medium hover:text-white transition-colors py-1"
+            className="text-[#4a5565] text-base font-medium hover:text-[#101828] transition-colors py-1"
           >
-            Contact Us
-          </a>
-          <a
-            href={PHONE_TEL}
-            className="inline-flex items-center gap-2 text-base font-bold text-white py-1"
-          >
-            <span className="text-green"><PhoneIcon /></span>
-            {PHONE_DISPLAY}
+            Contact
           </a>
           <a
             href={CALENDLY_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-2 bg-green text-[#060C07] font-extrabold uppercase tracking-wide px-6 py-3.5 rounded-lg text-sm text-center hover:bg-green-light transition-colors"
+            className="mt-2 bg-green text-[#0C1A0D] font-bold uppercase tracking-[0.025em] px-6 py-3.5 rounded-lg text-sm text-center hover:bg-green-light transition-colors"
           >
-            Free Custom Design
+            Book a call
           </a>
         </motion.div>
       )}

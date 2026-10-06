@@ -1,122 +1,65 @@
 "use client";
 import { motion } from "framer-motion";
-import { stagger, scaleIn, fadeUp } from "@/lib/animations";
+import { Container, H2, Lede } from "./ui";
 
 const steps = [
   {
-    number: "01",
-    title: "Free mockup, no strings",
-    description:
-      "I design your full homepage before you commit to anything. You see exactly what you're getting. If you don't love it, there is no invoice.",
-    image: "/golden-sprinkler.png",
-    imageAlt: "Golden hour sprinkler on a lush green lawn",
-    tag: "Zero risk",
+    title: "We learn how the job really runs",
+    body: "A call first, then time with the people who do the work. We map every step, including the workarounds nobody wrote down.",
+    out: "A clear map of the job as it runs today.",
   },
   {
-    number: "02",
-    title: "You approve, we build",
-    description:
-      "Once you're happy with the direction, I build the full site in 3 to 4 weeks. You provide your business details. I handle everything else.",
-    image: "/nighttime-sprinkler.png",
-    imageAlt: "Nighttime illuminated irrigation system in action",
-    tag: "3-4 weeks",
+    title: "You see it before we build it",
+    body: "We show you how the system will work, screen by screen, and change it until it fits the way your team already works.",
+    out: "A design you’ve signed off, so nothing is a surprise.",
   },
   {
-    number: "03",
-    title: "Live and generating leads",
-    description:
-      "Your site goes live, SEO-optimized, mobile-first, and built to convert the homeowner reading it at 11pm. Then I can run your SEO every month.",
-    image: "/luxury-aerial.png",
-    imageAlt: "Luxury property with perfectly irrigated green lawn",
-    tag: "Done",
+    title: "We build it and launch it with you",
+    body: "We test it on real jobs before anyone relies on it, then set it up with your team so it’s used from day one.",
+    out: "A working system, running on your real jobs.",
   },
 ];
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="bg-[#F4F8F4] py-24 md:py-32">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16 md:mb-20"
-        >
-          <p className="text-green-dark font-semibold text-xs tracking-widest uppercase mb-4">
-            The process
-          </p>
-          <h2 className="text-ink font-extrabold text-4xl md:text-5xl tracking-tight mb-4">
-            Three steps, no risk.
-          </h2>
-          <p className="text-slate-500 text-lg max-w-xl mx-auto">
-            From first conversation to a live, lead-generating site in 3 to 4 weeks. We take the time to get it right.
-          </p>
-        </motion.div>
+    <section id="how-it-works" className="bg-paper py-20 md:py-28 border-y border-line">
+      <Container>
+        <div className="grid lg:grid-cols-[1.15fr_1fr] gap-6 lg:gap-16 lg:items-end mb-12 md:mb-16">
+          <H2>How a build works.</H2>
+          <Lede>
+            No long requirements documents, and no software you have to bend your
+            business around. It starts with how you work now.
+          </Lede>
+        </div>
 
-        {/* Cards with real photos */}
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
-        >
-          {steps.map((step) => (
-            <motion.div
-              key={step.number}
-              variants={scaleIn}
-              whileHover={{ y: -6, transition: { duration: 0.25 } }}
-              className="group bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-green/20 transition-all duration-300 cursor-default"
+        <ol className="grid grid-cols-1 md:grid-cols-3 border-t border-line">
+          {steps.map((s, i) => (
+            <motion.li
+              key={s.title}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ delay: i * 0.12, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              className="relative pt-8 pb-10 md:pb-0 md:pr-10 md:[&:not(:first-child)]:pl-10 md:[&:not(:last-child)]:border-r border-line border-b md:border-b-0 last:border-b-0"
             >
-              {/* Photo header */}
-              <div className="relative h-52 overflow-hidden">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={step.image}
-                  alt={step.imageAlt}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                {/* Dark overlay for readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#060C07]/70 via-[#060C07]/20 to-transparent" />
-                {/* Step number + tag */}
-                <div className="absolute top-4 left-4 right-4 flex items-start justify-between">
-                  <span className="text-white/90 font-extrabold text-4xl leading-none select-none">{step.number}</span>
-                  <span className="bg-green/90 text-[#060C07] text-xs font-bold px-3 py-1 rounded-full">{step.tag}</span>
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-7">
-                <h3 className="text-ink font-bold text-xl mb-3 leading-snug">{step.title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">{step.description}</p>
-                {/* Green accent line at bottom */}
-                <div className="mt-6 h-0.5 w-8 bg-green rounded-full group-hover:w-full transition-all duration-500" />
-              </div>
-            </motion.div>
+              <motion.span
+                aria-hidden
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ delay: 0.2 + i * 0.25, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute -top-px left-0 right-0 h-[2px] bg-heading origin-left"
+              />
+              <span className="font-display text-[48px] leading-none text-heading tabular-nums">{i + 1}</span>
+              <h3 className="text-heading text-[20px] font-bold tracking-[-0.01em] mt-6 mb-2.5">{s.title}</h3>
+              <p className="text-body text-[16px] leading-[1.6] mb-6">{s.body}</p>
+              <p className="rounded-lg bg-canvas border border-line px-4 py-3 text-[14px] text-heading font-medium">
+                {s.out}
+              </p>
+            </motion.li>
           ))}
-        </motion.div>
-
-        {/* Bottom nudge */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4, duration: 0.6 }}
-          className="text-center mt-14"
-        >
-          <a
-            href="mailto:andrew@flowrate.agency?subject=Free%20Mockup%20Request"
-            className="inline-flex items-center gap-2.5 bg-ink text-white font-bold px-8 py-4 rounded-full text-base hover:bg-[#1a2e1b] transition-colors cursor-pointer"
-          >
-            Start with step 1. It&apos;s free
-            <svg viewBox="0 0 16 16" fill="none" className="w-4 h-4">
-              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </a>
-        </motion.div>
-      </div>
+        </ol>
+      </Container>
     </section>
   );
 }

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const sections = [
   {
     h: "Who we are",
-    p: "Flowrate Agency designs and builds websites and runs marketing for irrigation, landscaping, and home service companies. These terms apply to this website and to work we deliver for clients.",
+    p: "Flowrate designs and builds custom business systems, apps and websites. These terms apply to this website and to work we deliver for clients.",
   },
   {
     h: "Quotes and payment",
