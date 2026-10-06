@@ -28,6 +28,21 @@ export const metadata: Metadata = {
     url: "https://flowrate.agency",
     siteName: "Flowrate",
     type: "website",
+    images: [
+      {
+        url: "/og-home.jpg",
+        width: 2400,
+        height: 1260,
+        alt: "Flowrate: we build the systems your business runs on. Example driver-to-invoice system.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Flowrate | We build the systems your business runs on",
+    description:
+      "Admin systems, driver and field apps, reporting and websites, built around the way you already work.",
+    images: ["/og-home.jpg"],
   },
 };
 
