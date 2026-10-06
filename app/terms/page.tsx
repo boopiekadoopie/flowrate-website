@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 export const metadata: Metadata = {
   title: "Terms of Service | Flowrate Agency",
   description: "The terms that apply when you work with Flowrate Agency.",
+  alternates: { canonical: "/terms" },
 };
 
 const sections = [

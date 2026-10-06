@@ -21,6 +21,7 @@ export const metadata: Metadata = {
   description:
     "Flowrate builds admin systems, driver and field apps, reporting and websites around the way your business already works, so the retyping, the chasing and the month-end scramble stop.",
   metadataBase: new URL("https://flowrate.agency"),
+  alternates: { canonical: "/" },
   openGraph: {
     title: "Flowrate | We build the systems your business runs on",
     description:

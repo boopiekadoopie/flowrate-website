@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Blog | Flowrate",
   description: "Practical writing on removing retyping and manual admin from how a business runs.",
   robots: { index: false, follow: true },
+  alternates: { canonical: "/blog" },
 };
 
 export default function BlogPage() {
