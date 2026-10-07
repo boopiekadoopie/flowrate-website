@@ -9,7 +9,7 @@ const GREETING =
 
 function Avatar({ size = "w-7 h-7" }: { size?: string }) {
   return (
-    <div className={`${size} rounded-full overflow-hidden bg-canvas border border-line flex-shrink-0`}>
+    <div className={`${size} rounded-[7px] overflow-hidden bg-canvas border border-line flex-shrink-0`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/andrew.jpg" alt="Andrew from Flowrate" className="w-full h-full object-cover object-top" />
     </div>
@@ -26,9 +26,9 @@ export function ChatWidget() {
   const [thinking, setThinking] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Show the teaser bubble after 3s
+  // Show the teaser bubble after 14s, once the hero animation has played
   useEffect(() => {
-    const t = setTimeout(() => setShowBubble(true), 3000);
+    const t = setTimeout(() => setShowBubble(true), 14000);
     return () => clearTimeout(t);
   }, []);
 
@@ -88,15 +88,14 @@ export function ChatWidget() {
             {/* Header */}
             <div className="bg-carbon px-5 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-white/20 bg-carbon flex-shrink-0">
+                <div className="w-9 h-9 rounded-[8px] overflow-hidden border border-white/20 bg-carbon flex-shrink-0">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/andrew.jpg" alt="Andrew from Flowrate" className="w-full h-full object-cover object-top" />
                 </div>
                 <div>
                   <p className="text-white font-bold text-sm leading-tight">Flowrate AI Assistant</p>
                   <div className="flex items-center gap-1.5 mt-0.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-green animate-pulse" />
-                    <p className="text-white/60 text-xs font-medium">Answers instantly</p>
+                                        <p className="text-white/60 text-xs font-medium">Answers instantly</p>
                   </div>
                 </div>
               </div>
@@ -140,7 +139,7 @@ export function ChatWidget() {
                           key={i}
                           animate={{ opacity: [0.25, 1, 0.25] }}
                           transition={{ repeat: Infinity, duration: 1.1, delay: i * 0.18 }}
-                          className="w-1.5 h-1.5 rounded-full bg-faint"
+                          className="w-3 h-[3px] rounded-[2px] bg-faint"
                         />
                       ))}
                     </div>
@@ -208,7 +207,7 @@ export function ChatWidget() {
         animate={{ scale: 1 }}
         transition={{ delay: 1.5, type: "spring", stiffness: 300, damping: 20 }}
         onClick={() => { setOpen(!open); setShowBubble(false); }}
-        className="w-14 h-14 rounded-full bg-green shadow-[0_8px_24px_-6px_rgba(16,24,40,0.3)] flex items-center justify-center cursor-pointer hover:bg-green-light transition-colors relative"
+        className="w-14 h-14 rounded-[16px] bg-green shadow-[0_8px_24px_-6px_rgba(16,24,40,0.3)] flex items-center justify-center cursor-pointer hover:bg-green-light transition-colors relative"
         aria-label="Chat with the Flowrate AI assistant"
       >
         <AnimatePresence mode="wait">
@@ -236,11 +235,6 @@ export function ChatWidget() {
             </motion.svg>
           )}
         </AnimatePresence>
-
-        {/* Notification dot */}
-        {!open && (
-          <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-white rounded-full border-2 border-carbon animate-pulse" />
-        )}
       </motion.button>
 
     </div>

@@ -35,11 +35,14 @@
 }
 
 html {
+  /* Entrance animations start a few px off-canvas; never let them create sideways scroll. */
+  overflow-x: clip;
   scroll-behavior: smooth;
   font-size: 17px;
 }
 
 body {
+  overflow-x: clip;
   font-family: var(--font-jakarta), system-ui, -apple-system, sans-serif;
   color: #0C1A0D;
   background: #ffffff;
@@ -69,3 +72,8 @@ body {
 section[id] {
   scroll-margin-top: 80px;
 }
+
+
+/* Slow idle float for the hero's background paperwork */
+@keyframes paper-float { 0%,100% { transform: translate3d(0,0,0) rotate(var(--r,0deg)); } 50% { transform: translate3d(0,-10px,0) rotate(calc(var(--r,0deg) + 1.2deg)); } }
+.paper-float { animation: paper-float var(--d,11s) ease-in-out infinite; }

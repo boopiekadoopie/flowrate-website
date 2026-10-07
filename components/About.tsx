@@ -5,7 +5,7 @@ import { Container, H2, PrimaryButton, Reveal } from "./ui";
 
 export function About() {
   return (
-    <section id="about" className="bg-canvas py-20 md:py-28">
+    <section id="about" className="bg-canvas py-20 md:py-28 overflow-x-clip">
       <Container>
         <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-20 items-center">
           {/* Photo with the mascot leaning in from behind it */}

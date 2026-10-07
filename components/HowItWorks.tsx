@@ -1,22 +1,26 @@
 "use client";
 import { motion } from "framer-motion";
 import { Container, H2, Lede } from "./ui";
+import { IsoBuilt, IsoLayers, IsoMap } from "./IsoArt";
 
 const steps = [
   {
     title: "We learn how the job really runs",
     body: "A call first, then time with the people who do the work. We map every step, including the workarounds nobody wrote down.",
     out: "A clear map of the job as it runs today.",
+    art: IsoMap,
   },
   {
     title: "You see it before we build it",
     body: "We show you how the system will work, screen by screen, and change it until it fits the way your team already works.",
     out: "A design you’ve signed off, so nothing is a surprise.",
+    art: IsoLayers,
   },
   {
     title: "We build it and launch it with you",
     body: "We test it on real jobs before anyone relies on it, then set it up with your team so it’s used from day one.",
     out: "A working system, running on your real jobs.",
+    art: IsoBuilt,
   },
 ];
 
@@ -32,7 +36,7 @@ export function HowItWorks() {
           </Lede>
         </div>
 
-        <ol className="grid grid-cols-1 md:grid-cols-3 border-t border-line">
+        <ol className="grid grid-cols-1 md:grid-cols-3 md:gap-x-10 border-t border-line md:border-t-0">
           {steps.map((s, i) => (
             <motion.li
               key={s.title}
@@ -40,7 +44,7 @@ export function HowItWorks() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ delay: i * 0.12, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              className="relative pt-8 pb-10 md:pb-0 md:pr-10 md:[&:not(:first-child)]:pl-10 md:[&:not(:last-child)]:border-r border-line border-b md:border-b-0 last:border-b-0"
+              className="relative pt-8 pb-10 md:pb-0 md:border-t border-line border-b md:border-b-0 last:border-b-0"
             >
               <motion.span
                 aria-hidden
@@ -50,8 +54,13 @@ export function HowItWorks() {
                 transition={{ delay: 0.2 + i * 0.25, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
                 className="absolute -top-px left-0 right-0 h-[2px] bg-heading origin-left"
               />
-              <span className="font-display text-[48px] leading-none text-heading tabular-nums">{i + 1}</span>
-              <h3 className="text-heading text-[20px] font-bold tracking-[-0.01em] mt-6 mb-2.5">{s.title}</h3>
+              <div className="flex items-start justify-between gap-4">
+                <span className="font-display text-[48px] leading-none text-heading tabular-nums">{i + 1}</span>
+              </div>
+              <div className="my-6 h-[170px] flex items-center justify-center rounded-lg bg-[#fafafa] border border-line px-6">
+                <s.art />
+              </div>
+              <h3 className="text-heading text-[20px] font-bold tracking-[-0.01em] mb-2.5">{s.title}</h3>
               <p className="text-body text-[16px] leading-[1.6] mb-6">{s.body}</p>
               <p className="rounded-lg bg-canvas border border-line px-4 py-3 text-[14px] text-heading font-medium">
                 {s.out}

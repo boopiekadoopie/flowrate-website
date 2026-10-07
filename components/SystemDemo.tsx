@@ -156,10 +156,6 @@ export function SystemDemo() {
           Example system <span className="text-[#99a1af] font-medium">/ driver to invoice</span>
         </p>
         <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.025em] text-[#4a5565]">
-          <span className="relative flex w-1.5 h-1.5">
-            <span className="absolute inset-0 rounded-full bg-[#5fc04f] animate-ping opacity-60" />
-            <span className="relative w-1.5 h-1.5 rounded-full bg-[#5fc04f]" />
-          </span>
           Running
         </span>
       </div>
@@ -173,7 +169,7 @@ export function SystemDemo() {
             <div key={s} className="relative px-2 sm:px-4 py-2.5 border-r border-[#e5e7eb] last:border-r-0">
               <div className="flex items-center gap-1.5">
                 <span
-                  className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold transition-colors duration-300 ${
+                  className={`w-4 h-4 rounded-[4px] flex items-center justify-center text-[9px] font-bold transition-colors duration-300 ${
                     done && !(held && i === 3)
                       ? "bg-[#99E58C] text-[#0C1A0D]"
                       : held && i === 3 && active
