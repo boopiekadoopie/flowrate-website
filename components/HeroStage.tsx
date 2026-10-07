@@ -127,7 +127,7 @@ export function DeliveryNote({ t, held, scanning, width, tilt = 0 }: { t: number
 
 /* ------------------------------------------------------------- the phone */
 
-function Phone({ t }: { t: number }) {
+export function Phone({ t }: { t: number }) {
   const shots = Math.min(3, Math.max(0, t));
   const offline = t >= 4 && t < 7;
   const sent = t >= 7;
@@ -199,7 +199,7 @@ function Phone({ t }: { t: number }) {
 
 const NAV = ["Loads", "Drivers", "Customers", "Invoices", "Reports"];
 
-function Dashboard({ t, held }: { t: number; held: boolean }) {
+export function Dashboard({ t, held }: { t: number; held: boolean }) {
   const arrived = t >= 8;
   const fields = [
     { at: 9, k: "Customer", v: "Northline Supply" },
@@ -335,7 +335,7 @@ function Dashboard({ t, held }: { t: number; held: boolean }) {
 
 /* ------------------------------------------------------------- the accounts */
 
-function Invoice({ t, held }: { t: number; held: boolean }) {
+export function Invoice({ t, held }: { t: number; held: boolean }) {
   const show = t >= 14;
   const lines = [
     { at: 15, k: "Pine logs, 28.46 t", v: "11 384.00" },
