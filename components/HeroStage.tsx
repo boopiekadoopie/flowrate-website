@@ -413,6 +413,42 @@ function Beam({ d, fire, id }: { d: string; fire: boolean; id: string }) {
   );
 }
 
+/* ------------------------------------------------------------- shared clock */
+
+function useStageClock(target: React.RefObject<HTMLElement | null>) {
+  const inView = useInView(target, { amount: 0.2 });
+  const reduce = useReducedMotion();
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (reduce || !inView) return;
+    const id = setInterval(() => setCount((c) => c + 1), TICK);
+    return () => clearInterval(id);
+  }, [reduce, inView]);
+  const loop = Math.floor(count / LOOP);
+  return { t: reduce ? FINAL : count % LOOP, held: !reduce && loop % 2 === 1, loop, reduce };
+}
+
+function useFitScale(target: React.RefObject<HTMLElement | null>, width: number, max = 1) {
+  const [scale, setScale] = useState(1);
+  useEffect(() => {
+    const el = target.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([e]) => setScale(Math.min(max, e.contentRect.width / width)));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [target, width, max]);
+  return scale;
+}
+
+/* Renders a fixed-size component at a smaller size without reflowing its internals. */
+function Scaled({ k, w, h, children }: { k: number; w: number; h: number; children: React.ReactNode }) {
+  return (
+    <div style={{ width: w * k, height: h * k }} className="relative">
+      <div className="absolute left-0 top-0 origin-top-left" style={{ transform: `scale(${k})` }}>{children}</div>
+    </div>
+  );
+}
+
 /* ------------------------------------------------------------- stage */
 
 function Layer({ children, x, y, depth, mx, my, className = "" }: { children: React.ReactNode; x: number; y: number; depth: number; mx: MotionValue<number>; my: MotionValue<number>; className?: string }) {
@@ -427,29 +463,9 @@ function Layer({ children, x, y, depth, mx, my, className = "" }: { children: Re
 
 export function HeroStage() {
   const wrap = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(1);
-  const inView = useInView(wrap, { amount: 0.2 });
-  const reduce = useReducedMotion();
+  const scale = useFitScale(wrap, W);
   const canHover = useSyncExternalStore(subscribeHover, getHover, () => false);
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    const el = wrap.current;
-    if (!el) return;
-    const ro = new ResizeObserver(([e]) => setScale(Math.min(1, e.contentRect.width / W)));
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (reduce || !inView) return;
-    const id = setInterval(() => setCount((c) => c + 1), TICK);
-    return () => clearInterval(id);
-  }, [reduce, inView]);
-
-  const loop = Math.floor(count / LOOP);
-  const t = reduce ? FINAL : count % LOOP;
-  const held = !reduce && loop % 2 === 1;
+  const { t, held, loop, reduce } = useStageClock(wrap);
 
   // mouse parallax + scroll-driven flatten
   const mx = useSpring(useMotionValue(0), { stiffness: 90, damping: 20 });
@@ -506,6 +522,89 @@ export function HeroStage() {
           </Layer>
         </motion.div>
       </motion.div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------- mobile */
+
+function CompactOffice({ t, held }: { t: number; held: boolean }) {
+  const arrived = t >= 8;
+  const checked = t >= 13;
+  const fields = [
+    { at: 9, k: "Customer", v: "Northline Supply" },
+    { at: 10, k: "Note no.", v: "004417" },
+    { at: 12, k: "Net mass", v: held ? "26 980 kg" : "28 460 kg" },
+  ];
+  const status = !arrived ? { label: "Waiting", cls: "bg-[#F0F0F0] text-[#99A1AF]" } : !checked ? { label: "Reading", cls: "bg-[#F0F0F0] text-[#4A5565]" } : held ? { label: "Needs a look", cls: "bg-[#FEF3C7] text-[#92400E]" } : { label: "Ready to invoice", cls: "bg-[#EAF8E6] text-[#1D6B2B]" };
+  return (
+    <div className="w-[300px] rounded-[14px] bg-white border border-[#E5E7EB] shadow-[0_40px_70px_-30px_rgba(16,24,40,0.35),0_16px_32px_-18px_rgba(16,24,40,0.18)] overflow-hidden text-[12px]">
+      <div className="h-[40px] px-3.5 flex items-center justify-between border-b border-[#E5E7EB] bg-[#FCFCFC]">
+        <span className="font-semibold text-[#101828]">Office <span className="font-normal text-[#99A1AF]">/ Load 2417</span></span>
+        <span className={`px-1.5 py-0.5 rounded-[4px] text-[10.5px] font-semibold ${status.cls}`}>{status.label}</span>
+      </div>
+      <div className="p-3 flex gap-3 bg-[#FCFCFC]">
+        <div className="flex-shrink-0">
+          <DeliveryNote t={t} held={held} scanning={t >= 8 && t < 13} width={118} tilt={-1.5} />
+        </div>
+        <div className="flex-1 min-w-0 flex flex-col gap-1.5">
+          {fields.map((f) => (
+            <div key={f.k} className="rounded-[7px] border border-[#E5E7EB] bg-white px-2 py-1.5">
+              <p className="text-[9.5px] text-[#6A7282]">{f.k}</p>
+              <div className="h-[15px] flex items-center justify-between gap-1">
+                {t >= f.at ? (
+                  <motion.span initial={{ opacity: 0, x: 4 }} animate={{ opacity: 1, x: 0 }} className={`text-[11.5px] font-semibold tabular-nums truncate ${f.k === "Net mass" && held && checked ? "text-[#92400E]" : "text-[#101828]"}`}>{f.v}</motion.span>
+                ) : (
+                  <span className="block h-1.5 w-14 rounded-[2px] bg-[#F0F0F0]" />
+                )}
+                {t >= f.at && <Check className={`w-3 h-3 flex-shrink-0 ${f.k === "Net mass" && held && checked ? "text-[#D97706]" : "text-[#1D6B2B]"}`} />}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className={`mx-3 mb-3 rounded-[8px] px-2.5 py-2 text-[11px] font-semibold leading-snug transition-colors duration-300 ${!checked ? "bg-[#F5F5F5] text-[#6A7282]" : held ? "bg-[#FEF3C7] text-[#92400E]" : "bg-[#EAF8E6] text-[#1D6B2B]"}`}>
+        {!arrived ? "Waiting for the next load" : !checked ? "Reading 3 pages…" : held ? "Weights disagree. Held for a person to check." : "28 460 kg on every page. Filed."}
+      </div>
+    </div>
+  );
+}
+
+const MW = 360;
+const MH = 560;
+
+export function HeroStageMobile() {
+  const wrap = useRef<HTMLDivElement>(null);
+  const scale = useFitScale(wrap, MW, 1.25);
+  const { t, held, loop } = useStageClock(wrap);
+  return (
+    <div
+      ref={wrap}
+      className="relative w-full"
+      style={{ height: MH * scale }}
+      role="img"
+      aria-label="Animated example: a driver photographs a delivery note with no signal, it sends itself later, the office system reads the fields, checks the weights and creates a draft invoice, or holds it when the weights disagree."
+    >
+      <div className="absolute left-1/2 top-0 origin-top" style={{ width: MW, height: MH, transform: `translateX(-50%) scale(${scale})` }}>
+        <div aria-hidden className="absolute left-[10%] right-[10%] bottom-[-10px] h-[50px] rounded-[50%] bg-[#101828]/10 blur-2xl" />
+        <div className="absolute" style={{ left: 30, top: 0 }}>
+          <CompactOffice t={t} held={held} />
+        </div>
+        <svg aria-hidden className="absolute inset-0 w-full h-full overflow-visible pointer-events-none" viewBox={`0 0 ${MW} ${MH}`}>
+          <defs>
+            <linearGradient id="grad-ma" x1="0" x2="0" y1="1" y2="0"><stop offset="0" stopColor="#99E58C" stopOpacity="0" /><stop offset="1" stopColor="#1D6B2B" /></linearGradient>
+            <linearGradient id="grad-mb" x1="0" x2="1"><stop offset="0" stopColor="#99E58C" stopOpacity="0" /><stop offset="1" stopColor="#1D6B2B" /></linearGradient>
+          </defs>
+          <Beam id={`ma-${loop}`} d="M 70 300 C 70 270, 26 240, 30 180" fire={t >= 7 && t < 10} />
+          <Beam id={`mb-${loop}`} d="M 300 300 C 300 330, 300 350, 300 372" fire={t >= 13 && t < 16} />
+        </svg>
+        <div className="absolute" style={{ left: 0, top: 262 }}>
+          <Scaled k={0.62} w={230} h={456}><Phone t={t} /></Scaled>
+        </div>
+        <div className="absolute" style={{ left: 158, top: 340 }}>
+          <Scaled k={0.77} w={262} h={250}><Invoice t={t} held={held} /></Scaled>
+        </div>
+      </div>
     </div>
   );
 }

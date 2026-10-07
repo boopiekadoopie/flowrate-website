@@ -28,13 +28,15 @@ function Typed({ text, start, now, speed = 95 }: { text: string; start: number; 
 }
 
 function Cell({ i, active, place, by, children }: { i: number; active: boolean; place: string; by: string; children: React.ReactNode }) {
+  // Phones: 2×2 grid so the whole story fits one screen. Desktop: one row of four.
+  const edges = `${i % 2 === 0 ? "border-r" : ""} ${i < 2 ? "border-b" : ""} lg:border-b-0 ${i < 3 ? "lg:border-r" : "lg:border-r-0"}`;
   return (
-    <div className={`relative flex flex-col p-5 sm:p-6 border-line border-b lg:border-b-0 lg:border-r last:border-0 transition-colors duration-500 ${active ? "bg-paper" : ""}`}>
-      <p className="text-heading text-[15px] font-semibold">
-        <span className="text-faint tabular-nums mr-2">{i + 1}</span>
+    <div className={`relative flex flex-col p-3 sm:p-6 border-line ${edges} transition-colors duration-500 ${active ? "bg-paper" : ""}`}>
+      <p className="text-heading text-[13px] sm:text-[15px] font-semibold leading-tight">
+        <span className="text-faint tabular-nums mr-1.5 sm:mr-2">{i + 1}</span>
         {place}
       </p>
-      <p className="text-[13px] text-muted mt-0.5 mb-5">{by}</p>
+      <p className="text-[11px] sm:text-[13px] text-muted mt-0.5 mb-3 sm:mb-5 leading-snug">{by}</p>
       <div className="flex-1 flex items-start">{children}</div>
     </div>
   );
@@ -72,7 +74,7 @@ export function Problem() {
             <motion.div className="h-full bg-heading origin-left" animate={{ scaleX: rail }} transition={{ duration: 0.6, ease }} />
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4">
             <Cell i={0} active={stage === 0} place="WhatsApp group" by="The driver sends a photo">
               <AnimatePresence>
                 {t >= T.photo && (
@@ -80,16 +82,16 @@ export function Problem() {
                     initial={{ opacity: 0, y: 10, scale: 0.97 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ duration: 0.45, ease }}
-                    className="w-full max-w-[230px] rounded-[10px] rounded-tl-[3px] bg-paper border border-line p-2 shadow-[0_1px_2px_rgba(0,0,0,0.06)]"
+                    className="w-full max-w-[230px] rounded-[10px] rounded-tl-[3px] bg-paper border border-line p-1.5 sm:p-2 shadow-[0_1px_2px_rgba(0,0,0,0.06)]"
                   >
-                    <div className="rounded-[6px] bg-[#F4F4F2] p-3 flex flex-col gap-1.5">
+                    <div className="rounded-[6px] bg-[#F4F4F2] p-2 sm:p-3 flex flex-col gap-1.5">
                       <span className="h-1.5 w-12 bg-heading/60 rounded-[2px]" />
                       <span className="h-1 w-full bg-heading/15 rounded-[2px]" />
                       <span className="h-1 w-4/5 bg-heading/15 rounded-[2px]" />
-                      <span className="mt-1.5 text-[13px] font-semibold text-heading tabular-nums">Net 28,460 kg</span>
+                      <span className="mt-1 sm:mt-1.5 text-[12px] sm:text-[13px] font-semibold text-heading tabular-nums">Net 28,460 kg</span>
                     </div>
-                    <p className="text-[11px] text-muted mt-1.5 px-1 flex justify-between">
-                      <span>Photo from driver</span>
+                    <p className="text-[10px] sm:text-[11px] text-muted mt-1.5 px-1 flex justify-between">
+                      <span>From driver</span>
                       <span className="tabular-nums">17:42</span>
                     </p>
                   </motion.div>
@@ -98,16 +100,16 @@ export function Problem() {
             </Cell>
 
             <Cell i={1} active={stage === 1} place="Spreadsheet" by="Someone types it in">
-              <div className="w-full max-w-[240px] rounded-[6px] border border-line bg-paper overflow-hidden text-[13px] tabular-nums">
+              <div className="w-full max-w-[240px] rounded-[6px] border border-line bg-paper overflow-hidden text-[11.5px] sm:text-[13px] tabular-nums">
                 {[["2415", "27,900"], ["2416", "29,120"]].map(([load, kg]) => (
                   <div key={load} className="grid grid-cols-[1fr_1.2fr] border-b border-line">
-                    <span className="px-2.5 py-1.5 border-r border-line text-muted">{load}</span>
-                    <span className="px-2.5 py-1.5 text-body">{kg}</span>
+                    <span className="px-2 sm:px-2.5 py-1.5 border-r border-line text-muted">{load}</span>
+                    <span className="px-2 sm:px-2.5 py-1.5 text-body">{kg}</span>
                   </div>
                 ))}
                 <div className="grid grid-cols-[1fr_1.2fr]">
-                  <span className="px-2.5 py-1.5 border-r border-line text-muted">2417</span>
-                  <span className={`px-2.5 py-1.5 font-semibold text-heading transition-[outline-color] duration-200 outline outline-[1.5px] -outline-offset-[1.5px] ${stage === 1 ? "outline-heading" : "outline-transparent"}`}>
+                  <span className="px-2 sm:px-2.5 py-1.5 border-r border-line text-muted">2417</span>
+                  <span className={`px-2 sm:px-2.5 py-1.5 font-semibold text-heading transition-[outline-color] duration-200 outline outline-[1.5px] -outline-offset-[1.5px] ${stage === 1 ? "outline-heading" : "outline-transparent"}`}>
                     <Typed text="28,460" start={T.sheet + 300} now={t} />
                   </span>
                 </div>
@@ -116,7 +118,7 @@ export function Problem() {
 
             <Cell i={2} active={stage === 2} place="Accounts" by="Someone types it in again">
               <div className="w-full max-w-[240px]">
-                <div className="rounded-[6px] border border-line bg-paper px-3 py-2.5 text-[13px]">
+                <div className="rounded-[6px] border border-line bg-paper px-2 sm:px-3 py-2 sm:py-2.5 text-[11.5px] sm:text-[13px]">
                   <div className="flex justify-between text-muted mb-1">
                     <span>Line item</span>
                     <span>Qty</span>
@@ -135,7 +137,7 @@ export function Problem() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.35, ease }}
-                      className="mt-2 ml-auto w-fit rounded-[5px] bg-hold-bg text-hold text-[12px] font-semibold px-2 py-1"
+                      className="mt-2 ml-auto w-fit rounded-[5px] bg-hold-bg text-hold text-[11px] sm:text-[12px] font-semibold px-2 py-1"
                     >
                       4 and 6 swapped
                     </motion.p>
@@ -146,10 +148,10 @@ export function Problem() {
 
             <Cell i={3} active={stage === 3} place="Invoice" by="Built from the accounts">
               <div className="w-full max-w-[240px]">
-                <div className="rounded-[6px] border border-line bg-paper px-3 py-2.5 text-[13px]">
+                <div className="rounded-[6px] border border-line bg-paper px-2 sm:px-3 py-2 sm:py-2.5 text-[11.5px] sm:text-[13px]">
                   <p className="text-heading font-semibold mb-1 flex justify-between">
                     Sent to customer
-                    {t >= T.invoice && <span className="text-[11px] font-normal text-muted">just now</span>}
+                    {t >= T.invoice && <span className="hidden sm:inline text-[11px] font-normal text-muted">just now</span>}
                   </p>
                   <p className="text-body tabular-nums">
                     Billed on{" "}
@@ -165,9 +167,9 @@ export function Problem() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.4, ease }}
-                      className="mt-2 text-[13px] leading-snug text-hold"
+                      className="mt-2 text-[11.5px] sm:text-[13px] leading-snug text-hold"
                     >
-                      180 kg billed that never moved. It surfaces when the customer queries the invoice.
+                      180 kg billed that never moved. It surfaces when the customer queries it.
                     </motion.p>
                   )}
                 </AnimatePresence>

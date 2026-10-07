@@ -2,10 +2,41 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+const CALENDLY_URL = "https://calendly.com/flowrate/30min";
+
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
 const GREETING =
   "Hi, I'm Flowrate's AI assistant. Ask me about the systems we build, how a project works, or how to get started.";
+
+/* Turn URLs and email addresses in a reply into real links that wrap inside the bubble. */
+const LINK_RE = /(https?:\/\/[^\s]+|[\w.+-]+@[\w-]+\.[\w.]+)/g;
+const BOOKING = "calendly.com/flowrate";
+
+function Rich({ text, dark = false }: { text: string; dark?: boolean }) {
+  const parts = text.split(LINK_RE);
+  const linkCls = dark ? "text-white underline underline-offset-2" : "text-heading font-semibold underline underline-offset-2 decoration-line-strong hover:decoration-heading";
+  return (
+    <>
+      {parts.map((part, i) => {
+        if (i % 2 === 0) return <span key={i}>{part}</span>;
+        const trail = part.match(/[.,!?;:)]+$/)?.[0] ?? "";
+        const core = trail ? part.slice(0, -trail.length) : part;
+        const isMail = !core.startsWith("http");
+        const href = isMail ? `mailto:${core}` : core;
+        const label = isMail ? core : core.replace(/^https?:\/\//, "").replace(/\/$/, "");
+        return (
+          <span key={i}>
+            <a href={href} {...(isMail ? {} : { target: "_blank", rel: "noopener noreferrer" })} className={`${linkCls} [overflow-wrap:anywhere]`}>
+              {label}
+            </a>
+            {trail}
+          </span>
+        );
+      })}
+    </>
+  );
+}
 
 function Avatar({ size = "w-7 h-7" }: { size?: string }) {
   return (
@@ -116,14 +147,24 @@ export function ChatWidget() {
                 m.role === "assistant" ? (
                   <div key={i} className="flex items-start gap-2.5">
                     <Avatar />
-                    <div className="bg-paper border border-line rounded-lg rounded-tl-sm px-4 py-3 max-w-[220px]">
-                      <p className="text-heading text-sm leading-relaxed whitespace-pre-wrap">{m.content}</p>
+                    <div className="bg-paper border border-line rounded-lg rounded-tl-sm px-4 py-3 max-w-[248px] min-w-0">
+                      <p className="text-heading text-sm leading-relaxed whitespace-pre-wrap [overflow-wrap:anywhere]"><Rich text={m.content} /></p>
+                      {m.content.includes(BOOKING) && (
+                        <a
+                          href={CALENDLY_URL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-3 flex items-center justify-center gap-1.5 rounded-lg bg-green text-[#0C1A0D] text-[12px] font-bold uppercase tracking-[0.025em] px-3 py-2.5 hover:bg-green-light transition-colors"
+                        >
+                          Book a free call
+                        </a>
+                      )}
                     </div>
                   </div>
                 ) : (
                   <div key={i} className="flex justify-end">
-                    <div className="bg-carbon rounded-lg rounded-tr-sm px-4 py-3 max-w-[220px]">
-                      <p className="text-white text-sm font-medium whitespace-pre-wrap">{m.content}</p>
+                    <div className="bg-carbon rounded-lg rounded-tr-sm px-4 py-3 max-w-[248px]">
+                      <p className="text-white text-sm font-medium whitespace-pre-wrap [overflow-wrap:anywhere]"><Rich text={m.content} dark /></p>
                     </div>
                   </div>
                 ),

@@ -143,29 +143,111 @@ function Desktop() {
   );
 }
 
+/*
+ * Phone version: the same story, stacked to fit one screen. Six scattered sources sit in a
+ * tray, six wires drop into the core, four wires fan out to what the business gets.
+ * Geometry shares one 350×470 space between the SVG and the HTML.
+ */
+const MW = 350;
+const MH = 446;
+const M_CORE = { x: 105, y: 186, w: 140, h: 76 };
+const M_TRAY_BOTTOM = 112;
+const M_OUT_Y = 360;
+const mInX = inputs.map((_, i) => 30 + i * 58);
+const mOutX = outputs.map((_, i) => 44 + i * 87.3);
+const mInPaths = mInX.map((x, i) => {
+  const tx = M_CORE.x + 20 + (i * (M_CORE.w - 40)) / (inputs.length - 1);
+  return `M ${x} ${M_TRAY_BOTTOM} C ${x} ${M_TRAY_BOTTOM + 44}, ${tx} ${M_CORE.y - 36}, ${tx} ${M_CORE.y}`;
+});
+const mOutPaths = mOutX.map((x, i) => {
+  const sx = M_CORE.x + 26 + (i * (M_CORE.w - 52)) / (outputs.length - 1);
+  const by = M_CORE.y + M_CORE.h;
+  return `M ${sx} ${by} C ${sx} ${by + 40}, ${x} ${M_OUT_Y - 40}, ${x} ${M_OUT_Y}`;
+});
+const SHORT = ["WhatsApp", "Spreadsheets", "Paper", "Email", "Calls", "Memory"];
+const mpct = (v: number, of: number) => `${(v / of) * 100}%`;
+
 function Mobile() {
+  const reduce = useReducedMotion();
   return (
-    <div className="md:hidden flex flex-col items-stretch gap-3">
-      <div className="flex flex-wrap gap-2">
-        {inputs.map((it) => (
-          <span key={it.label} className="inline-flex items-center gap-2 rounded-lg border border-line bg-paper px-3 py-2 text-[14px] text-body">
-            <span className="text-faint"><Icon>{it.icon}</Icon></span>
-            {it.label}
-          </span>
+    <div className="md:hidden relative w-full max-w-[420px] mx-auto" style={{ aspectRatio: `${MW} / ${MH}` }}>
+      <svg viewBox={`0 0 ${MW} ${MH}`} className="absolute inset-0 w-full h-full overflow-visible" aria-hidden>
+        <defs>
+          <linearGradient id="streak-m" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2={MH}>
+            <stop offset="0" stopColor="#1D6B2B" />
+            <stop offset="1" stopColor="#1D6B2B" />
+          </linearGradient>
+        </defs>
+        {[...mInPaths, ...mOutPaths].map((d, i) => (
+          <motion.path
+            key={d}
+            d={d}
+            fill="none"
+            stroke={i < mInPaths.length ? "#D4D4D4" : "#101828"}
+            strokeWidth="1.2"
+            initial={{ pathLength: 0 }}
+            whileInView={{ pathLength: 1 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ delay: i < mInPaths.length ? 0.3 + 0.08 * i : 1 + 0.1 * (i - mInPaths.length), duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          />
+        ))}
+        {!reduce &&
+          mInPaths.map((d, i) => (
+            <motion.path key={`s${i}`} d={d} fill="none" stroke="url(#streak-m)" strokeWidth="2.4" strokeLinecap="round" pathLength={1} strokeDasharray="0.22 1"
+              initial={{ strokeDashoffset: 0.22 }} animate={{ strokeDashoffset: -1 }}
+              transition={{ delay: 1.4 + i * 0.35, duration: 1.2, ease: [0.4, 0, 0.2, 1], repeat: Infinity, repeatDelay: 2.4 }} />
+          ))}
+        {!reduce &&
+          mOutPaths.map((d, i) => (
+            <motion.path key={`t${i}`} d={d} fill="none" stroke="url(#streak-m)" strokeWidth="2.4" strokeLinecap="round" pathLength={1} strokeDasharray="0.25 1"
+              initial={{ strokeDashoffset: 0.25 }} animate={{ strokeDashoffset: -1 }}
+              transition={{ delay: 2.6 + i * 0.4, duration: 1, ease: [0.4, 0, 0.2, 1], repeat: Infinity, repeatDelay: 2.6 }} />
+          ))}
+      </svg>
+
+      {/* Tray of scattered sources */}
+      <div className="absolute inset-x-0 top-0 rounded-lg border border-line bg-paper p-2 grid grid-cols-3 gap-1.5" style={{ height: mpct(M_TRAY_BOTTOM, MH) }}>
+        {inputs.map((it, i) => (
+          <motion.div
+            key={it.label}
+            initial={{ opacity: 0, y: 6 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.06, duration: 0.4 }}
+            className="flex items-center justify-center rounded-[6px] bg-canvas px-1 min-w-0"
+          >
+            <span className="text-[12px] leading-tight text-body truncate">{SHORT[i]}</span>
+          </motion.div>
         ))}
       </div>
-      <span aria-hidden className="mx-auto h-8 w-px bg-line-strong" />
-      <div className="rounded-xl bg-carbon text-white text-center py-6">
-        <span className="font-display uppercase text-[17px]">Your system</span>
-        <p className="text-[12px] text-white/55 mt-1">Entered once</p>
-      </div>
-      <span aria-hidden className="mx-auto h-8 w-px bg-heading" />
-      <div className="grid grid-cols-2 gap-2">
-        {outputs.map((it) => (
-          <div key={it.label} className="rounded-lg border border-line bg-paper px-3 py-2.5">
-            <p className="text-[14px] font-semibold text-heading leading-tight">{it.label}</p>
-            <p className="text-[12px] text-muted leading-tight mt-0.5">{it.meta}</p>
-          </div>
+
+      {/* Core */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.92 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.8, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute rounded-xl bg-carbon text-white flex flex-col items-center justify-center shadow-[0_18px_36px_-14px_rgba(16,24,40,0.45)]"
+        style={{ left: mpct(M_CORE.x, MW), top: mpct(M_CORE.y, MH), width: mpct(M_CORE.w, MW), height: mpct(M_CORE.h, MH) }}
+      >
+        <span className="font-display uppercase text-[13px] leading-none tracking-[-0.01em]">Your system</span>
+        <span className="text-[11px] text-white/55 mt-1.5">Entered once</span>
+      </motion.div>
+
+      {/* What comes out */}
+      <div className="absolute inset-x-0 bottom-0 grid grid-cols-4 gap-1.5" style={{ top: mpct(M_OUT_Y, MH) }}>
+        {outputs.map((it, i) => (
+          <motion.div
+            key={it.label}
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 1.3 + i * 0.08, duration: 0.4 }}
+            className="rounded-lg border border-line bg-paper shadow-[0_1px_3px_rgba(0,0,0,0.08)] px-2 py-2 flex flex-col justify-between"
+          >
+            <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5 text-ok" aria-hidden><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            <p className="text-[12px] font-semibold text-heading leading-[1.15] mt-1.5">{it.label}</p>
+          </motion.div>
         ))}
       </div>
     </div>
@@ -184,7 +266,7 @@ export function Convergence() {
             come out the other side.
           </Lede>
         </div>
-        <div className="relative rounded-lg border border-line bg-[#fafafa] px-5 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-14">
+        <div className="relative rounded-lg border border-line bg-[#fafafa] px-3 py-5 sm:px-10 sm:py-12 lg:px-14 lg:py-14">
           <Desktop />
           <Mobile />
         </div>

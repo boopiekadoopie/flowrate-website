@@ -1,5 +1,20 @@
 "use client";
-import { motion, useReducedMotion } from "framer-motion";
+import { createContext, useContext, useRef } from "react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+
+/* Visibility is measured on the HTML frame (reliable on mobile Safari), then shared with the SVG parts. */
+const Shown = createContext(false);
+
+export function IsoFrame({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.3 });
+  const reduce = useReducedMotion();
+  return (
+    <div ref={ref} className={className}>
+      <Shown.Provider value={inView || !!reduce}>{children}</Shown.Provider>
+    </div>
+  );
+}
 
 /* Fine-line isometric drawings for the three build steps. Geometry is projected in code. */
 const C = Math.cos(Math.PI / 6);
@@ -22,11 +37,12 @@ function Box({ x, y, z, w, d, h, accent = false }: { x: number; y: number; z: nu
 }
 
 function Dashed({ from, to, delay }: { from: readonly [number, number]; to: readonly [number, number]; delay: number }) {
+  const show = useContext(Shown);
   return (
     <motion.line
       x1={from[0]} y1={from[1]} x2={to[0]} y2={to[1]}
       stroke="#99A1AF" strokeWidth="1" strokeDasharray="3 3"
-      initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+      initial={{ opacity: 0 }} animate={{ opacity: show ? 1 : 0 }}
       transition={{ delay, duration: 0.4 }}
     />
   );
@@ -34,11 +50,11 @@ function Dashed({ from, to, delay }: { from: readonly [number, number]; to: read
 
 function Drop({ children, delay, from = -18 }: { children: React.ReactNode; delay: number; from?: number }) {
   const reduce = useReducedMotion();
+  const show = useContext(Shown);
   return (
     <motion.g
       initial={reduce ? false : { opacity: 0, y: from }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
+      animate={show ? { opacity: 1, y: 0 } : { opacity: 0, y: from }}
       transition={{ delay, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
@@ -46,7 +62,7 @@ function Drop({ children, delay, from = -18 }: { children: React.ReactNode; dela
   );
 }
 
-const frame = "w-full h-auto overflow-visible";
+const frame = "w-full h-full max-h-[150px] overflow-visible";
 
 /* 1 — scattered pieces of the job, mapped and connected */
 export function IsoMap() {

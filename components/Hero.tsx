@@ -2,8 +2,7 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
 import { HeroBackdrop } from "./HeroBackdrop";
-import { SystemDemo } from "./SystemDemo";
-import { HeroStage } from "./HeroStage";
+import { HeroStage, HeroStageMobile } from "./HeroStage";
 import { Arrow, CALENDLY_URL } from "./ui";
 
 const builds = ["Admin systems", "Driver & field apps", "Reporting", "Websites"];
@@ -44,7 +43,7 @@ export function Hero() {
               See what we build
             </a>
           </div>
-          <ul className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-[14px] text-body" aria-label="What we build">
+          <ul className="mt-8 grid grid-cols-2 gap-x-4 gap-y-2 max-w-[320px] mx-auto sm:max-w-none sm:flex sm:flex-wrap sm:justify-center sm:gap-x-6 text-[14px] text-body" aria-label="What we build">
             {builds.map((b, i) => (
               <li key={b} className={i > 0 ? "sm:border-l sm:border-line-strong sm:pl-6" : ""}>
                 {b}
@@ -62,8 +61,8 @@ export function Hero() {
           <div className="hidden lg:block">
             <HeroStage />
           </div>
-          <div className="lg:hidden max-w-[560px] mx-auto">
-            <SystemDemo />
+          <div className="lg:hidden max-w-[460px] mx-auto">
+            <HeroStageMobile />
           </div>
         </motion.div>
 
