@@ -10,7 +10,7 @@ const builds = ["Admin systems", "Driver & field apps", "Reporting", "Websites"]
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   return (
-    <section ref={ref} className="relative overflow-hidden bg-paper pt-28 lg:pt-36 pb-16 lg:pb-24">
+    <section ref={ref} className="relative overflow-hidden bg-paper pt-44 lg:pt-36 pb-16 lg:pb-24">
       <HeroBackdrop sectionRef={ref} />
       {/* Ambient light and a fine grid that fades out: seamless, no frame */}
       {/* One soft wash of light behind the product. No grid, no shapes. */}

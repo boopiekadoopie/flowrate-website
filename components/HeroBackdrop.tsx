@@ -78,7 +78,7 @@ function Mail() {
   );
 }
 
-type Piece = { el: React.ReactNode; side: -1 | 1; x: string; y: number; depth: number; rot: number; dur: number };
+type Piece = { el: React.ReactNode; side: -1 | 1; x: string; y: number; depth: number; rot: number; dur: number; scale?: number; fade?: number };
 
 const PIECES: Piece[] = [
   { el: <DeliveryNote t={0} held={false} scanning={false} width={150} />, side: -1, x: "4%", y: 150, depth: 1, rot: -9, dur: 12 },
@@ -89,13 +89,21 @@ const PIECES: Piece[] = [
   { el: <Mail />, side: 1, x: "90%", y: 300, depth: 0.45, rot: 3, dur: 15 },
 ];
 
+/* Phones: fewer, smaller, softer pieces that peek in from the edges and stay clear of the copy. */
+const MOBILE_PIECES: Piece[] = [
+  { el: <DeliveryNote t={0} held={false} scanning={false} width={150} />, side: -1, x: "-3%", y: 50, depth: 0.85, rot: -11, dur: 12, scale: 0.46, fade: 0.9 },
+  { el: <Chat />, side: 1, x: "66%", y: 56, depth: 0.85, rot: 7, dur: 11, scale: 0.46, fade: 0.9 },
+  { el: <Sticky />, side: -1, x: "-6%", y: 708, depth: 0.7, rot: 8, dur: 10, scale: 0.55, fade: 0.85 },
+  { el: <Sheet />, side: 1, x: "74%", y: 714, depth: 0.6, rot: -5, dur: 13, scale: 0.5, fade: 0.75 },
+];
+
 function Floating({ p, mx, my, progress }: { p: Piece; mx: MotionValue<number>; my: MotionValue<number>; progress: MotionValue<number> }) {
   const reach = 160 * p.depth;
   const x = useTransform(() => mx.get() * 22 * p.depth + -p.side * progress.get() * reach);
   const y = useTransform(() => my.get() * 16 * p.depth + progress.get() * 220 * p.depth);
-  const opacity = useTransform(progress, [0, 0.55], [p.depth < 0.6 ? 0.6 : 1, 0]);
+  const opacity = useTransform(progress, [0, 0.55], [p.fade ?? (p.depth < 0.6 ? 0.6 : 1), 0]);
   const blur = (1 - p.depth) * 4;
-  const scale = 0.7 + p.depth * 0.3;
+  const scale = p.scale ?? 0.7 + p.depth * 0.3;
   return (
     <motion.div className="absolute" style={{ left: p.x, top: p.y, x, y, opacity }}>
       <div style={{ transform: `scale(${scale})`, filter: blur ? `blur(${blur.toFixed(1)}px)` : undefined }}>
@@ -126,10 +134,17 @@ export function HeroBackdrop({ sectionRef }: { sectionRef: React.RefObject<HTMLE
   }, [sectionRef, canHover, reduce, mx, my]);
 
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[900px] hidden lg:block">
-      {PIECES.map((p, i) => (
-        <Floating key={i} p={p} mx={mx} my={my} progress={progress} />
-      ))}
-    </div>
+    <>
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[900px] hidden lg:block">
+        {PIECES.map((p, i) => (
+          <Floating key={i} p={p} mx={mx} my={my} progress={progress} />
+        ))}
+      </div>
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[820px] lg:hidden">
+        {MOBILE_PIECES.map((p, i) => (
+          <Floating key={i} p={p} mx={mx} my={my} progress={progress} />
+        ))}
+      </div>
+    </>
   );
 }
