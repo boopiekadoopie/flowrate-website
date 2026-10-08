@@ -53,7 +53,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${jakarta.variable} ${archivo.variable} scroll-smooth`}>
+    <html lang="en" className={`${jakarta.variable} ${archivo.variable} scroll-smooth`} suppressHydrationWarning>
+      <head>
+        {/* Apply the saved (or device) theme before first paint, so there is no light flash. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.dataset.theme=t}catch(e){}})()`,
+          }}
+        />
+      </head>
       <body className="antialiased">{children}</body>
     </html>
   );

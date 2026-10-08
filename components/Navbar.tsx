@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { ThemeToggle } from "./ThemeToggle";
 
 const CALENDLY_URL = "https://calendly.com/flowrate/30min";
 
@@ -47,7 +48,7 @@ export function Navbar() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className={`fixed top-0 inset-x-0 z-50 bg-white/90 backdrop-blur-md border-b border-[#e5e7eb] transition-shadow duration-300 ${
+      className={`fixed top-0 inset-x-0 z-50 bg-paper/90 backdrop-blur-md border-b border-line transition-shadow duration-300 ${
         scrolled ? "shadow-[0_1px_3px_rgba(0,0,0,0.06)]" : ""
       }`}
     >
@@ -64,13 +65,16 @@ export function Navbar() {
               className="h-11 w-auto drop-shadow-[0_4px_8px_rgba(16,24,40,0.18)]"
             />
           </Link>
+          <div className="flex items-center gap-1">
+          <ThemeToggle compact />
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="p-2 -mr-2 text-[#364153] hover:text-[#101828] transition-colors cursor-pointer"
+            className="p-2 -mr-2 text-body hover:text-heading transition-colors cursor-pointer"
             aria-label="Toggle menu"
           >
             <HamburgerIcon open={menuOpen} />
           </button>
+          </div>
         </div>
 
         {/* Desktop bar: links / centered mascot / contact cluster */}
@@ -81,7 +85,7 @@ export function Navbar() {
                 key={l.label}
                 href={l.href}
                 className={`inline-flex items-center gap-1 text-[14px] font-semibold transition-colors duration-200 ${
-                  l.active ? "text-[#101828]" : "text-[#4a5565] hover:text-[#101828]"
+                  l.active ? "text-heading" : "text-body hover:text-heading"
                 }`}
               >
                 {l.label}
@@ -102,9 +106,10 @@ export function Navbar() {
           </Link>
 
           <div className="flex items-center gap-6 justify-end">
+            <ThemeToggle />
             <a
               href="#contact"
-              className="text-[14px] font-semibold text-[#4a5565] hover:text-[#101828] transition-colors duration-200"
+              className="text-[14px] font-semibold text-body hover:text-heading transition-colors duration-200"
             >
               Contact
             </a>
@@ -125,7 +130,7 @@ export function Navbar() {
         <motion.div
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="lg:hidden bg-white border-t border-[#e5e7eb] px-6 py-6 flex flex-col gap-4"
+          className="lg:hidden bg-paper border-t border-line px-6 py-6 flex flex-col gap-4"
         >
           {leftLinks.map((l) => (
             <a
@@ -133,7 +138,7 @@ export function Navbar() {
               href={l.href}
               onClick={() => setMenuOpen(false)}
               className={`text-base font-medium transition-colors py-1 ${
-                l.active ? "text-[#101828]" : "text-[#4a5565] hover:text-[#101828]"
+                l.active ? "text-heading" : "text-body hover:text-heading"
               }`}
             >
               {l.label}
@@ -142,7 +147,7 @@ export function Navbar() {
           <a
             href="#contact"
             onClick={() => setMenuOpen(false)}
-            className="text-[#4a5565] text-base font-medium hover:text-[#101828] transition-colors py-1"
+            className="text-body text-base font-medium hover:text-[#101828] transition-colors py-1"
           >
             Contact
           </a>

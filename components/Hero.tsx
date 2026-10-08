@@ -38,7 +38,7 @@ export function Hero() {
             </a>
             <a
               href="#services"
-              className="inline-flex items-center justify-center gap-2 bg-carbon text-white font-bold uppercase tracking-[0.025em] text-[14px] px-7 py-4 rounded-lg hover:bg-black active:scale-[0.98] transition-[background-color,transform] duration-150"
+              className="inline-flex items-center justify-center gap-2 bg-carbon text-white dark:bg-white dark:text-[#101828] dark:hover:bg-white/90 font-bold uppercase tracking-[0.025em] text-[14px] px-7 py-4 rounded-lg hover:bg-black active:scale-[0.98] transition-[background-color,transform] duration-150"
             >
               See what we build
             </a>

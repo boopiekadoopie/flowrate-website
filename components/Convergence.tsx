@@ -266,7 +266,7 @@ export function Convergence() {
             come out the other side.
           </Lede>
         </div>
-        <div className="relative rounded-lg border border-line bg-[#fafafa] px-3 py-5 sm:px-10 sm:py-12 lg:px-14 lg:py-14">
+        <div className="relative rounded-lg border border-line bg-soft px-3 py-5 sm:px-10 sm:py-12 lg:px-14 lg:py-14">
           <Desktop />
           <Mobile />
         </div>

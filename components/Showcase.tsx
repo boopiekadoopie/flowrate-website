@@ -29,7 +29,7 @@ function AdminScreen() {
   ];
   return (
     <div className="h-full flex text-[12px]">
-      <aside className="hidden sm:flex w-[150px] flex-col gap-1 border-r border-line bg-[#fafafa] p-3">
+      <aside className="hidden sm:flex w-[150px] flex-col gap-1 border-r border-line bg-soft p-3">
         {["Jobs", "Customers", "Invoices", "Reports", "Settings"].map((n, i) => (
           <span key={n} className={`px-2.5 py-1.5 rounded-[6px] ${i === 0 ? "bg-paper border border-line font-semibold text-heading" : "text-muted"}`}>{n}</span>
         ))}
@@ -45,7 +45,7 @@ function AdminScreen() {
           ))}
         </div>
         <div className="rounded-lg border border-line overflow-hidden bg-paper">
-          <div className="grid grid-cols-[56px_1fr_auto] gap-3 px-3 py-2 bg-[#fafafa] border-b border-line text-[11px] text-muted">
+          <div className="grid grid-cols-[56px_1fr_auto] gap-3 px-3 py-2 bg-soft border-b border-line text-[11px] text-muted">
             <span>Job</span><span>Customer</span><span>Status</span>
           </div>
           {rows.map((r, i) => (
@@ -199,7 +199,7 @@ function WebScreen() {
     <div className="relative h-full p-4 sm:p-5 bg-[linear-gradient(180deg,#FAFAFA,#F3F4F6)] text-[11px]">
       {/* Example client website */}
       <div className="absolute left-4 sm:left-5 top-4 sm:top-5 right-4 sm:right-[204px] bottom-4 sm:bottom-5 rounded-lg border border-line bg-paper overflow-hidden shadow-[0_20px_40px_-24px_rgba(16,24,40,0.35)] flex flex-col">
-        <div className="h-7 flex items-center px-3 border-b border-line bg-[#fafafa] flex-shrink-0">
+        <div className="h-7 flex items-center px-3 border-b border-line bg-soft flex-shrink-0">
           <span className="mx-auto w-[46%] h-4 rounded-[4px] bg-paper border border-line text-[9px] text-faint flex items-center justify-center">kestrelhaulage.com</span>
         </div>
         <div className="flex items-center justify-between px-5 h-11 border-b border-line flex-shrink-0">
@@ -264,7 +264,7 @@ function WebScreen() {
         </div>
 
         {/* quote form strip */}
-        <div className="border-t border-line bg-[#fafafa] px-5 py-3 flex items-end gap-2 flex-shrink-0">
+        <div className="border-t border-line bg-soft px-5 py-3 flex items-end gap-2 flex-shrink-0">
           <div className="flex-1 min-w-0">
             <p className="text-[9px] text-muted mb-1">Tell us what you need moved</p>
             <div className="h-7 rounded-[5px] border border-line bg-paper px-2 flex items-center text-heading truncate">
@@ -398,7 +398,7 @@ export function Showcase() {
 
           <div>
             <p className="lg:hidden text-[15px] leading-[1.55] text-body mb-4">{tabs[active].desc}</p>
-            <div className="relative rounded-xl border border-line bg-paper shadow-[0_30px_60px_-30px_rgba(16,24,40,0.3)]">
+            <div data-theme="light" className="relative rounded-xl border border-line bg-paper text-heading shadow-[0_30px_60px_-30px_rgba(16,24,40,0.3)]">
               <div className="h-10 flex items-center justify-between px-4 border-b border-line">
                 <span className="text-[12px] text-muted">
                   <span className="text-heading font-semibold">Your system</span> / {tabs[active].path}

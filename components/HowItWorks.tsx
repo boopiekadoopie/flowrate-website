@@ -57,7 +57,7 @@ export function HowItWorks() {
               <div className="flex items-start justify-between gap-4">
                 <span className="font-display text-[48px] leading-none text-heading tabular-nums">{i + 1}</span>
               </div>
-              <IsoFrame className="my-6 h-[170px] flex items-center justify-center rounded-lg bg-[#fafafa] border border-line px-6">
+              <IsoFrame className="my-6 h-[170px] flex items-center justify-center rounded-lg bg-soft border border-line px-6">
                 <s.art />
               </IsoFrame>
               <h3 className="text-heading text-[20px] font-bold tracking-[-0.01em] mb-2.5">{s.title}</h3>

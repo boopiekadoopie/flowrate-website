@@ -68,7 +68,7 @@ export function Problem() {
           className="max-w-[1000px] text-heading font-semibold text-[28px] sm:text-[38px] xl:text-[46px] leading-[1.18] tracking-[-0.025em] mb-14 md:mb-20"
         />
 
-        <div ref={ref} className="relative rounded-lg border border-line bg-[#fafafa] overflow-hidden">
+        <div ref={ref} className="relative rounded-lg border border-line bg-soft overflow-hidden">
           {/* progress rail: how far the number has travelled */}
           <div className="absolute left-0 right-0 top-0 h-[2px] bg-line">
             <motion.div className="h-full bg-heading origin-left" animate={{ scaleX: rail }} transition={{ duration: 0.6, ease }} />

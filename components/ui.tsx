@@ -90,7 +90,7 @@ export function DarkButton({ href, children, className = "" }: { href: string; c
   return (
     <a
       href={href}
-      className={`inline-flex items-center justify-center gap-2 bg-carbon text-white font-bold uppercase tracking-[0.025em] text-[14px] px-6 py-4 rounded-lg hover:bg-black transition-colors ${className}`}
+      className={`inline-flex items-center justify-center gap-2 bg-carbon text-white dark:bg-white dark:text-[#101828] dark:hover:bg-white/90 font-bold uppercase tracking-[0.025em] text-[14px] px-6 py-4 rounded-lg hover:bg-black transition-colors ${className}`}
     >
       {children}
     </a>

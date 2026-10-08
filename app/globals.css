@@ -27,6 +27,7 @@
   --color-faint: #99A1AF;
   --color-line: #E5E7EB;
   --color-line-strong: #D4D4D4;
+  --color-soft: #FAFAFA;
   --color-carbon: #1F1F1F;
   --color-ok: #1D6B2B;
   --color-ok-bg: #EAF8E6;
@@ -41,11 +42,47 @@ html {
   font-size: 17px;
 }
 
+/* Tailwind `dark:` variant follows the site switch, not the OS. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* A product screen can pin itself to the light palette (data-theme="light") so it reads as a device
+   on the dark page instead of half-inverting. */
+[data-theme="light"] {
+  color-scheme: light;
+  --color-canvas: #F5F5F5;
+  --color-paper: #FFFFFF;
+  --color-soft: #FAFAFA;
+  --color-heading: #101828;
+  --color-body: #4A5565;
+  --color-muted: #6A7282;
+  --color-faint: #99A1AF;
+  --color-line: #E5E7EB;
+  --color-line-strong: #D4D4D4;
+  --color-carbon: #1F1F1F;
+}
+
+/* Dark theme: the same tokens, re-pointed. Product mockups keep their own light "screen"
+   colours on purpose, so they read as devices sitting on a dark page. */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --color-canvas: #0B0B0C;
+  --color-paper: #111113;
+  --color-soft: #161618;
+  --color-heading: #F4F4F5;
+  --color-body: #A1A1AA;
+  --color-muted: #8E8E96;
+  --color-faint: #6B6B73;
+  --color-line: #26262A;
+  --color-line-strong: #34343A;
+  --color-carbon: #1A1A1D;
+}
+
 body {
   overflow-x: clip;
   font-family: var(--font-jakarta), system-ui, -apple-system, sans-serif;
-  color: #0C1A0D;
-  background: #ffffff;
+  color: var(--color-heading);
+  background: var(--color-paper);
+  transition: background-color 0.25s ease, color 0.25s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

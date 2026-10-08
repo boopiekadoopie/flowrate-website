@@ -142,7 +142,7 @@ export function ChatWidget() {
             </div>
 
             {/* Messages area */}
-            <div ref={scrollRef} className="px-4 py-4 space-y-3 h-80 overflow-y-auto bg-[#fafafa]">
+            <div ref={scrollRef} className="px-4 py-4 space-y-3 h-80 overflow-y-auto bg-soft">
               {messages.map((m, i) =>
                 m.role === "assistant" ? (
                   <div key={i} className="flex items-start gap-2.5">
