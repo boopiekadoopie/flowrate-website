@@ -1,8 +1,10 @@
 "use client";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
 import type { ReactNode } from "react";
 import { siGmail, siGooglesheets, siWhatsapp, siXero, type SimpleIcon } from "simple-icons";
 import { Container, H2, Lede } from "./ui";
+
 
 /* Diagram geometry lives in one 1000×480 coordinate space shared by the SVG and the HTML chips. */
 const VW = 1000;
@@ -85,8 +87,35 @@ function Streak({ d, delay, dur }: { d: string; delay: number; dur: number }) {
   );
 }
 
+/*
+ * The core is the one inverted object in the diagram. Carbon on the light page; on the dark page
+ * carbon would sink into the canvas, so it flips to paper (the same inversion the dark button uses).
+ */
+const coreCls =
+  "absolute rounded-xl bg-carbon text-white dark:bg-white dark:text-[#101828] flex flex-col items-center justify-center text-center " +
+  "shadow-[0_24px_48px_-16px_rgba(16,24,40,0.45)] dark:shadow-[0_24px_56px_-12px_rgba(0,0,0,0.7)]";
+
+/* Inner hairline, a top-light sheen, and a slow breath that brightens the core each time a streak lands. */
+function CoreFinish({ reduce, period = 4.2 }: { reduce: boolean; period?: number }) {
+  return (
+    <>
+      <span className="absolute inset-0 rounded-xl bg-[linear-gradient(160deg,rgba(255,255,255,0.14),transparent_48%)] dark:bg-[linear-gradient(160deg,rgba(255,255,255,0.9),rgba(255,255,255,0)_55%),linear-gradient(340deg,rgba(16,24,40,0.08),transparent_50%)]" aria-hidden />
+      <span className="absolute inset-2 rounded-lg border border-white/10 dark:border-[#101828]/10" aria-hidden />
+      {!reduce && (
+        <motion.span
+          className="absolute inset-0 rounded-xl bg-[linear-gradient(160deg,rgba(255,255,255,0.22),transparent_60%)] dark:bg-[linear-gradient(160deg,rgba(29,107,43,0.12),transparent_60%)]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 0, 1, 0] }}
+          transition={{ delay: 1.4, duration: period, times: [0, 0.55, 0.72, 1], ease: "easeInOut", repeat: Infinity }}
+          aria-hidden
+        />
+      )}
+    </>
+  );
+}
+
 function Desktop() {
-  const reduce = useReducedMotion();
+  const reduce = useReduceAfterMount();
   return (
     <div className="relative hidden md:block w-full" style={{ aspectRatio: `${VW} / ${VH}` }}>
       <svg viewBox={`0 0 ${VW} ${VH}`} className="absolute inset-0 w-full h-full overflow-visible" aria-hidden>
@@ -134,13 +163,12 @@ function Desktop() {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ delay: 0.7, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute rounded-xl bg-carbon text-white flex flex-col items-center justify-center text-center shadow-[0_24px_48px_-16px_rgba(16,24,40,0.45)]"
+        className={coreCls}
         style={{ left: pct(CORE.x, VW), top: pct(CORE.y, VH), width: pct(CORE.w, VW), height: pct(CORE.h, VH) }}
       >
-        <span className="absolute inset-2 rounded-lg border border-white/10" aria-hidden />
-        <span className="absolute inset-0 rounded-xl bg-[linear-gradient(160deg,rgba(255,255,255,0.12),transparent_45%)]" aria-hidden />
-        <span className="font-display uppercase text-[15px] lg:text-[17px] leading-tight tracking-[-0.01em]">Your system</span>
-        <span className="text-[11px] lg:text-[12px] text-white/55 mt-1">Entered once</span>
+        <CoreFinish reduce={!!reduce} />
+        <span className="relative font-display uppercase text-[15px] lg:text-[17px] leading-tight tracking-[-0.01em]">Your system</span>
+        <span className="relative text-[11px] lg:text-[12px] text-white/55 dark:text-[#4A5565] mt-1">Entered once</span>
       </motion.div>
 
       {outputs.map((it, i) => (
@@ -188,7 +216,7 @@ const mOutPaths = mOutX.map((x, i) => {
 const mpct = (v: number, of: number) => `${(v / of) * 100}%`;
 
 function Mobile() {
-  const reduce = useReducedMotion();
+  const reduce = useReduceAfterMount();
   return (
     <div className="md:hidden relative w-full max-w-[420px] mx-auto" style={{ aspectRatio: `${MW} / ${MH}` }}>
       <svg viewBox={`0 0 ${MW} ${MH}`} className="absolute inset-0 w-full h-full overflow-visible" aria-hidden>
@@ -249,11 +277,12 @@ function Mobile() {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ delay: 0.8, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute rounded-xl bg-carbon text-white flex flex-col items-center justify-center shadow-[0_18px_36px_-14px_rgba(16,24,40,0.45)]"
+        className={coreCls}
         style={{ left: mpct(M_CORE.x, MW), top: mpct(M_CORE.y, MH), width: mpct(M_CORE.w, MW), height: mpct(M_CORE.h, MH) }}
       >
-        <span className="font-display uppercase text-[13px] leading-none tracking-[-0.01em]">Your system</span>
-        <span className="text-[11px] text-white/55 mt-1.5">Entered once</span>
+        <CoreFinish reduce={!!reduce} period={3.8} />
+        <span className="relative font-display uppercase text-[13px] leading-none tracking-[-0.01em]">Your system</span>
+        <span className="relative text-[11px] text-white/55 dark:text-[#4A5565] mt-1.5">Entered once</span>
       </motion.div>
 
       {/* What comes out */}

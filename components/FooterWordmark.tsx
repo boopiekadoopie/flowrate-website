@@ -1,5 +1,6 @@
 "use client";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
 
 /*
  * The sign-off: FLOWRATE set edge to edge across the bottom of the page, as a low-contrast
@@ -14,7 +15,7 @@ const INK_H = 712; // ascent 700 + descent 12
 const PAD_B = 16;
 
 export function FooterWordmark() {
-  const reduce = useReducedMotion();
+  const reduce = useReduceAfterMount();
   return (
     <div aria-hidden className="relative w-full overflow-hidden select-none pt-8 sm:pt-12">
       <motion.svg

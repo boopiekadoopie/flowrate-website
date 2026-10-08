@@ -56,7 +56,7 @@ export function About() {
             <Reveal delay={0.1} className="mt-9 flex flex-col sm:flex-row sm:items-end gap-7 sm:gap-10">
               <div>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/signature-white.png" alt="Andrew Murray's signature" className="w-36 h-auto invert mb-1" />
+                <img src="/signature-white.png" alt="Andrew Murray's signature" className="w-36 h-auto invert dark:invert-0 mb-1" />
                 <p className="text-heading font-bold text-[15px]">Andrew Murray</p>
                 <p className="text-muted text-[14px]">Founder, Flowrate</p>
               </div>

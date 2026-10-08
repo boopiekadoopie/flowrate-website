@@ -75,7 +75,8 @@ export function Mail() {
  */
 const pen: CSSProperties = { color: "#1E3A8A" };
 
-export function JobCard({ width = 150 }: { width?: number }) {
+/* `total` adds a filled-in total line (the Problem diagram follows that number); without it the card is unchanged. */
+export function JobCard({ width = 150, total }: { width?: number; total?: string }) {
   const field = (label: string, value: string, wide = false) => (
     <div className={`border-b border-[#B9BDC6] pb-[2px] ${wide ? "col-span-2" : ""}`}>
       <p className="text-[5.5px] uppercase tracking-[0.1em] text-[#8A8F99] leading-none">{label}</p>
@@ -98,6 +99,12 @@ export function JobCard({ width = 150 }: { width?: number }) {
         {field("Job", "Fridge not cooling — door seal", true)}
         {field("Parts", "Door seal × 1")}
         {field("Done by", "Sam")}
+        {total && (
+          <div className="col-span-2 flex items-baseline justify-between border-b border-[#B9BDC6] pb-[2px]">
+            <p className="text-[5.5px] uppercase tracking-[0.1em] text-[#8A8F99] leading-none">Total</p>
+            <p className="text-[10.5px] leading-none font-semibold tabular-nums" style={pen}>{total}</p>
+          </div>
+        )}
       </div>
       <div className="mt-2.5 grid grid-cols-[1fr_auto] items-end gap-2">
         <div className="border-b border-[#B9BDC6] pb-[2px]">

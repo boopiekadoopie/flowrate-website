@@ -1,22 +1,33 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
 import { Container } from "./ui";
 import { WordReveal } from "./WordReveal";
+import { JobCard } from "./Paperwork";
 
 /*
- * One number, followed hop by hop. It is retyped by hand at each step; at the accounts step two
- * digits swap, and the mistake rides all the way onto the customer's invoice.
+ * One number, followed hop by hop. A finished job card is photographed into the group chat, typed
+ * into a spreadsheet, typed again into the accounts (where two digits swap), and the mistake rides
+ * onto the customer's invoice until the customer spots it.
  * One clock (ms since the diagram came into view) drives every cell.
  */
 
+const subscribeNoop = () => () => {};
 const ease = [0.22, 1, 0.36, 1] as const;
-const LOOP_MS = 13000;
-const FINAL_MS = 9000;
-const T = { photo: 300, sheet: 1400, accounts: 3600, swap: 5300, invoice: 6200, cost: 7600 };
+const LOOP_MS = 14000;
+const FINAL_MS = 10000;
+const T = { photo: 300, sheet: 1500, accounts: 3700, swap: 5400, invoice: 6300, cost: 7600, query: 8800 };
+
+const RIGHT = "1,633.00";
+const WRONG = "1,363.00";
+const SWAP = [2, 3]; // the two digits that trade places
+
+function typedCount(text: string, start: number, now: number, speed: number) {
+  return Math.max(0, Math.min(text.length, Math.floor((now - start) / speed)));
+}
 
 function Typed({ text, start, now, speed = 95 }: { text: string; start: number; now: number; speed?: number }) {
-  const n = Math.max(0, Math.min(text.length, Math.floor((now - start) / speed)));
+  const n = typedCount(text, start, now, speed);
   const typing = now >= start && n < text.length;
   if (now < start) return <span className="text-faint">&nbsp;</span>;
   return (
@@ -24,6 +35,40 @@ function Typed({ text, start, now, speed = 95 }: { text: string; start: number; 
       {text.slice(0, n)}
       {typing && <span className="inline-block w-px h-[1em] bg-heading align-[-2px] ml-px" />}
     </span>
+  );
+}
+
+/* Typed amount whose two swapped digits light up (and hop) once the slip is pointed out. */
+function TypedDigits({ text, start, now, mark, speed = 95 }: { text: string; start: number; now: number; mark: boolean; speed?: number }) {
+  const n = typedCount(text, start, now, speed);
+  const typing = now >= start && n < text.length;
+  if (now < start) return <span className="text-faint">&nbsp;</span>;
+  return (
+    <span className="tabular-nums inline-flex items-baseline">
+      {text.slice(0, n).split("").map((ch, i) => {
+        const hot = mark && SWAP.includes(i);
+        return (
+          <motion.span
+            key={i}
+            animate={hot ? { y: [0, -3, 0] } : { y: 0 }}
+            transition={{ duration: 0.4, delay: i === SWAP[1] ? 0.08 : 0, ease }}
+            className={`inline-block transition-colors duration-300 ${hot ? "bg-hold-bg text-hold rounded-[3px] px-[1px] -mx-[1px] font-bold" : ""}`}
+          >
+            {ch}
+          </motion.span>
+        );
+      })}
+      {typing && <span className="inline-block w-px h-[1em] bg-heading align-[-2px] ml-px" />}
+    </span>
+  );
+}
+
+/* WhatsApp-style delivered ticks */
+function Ticks() {
+  return (
+    <svg viewBox="0 0 20 12" className="w-3.5 h-2.5 text-ok" aria-hidden>
+      <path d="M1 6.5l3 3L10 3M7 9.5l2 2L18 3" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 
@@ -45,20 +90,25 @@ function Cell({ i, active, place, by, children }: { i: number; active: boolean; 
 export function Problem() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.45 });
-  const reduce = useReducedMotion();
+  const prefersReduce = useReducedMotion();
+  // Server and first client render show the empty diagram; reduced-motion visitors jump to the
+  // finished state only after mount, so hydration never mismatches.
+  const mounted = useSyncExternalStore(subscribeNoop, () => true, () => false);
+  const reduce = !!prefersReduce && mounted;
   const [now, setNow] = useState(-1);
 
   useEffect(() => {
-    if (reduce || !inView) return;
+    if (prefersReduce || !inView) return;
     const t0 = performance.now();
     const id = setInterval(() => setNow((performance.now() - t0) % LOOP_MS), 50);
     return () => clearInterval(id);
-  }, [inView, reduce]);
+  }, [inView, prefersReduce]);
 
   const t = reduce ? FINAL_MS : now;
   const stage = t >= T.invoice ? 3 : t >= T.accounts ? 2 : t >= T.sheet ? 1 : t >= T.photo ? 0 : -1;
   const swapped = t >= T.swap;
   const rail = stage < 0 ? 0 : (stage + 1) / 4;
+  const sheetRows = [["2", "0416", "Mara’s Bakery", "2,310.00"], ["3", "0417", "Hill & Co", "1,980.00"]];
 
   return (
     <section id="problem" className="bg-paper py-20 md:py-28">
@@ -75,90 +125,128 @@ export function Problem() {
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4">
-            <Cell i={0} active={stage === 0} place="WhatsApp group" by="The driver sends a photo">
+            {/* 1 — the photo in the group chat */}
+            <Cell i={0} active={stage === 0} place="WhatsApp group" by="Someone on site sends a photo">
               <AnimatePresence>
                 {t >= T.photo && (
                   <motion.div
                     initial={{ opacity: 0, y: 10, scale: 0.97 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ duration: 0.45, ease }}
-                    className="w-full max-w-[230px] rounded-[10px] rounded-tl-[3px] bg-paper border border-line p-1.5 sm:p-2 shadow-[0_1px_2px_rgba(0,0,0,0.06)]"
+                    className="w-full max-w-[236px] rounded-[10px] rounded-tl-[3px] bg-paper border border-line p-1.5 sm:p-2 shadow-[0_1px_2px_rgba(0,0,0,0.06)]"
                   >
-                    <div className="rounded-[6px] bg-[#F4F4F2] p-2 sm:p-3 flex flex-col gap-1.5">
-                      <span className="h-1.5 w-12 bg-heading/60 rounded-[2px]" />
-                      <span className="h-1 w-full bg-heading/15 rounded-[2px]" />
-                      <span className="h-1 w-4/5 bg-heading/15 rounded-[2px]" />
-                      <span className="mt-1 sm:mt-1.5 text-[12px] sm:text-[13px] font-semibold text-heading tabular-nums">Net 28,460 kg</span>
+                    <p className="text-[10px] sm:text-[11px] font-semibold text-ok dark:text-[#6CCB5F] px-1 mb-1">Sam</p>
+                    {/* the "photo": the signed job card on the counter */}
+                    <div className="rounded-[6px] border border-line bg-canvas px-2 py-2.5 sm:px-3 sm:py-3 flex justify-center overflow-hidden">
+                      <div className="[zoom:0.84] sm:[zoom:1] rotate-[-2deg]">
+                        <JobCard width={150} total={RIGHT} />
+                      </div>
                     </div>
-                    <p className="text-[10px] sm:text-[11px] text-muted mt-1.5 px-1 flex justify-between">
-                      <span>From driver</span>
+                    <p className="text-[11px] sm:text-[12px] text-heading mt-1.5 px-1 leading-snug">Greenway done, card attached</p>
+                    <p className="text-[10px] sm:text-[11px] text-muted mt-0.5 px-1 flex items-center justify-end gap-1">
                       <span className="tabular-nums">17:42</span>
+                      <Ticks />
                     </p>
                   </motion.div>
                 )}
               </AnimatePresence>
             </Cell>
 
+            {/* 2 — typed into the sheet */}
             <Cell i={1} active={stage === 1} place="Spreadsheet" by="Someone types it in">
-              <div className="w-full max-w-[240px] rounded-[6px] border border-line bg-paper overflow-hidden text-[11.5px] sm:text-[13px] tabular-nums">
-                {[["2415", "27,900"], ["2416", "29,120"]].map(([load, kg]) => (
-                  <div key={load} className="grid grid-cols-[1fr_1.2fr] border-b border-line">
-                    <span className="px-2 sm:px-2.5 py-1.5 border-r border-line text-muted">{load}</span>
-                    <span className="px-2 sm:px-2.5 py-1.5 text-body">{kg}</span>
+              <div className="w-full max-w-[250px] rounded-[6px] border border-line bg-paper overflow-hidden text-[11px] sm:text-[12.5px] tabular-nums">
+                <div className="flex items-center border-b border-line text-[10px] sm:text-[11px]">
+                  <span className="px-2 py-1 border-r border-line text-muted w-9 shrink-0">C4</span>
+                  <span className="px-2 py-1 text-heading truncate"><Typed text={RIGHT} start={T.sheet + 300} now={t} /></span>
+                </div>
+                <div className="grid grid-cols-[18px_44px_1fr] sm:grid-cols-[22px_42px_1fr_1.1fr] bg-soft border-b border-line text-[9.5px] sm:text-[10px] text-muted">
+                  <span className="px-1 py-1 border-r border-line" />
+                  <span className="px-1.5 py-1 border-r border-line">A</span>
+                  <span className="hidden sm:block px-1.5 py-1 border-r border-line">B</span>
+                  <span className="px-1.5 py-1">C</span>
+                </div>
+                <div className="grid grid-cols-[18px_44px_1fr] sm:grid-cols-[22px_42px_1fr_1.1fr] border-b border-line text-[9.5px] sm:text-[10.5px] text-muted">
+                  <span className="px-1 py-1 border-r border-line text-center text-faint">1</span>
+                  <span className="px-1.5 py-1 border-r border-line">Job</span>
+                  <span className="hidden sm:block px-1.5 py-1 border-r border-line">Customer</span>
+                  <span className="px-1.5 py-1">Total</span>
+                </div>
+                {sheetRows.map(([r, job, who, amt]) => (
+                  <div key={job} className="grid grid-cols-[18px_44px_1fr] sm:grid-cols-[22px_42px_1fr_1.1fr] border-b border-line">
+                    <span className="px-1 py-1.5 border-r border-line text-center text-[9.5px] text-faint">{r}</span>
+                    <span className="px-1.5 py-1.5 border-r border-line text-muted">{job}</span>
+                    <span className="hidden sm:block px-1.5 py-1.5 border-r border-line text-body truncate">{who}</span>
+                    <span className="px-1.5 py-1.5 text-body">{amt}</span>
                   </div>
                 ))}
-                <div className="grid grid-cols-[1fr_1.2fr]">
-                  <span className="px-2 sm:px-2.5 py-1.5 border-r border-line text-muted">2417</span>
-                  <span className={`px-2 sm:px-2.5 py-1.5 font-semibold text-heading transition-[outline-color] duration-200 outline outline-[1.5px] -outline-offset-[1.5px] ${stage === 1 ? "outline-heading" : "outline-transparent"}`}>
-                    <Typed text="28,460" start={T.sheet + 300} now={t} />
+                <div className="grid grid-cols-[18px_44px_1fr] sm:grid-cols-[22px_42px_1fr_1.1fr]">
+                  <span className="px-1 py-1.5 border-r border-line text-center text-[9.5px] text-faint">4</span>
+                  <span className="px-1.5 py-1.5 border-r border-line text-muted">0418</span>
+                  <span className="hidden sm:block px-1.5 py-1.5 border-r border-line text-body truncate">Greenway</span>
+                  <span className={`px-1.5 py-1.5 font-semibold text-heading transition-[outline-color] duration-200 outline outline-[1.5px] -outline-offset-[1.5px] ${stage === 1 ? "outline-heading" : "outline-transparent"}`}>
+                    <Typed text={RIGHT} start={T.sheet + 300} now={t} />
                   </span>
                 </div>
               </div>
             </Cell>
 
-            <Cell i={2} active={stage === 2} place="Accounts" by="Someone types it in again">
-              <div className="w-full max-w-[240px]">
-                <div className="rounded-[6px] border border-line bg-paper px-2 sm:px-3 py-2 sm:py-2.5 text-[11.5px] sm:text-[13px]">
-                  <div className="flex justify-between text-muted mb-1">
-                    <span>Line item</span>
-                    <span>Qty</span>
+            {/* 3 — typed again into the accounts, two digits swap */}
+            <Cell i={2} active={stage === 2} place="Accounts" by="Typed in again, by hand">
+              <div className="w-full max-w-[250px]">
+                <div className="rounded-[6px] border border-line bg-paper overflow-hidden text-[11px] sm:text-[12.5px]">
+                  <div className="px-2.5 py-1.5 border-b border-line flex items-center justify-between text-[10px] sm:text-[11px]">
+                    <span className="font-semibold text-heading">New invoice</span>
+                    <span className="text-muted tabular-nums">INV-0193</span>
                   </div>
-                  <div className="flex justify-between text-heading font-semibold">
-                    <span>Load 2417</span>
-                    <span className={`rounded-[4px] px-1 -mx-1 transition-colors duration-300 ${swapped ? "bg-hold-bg text-hold" : ""}`}>
-                      <Typed text="28,640 kg" start={T.accounts + 300} now={t} />
-                    </span>
+                  <div className="px-2.5 py-2">
+                    <p className="text-[9.5px] sm:text-[10.5px] text-muted">Customer</p>
+                    <p className="text-heading font-medium leading-tight">Greenway Café</p>
+                    <div className="mt-2 flex justify-between text-[9.5px] sm:text-[10.5px] text-muted">
+                      <span>Line item</span>
+                      <span>Amount</span>
+                    </div>
+                    <div className="flex justify-between items-baseline text-heading font-semibold">
+                      <span>Job 0418</span>
+                      <TypedDigits text={WRONG} start={T.accounts + 300} now={t} mark={swapped} />
+                    </div>
                   </div>
                 </div>
                 <AnimatePresence>
                   {swapped && (
-                    <motion.p
+                    <motion.div
                       initial={{ opacity: 0, y: -4 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.35, ease }}
-                      className="mt-2 ml-auto w-fit rounded-[5px] bg-hold-bg text-hold text-[11px] sm:text-[12px] font-semibold px-2 py-1"
+                      className="mt-2 rounded-[6px] border border-hold/30 bg-hold-bg text-hold px-2 py-1.5 text-[10.5px] sm:text-[12px] leading-snug"
                     >
-                      4 and 6 swapped
-                    </motion.p>
+                      <p className="font-semibold">6 and 3 swapped</p>
+                      <p className="tabular-nums text-hold/80">On the card: {RIGHT}</p>
+                    </motion.div>
                   )}
                 </AnimatePresence>
               </div>
             </Cell>
 
-            <Cell i={3} active={stage === 3} place="Invoice" by="Built from the accounts">
-              <div className="w-full max-w-[240px]">
-                <div className="rounded-[6px] border border-line bg-paper px-2 sm:px-3 py-2 sm:py-2.5 text-[11.5px] sm:text-[13px]">
-                  <p className="text-heading font-semibold mb-1 flex justify-between">
-                    Sent to customer
-                    {t >= T.invoice && <span className="hidden sm:inline text-[11px] font-normal text-muted">just now</span>}
+            {/* 4 — the invoice goes out wrong */}
+            <Cell i={3} active={stage === 3} place="Invoice" by="Sent to the customer">
+              <div className="w-full max-w-[250px]">
+                <div className="rounded-[6px] border border-line bg-paper px-2.5 py-2 text-[11px] sm:text-[12.5px]">
+                  <p className="flex items-center justify-between">
+                    <span className="font-semibold text-heading">INV-0193</span>
+                    {t >= T.invoice && <span className="text-[10px] font-semibold text-ok dark:text-[#6CCB5F]">Sent</span>}
                   </p>
-                  <p className="text-body tabular-nums">
-                    Billed on{" "}
-                    <span className={`rounded-[4px] px-1 ${t >= T.invoice ? "bg-hold-bg text-hold font-semibold" : ""}`}>
-                      <Typed text="28,640 kg" start={T.invoice} now={t} speed={60} />
+                  <p className="text-[9.5px] sm:text-[10.5px] text-muted">To Greenway Café</p>
+                  <div className="mt-2 pt-1.5 border-t border-line flex justify-between text-body tabular-nums">
+                    <span>Job 0418</span>
+                    <span className={`rounded-[4px] px-1 -mx-1 ${t >= T.invoice ? "bg-hold-bg text-hold font-semibold" : ""}`}>
+                      <Typed text={WRONG} start={T.invoice} now={t} speed={60} />
                     </span>
-                  </p>
+                  </div>
+                  <div className="mt-1 flex justify-between font-semibold text-heading tabular-nums">
+                    <span>Total</span>
+                    <span className={t >= T.invoice + 500 ? "text-hold dark:text-[#E9A23B]" : ""}>{t >= T.invoice + 500 ? WRONG : ""}</span>
+                  </div>
                 </div>
                 <AnimatePresence>
                   {t >= T.cost && (
@@ -167,10 +255,23 @@ export function Problem() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.4, ease }}
-                      className="mt-2 text-[11.5px] sm:text-[13px] leading-snug text-hold"
+                      className="mt-2 text-[11px] sm:text-[12.5px] leading-snug text-hold dark:text-[#E9A23B] font-semibold"
                     >
-                      180 kg billed that never moved. It surfaces when the customer queries it.
+                      270.00 never billed, and nobody knows.
                     </motion.p>
+                  )}
+                </AnimatePresence>
+                <AnimatePresence>
+                  {t >= T.query && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8, scale: 0.97 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4, ease }}
+                      className="mt-2 rounded-[10px] rounded-tl-[3px] bg-paper border border-line px-2.5 py-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.06)]"
+                    >
+                      <p className="text-[11px] sm:text-[12px] text-heading leading-snug">Greenway Café won&apos;t point it out. Why would they?</p>
+                    </motion.div>
                   )}
                 </AnimatePresence>
               </div>

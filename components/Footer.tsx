@@ -52,7 +52,20 @@ export function Footer() {
       <div className="max-w-[1240px] mx-auto px-5 sm:px-8 pt-16 pb-2">
         <div className="grid grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] gap-x-8 gap-y-12 pb-14 border-b border-white/10">
           <div className="col-span-2 lg:col-span-1">
-            <Image src="/footer-logo.png" alt="Flowrate" width={900} height={571} className="h-20 w-auto mb-6" />
+            {/* Lock-up set in code: the mascot is the mark, the name in Archivo. No colour, like the rest of the footer. */}
+            <div data-logo className="flex items-center gap-4 mb-6 w-fit">
+              <Image
+                src="/mascot.png"
+                alt="Flowrate"
+                width={1002}
+                height={1530}
+                className="h-[72px] w-auto drop-shadow-[0_6px_12px_rgba(0,0,0,0.45)]"
+              />
+              <div className="flex flex-col leading-none">
+                <span className="font-display uppercase text-white text-[26px] leading-[0.9] tracking-[-0.02em]">Flowrate</span>
+                <span className="mt-1.5 text-white/50 text-[10.5px] font-semibold uppercase tracking-[0.26em] pl-[2px]">Agency</span>
+              </div>
+            </div>
             <p className="text-white/60 text-[15px] leading-relaxed max-w-[320px] mb-6">
               Custom systems for businesses that have outgrown WhatsApp and spreadsheets.
             </p>

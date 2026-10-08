@@ -67,7 +67,7 @@ export function Hero() {
         </motion.div>
 
         <p className="mt-14 lg:mt-16 text-center text-[13px] text-muted">
-          Built by people who had to do the job by hand first. The example above is based on a system running in a working fleet.
+          Built by people who had to do the job by hand first. Names and numbers in the example are made up.
         </p>
       </div>
     </section>

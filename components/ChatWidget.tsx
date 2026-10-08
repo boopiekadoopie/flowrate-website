@@ -12,6 +12,9 @@ const GREETING =
 /* Turn URLs and email addresses in a reply into real links that wrap inside the bubble. */
 const LINK_RE = /(https?:\/\/[^\s]+|[\w.+-]+@[\w-]+\.[\w.]+)/g;
 const BOOKING = "calendly.com/flowrate";
+const TEASER_KEY = "flowrate-chat-teaser";
+const TEASER_IN_MS = 14000;
+const TEASER_FOR_MS = 8000;
 
 function Rich({ text, dark = false }: { text: string; dark?: boolean }) {
   const parts = text.split(LINK_RE);
@@ -57,10 +60,19 @@ export function ChatWidget() {
   const [thinking, setThinking] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Show the teaser bubble after 14s, once the hero animation has played
+  // Teaser: once per session, 14s in (after the hero has played), gone again 8s later.
   useEffect(() => {
-    const t = setTimeout(() => setShowBubble(true), 14000);
-    return () => clearTimeout(t);
+    try {
+      if (sessionStorage.getItem(TEASER_KEY)) return;
+    } catch {
+      /* storage blocked: fall through and show it this once */
+    }
+    const show = setTimeout(() => {
+      setShowBubble(true);
+      try { sessionStorage.setItem(TEASER_KEY, "1"); } catch { /* ignore */ }
+    }, TEASER_IN_MS);
+    const hide = setTimeout(() => setShowBubble(false), TEASER_IN_MS + TEASER_FOR_MS);
+    return () => { clearTimeout(show); clearTimeout(hide); };
   }, []);
 
   // Keep the latest message in view
@@ -228,7 +240,7 @@ export function ChatWidget() {
             exit={{ opacity: 0, y: 8, scale: 0.9 }}
             transition={{ duration: 0.3 }}
             onClick={() => { setOpen(true); setShowBubble(false); }}
-            className="max-sm:hidden bg-paper border border-line rounded-lg px-4 py-3 shadow-[0_12px_32px_-8px_rgba(16,24,40,0.2)] cursor-pointer hover:border-line-strong transition-colors max-w-[230px]"
+            className="relative max-sm:hidden bg-paper border border-line rounded-lg pl-4 pr-8 py-3 shadow-[0_12px_32px_-8px_rgba(16,24,40,0.2)] cursor-pointer hover:border-line-strong transition-colors max-w-[230px]"
           >
             <div className="flex items-start gap-2.5">
               <Avatar />
@@ -238,6 +250,16 @@ export function ChatWidget() {
                 </p>
               </div>
             </div>
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); setShowBubble(false); }}
+              className="absolute top-1.5 right-1.5 w-6 h-6 rounded-[6px] flex items-center justify-center text-muted hover:text-heading hover:bg-canvas transition-colors cursor-pointer"
+              aria-label="Dismiss"
+            >
+              <svg viewBox="0 0 14 14" fill="none" className="w-3 h-3">
+                <path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+              </svg>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

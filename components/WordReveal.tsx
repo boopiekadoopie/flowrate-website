@@ -1,6 +1,8 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useSyncExternalStore } from "react";
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
+
+const subscribeNoop = () => () => {};
 
 /*
  * Scroll-linked statement: words brighten from faint to full as the reader scrolls past.
@@ -28,18 +30,20 @@ function Word({ word, range, progress, boxed }: { word: string; range: [number, 
 
 export function WordReveal({ text, className = "" }: { text: string; className?: string }) {
   const ref = useRef<HTMLHeadingElement>(null);
-  const reduce = useReducedMotion();
+  const prefersReduce = useReducedMotion();
+  // The server and the first client render always draw the per-word version; only after mount may
+  // a reduced-motion visitor get the plain heading, so hydration never mismatches.
+  const mounted = useSyncExternalStore(subscribeNoop, () => true, () => false);
+  const reduce = !!prefersReduce && mounted;
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 85%", "end 45%"] });
   const words = text.split(" ");
   const plain = text.replace(/[[\]]/g, "");
 
-  if (reduce) {
-    return <h2 className={className}>{plain}</h2>;
-  }
+  // The ref'd <h2> stays mounted in both branches so useScroll's target never disappears.
   return (
     <h2 ref={ref} className={className} aria-label={plain}>
       <span aria-hidden>
-        {words.map((w, i) => {
+        {reduce ? plain : words.map((w, i) => {
           const boxed = w.includes("[");
           const clean = w.replace(/[[\]]/g, "");
           const start = i / words.length;

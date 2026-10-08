@@ -1,26 +1,26 @@
 "use client";
 import { motion } from "framer-motion";
 import { Container, H2, Lede } from "./ui";
-import { IsoBuilt, IsoFrame, IsoLayers, IsoMap } from "./IsoArt";
+import { ArtFrame, LiveArt, MapArt, PrototypeArt } from "./IsoArt";
 
 const steps = [
   {
     title: "We learn how the job really runs",
     body: "A call first, then time with the people who do the work. We map every step, including the workarounds nobody wrote down.",
     out: "A clear map of the job as it runs today.",
-    art: IsoMap,
+    art: MapArt,
   },
   {
     title: "You see it before we build it",
     body: "We show you how the system will work, screen by screen, and change it until it fits the way your team already works.",
     out: "A design you’ve signed off, so nothing is a surprise.",
-    art: IsoLayers,
+    art: PrototypeArt,
   },
   {
     title: "We build it and launch it with you",
     body: "We test it on real jobs before anyone relies on it, then set it up with your team so it’s used from day one.",
     out: "A working system, running on your real jobs.",
-    art: IsoBuilt,
+    art: LiveArt,
   },
 ];
 
@@ -57,9 +57,9 @@ export function HowItWorks() {
               <div className="flex items-start justify-between gap-4">
                 <span className="font-display text-[48px] leading-none text-heading tabular-nums">{i + 1}</span>
               </div>
-              <IsoFrame className="my-6 h-[170px] flex items-center justify-center rounded-lg bg-soft border border-line px-6">
+              <ArtFrame className="my-6 h-[168px] sm:h-[176px]">
                 <s.art />
-              </IsoFrame>
+              </ArtFrame>
               <h3 className="text-heading text-[20px] font-bold tracking-[-0.01em] mb-2.5">{s.title}</h3>
               <p className="text-body text-[16px] leading-[1.6] mb-6">{s.body}</p>
               <p className="rounded-lg bg-canvas border border-line px-4 py-3 text-[14px] text-heading font-medium">
