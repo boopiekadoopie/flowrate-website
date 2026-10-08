@@ -32,7 +32,7 @@ export function FooterWordmark() {
             <stop offset="1" stopColor="#FFFFFF" stopOpacity="0.035" />
           </linearGradient>
         </defs>
-        <text x="74" y="700" className="font-display" fontSize="1000" fontWeight="400" fill="url(#fw-fill)">
+        <text x="-74" y="700" className="font-display" fontSize="1000" fontWeight="400" fill="url(#fw-fill)">
           FLOWRATE
         </text>
       </motion.svg>
