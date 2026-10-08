@@ -1,6 +1,7 @@
 "use client";
 import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
+import { siGmail, siGooglesheets, siWhatsapp, siXero, type SimpleIcon } from "simple-icons";
 import { Container, H2, Lede } from "./ui";
 
 /* Diagram geometry lives in one 1000×480 coordinate space shared by the SVG and the HTML chips. */
@@ -8,13 +9,18 @@ const VW = 1000;
 const VH = 480;
 const CORE = { x: 420, y: 160, w: 160, h: 160 };
 
-const inputs: { label: string; icon: ReactNode }[] = [
-  { label: "WhatsApp groups", icon: <path d="M3 13l1-3.2A6 6 0 1 1 6.6 12L3 13z" /> },
-  { label: "Spreadsheets", icon: <><rect x="2.5" y="2.5" width="11" height="11" rx="1.5" /><path d="M2.5 6.5h11M2.5 10h11M6.5 2.5v11" /></> },
-  { label: "Paper job cards", icon: <><path d="M4 2.5h5.5l2.5 2.5v8.5H4z" /><path d="M6 8h4M6 10.5h3" /></> },
-  { label: "Email threads", icon: <><rect x="2" y="3.5" width="12" height="9" rx="1.5" /><path d="M2.5 4.5L8 8.5l5.5-4" /></> },
-  { label: "Phone calls", icon: <path d="M4.5 2.5l2 .5.8 2.7-1.4 1a7 7 0 0 0 3.4 3.4l1-1.4 2.7.8.5 2a1.6 1.6 0 0 1-1.7 1.5A10.5 10.5 0 0 1 3 4.2 1.6 1.6 0 0 1 4.5 2.5z" /> },
-  { label: "Someone’s memory", icon: <><path d="M3 2.5h10v8l-3 3H3z" /><path d="M10 13.5v-3h3" /></> },
+/*
+ * The six places the truth about a job lives today. Real tools get their real marks (brand colour
+ * on a neutral tile); the human ones (paper, memory) get plain line icons on the same tile.
+ */
+type Input = { label: string; short: string; brand?: SimpleIcon; icon?: ReactNode };
+const inputs: Input[] = [
+  { label: "WhatsApp groups", short: "WhatsApp", brand: siWhatsapp },
+  { label: "Google Sheets", short: "Sheets", brand: siGooglesheets },
+  { label: "Gmail threads", short: "Gmail", brand: siGmail },
+  { label: "Xero, on its own", short: "Xero", brand: siXero },
+  { label: "Paper job cards", short: "Paper", icon: <><path d="M4 2.5h5.5l2.5 2.5v8.5H4z" /><path d="M9.5 2.5V5H12M6 8h4M6 10.5h3" /></> },
+  { label: "Someone’s memory", short: "Memory", icon: <><path d="M8 8.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" /><path d="M2.5 14a5.5 5.5 0 0 1 11 0" /></> },
 ];
 
 const outputs: { label: string; meta: string }[] = [
@@ -39,11 +45,25 @@ const outPaths = outputs.map((_, i) => {
 
 const pct = (v: number, of: number) => `${(v / of) * 100}%`;
 
-function Icon({ children }: { children: ReactNode }) {
+/* One neutral tile for every source, so brand marks and line icons sit at the same visual weight. */
+function SourceMark({ it, size = 28 }: { it: Input; size?: number }) {
+  const glyph = Math.round(size * (it.brand ? 0.6 : 0.54));
   return (
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4" aria-hidden>
-      {children}
-    </svg>
+    <span
+      className="inline-flex items-center justify-center shrink-0 rounded-[7px] bg-canvas border border-line"
+      style={{ width: size, height: size }}
+      aria-hidden
+    >
+      {it.brand ? (
+        <svg viewBox="0 0 24 24" style={{ width: glyph, height: glyph }} fill={`#${it.brand.hex}`}>
+          <path d={it.brand.path} />
+        </svg>
+      ) : (
+        <svg viewBox="0 0 16 16" style={{ width: glyph, height: glyph }} fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" className="text-muted">
+          {it.icon}
+        </svg>
+      )}
+    </span>
   );
 }
 
@@ -75,7 +95,8 @@ function Desktop() {
             key={d}
             d={d}
             fill="none"
-            stroke={i < inPaths.length ? "#D4D4D4" : "#101828"}
+            stroke="currentColor"
+            className={i < inPaths.length ? "text-line-strong" : "text-heading"}
             strokeWidth="1.2"
             initial={{ pathLength: 0 }}
             whileInView={{ pathLength: 1 }}
@@ -100,10 +121,10 @@ function Desktop() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ delay: i * 0.08, duration: 0.45 }}
-          className="absolute -translate-y-1/2 flex items-center gap-2.5 rounded-lg border border-line bg-paper px-3 h-[42px] text-[14px] text-body"
+          className="absolute -translate-y-1/2 flex items-center gap-2.5 rounded-lg border border-line bg-paper pl-[7px] pr-3 h-[44px] text-[14px] text-body shadow-[0_1px_2px_rgba(0,0,0,0.04)]"
           style={{ left: 0, width: pct(236, VW), top: pct(inY(i), VH) }}
         >
-          <span className="text-faint"><Icon>{it.icon}</Icon></span>
+          <SourceMark it={it} />
           <span className="truncate">{it.label}</span>
         </motion.div>
       ))}
@@ -164,7 +185,6 @@ const mOutPaths = mOutX.map((x, i) => {
   const by = M_CORE.y + M_CORE.h;
   return `M ${sx} ${by} C ${sx} ${by + 40}, ${x} ${M_OUT_Y - 40}, ${x} ${M_OUT_Y}`;
 });
-const SHORT = ["WhatsApp", "Spreadsheets", "Paper", "Email", "Calls", "Memory"];
 const mpct = (v: number, of: number) => `${(v / of) * 100}%`;
 
 function Mobile() {
@@ -183,7 +203,8 @@ function Mobile() {
             key={d}
             d={d}
             fill="none"
-            stroke={i < mInPaths.length ? "#D4D4D4" : "#101828"}
+            stroke="currentColor"
+            className={i < mInPaths.length ? "text-line-strong" : "text-heading"}
             strokeWidth="1.2"
             initial={{ pathLength: 0 }}
             whileInView={{ pathLength: 1 }}
@@ -214,9 +235,10 @@ function Mobile() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.06, duration: 0.4 }}
-            className="flex items-center justify-center rounded-[6px] bg-canvas px-1 min-w-0"
+            className="flex items-center justify-center gap-1 rounded-[6px] bg-canvas px-0.5 min-w-0"
           >
-            <span className="text-[12px] leading-tight text-body truncate">{SHORT[i]}</span>
+            <SourceMark it={it} size={20} />
+            <span className="text-[11px] leading-tight text-body truncate">{it.short}</span>
           </motion.div>
         ))}
       </div>
@@ -261,9 +283,9 @@ export function Convergence() {
         <div className="grid lg:grid-cols-[1.15fr_1fr] gap-6 lg:gap-16 lg:items-end mb-12 md:mb-16">
           <H2>Six places to look. Or one.</H2>
           <Lede>
-            Right now the truth about a job is scattered across WhatsApp, spreadsheets, paper and
-            somebody&apos;s memory. We pull it into one system, and the invoices, reports and updates
-            come out the other side.
+            Right now the truth about a job is scattered across WhatsApp, Google Sheets, Gmail, Xero,
+            paper and somebody&apos;s memory. We pull it into one system, and the invoices, reports and
+            updates come out the other side.
           </Lede>
         </div>
         <div className="relative rounded-lg border border-line bg-soft px-3 py-5 sm:px-10 sm:py-12 lg:px-14 lg:py-14">

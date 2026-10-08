@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { FooterWordmark } from "./FooterWordmark";
 
 const CALENDLY_URL = "https://calendly.com/flowrate/30min";
 const EMAIL = "andrew@flowrate.agency";
@@ -47,8 +48,8 @@ function Column({ title, links, external = false }: { title: string; links: { la
 
 export function Footer() {
   return (
-    <footer className="bg-carbon">
-      <div className="max-w-[1240px] mx-auto px-5 sm:px-8 pt-16 pb-10">
+    <footer className="bg-carbon overflow-hidden">
+      <div className="max-w-[1240px] mx-auto px-5 sm:px-8 pt-16 pb-2">
         <div className="grid grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] gap-x-8 gap-y-12 pb-14 border-b border-white/10">
           <div className="col-span-2 lg:col-span-1">
             <Image src="/footer-logo.png" alt="Flowrate" width={900} height={571} className="h-20 w-auto mb-6" />
@@ -79,6 +80,7 @@ export function Footer() {
           <p>Designed and built by Flowrate.</p>
         </div>
       </div>
+      <FooterWordmark />
     </footer>
   );
 }
