@@ -19,13 +19,13 @@ const archivo = Archivo_Black({
 export const metadata: Metadata = {
   title: "Flowrate | Custom business systems, built around how you work",
   description:
-    "Flowrate builds admin systems, driver and field apps, reporting and websites around the way your business already works, so the retyping, the chasing and the month-end scramble stop.",
+    "Flowrate builds admin systems, field apps, reporting and websites around the way your business already works, so the retyping, the chasing and the month-end scramble stop.",
   metadataBase: new URL("https://flowrate.agency"),
   alternates: { canonical: "/" },
   openGraph: {
     title: "Flowrate | We build the systems your business runs on",
     description:
-      "Admin systems, driver and field apps, reporting and websites, built around the way you already work.",
+      "Admin systems, field apps, reporting and websites, built around the way you already work.",
     url: "https://flowrate.agency",
     siteName: "Flowrate",
     type: "website",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Flowrate | We build the systems your business runs on",
     description:
-      "Admin systems, driver and field apps, reporting and websites, built around the way you already work.",
+      "Admin systems, field apps, reporting and websites, built around the way you already work.",
     images: ["/og-home.jpg"],
   },
 };

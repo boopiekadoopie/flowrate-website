@@ -6,7 +6,7 @@ import { Container, EMAIL, H2, Lede } from "./ui";
 export const faqs = [
   {
     q: "What kind of systems do you build?",
-    a: "Admin systems that track every job from first call to paid invoice, apps your drivers or field team use on their phones, reports that show what really happened, and websites. Most projects are a mix: the point is that information gets entered once and flows everywhere it needs to go.",
+    a: "Admin systems that track every job from first call to paid invoice, apps your team uses on their phones out on the job, reports that show what really happened, and websites. Most projects are a mix: the point is that information gets entered once and flows everywhere it needs to go.",
   },
   {
     q: "Do you only work with certain industries?",
@@ -22,7 +22,7 @@ export const faqs = [
   },
   {
     q: "What if my team works where there’s no signal?",
-    a: "Field and driver apps can be built to work offline. The phone saves the job and sends it on its own when signal comes back, so nothing is lost on the road.",
+    a: "Field apps can be built to work offline. The phone saves the job and sends it on its own when signal comes back, so nothing is lost on site or on the road.",
   },
   {
     q: "How much does a system cost?",

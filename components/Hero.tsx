@@ -5,7 +5,7 @@ import { HeroBackdrop } from "./HeroBackdrop";
 import { HeroStage, HeroStageMobile } from "./HeroStage";
 import { Arrow, CALENDLY_URL } from "./ui";
 
-const builds = ["Admin systems", "Driver & field apps", "Reporting", "Websites"];
+const builds = ["Admin systems", "Field apps", "Reporting", "Websites"];
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
