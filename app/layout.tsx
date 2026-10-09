@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Archivo_Black } from "next/font/google";
 import "./globals.css";
+import { MotionProvider } from "@/components/MotionProvider";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -17,9 +18,9 @@ const archivo = Archivo_Black({
 });
 
 export const metadata: Metadata = {
-  title: "Flowrate | Custom business systems, built around how you work",
+  title: "Flowrate | Custom apps and business systems, built around how you work",
   description:
-    "Flowrate builds admin systems, field apps, reporting and websites around the way your business already works, so the retyping, the chasing and the month-end scramble stop.",
+    "Custom apps, business systems, dashboards and websites built around how your business already works, so nobody types the same job in twice.",
   metadataBase: new URL("https://flowrate.agency"),
   alternates: { canonical: "/" },
   openGraph: {
@@ -31,10 +32,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-home.jpg",
+        url: "/og-home-v2.jpg",
         width: 2400,
         height: 1260,
-        alt: "Flowrate: we build the systems your business runs on. Example driver-to-invoice system.",
+        alt: "Flowrate: we build the systems your business runs on. Example: a signed job card sent from a phone becomes a draft invoice.",
       },
     ],
   },
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
     title: "Flowrate | We build the systems your business runs on",
     description:
       "Admin systems, field apps, reporting and websites, built around the way you already work.",
-    images: ["/og-home.jpg"],
+    images: ["/og-home-v2.jpg"],
   },
 };
 
@@ -62,7 +63,9 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <MotionProvider>{children}</MotionProvider>
+      </body>
     </html>
   );
 }

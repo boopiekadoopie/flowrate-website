@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { motion, useInView } from "framer-motion";
 import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
@@ -135,7 +136,7 @@ export function MapArt() {
 const PROTO_ROWS = [
   { no: "1041", name: "Hill & Co", status: "Done", tone: "dark" as const },
   { no: "1042", name: "Greenway Café", status: "Booked", tone: "plain" as const },
-  { no: "1043", name: "Mara’s Salon", status: "Quoted", tone: "plain" as const },
+  { no: "1043", name: "Mara’s Bakery", status: "Quoted", tone: "plain" as const },
   { no: "1044", name: "Corner Supply", status: "Booked", tone: "plain" as const },
   { no: "1045", name: "Northside Dental", status: "Quoted", tone: "plain" as const },
 ];
@@ -209,8 +210,7 @@ export function PrototypeArt() {
         >
           <div className="flex items-start gap-2 mt-2 pt-2 border-t border-line">
             <span className="shrink-0 w-[18px] h-[18px] rounded-[5px] overflow-hidden border border-line bg-canvas">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/andrew.jpg" alt="" className="w-full h-full object-cover object-top" />
+              <Image src="/andrew.jpg" alt="" width={36} height={36} sizes="18px" className="w-full h-full object-cover object-top" />
             </span>
             <div className="min-w-0 flex-1">
               <p className="text-[10px] text-muted leading-none mb-1">Andrew</p>
@@ -241,7 +241,7 @@ export function LiveArt() {
   const rows = [
     { no: "1041", name: "Hill & Co", status: "Done", tone: "dark" as const },
     { no: "1042", name: "Greenway Café", status: landed ? "Done" : "On site", tone: landed ? ("dark" as const) : ("ok" as const), live: true },
-    { no: "1043", name: "Mara’s Salon", status: "Booked", tone: "plain" as const },
+    { no: "1043", name: "Mara’s Bakery", status: "Booked", tone: "plain" as const },
     { no: "1044", name: "Corner Supply", status: "Quoted", tone: "plain" as const },
     { no: "1045", name: "Northside Dental", status: "Booked", tone: "plain" as const },
   ];

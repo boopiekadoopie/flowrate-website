@@ -1,7 +1,7 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
-import type { ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { siGmail, siGooglesheets, siWhatsapp, siXero, type SimpleIcon } from "simple-icons";
 import { Container, H2, Lede } from "./ui";
 
@@ -116,8 +116,11 @@ function CoreFinish({ reduce, period = 4.2 }: { reduce: boolean; period?: number
 
 function Desktop() {
   const reduce = useReduceAfterMount();
+  // The looping streaks only run while the diagram is on screen, so they don't keep the phone busy.
+  const ref = useRef<HTMLDivElement>(null);
+  const live = useInView(ref, { margin: "120px" }) && !reduce;
   return (
-    <div className="relative hidden md:block w-full" style={{ aspectRatio: `${VW} / ${VH}` }}>
+    <div ref={ref} className="relative hidden md:block w-full" style={{ aspectRatio: `${VW} / ${VH}` }}>
       <svg viewBox={`0 0 ${VW} ${VH}`} className="absolute inset-0 w-full h-full overflow-visible" aria-hidden>
         {[...inPaths, ...outPaths].map((d, i) => (
           <motion.path
@@ -139,8 +142,8 @@ function Desktop() {
             <stop offset="1" stopColor="#1D6B2B" />
           </linearGradient>
         </defs>
-        {!reduce && inPaths.map((d, i) => <Streak key={`p${i}`} d={d} delay={1.2 + i * 0.4} dur={1.6} />)}
-        {!reduce && outPaths.map((d, i) => <Streak key={`o${i}`} d={d} delay={2.6 + i * 0.5} dur={1.4} />)}
+        {live && inPaths.map((d, i) => <Streak key={`p${i}`} d={d} delay={1.2 + i * 0.4} dur={1.6} />)}
+        {live && outPaths.map((d, i) => <Streak key={`o${i}`} d={d} delay={2.6 + i * 0.5} dur={1.4} />)}
       </svg>
 
       {inputs.map((it, i) => (
@@ -166,7 +169,7 @@ function Desktop() {
         className={coreCls}
         style={{ left: pct(CORE.x, VW), top: pct(CORE.y, VH), width: pct(CORE.w, VW), height: pct(CORE.h, VH) }}
       >
-        <CoreFinish reduce={!!reduce} />
+        <CoreFinish reduce={!live} />
         <span className="relative font-display uppercase text-[15px] lg:text-[17px] leading-tight tracking-[-0.01em]">Your system</span>
         <span className="relative text-[11px] lg:text-[12px] text-white/55 dark:text-[#4A5565] mt-1">Entered once</span>
       </motion.div>
@@ -217,8 +220,10 @@ const mpct = (v: number, of: number) => `${(v / of) * 100}%`;
 
 function Mobile() {
   const reduce = useReduceAfterMount();
+  const ref = useRef<HTMLDivElement>(null);
+  const live = useInView(ref, { margin: "120px" }) && !reduce;
   return (
-    <div className="md:hidden relative w-full max-w-[420px] mx-auto" style={{ aspectRatio: `${MW} / ${MH}` }}>
+    <div ref={ref} className="md:hidden relative w-full max-w-[420px] mx-auto" style={{ aspectRatio: `${MW} / ${MH}` }}>
       <svg viewBox={`0 0 ${MW} ${MH}`} className="absolute inset-0 w-full h-full overflow-visible" aria-hidden>
         <defs>
           <linearGradient id="streak-m" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2={MH}>
@@ -240,13 +245,13 @@ function Mobile() {
             transition={{ delay: i < mInPaths.length ? 0.3 + 0.08 * i : 1 + 0.1 * (i - mInPaths.length), duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           />
         ))}
-        {!reduce &&
+        {live &&
           mInPaths.map((d, i) => (
             <motion.path key={`s${i}`} d={d} fill="none" stroke="url(#streak-m)" strokeWidth="2.4" strokeLinecap="round" pathLength={1} strokeDasharray="0.22 1"
               initial={{ strokeDashoffset: 0.22 }} animate={{ strokeDashoffset: -1 }}
               transition={{ delay: 1.4 + i * 0.35, duration: 1.2, ease: [0.4, 0, 0.2, 1], repeat: Infinity, repeatDelay: 2.4 }} />
           ))}
-        {!reduce &&
+        {live &&
           mOutPaths.map((d, i) => (
             <motion.path key={`t${i}`} d={d} fill="none" stroke="url(#streak-m)" strokeWidth="2.4" strokeLinecap="round" pathLength={1} strokeDasharray="0.25 1"
               initial={{ strokeDashoffset: 0.25 }} animate={{ strokeDashoffset: -1 }}
@@ -280,7 +285,7 @@ function Mobile() {
         className={coreCls}
         style={{ left: mpct(M_CORE.x, MW), top: mpct(M_CORE.y, MH), width: mpct(M_CORE.w, MW), height: mpct(M_CORE.h, MH) }}
       >
-        <CoreFinish reduce={!!reduce} period={3.8} />
+        <CoreFinish reduce={!live} period={3.8} />
         <span className="relative font-display uppercase text-[13px] leading-none tracking-[-0.01em]">Your system</span>
         <span className="relative text-[11px] text-white/55 dark:text-[#4A5565] mt-1.5">Entered once</span>
       </motion.div>

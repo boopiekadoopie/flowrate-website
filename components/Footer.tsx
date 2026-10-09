@@ -59,6 +59,7 @@ export function Footer() {
                 alt="Flowrate"
                 width={1002}
                 height={1530}
+                sizes="48px"
                 className="h-[72px] w-auto drop-shadow-[0_6px_12px_rgba(0,0,0,0.45)]"
               />
               <div className="flex flex-col leading-none">

@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 const CALENDLY_URL = "https://calendly.com/flowrate/30min";
 
@@ -43,9 +44,8 @@ function Rich({ text, dark = false }: { text: string; dark?: boolean }) {
 
 function Avatar({ size = "w-7 h-7" }: { size?: string }) {
   return (
-    <div className={`${size} rounded-[7px] overflow-hidden bg-canvas border border-line flex-shrink-0`}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src="/andrew.jpg" alt="Andrew from Flowrate" className="w-full h-full object-cover object-top" />
+    <div className={`${size} relative rounded-[7px] overflow-hidden bg-canvas border border-line flex-shrink-0`}>
+      <Image src="/mascot.png" alt="" fill sizes="28px" className="object-cover object-top scale-[1.35] origin-top" />
     </div>
   );
 }
@@ -131,12 +131,11 @@ export function ChatWidget() {
             {/* Header */}
             <div className="bg-carbon px-5 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-[8px] overflow-hidden border border-white/20 bg-carbon flex-shrink-0">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/andrew.jpg" alt="Andrew from Flowrate" className="w-full h-full object-cover object-top" />
+                <div className="w-9 h-9 relative rounded-[8px] overflow-hidden border border-white/20 bg-white/10 flex-shrink-0">
+                  <Image src="/mascot.png" alt="" fill sizes="36px" className="object-cover object-top scale-[1.35] origin-top" />
                 </div>
                 <div>
-                  <p className="text-white font-bold text-sm leading-tight">Flowrate AI Assistant</p>
+                  <p className="text-white font-bold text-sm leading-tight">Flowrate assistant</p>
                   <div className="flex items-center gap-1.5 mt-0.5">
                                         <p className="text-white/60 text-xs font-medium">Answers instantly</p>
                   </div>

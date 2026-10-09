@@ -11,9 +11,8 @@ export function Hero() {
   return (
     <section ref={ref} className="relative overflow-hidden bg-paper pt-44 lg:pt-36 pb-16 lg:pb-24">
       <HeroBackdrop sectionRef={ref} />
-      {/* Ambient light and a fine grid that fades out: seamless, no frame */}
       {/* One soft wash of light behind the product. No grid, no shapes. */}
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-[42%] h-[58%] bg-[linear-gradient(100deg,rgba(153,229,140,0.22)_0%,rgba(191,219,254,0.26)_50%,rgba(254,240,199,0.22)_100%)] [mask-image:linear-gradient(to_bottom,transparent,black_30%,black_70%,transparent)]" />
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-[42%] h-[58%] bg-[linear-gradient(100deg,rgba(153,229,140,0.22)_0%,rgba(191,219,254,0.26)_50%,rgba(254,240,199,0.22)_100%)] dark:bg-[linear-gradient(100deg,rgba(153,229,140,0.06)_0%,rgba(147,197,253,0.07)_50%,rgba(153,229,140,0.03)_100%)] [mask-image:linear-gradient(to_bottom,transparent,black_30%,black_70%,transparent)]" />
 
       <div className="relative max-w-[1240px] mx-auto px-5 sm:px-8">
         {/* Copy renders immediately (LCP); the product animates in under it. */}

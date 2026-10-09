@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useSyncExternalStore } from "react";
+import { Fragment, useRef, useSyncExternalStore } from "react";
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
 
 const subscribeNoop = () => () => {};
@@ -9,11 +9,11 @@ const subscribeNoop = () => () => {};
  * Wrap a word in [brackets] to give it the boxed highlight.
  */
 function Word({ word, range, progress, boxed }: { word: string; range: [number, number]; progress: MotionValue<number>; boxed: boolean }) {
-  const opacity = useTransform(progress, range, [0.16, 1]);
+  const opacity = useTransform(progress, range, [0.5, 1]);
   const box = useTransform(progress, [range[0], range[1] + 0.04], [0, 1]);
   const boxScale = useTransform(box, [0, 1], [0.92, 1]);
   return (
-    <span className="relative inline-block mr-[0.26em]">
+    <span className="relative inline-block">
       {boxed && (
         <motion.span
           aria-hidden
@@ -35,7 +35,7 @@ export function WordReveal({ text, className = "" }: { text: string; className?:
   // a reduced-motion visitor get the plain heading, so hydration never mismatches.
   const mounted = useSyncExternalStore(subscribeNoop, () => true, () => false);
   const reduce = !!prefersReduce && mounted;
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 85%", "end 45%"] });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 95%", "end 55%"] });
   const words = text.split(" ");
   const plain = text.replace(/[[\]]/g, "");
 
@@ -47,7 +47,12 @@ export function WordReveal({ text, className = "" }: { text: string; className?:
           const boxed = w.includes("[");
           const clean = w.replace(/[[\]]/g, "");
           const start = i / words.length;
-          return <Word key={i} word={clean} boxed={boxed} progress={scrollYProgress} range={[start, start + 1 / words.length]} />;
+          return (
+            <Fragment key={i}>
+              <Word word={clean} boxed={boxed} progress={scrollYProgress} range={[start, start + 1 / words.length]} />
+              {i < words.length - 1 && " "}
+            </Fragment>
+          );
         })}
       </span>
     </h2>

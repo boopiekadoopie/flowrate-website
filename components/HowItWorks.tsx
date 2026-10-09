@@ -36,7 +36,7 @@ export function HowItWorks() {
           </Lede>
         </div>
 
-        <ol className="grid grid-cols-1 md:grid-cols-3 md:gap-x-10 border-t border-line md:border-t-0">
+        <ol className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-10 border-t border-line lg:border-t-0">
           {steps.map((s, i) => (
             <motion.li
               key={s.title}
@@ -44,7 +44,7 @@ export function HowItWorks() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ delay: i * 0.12, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              className="relative pt-8 pb-10 md:pb-0 md:border-t border-line border-b md:border-b-0 last:border-b-0"
+              className="relative pt-8 pb-10 lg:pb-0 lg:border-t border-line border-b lg:border-b-0 last:border-b-0"
             >
               <motion.span
                 aria-hidden

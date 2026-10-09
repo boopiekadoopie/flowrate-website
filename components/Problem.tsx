@@ -76,7 +76,7 @@ function Cell({ i, active, place, by, children }: { i: number; active: boolean; 
   // Phones: 2×2 grid so the whole story fits one screen. Desktop: one row of four.
   const edges = `${i % 2 === 0 ? "border-r" : ""} ${i < 2 ? "border-b" : ""} lg:border-b-0 ${i < 3 ? "lg:border-r" : "lg:border-r-0"}`;
   return (
-    <div className={`relative flex flex-col p-3 sm:p-6 border-line ${edges} transition-colors duration-500 ${active ? "bg-paper" : ""}`}>
+    <div className={`relative flex flex-col p-3 sm:p-6 border-line ${edges} transition-colors duration-500 ${active ? "bg-paper dark:bg-carbon" : ""}`}>
       <p className="text-heading text-[13px] sm:text-[15px] font-semibold leading-tight">
         <span className="text-faint tabular-nums mr-1.5 sm:mr-2">{i + 1}</span>
         {place}
@@ -138,7 +138,7 @@ export function Problem() {
                     <p className="text-[10px] sm:text-[11px] font-semibold text-ok dark:text-[#6CCB5F] px-1 mb-1">Sam</p>
                     {/* the "photo": the signed job card on the counter */}
                     <div className="rounded-[6px] border border-line bg-canvas px-2 py-2.5 sm:px-3 sm:py-3 flex justify-center overflow-hidden">
-                      <div className="[zoom:0.84] sm:[zoom:1] rotate-[-2deg]">
+                      <div className="[zoom:0.84] max-[359px]:[zoom:0.7] sm:[zoom:1] rotate-[-2deg] max-[359px]:rotate-0">
                         <JobCard width={150} total={RIGHT} />
                       </div>
                     </div>
@@ -154,7 +154,7 @@ export function Problem() {
 
             {/* 2 — typed into the sheet */}
             <Cell i={1} active={stage === 1} place="Spreadsheet" by="Someone types it in">
-              <div className="w-full max-w-[250px] rounded-[6px] border border-line bg-paper overflow-hidden text-[11px] sm:text-[12.5px] tabular-nums">
+              <div className="w-full min-w-0 max-w-[250px] rounded-[6px] border border-line bg-paper overflow-hidden text-[11px] max-[359px]:text-[10px] sm:text-[12.5px] tabular-nums">
                 <div className="flex items-center border-b border-line text-[10px] sm:text-[11px]">
                   <span className="px-2 py-1 border-r border-line text-muted w-9 shrink-0">C4</span>
                   <span className="px-2 py-1 text-heading truncate"><Typed text={RIGHT} start={T.sheet + 300} now={t} /></span>

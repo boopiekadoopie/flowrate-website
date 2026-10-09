@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Arrow, CALENDLY_URL, Check, Container, EMAIL, H2, Lede, Reveal } from "./ui";
@@ -13,12 +13,18 @@ const inputs = [
 
 export function LeadCapture() {
   const [values, setValues] = useState<Record<string, string>>({});
-  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const doneRef = useRef<HTMLParagraphElement>(null);
+
+  // Move focus to the confirmation so keyboard and screen-reader users know it went through.
+  useEffect(() => {
+    if (status === "sent") doneRef.current?.focus();
+  }, [status]);
   // Spam checks: when the visitor started typing, and a hidden field only bots fill in.
   const startedAt = useRef<number | null>(null);
   const [trap, setTrap] = useState("");
 
-  function mailtoFallback() {
+  function mailtoHref() {
     const body = [
       `Name: ${values.name || ""}`,
       `Email: ${values.email || ""}`,
@@ -27,7 +33,7 @@ export function LeadCapture() {
       "",
       values.message || "",
     ].join("\n");
-    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent("Website enquiry")}&body=${encodeURIComponent(body)}`;
+    return `mailto:${EMAIL}?subject=${encodeURIComponent("Website enquiry")}&body=${encodeURIComponent(body)}`;
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -44,12 +50,10 @@ export function LeadCapture() {
         setStatus("sent");
         return;
       }
-      // Delivery not configured or failed: open the visitor's email app instead.
-      mailtoFallback();
-      setStatus("idle");
+      // Delivery not configured or failed: say so and offer email, rather than opening the mail app unasked.
+      setStatus("error");
     } catch {
-      mailtoFallback();
-      setStatus("idle");
+      setStatus("error");
     }
   }
 
@@ -59,7 +63,7 @@ export function LeadCapture() {
   };
 
   const field =
-    "w-full bg-paper border border-line-strong rounded-lg px-4 py-3 text-heading text-[16px] placeholder:text-faint outline-none focus:border-heading transition-colors";
+    "w-full bg-paper border border-line-strong rounded-lg px-4 py-3 text-heading text-[16px] placeholder:text-faint outline-none focus:border-heading focus-visible:ring-2 focus-visible:ring-heading/25 transition-colors";
 
   return (
     <section id="contact" className="bg-canvas py-20 md:py-28">
@@ -97,7 +101,7 @@ export function LeadCapture() {
               className="absolute top-0 right-6 sm:right-10 w-[120px] z-0"
               aria-hidden
             >
-              <Image src="/mascot.png" alt="" width={1002} height={1530} className="w-full h-auto" />
+              <Image src="/mascot.png" alt="" width={1002} height={1530} sizes="120px" className="w-full h-auto" />
             </motion.div>
 
             <div className="relative z-10 rounded-lg bg-paper border border-line shadow-[0_1px_3px_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)] p-6 sm:p-8">
@@ -106,7 +110,7 @@ export function LeadCapture() {
                   <div className="w-12 h-12 mx-auto mb-5 rounded-lg bg-ok-bg text-ok flex items-center justify-center">
                     <Check className="w-6 h-6" />
                   </div>
-                  <p className="text-heading font-bold text-[20px] mb-2">Got it. Thanks.</p>
+                  <p ref={doneRef} tabIndex={-1} className="text-heading font-bold text-[20px] mb-2 outline-none">Got it. Thanks.</p>
                   <p className="text-body text-[15px] leading-relaxed max-w-[340px] mx-auto">
                     Andrew will read it and reply to you personally.
                   </p>
@@ -142,7 +146,7 @@ export function LeadCapture() {
                       rows={4}
                       value={values.message || ""}
                       onChange={set("message")}
-                      placeholder="e.g. Every Friday we copy delivery notes from WhatsApp into a spreadsheet, then into the accounts."
+                      placeholder="e.g. Every Friday we copy job sheets from WhatsApp into a spreadsheet, then into the accounts."
                       className={`${field} resize-y min-h-[120px] leading-[1.5]`}
                     />
                   </label>
@@ -154,6 +158,18 @@ export function LeadCapture() {
                     {status === "sending" ? "Sending…" : "Send it to Andrew"}
                     {status !== "sending" && <Arrow className="w-4 h-4" />}
                   </button>
+                  <div role="status" aria-live="polite" className="sm:col-span-2 empty:hidden">
+                    {status === "sending" && <span className="sr-only">Sending your message</span>}
+                    {status === "error" && (
+                      <p className="rounded-lg border border-hold/30 bg-hold-bg text-hold dark:text-[#F3C96B] px-4 py-3 text-[14px] leading-snug">
+                        That didn&apos;t send, sorry. Your message is still here.{" "}
+                        <a href={mailtoHref()} className="font-semibold underline underline-offset-2">
+                          Email it to Andrew instead
+                        </a>
+                        .
+                      </p>
+                    )}
+                  </div>
                   <p className="sm:col-span-2 text-muted text-[13px] text-center">
                     No mailing list, no follow-up sequence. Just a reply.
                   </p>

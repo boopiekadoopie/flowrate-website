@@ -59,6 +59,7 @@ export function Navbar() {
               width={1002}
               height={1530}
               priority
+              sizes="32px"
               className="h-11 w-auto drop-shadow-[0_4px_8px_rgba(16,24,40,0.18)]"
             />
           </Link>
@@ -98,6 +99,7 @@ export function Navbar() {
               width={1002}
               height={1530}
               priority
+              sizes="64px"
               className="h-[92px] w-auto -mb-9 drop-shadow-[0_8px_14px_rgba(16,24,40,0.22)]"
             />
           </Link>
@@ -116,7 +118,7 @@ export function Navbar() {
               rel="noopener noreferrer"
               className="bg-green text-[#0C1A0D] font-bold uppercase tracking-[0.025em] px-5 py-2.5 rounded-lg text-[13px] hover:bg-green-light transition-colors cursor-pointer"
             >
-              Book a call
+              Book a free call
             </a>
           </div>
         </div>
@@ -154,7 +156,7 @@ export function Navbar() {
             rel="noopener noreferrer"
             className="mt-2 bg-green text-[#0C1A0D] font-bold uppercase tracking-[0.025em] px-6 py-3.5 rounded-lg text-sm text-center hover:bg-green-light transition-colors"
           >
-            Book a call
+            Book a free call
           </a>
         </motion.div>
       )}

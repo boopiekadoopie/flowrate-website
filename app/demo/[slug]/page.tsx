@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   const title = `${demo.clientName} — a quick look from Flowrate`;
   const description = `A short walkthrough Andrew put together for ${demo.clientName}.`;
-  const imageUrl = "/og-home.jpg";
+  const imageUrl = "/og-home-v2.jpg";
 
   return {
     title,
@@ -86,7 +86,7 @@ export default async function DemoPage({ params }: { params: Promise<{ slug: str
               rel="noopener noreferrer"
               className="rounded-full border border-[color:var(--color-deep-border)] px-6 py-3 text-sm font-semibold text-white transition hover:border-[color:var(--color-green)]"
             >
-              Grab a time to talk
+              Book a free call
             </a>
           )}
         </div>

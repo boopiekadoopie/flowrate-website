@@ -3,9 +3,10 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | Flowrate Agency",
+  title: "Terms of Service | Flowrate",
   description: "The terms that apply when you work with Flowrate Agency.",
   alternates: { canonical: "/terms" },
+  openGraph: { title: "Terms of Service | Flowrate", url: "/terms" },
 };
 
 const sections = [

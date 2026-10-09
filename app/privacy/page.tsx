@@ -3,9 +3,10 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Flowrate Agency",
+  title: "Privacy Policy | Flowrate",
   description: "How Flowrate Agency collects, uses, and protects your information.",
   alternates: { canonical: "/privacy" },
+  openGraph: { title: "Privacy Policy | Flowrate", url: "/privacy" },
 };
 
 const sections = [

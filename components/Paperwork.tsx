@@ -13,7 +13,7 @@ export function Receipt() {
   return (
     <div className={`w-[132px] bg-[#FDFDFB] font-mono text-[8px] leading-[1.6] text-[#333] px-3 pt-3 pb-5 ${paperShadow} [clip-path:polygon(0_0,100%_0,100%_96%,92%_100%,84%_96%,76%_100%,68%_96%,60%_100%,52%_96%,44%_100%,36%_96%,28%_100%,20%_96%,12%_100%,4%_96%,0_100%)]`}>
       <p className="font-bold text-center tracking-[0.12em] mb-1">CORNER SUPPLY</p>
-      <p className="text-center opacity-60 mb-2">14/10 · 08:12</p>
+      <p className="text-center opacity-60 mb-2">14 Oct · 08:12</p>
       {[["Paper towels", "84.00"], ["Cleaning kit", "129.50"], ["Delivery", "60.00"]].map(([a, b]) => (
         <p key={a} className="flex justify-between"><span>{a}</span><span>{b}</span></p>
       ))}
@@ -94,7 +94,7 @@ export function JobCard({ width = 150, total }: { width?: number; total?: string
       </div>
       <div className="grid grid-cols-2 gap-x-3 gap-y-2 mt-2">
         {field("Customer", "Greenway Café", true)}
-        {field("Date", "14 / 10")}
+        {field("Date", "14 Oct")}
         {field("Time", "08:30")}
         {field("Job", "Fridge not cooling — door seal", true)}
         {field("Parts", "Door seal × 1")}

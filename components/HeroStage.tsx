@@ -118,11 +118,11 @@ function Chip({ tone, children, className = "" }: { tone: ChipTone; children: Re
   );
 }
 
-/* Count-up for money. Tabular, space-grouped thousands, two decimals. */
+/* Count-up for money. Tabular, comma-grouped thousands, two decimals (same format as the rest of the page). */
 function fmt(v: number) {
   const s = v.toFixed(2);
   const [i, d] = s.split(".");
-  return `${i.replace(/\B(?=(\d{3})+(?!\d))/g, " ")}.${d}`;
+  return `${i.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}.${d}`;
 }
 function CountUp({ to, run, className = "" }: { to: number; run: boolean; className?: string }) {
   const reduce = useReduceAfterMount();
@@ -188,7 +188,7 @@ export function DeliveryNote({ t, held, scanning, width, tilt = 0 }: { t: number
         <p className={label} style={{ left: 16, top: 66 }}>CUSTOMER</p>
         <p className={value} style={{ left: 16, top: 77 }}>Greenway Café</p>
         <p className={label} style={{ left: 150, top: 66 }}>DATE</p>
-        <p className={value} style={{ left: 150, top: 77 }}>14/10/2026</p>
+        <p className={value} style={{ left: 150, top: 77 }}>14 Oct 2026</p>
         <p className={label} style={{ left: 16, top: 100 }}>JOB</p>
         <p className={value} style={{ left: 16, top: 111 }}>Fridge not cooling</p>
         <p className={label} style={{ left: 150, top: 100 }}>DONE BY</p>
@@ -690,7 +690,7 @@ export function Invoice({ t, held }: { t: number; held: boolean }) {
                 </motion.div>
               ))}
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: t >= 16 ? 1 : 0 }} className="flex justify-between text-[#6A7282] pt-1 border-t border-[#F0F1F3]">
-                <span>Tax 15%</span><span className="tabular-nums">213.00</span>
+                <span>Tax</span><span className="tabular-nums">213.00</span>
               </motion.p>
             </div>
             <div className="mt-2 pt-2.5 border-t border-[#E5E7EB] flex justify-between items-baseline">

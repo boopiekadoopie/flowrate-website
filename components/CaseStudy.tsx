@@ -7,7 +7,7 @@ const facts = [
   "Reads every document",
   "Checks weights before it bills",
   "Files everything automatically",
-  "Drafts invoices, never sends them",
+  "A person approves every invoice",
   "Holds anything that doesn’t add up",
 ];
 
@@ -28,10 +28,10 @@ export function CaseStudy() {
         <Container className="py-14 md:py-20 !px-6 sm:!px-10 lg:!px-14">
           <div className="grid lg:grid-cols-[0.95fr_1.05fr] gap-12 lg:gap-16 items-center">
             <div>
-              <H2 light className="mb-5">The system at the top of this page is real.</H2>
+              <H2 light className="mb-5">The example above isn&apos;t a concept.</H2>
               <Lede light className="mb-8">
-                We built it inside a working fleet. Drivers photograph their paperwork at the end of a
-                run, and the office never retypes it.
+                We built the same kind of system inside a working fleet, and it runs every day. Drivers
+                photograph their paperwork at the end of a run, and the office never retypes it.
               </Lede>
               <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-3 mb-9">
                 {facts.map((f) => (

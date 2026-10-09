@@ -11,11 +11,12 @@ export function About() {
           {/* Photo with the mascot leaning in from behind it */}
           <Reveal className="relative max-w-[420px] w-full mx-auto lg:mx-0">
             <div className="relative rounded-lg overflow-hidden border border-line bg-paper aspect-[4/5]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src="/andrew-portrait.png"
                 alt="Andrew Murray, founder of Flowrate"
-                className="w-full h-full object-cover object-[50%_20%]"
+                fill
+                sizes="(min-width: 1024px) 420px, (min-width: 640px) 420px, 100vw"
+                className="object-cover object-[50%_20%]"
               />
             </div>
             <motion.div
@@ -30,6 +31,7 @@ export function About() {
                 alt="The Flowrate mascot, a cartoon of Andrew"
                 width={1002}
                 height={1530}
+                sizes="(min-width: 640px) 150px, 110px"
                 className="w-full h-auto drop-shadow-[0_12px_20px_rgba(16,24,40,0.25)]"
               />
             </motion.div>
@@ -55,12 +57,11 @@ export function About() {
 
             <Reveal delay={0.1} className="mt-9 flex flex-col sm:flex-row sm:items-end gap-7 sm:gap-10">
               <div>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/signature-white.png" alt="Andrew Murray's signature" className="w-36 h-auto invert dark:invert-0 mb-1" />
+                <Image src="/signature-white.png" alt="Andrew Murray's signature" width={1663} height={1358} sizes="144px" className="w-36 h-auto invert dark:invert-0 mb-1" />
                 <p className="text-heading font-bold text-[15px]">Andrew Murray</p>
                 <p className="text-muted text-[14px]">Founder, Flowrate</p>
               </div>
-              <PrimaryButton>Book a call with Andrew</PrimaryButton>
+              <PrimaryButton>Book a free call</PrimaryButton>
             </Reveal>
           </div>
         </div>

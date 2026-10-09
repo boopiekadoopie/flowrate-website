@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   description: "Practical writing on removing retyping and manual admin from how a business runs.",
   robots: { index: false, follow: true },
   alternates: { canonical: "/blog" },
+  openGraph: { title: "Blog | Flowrate", url: "/blog" },
 };
 
 export default function BlogPage() {

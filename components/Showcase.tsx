@@ -90,10 +90,10 @@ function AdminScreen({ reduce }: ScreenProps) {
 
   const rows = [
     { job: "0419", who: "Hill & Co", what: "Office lighting, three floors", owner: "LK", tone: "wait" as const, status: "Quote sent", amt: "4,120.00" },
-    { job: "0418", who: "Greenway Café", what: "Fridge not cooling — door seal", owner: "SM", tone: flipped ? ("ok" as const) : ("wait" as const), status: flipped ? "Ready to invoice" : "Waiting on signature", amt: "1,633.00" },
-    { job: "0416", who: "Mara’s", what: "Annual service", owner: "TM", tone: "ok" as const, status: "Ready to invoice", amt: "1,180.00" },
+    { job: "0418", who: "Greenway Café", what: "Fridge not cooling — door seal", owner: "SR", tone: flipped ? ("ok" as const) : ("wait" as const), status: flipped ? "Ready to invoice" : "Waiting on signature", amt: "1,633.00" },
+    { job: "0416", who: "Mara’s Bakery", what: "Annual service", owner: "TM", tone: "ok" as const, status: "Ready to invoice", amt: "1,180.00" },
     { job: "0415", who: "Harbour Foods", what: "Cold room alarm", owner: "LK", tone: "done" as const, status: "Invoiced", amt: "960.00" },
-    { job: "0414", who: "Oakline Joinery", what: "Dust extraction, site visit", owner: "SM", tone: "hold" as const, status: "Needs a look", amt: "—" },
+    { job: "0414", who: "Oakline Joinery", what: "Dust extraction, site visit", owner: "SR", tone: "hold" as const, status: "Needs a look", amt: "—" },
   ];
   const nav = [
     ["Jobs", glyph.jobs, "24"],
@@ -120,9 +120,9 @@ function AdminScreen({ reduce }: ScreenProps) {
           ))}
         </div>
         <div className="mt-auto flex items-center gap-2 px-1.5 pt-3 border-t border-line">
-          <Avatar n="SN" />
+          <Avatar n="NO" />
           <span className="min-w-0">
-            <span className="block text-heading font-medium leading-tight">Sam N.</span>
+            <span className="block text-heading font-medium leading-tight">Nia Okafor</span>
             <span className="block text-[10px] text-muted leading-tight">Office</span>
           </span>
         </div>
@@ -267,7 +267,7 @@ function FieldScreen({ reduce }: ScreenProps) {
         className={`w-[142px] sm:w-[196px] shrink-0 rounded-lg bg-paper border border-line ${lift} text-[12px] overflow-hidden`}
       >
         <div className="flex items-center gap-2 px-3 py-2.5 border-b border-line">
-          <Avatar n="SN" />
+          <Avatar n="NO" />
           <span className="min-w-0">
             <span className="block font-semibold text-heading leading-tight">Office</span>
             <span className="block text-[10px] text-muted leading-tight">{step >= 7 ? "Job 0418 arrived · just now" : "Waiting for job 0418"}</span>
@@ -300,7 +300,7 @@ function FieldScreen({ reduce }: ScreenProps) {
           <span className="text-[10px] text-muted tabular-nums">INV-0193</span>
         </div>
         <div className="px-3 py-2 tabular-nums">
-          {[["Door seal × 1", "640.00"], ["Labour · 1.5 h", "780.00"], ["Tax 15%", "213.00"]].map(([k, v]) => (
+          {[["Door seal × 1", "640.00"], ["Labour · 1.5 h", "780.00"], ["Tax", "213.00"]].map(([k, v]) => (
             <p key={k} className="flex justify-between py-1 text-body"><span>{k}</span><span>{v}</span></p>
           ))}
           <p className="flex justify-between pt-1.5 mt-0.5 border-t border-line font-semibold text-heading"><span>Total</span><span>1,633.00</span></p>
@@ -321,7 +321,7 @@ function ReportScreen({ reduce }: ScreenProps) {
     ["Kaya Building", "7,300.00", 100],
     ["Hill & Co", "4,120.00", 56],
     ["Greenway Café", "1,633.00", 22],
-    ["Mara’s", "1,180.00", 16],
+    ["Mara’s Bakery", "1,180.00", 16],
   ] as const;
   const d = (i: number) => (reduce ? 0 : i);
 
@@ -414,7 +414,7 @@ function WebScreen({ reduce }: ScreenProps) {
 
   const existing = [
     ["Hill & Co", "Office lunch, Fri", "Booked", "ok"],
-    ["Mara’s", "Birthday, table of 6", "Booked", "ok"],
+    ["Jordan K.", "Birthday, table of 6", "Booked", "ok"],
     ["Oakline Joinery", "Breakfast meeting", "Quote sent", "wait"],
   ] as const;
 

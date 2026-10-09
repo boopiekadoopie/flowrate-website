@@ -24,7 +24,7 @@
   --color-heading: #101828;
   --color-body: #4A5565;
   --color-muted: #6A7282;
-  --color-faint: #99A1AF;
+  --color-faint: #6E7686;
   --color-line: #E5E7EB;
   --color-line-strong: #D4D4D4;
   --color-soft: #FAFAFA;
@@ -55,7 +55,7 @@ html {
   --color-heading: #101828;
   --color-body: #4A5565;
   --color-muted: #6A7282;
-  --color-faint: #99A1AF;
+  --color-faint: #6E7686;
   --color-line: #E5E7EB;
   --color-line-strong: #D4D4D4;
   --color-carbon: #1F1F1F;
@@ -71,7 +71,7 @@ html {
   --color-heading: #F4F4F5;
   --color-body: #A1A1AA;
   --color-muted: #8E8E96;
-  --color-faint: #6B6B73;
+  --color-faint: #83838C;
   --color-line: #26262A;
   --color-line-strong: #34343A;
   --color-carbon: #1A1A1D;
@@ -82,7 +82,6 @@ body {
   font-family: var(--font-jakarta), system-ui, -apple-system, sans-serif;
   color: var(--color-heading);
   background: var(--color-paper);
-  transition: background-color 0.25s ease, color 0.25s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -126,3 +125,6 @@ section[id] {
 @media (prefers-reduced-motion: reduce) {
   .fr-drop-in, .fr-rise-in, .fr-pop-in { animation: none; }
 }
+
+/* Anchored sections and keyboard focus land below the fixed navbar. */
+html { scroll-padding-top: 88px; }
