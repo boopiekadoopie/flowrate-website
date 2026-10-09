@@ -114,3 +114,15 @@ section[id] {
 /* Slow idle float for the hero's background paperwork */
 @keyframes paper-float { 0%,100% { transform: translate3d(0,0,0) rotate(var(--r,0deg)); } 50% { transform: translate3d(0,-10px,0) rotate(calc(var(--r,0deg) + 1.2deg)); } }
 .paper-float { animation: paper-float var(--d,11s) ease-in-out infinite; }
+
+/* Entrance animations that run from CSS, so the navbar, hero demo and chat button never wait for
+   JavaScript to load before they appear. */
+@keyframes fr-drop-in { from { transform: translateY(-80px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes fr-rise-in { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes fr-pop-in { 0% { transform: scale(0); } 70% { transform: scale(1.06); } 100% { transform: scale(1); } }
+.fr-drop-in { animation: fr-drop-in 0.5s ease-out both; }
+.fr-rise-in { animation: fr-rise-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both; }
+.fr-pop-in { animation: fr-pop-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) 1.5s both; }
+@media (prefers-reduced-motion: reduce) {
+  .fr-drop-in, .fr-rise-in, .fr-pop-in { animation: none; }
+}

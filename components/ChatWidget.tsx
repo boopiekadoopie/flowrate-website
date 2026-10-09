@@ -210,12 +210,12 @@ export function ChatWidget() {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSend()}
                   placeholder="Ask about systems, process, cost..."
-                  className="flex-1 bg-transparent text-heading text-sm placeholder:text-faint outline-none"
+                  className="flex-1 bg-transparent text-heading text-[16px] sm:text-sm placeholder:text-faint outline-none"
                 />
                 <button
                   onClick={handleSend}
                   disabled={!input.trim() || thinking}
-                  className="w-7 h-7 rounded-lg bg-green disabled:bg-canvas flex items-center justify-center transition-colors cursor-pointer disabled:cursor-default flex-shrink-0"
+                  className="w-7 h-7 rounded-lg bg-green disabled:bg-soft disabled:border disabled:border-line-strong disabled:*:text-faint flex items-center justify-center transition-colors cursor-pointer disabled:cursor-default flex-shrink-0"
                   aria-label="Send"
                 >
                   <svg viewBox="0 0 14 14" fill="none" className="w-3.5 h-3.5 text-[#060C07]">
@@ -265,12 +265,9 @@ export function ChatWidget() {
       </AnimatePresence>
 
       {/* Trigger bubble button */}
-      <motion.button
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 1.5, type: "spring", stiffness: 300, damping: 20 }}
+      <button
         onClick={() => { setOpen(!open); setShowBubble(false); }}
-        className="w-14 h-14 rounded-[16px] bg-green shadow-[0_8px_24px_-6px_rgba(16,24,40,0.3)] flex items-center justify-center cursor-pointer hover:bg-green-light transition-colors relative"
+        className="fr-pop-in w-14 h-14 rounded-[16px] bg-green shadow-[0_8px_24px_-6px_rgba(16,24,40,0.3)] flex items-center justify-center cursor-pointer hover:bg-green-light transition-colors relative"
         aria-label="Chat with the Flowrate AI assistant"
       >
         <AnimatePresence mode="wait">
@@ -298,7 +295,7 @@ export function ChatWidget() {
             </motion.svg>
           )}
         </AnimatePresence>
-      </motion.button>
+      </button>
 
     </div>
   );

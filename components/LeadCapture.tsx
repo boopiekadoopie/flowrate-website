@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Arrow, CALENDLY_URL, Check, Container, EMAIL, H2, Lede, Reveal } from "./ui";
@@ -14,6 +14,9 @@ const inputs = [
 export function LeadCapture() {
   const [values, setValues] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  // Spam checks: when the visitor started typing, and a hidden field only bots fill in.
+  const startedAt = useRef<number | null>(null);
+  const [trap, setTrap] = useState("");
 
   function mailtoFallback() {
     const body = [
@@ -35,7 +38,7 @@ export function LeadCapture() {
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, website: trap, startedAt: startedAt.current }),
       });
       if (res.ok) {
         setStatus("sent");
@@ -50,8 +53,10 @@ export function LeadCapture() {
     }
   }
 
-  const set = (name: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+  const set = (name: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    startedAt.current ??= Date.now();
     setValues((v) => ({ ...v, [name]: e.target.value }));
+  };
 
   const field =
     "w-full bg-paper border border-line-strong rounded-lg px-4 py-3 text-heading text-[16px] placeholder:text-faint outline-none focus:border-heading transition-colors";
@@ -108,6 +113,10 @@ export function LeadCapture() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <label aria-hidden className="absolute -left-[9999px] w-px h-px overflow-hidden">
+                    Leave this empty
+                    <input type="text" name="website" tabIndex={-1} autoComplete="off" value={trap} onChange={(e) => setTrap(e.target.value)} />
+                  </label>
                   {inputs.map((f) => (
                     <label key={f.name} className="flex flex-col gap-1.5">
                       <span className="text-[14px] font-medium text-heading">

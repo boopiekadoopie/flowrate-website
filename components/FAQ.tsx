@@ -46,7 +46,7 @@ function Item({ q, a, open, onToggle }: { q: string; a: string; open: boolean; o
         aria-expanded={open}
         className="w-full flex items-center justify-between gap-6 py-5 text-left cursor-pointer group"
       >
-        <span className="text-heading text-[17px] font-semibold group-hover:text-black">{q}</span>
+        <span className="text-heading text-[17px] font-semibold">{q}</span>
         <span
           className={`w-8 h-8 rounded-lg border flex items-center justify-center flex-shrink-0 transition-colors duration-200 ${
             open ? "bg-carbon border-carbon text-white" : "border-line-strong text-heading"

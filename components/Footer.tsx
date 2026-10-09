@@ -5,11 +5,11 @@ const CALENDLY_URL = "https://calendly.com/flowrate/30min";
 const EMAIL = "andrew@flowrate.agency";
 
 const siteLinks = [
-  { label: "What we build", href: "#services" },
-  { label: "How a build works", href: "#how-it-works" },
-  { label: "About", href: "#about" },
-  { label: "Questions", href: "#faq" },
-  { label: "Contact", href: "#contact" },
+  { label: "What we build", href: "/#services" },
+  { label: "How a build works", href: "/#how-it-works" },
+  { label: "About", href: "/#about" },
+  { label: "Questions", href: "/#faq" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 const socials = [

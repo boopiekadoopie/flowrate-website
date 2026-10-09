@@ -8,9 +8,9 @@ import { ThemeToggle } from "./ThemeToggle";
 const CALENDLY_URL = "https://calendly.com/flowrate/30min";
 
 const leftLinks = [
-  { label: "What we build", href: "#services", active: false, chevron: false },
-  { label: "How it works", href: "#how-it-works", active: false, chevron: false },
-  { label: "About", href: "#about", active: false, chevron: false },
+  { label: "What we build", href: "/#services", active: false, chevron: false },
+  { label: "How it works", href: "/#how-it-works", active: false, chevron: false },
+  { label: "About", href: "/#about", active: false, chevron: false },
 ];
 
 function Chevron() {
@@ -44,11 +44,8 @@ export function Navbar() {
   }, []);
 
   return (
-    <motion.header
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className={`fixed top-0 inset-x-0 z-50 bg-paper/90 backdrop-blur-md border-b border-line transition-shadow duration-300 ${
+    <header
+      className={`fr-drop-in fixed top-0 inset-x-0 z-50 bg-paper/90 backdrop-blur-md border-b border-line transition-shadow duration-300 ${
         scrolled ? "shadow-[0_1px_3px_rgba(0,0,0,0.06)]" : ""
       }`}
     >
@@ -107,12 +104,12 @@ export function Navbar() {
 
           <div className="flex items-center gap-6 justify-end">
             <ThemeToggle />
-            <a
-              href="#contact"
+            <Link
+              href="/#contact"
               className="text-[14px] font-semibold text-body hover:text-heading transition-colors duration-200"
             >
               Contact
-            </a>
+            </Link>
             <a
               href={CALENDLY_URL}
               target="_blank"
@@ -144,13 +141,13 @@ export function Navbar() {
               {l.label}
             </a>
           ))}
-          <a
-            href="#contact"
+          <Link
+            href="/#contact"
             onClick={() => setMenuOpen(false)}
-            className="text-body text-base font-medium hover:text-[#101828] transition-colors py-1"
+            className="text-body text-base font-medium hover:text-heading transition-colors py-1"
           >
             Contact
-          </a>
+          </Link>
           <a
             href={CALENDLY_URL}
             target="_blank"
@@ -161,6 +158,6 @@ export function Navbar() {
           </a>
         </motion.div>
       )}
-    </motion.header>
+    </header>
   );
 }

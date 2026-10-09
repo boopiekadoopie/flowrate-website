@@ -2,44 +2,21 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { demos } from "@/lib/demos";
 import { FlowrateWordmark } from "@/components/FlowrateLogo";
+import { CALENDLY_URL } from "@/lib/site";
 
-const DEFAULT_CALENDLY = "https://calendly.com/andrewedwardmurray/30min";
-
-async function resolveDemo(
-  slug: string,
-  searchParams: Record<string, string | string[] | undefined>
-) {
-  const preset = demos[slug];
-  if (preset) return preset;
-
-  // No preset for this slug -> treat the slug itself as the Loom id and
-  // pull the rest from query params, so a link works with zero code changes:
-  // flowrate.agency/demo/<loomId>?name=Client+Name&site=https://...
-  const name = typeof searchParams.name === "string" ? searchParams.name : null;
-  if (!name) return null;
-
-  return {
-    clientName: name,
-    loomId: slug,
-    demoSiteUrl: typeof searchParams.site === "string" ? searchParams.site : undefined,
-    calendlyUrl: DEFAULT_CALENDLY,
-  };
+function resolveDemo(slug: string) {
+  const preset = Object.hasOwn(demos, slug) ? demos[slug] : undefined;
+  return preset ? { ...preset, calendlyUrl: preset.calendlyUrl ?? CALENDLY_URL } : null;
 }
 
-export async function generateMetadata({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ slug: string }>;
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const demo = await resolveDemo(slug, await searchParams);
+  const demo = resolveDemo(slug);
   if (!demo) return { robots: { index: false, follow: false } };
 
   const title = `${demo.clientName} — a quick look from Flowrate`;
   const description = `A short walkthrough Andrew put together for ${demo.clientName}.`;
-  const imageUrl = "/flowrate-banner-og.jpg";
+  const imageUrl = "/og-home.jpg";
 
   return {
     title,
@@ -52,7 +29,7 @@ export async function generateMetadata({
       url: `/demo/${slug}`,
       siteName: "Flowrate Agency",
       type: "website",
-      images: [{ url: imageUrl, width: 1200, height: 509, alt: "Flowrate" }],
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: "Flowrate" }],
     },
     twitter: {
       card: "summary_large_image",
@@ -63,15 +40,9 @@ export async function generateMetadata({
   };
 }
 
-export default async function DemoPage({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ slug: string }>;
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}) {
+export default async function DemoPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const demo = await resolveDemo(slug, await searchParams);
+  const demo = resolveDemo(slug);
   if (!demo) notFound();
 
   return (
@@ -79,7 +50,7 @@ export default async function DemoPage({
       <div className="mx-auto max-w-3xl px-6 py-14 sm:py-20">
         <FlowrateWordmark className="mb-10" />
 
-        <h1 className="font-[var(--font-display)] text-2xl sm:text-3xl leading-tight mb-3">
+        <h1 className="font-display text-2xl sm:text-3xl leading-tight mb-3">
           {demo.clientName}, here&apos;s the quick walkthrough
         </h1>
         <p className="text-[color:var(--color-silver)] mb-8">

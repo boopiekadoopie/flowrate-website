@@ -1,6 +1,5 @@
 "use client";
 import { useRef } from "react";
-import { motion } from "framer-motion";
 import { HeroBackdrop } from "./HeroBackdrop";
 import { HeroStage, HeroStageMobile } from "./HeroStage";
 import { Arrow, CALENDLY_URL } from "./ui";
@@ -52,19 +51,14 @@ export function Hero() {
           </ul>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-14 lg:mt-20"
-        >
+        <div className="fr-rise-in mt-14 lg:mt-20">
           <div className="hidden lg:block">
             <HeroStage />
           </div>
           <div className="lg:hidden max-w-[460px] mx-auto">
             <HeroStageMobile />
           </div>
-        </motion.div>
+        </div>
 
         <p className="mt-14 lg:mt-16 text-center text-[13px] text-muted">
           Built by people who had to do the job by hand first. Names and numbers in the example are made up.

@@ -2,8 +2,9 @@
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import { fadeUp } from "@/lib/animations";
+import { CALENDLY_URL } from "@/lib/site";
 
-export const CALENDLY_URL = "https://calendly.com/flowrate/30min";
+export { CALENDLY_URL };
 export const EMAIL = "andrew@flowrate.agency";
 
 export function Container({ children, className = "" }: { children: ReactNode; className?: string }) {
