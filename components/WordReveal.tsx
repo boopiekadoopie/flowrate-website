@@ -1,8 +1,8 @@
 "use client";
-import { Fragment, useRef, useSyncExternalStore } from "react";
-import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { Fragment, useRef } from "react";
+import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
 
-const subscribeNoop = () => () => {};
 
 /*
  * Scroll-linked statement: words brighten from faint to full as the reader scrolls past.
@@ -30,11 +30,10 @@ function Word({ word, range, progress, boxed }: { word: string; range: [number, 
 
 export function WordReveal({ text, className = "" }: { text: string; className?: string }) {
   const ref = useRef<HTMLHeadingElement>(null);
-  const prefersReduce = useReducedMotion();
+
   // The server and the first client render always draw the per-word version; only after mount may
   // a reduced-motion visitor get the plain heading, so hydration never mismatches.
-  const mounted = useSyncExternalStore(subscribeNoop, () => true, () => false);
-  const reduce = !!prefersReduce && mounted;
+  const reduce = useReduceAfterMount();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 95%", "end 55%"] });
   const words = text.split(" ");
   const plain = text.replace(/[[\]]/g, "");

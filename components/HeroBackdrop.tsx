@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useSyncExternalStore } from "react";
-import { motion, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion";
+import { motion, useMotionValue, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion";
+import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
 import { Chat, JobCard, Mail, Receipt, Sheet, Sticky } from "./Paperwork";
 
 /*
@@ -57,7 +58,7 @@ function Floating({ p, mx, my, progress }: { p: Piece; mx: MotionValue<number>; 
 }
 
 export function HeroBackdrop({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
-  const reduce = useReducedMotion();
+  const reduce = useReduceAfterMount();
   const canHover = useSyncExternalStore(subscribe, getHover, () => false);
   const mx = useSpring(useMotionValue(0), { stiffness: 60, damping: 18 });
   const my = useSpring(useMotionValue(0), { stiffness: 60, damping: 18 });

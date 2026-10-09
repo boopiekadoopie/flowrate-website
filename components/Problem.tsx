@@ -1,6 +1,7 @@
 "use client";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useInView } from "framer-motion";
+import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
 import { Container } from "./ui";
 import { WordReveal } from "./WordReveal";
 import { JobCard } from "./Paperwork";
@@ -12,7 +13,6 @@ import { JobCard } from "./Paperwork";
  * One clock (ms since the diagram came into view) drives every cell.
  */
 
-const subscribeNoop = () => () => {};
 const ease = [0.22, 1, 0.36, 1] as const;
 const LOOP_MS = 14000;
 const FINAL_MS = 10000;
@@ -90,21 +90,21 @@ function Cell({ i, active, place, by, children }: { i: number; active: boolean; 
 export function Problem() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.45 });
-  const prefersReduce = useReducedMotion();
-  // Server and first client render show the empty diagram; reduced-motion visitors jump to the
-  // finished state only after mount, so hydration never mismatches.
-  const mounted = useSyncExternalStore(subscribeNoop, () => true, () => false);
-  const reduce = !!prefersReduce && mounted;
+  // Server and first client render show the empty diagram; reduced-motion or paused visitors jump to
+  // the finished state only after mount, so hydration never mismatches.
+  const reduce = useReduceAfterMount();
   const [now, setNow] = useState(-1);
 
   useEffect(() => {
-    if (prefersReduce || !inView) return;
+    if (reduce || !inView) return;
     const t0 = performance.now();
     const id = setInterval(() => setNow((performance.now() - t0) % LOOP_MS), 50);
     return () => clearInterval(id);
-  }, [inView, prefersReduce]);
+  }, [inView, reduce]);
 
   const t = reduce ? FINAL_MS : now;
+  // The payoff holds for about four seconds, then the diagram fades out before the loop restarts.
+  const outro = !reduce && t >= LOOP_MS - 1000;
   const stage = t >= T.invoice ? 3 : t >= T.accounts ? 2 : t >= T.sheet ? 1 : t >= T.photo ? 0 : -1;
   const swapped = t >= T.swap;
   const rail = stage < 0 ? 0 : (stage + 1) / 4;
@@ -124,7 +124,11 @@ export function Problem() {
             <motion.div className="h-full bg-heading origin-left" animate={{ scaleX: rail }} transition={{ duration: 0.6, ease }} />
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4">
+          <motion.div
+            className="grid grid-cols-2 lg:grid-cols-4"
+            animate={{ opacity: outro ? 0 : 1 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+          >
             {/* 1 — the photo in the group chat */}
             <Cell i={0} active={stage === 0} place="WhatsApp group" by="Someone on site sends a photo">
               <AnimatePresence>
@@ -276,7 +280,7 @@ export function Problem() {
                 </AnimatePresence>
               </div>
             </Cell>
-          </div>
+          </motion.div>
         </div>
 
         <p className="mt-5 text-[15px] text-muted [text-wrap:pretty]">

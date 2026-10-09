@@ -1,7 +1,8 @@
 "use client";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, MotionConfig, motion, useInView, useReducedMotion } from "framer-motion";
+import { AnimatePresence, MotionConfig, motion, useInView } from "framer-motion";
+import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
 import { Check, Container, H2, Lede } from "./ui";
 
 /*
@@ -11,7 +12,6 @@ import { Check, Container, H2, Lede } from "./ui";
  * flowing through untouched.
  */
 
-const subscribeNoop = () => () => {};
 const ease = [0.22, 1, 0.36, 1] as const;
 const DURATION = 7000;
 const lift = "shadow-[0_12px_30px_-12px_rgba(28,40,64,0.22),0_2px_4px_-2px_rgba(28,40,64,0.08)]";
@@ -526,10 +526,8 @@ export function Showcase() {
   const ref = useRef<HTMLDivElement>(null);
   const stripRef = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.35 });
-  const prefersReduce = useReducedMotion();
-  // Server and first client render are identical; the reduced-motion shortcut applies only after mount.
-  const mounted = useSyncExternalStore(subscribeNoop, () => true, () => false);
-  const reduce = !!prefersReduce && mounted;
+  // Server and first client render are identical; the reduced-motion / paused shortcut applies after mount.
+  const reduce = useReduceAfterMount();
   const running = auto && !paused && inView && !reduce;
 
   useEffect(() => {
@@ -537,6 +535,26 @@ export function Showcase() {
     const id = setTimeout(() => setActive((a) => (a + 1) % tabs.length), DURATION);
     return () => clearTimeout(id);
   }, [running, active]);
+
+  // Phones: when the tabs advance on their own, slide the strip so the active tab stays visible
+  // (horizontal only, so the page itself never jumps).
+  useEffect(() => {
+    const el = stripRef.current;
+    const btn = el?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[active];
+    if (!el || !btn || el.scrollWidth <= el.clientWidth || !inView) return;
+    el.scrollTo({ left: Math.max(0, btn.offsetLeft - 20), behavior: reduce ? "auto" : "smooth" });
+  }, [active, inView, reduce]);
+
+  // Arrow keys move between tabs, like any tab list.
+  const onTabKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const step = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : e.key === "ArrowLeft" || e.key === "ArrowUp" ? -1 : 0;
+    if (!step) return;
+    e.preventDefault();
+    const next = (active + step + tabs.length) % tabs.length;
+    setActive(next);
+    setAuto(false);
+    stripRef.current?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[next]?.focus();
+  };
 
   // Mobile tab strip: hide the edge fade once the last tab is in view.
   const onStripScroll = () => {
@@ -558,13 +576,22 @@ export function Showcase() {
           </Lede>
         </div>
 
-        <div ref={ref} className="grid grid-cols-[minmax(0,1fr)] lg:grid-cols-[340px_minmax(0,1fr)] gap-6 lg:gap-10 items-start" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+        <div ref={ref} className="grid grid-cols-[minmax(0,1fr)] lg:grid-cols-[340px_minmax(0,1fr)] gap-6 lg:gap-10 items-start"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          // Keyboard users: pause while focus is inside, so the panel never changes under them.
+          onFocus={() => setPaused(true)}
+          onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setPaused(false); }}
+          // Touch: once someone touches the showcase, stop advancing on its own.
+          onTouchStart={() => setAuto(false)}
+        >
           <div className="relative min-w-0">
             <div
               ref={stripRef}
               onScroll={onStripScroll}
               role="tablist"
               aria-label="What we build"
+              onKeyDown={onTabKey}
               className="min-w-0 flex lg:flex-col gap-2 overflow-x-auto snap-x snap-mandatory lg:snap-none -mx-5 px-5 sm:-mx-8 sm:px-8 lg:mx-0 lg:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             >
               {tabs.map((t, i) => {
@@ -574,6 +601,7 @@ export function Showcase() {
                     key={t.title}
                     role="tab"
                     aria-selected={on}
+                    tabIndex={on ? 0 : -1}
                     onClick={() => { setActive(i); setAuto(false); }}
                     className={`relative text-left rounded-lg border px-4 py-3.5 lg:px-5 lg:py-4 transition-colors duration-150 cursor-pointer flex-shrink-0 snap-start overflow-hidden ${
                       on ? "bg-paper border-heading" : "bg-canvas border-line hover:border-line-strong"

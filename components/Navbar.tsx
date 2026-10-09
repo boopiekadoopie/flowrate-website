@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ThemeToggle } from "./ThemeToggle";
+import { MotionToggle } from "./MotionToggle";
 
 const CALENDLY_URL = "https://calendly.com/flowrate/30min";
 
@@ -105,7 +106,10 @@ export function Navbar() {
           </Link>
 
           <div className="flex items-center gap-6 justify-end">
-            <ThemeToggle />
+            <div className="flex items-center gap-2">
+              <MotionToggle />
+              <ThemeToggle />
+            </div>
             <Link
               href="/#contact"
               className="text-[14px] font-semibold text-body hover:text-heading transition-colors duration-200"
@@ -150,6 +154,7 @@ export function Navbar() {
           >
             Contact
           </Link>
+          <MotionToggle variant="row" />
           <a
             href={CALENDLY_URL}
             target="_blank"

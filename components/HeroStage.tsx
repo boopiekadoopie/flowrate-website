@@ -6,7 +6,6 @@ import {
   motion,
   useInView,
   useMotionValue,
-  useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
@@ -29,7 +28,9 @@ import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
 const W = 1200;
 const H = 620;
 const TICK = 600;
-const LOOP = 24;
+// The approved invoice holds on screen from t=20 to t=27, then the last tick fades the stage out
+// so the loop restarts from a clean frame instead of hard-cutting.
+const LOOP = 29;
 const FINAL = 17;
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -40,7 +41,6 @@ const subscribeHover = (cb: () => void) => {
   return () => mq.removeEventListener("change", cb);
 };
 const getHover = () => window.matchMedia(HOVER_QUERY).matches;
-const subscribeNoop = () => () => {};
 
 /* ------------------------------------------------------------- icons (1.5px line, 16 grid) */
 
@@ -769,17 +769,15 @@ function Beam({ d, fire, id }: { d: string; fire: boolean; id: string }) {
 
 function useStageClock(target: React.RefObject<HTMLElement | null>) {
   const inView = useInView(target, { amount: 0.2 });
-  const prefersReduce = useReducedMotion();
-  // The server (and the first client render) always draw frame 0. Only after mount may a
-  // reduced-motion visitor jump to the still final frame, so hydration never mismatches.
-  const mounted = useSyncExternalStore(subscribeNoop, () => true, () => false);
-  const reduce = !!prefersReduce && mounted;
+  // Frame 0 on the server and first client render; reduced-motion or paused visitors then see the
+  // still final frame (useReduceAfterMount applies only after mount, so hydration never mismatches).
+  const reduce = useReduceAfterMount();
   const [count, setCount] = useState(0);
   useEffect(() => {
-    if (prefersReduce || !inView) return;
+    if (reduce || !inView) return;
     const id = setInterval(() => setCount((c) => c + 1), TICK);
     return () => clearInterval(id);
-  }, [prefersReduce, inView]);
+  }, [reduce, inView]);
   const loop = Math.floor(count / LOOP);
   return { t: reduce ? FINAL : count % LOOP, held: !reduce && loop % 2 === 1, loop, reduce };
 }
@@ -852,6 +850,8 @@ export function HeroStage() {
       <motion.div
         className="absolute left-1/2 top-0 origin-top"
         style={{ width: W, height: H, x: "-50%", scale, transformStyle: "preserve-3d" }}
+        animate={{ opacity: !reduce && t === LOOP - 1 ? 0 : 1 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
       >
         <motion.div className="relative w-full h-full origin-[50%_0%]" style={reduce ? undefined : { rotateX, scale: lift }}>
           {/* light falls from the top-left; the ground catches a soft contact shadow */}
@@ -944,7 +944,7 @@ const MH = 560;
 export function HeroStageMobile() {
   const wrap = useRef<HTMLDivElement>(null);
   const scale = useFitScale(wrap, MW, 1.25);
-  const { t, held, loop } = useStageClock(wrap);
+  const { t, held, loop, reduce } = useStageClock(wrap);
   return (
     <div
       ref={wrap}
@@ -953,7 +953,12 @@ export function HeroStageMobile() {
       role="img"
       aria-label="Animated example: a team member photographs a signed job card with no signal, it sends itself when signal returns, the office system reads the fields, checks parts and time, and creates a draft invoice for approval, or holds it when the card and the stock record disagree."
     >
-      <div className="absolute left-1/2 top-0 origin-top" style={{ width: MW, height: MH, transform: `translateX(-50%) scale(${scale})` }}>
+      <motion.div
+        className="absolute left-1/2 top-0 origin-top"
+        style={{ width: MW, height: MH, transform: `translateX(-50%) scale(${scale})` }}
+        animate={{ opacity: !reduce && t === LOOP - 1 ? 0 : 1 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+      >
         <div aria-hidden className="absolute left-[10%] right-[10%] bottom-[-10px] h-[50px] rounded-[50%] bg-[#101828]/10 dark:bg-black/60 blur-2xl" />
         <div className="absolute" style={{ left: 30, top: 0 }}>
           <CompactOffice t={t} held={held} />
@@ -972,7 +977,7 @@ export function HeroStageMobile() {
         <div className="absolute" style={{ left: 158, top: 336, rotate: "-1.5deg" }}>
           <Scaled k={0.77} w={262} h={250}><Invoice t={t} held={held} /></Scaled>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
