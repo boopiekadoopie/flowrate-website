@@ -128,3 +128,10 @@ section[id] {
 
 /* Anchored sections and keyboard focus land below the fixed navbar. */
 html { scroll-padding-top: 88px; }
+
+/* Print just one element (the /work checklist's paper form) when body[data-printing] names it. */
+@media print {
+  body[data-printing] * { visibility: hidden !important; }
+  body[data-printing="ck-paper"] #ck-paper, body[data-printing="ck-paper"] #ck-paper * { visibility: visible !important; }
+  body[data-printing="ck-paper"] #ck-paper { position: fixed; left: 0; top: 0; width: 100%; transform: none !important; }
+}

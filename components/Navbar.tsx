@@ -10,6 +10,7 @@ const CALENDLY_URL = "https://calendly.com/flowrate/30min";
 
 const leftLinks = [
   { label: "What we build", href: "/#services", active: false, chevron: false },
+  { label: "Our work", href: "/work", active: false, chevron: false },
   { label: "How it works", href: "/#how-it-works", active: false, chevron: false },
   { label: "About", href: "/#about", active: false, chevron: false },
 ];
