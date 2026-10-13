@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { ThemeToggle } from "./ThemeToggle";
 import { MotionToggle } from "./MotionToggle";
@@ -36,6 +37,35 @@ function HamburgerIcon({ open }: { open: boolean }) {
 }
 
 export function Navbar() {
+  const pathname = usePathname();
+  /* On the homepage the mascot is already "home", so a plain link wouldn't move: scroll back to the hero instead.
+     Driven frame by frame (not behavior: "smooth"): framer-motion briefly restores the scroll position while it
+     measures in-view animations, which cancels a native smooth scroll part-way. Any wheel/touch hands control back. */
+  const toTop = (e: React.MouseEvent) => {
+    if (pathname !== "/") return;
+    e.preventDefault();
+    if (window.location.hash) history.replaceState(null, "", "/");
+    const from = window.scrollY;
+    const jump = (y: number) => window.scrollTo({ top: y, behavior: "instant" as ScrollBehavior });
+    if (from <= 0) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return jump(0);
+    const dur = Math.min(1100, 450 + from / 12);
+    const t0 = performance.now();
+    let stop = false;
+    const cancel = () => { stop = true; };
+    window.addEventListener("wheel", cancel, { once: true, passive: true });
+    window.addEventListener("touchstart", cancel, { once: true, passive: true });
+    const step = (now: number) => {
+      if (stop) return;
+      const t = Math.min(1, (now - t0) / dur);
+      const k = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      jump(Math.round(from * (1 - k)));
+      if (t < 1) requestAnimationFrame(step);
+      else { window.removeEventListener("wheel", cancel); window.removeEventListener("touchstart", cancel); }
+    };
+    requestAnimationFrame(step);
+  };
+
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -54,7 +84,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-5 lg:px-8 h-16">
         {/* Mobile bar: mascot on the left, hamburger on the right */}
         <div className="lg:hidden flex items-center justify-between h-full">
-          <Link href="/" aria-label="Flowrate home" className="flex items-center">
+          <Link href="/" onClick={toTop} aria-label="Flowrate home" className="flex items-center">
             <Image
               src="/mascot.png"
               alt="Flowrate"
@@ -94,7 +124,7 @@ export function Navbar() {
             ))}
           </nav>
 
-          <Link href="/" aria-label="Flowrate home" className="justify-self-center relative z-10">
+          <Link href="/" onClick={toTop} aria-label="Flowrate home" className="justify-self-center relative z-10">
             <Image
               src="/mascot.png"
               alt="Flowrate"
