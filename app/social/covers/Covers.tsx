@@ -7,7 +7,7 @@ import { Chat, Mail, Receipt, Sheet, Sticky } from "@/components/Paperwork";
  * Profile covers, hero-style: the everyday mess a business runs on drifts on the left, a plain
  * statement of what Flowrate builds sits in the middle, and the clean things we build sit on the
  * right, each labelled (website, app, dashboard). Not one problem: the whole range.
- * ?c=li | lip | fb  ·  &theme=dark  ·  &guides=1 shows the avatar / crop safe zones.
+ * ?c=li | lip | fb | yt  ·  &theme=dark  ·  &guides=1 shows the avatar / crop safe zones.
  */
 
 const HEAD = "Custom apps, systems and websites for your business.";
@@ -247,11 +247,54 @@ function LinkedInPage({ dark, guides }: Theme & { guides: boolean }) {
   );
 }
 
+/* ---------------------------------------------------------------- YouTube 2560×1440 */
+/* TV shows it all; desktop shows the 2560×423 strip; phones only the 1546×423 middle (the "safe area"). */
+function YouTube({ dark, guides }: Theme & { guides: boolean }) {
+  return (
+    <Frame
+      w={2560}
+      h={1440}
+      dark={dark}
+      guides={
+        guides && (
+          <>
+            <div className="absolute inset-x-0 top-[508px] h-[423px] border-y-2 border-dashed border-[#2563EB] z-50" />
+            <Guide label="safe area (all devices)" style={{ left: 507, top: 508, width: 1546, height: 423 }} />
+          </>
+        )
+      }
+    >
+      {/* the mess (desktop strip, left of the safe area) */}
+      <At x={70} y={520} r={-9}><Receipt /></At>
+      <At x={250} y={500} r={4}><Chat /></At>
+      <At x={270} y={650} r={-4}><Sheet /></At>
+      <At x={50} y={720} r={7}><Sticky /></At>
+      <At x={230} y={780} r={3}><Mail /></At>
+      {/* what we build (desktop strip, right of the safe area) */}
+      <At x={2150} y={520}><Browser dark={dark} /></At>
+      <At x={2220} y={745}><Dashboard dark={dark} /></At>
+      <At x={2070} y={540}><PhoneApp dark={dark} /></At>
+      <Center
+        dark={dark}
+        w={1440}
+        head={HEAD}
+        sub=""
+        chips
+        gap="mt-8"
+        className="left-[560px] top-[574px] [&_h1]:text-[72px]"
+        chipSize="text-[25px] px-5 py-2.5"
+      />
+      <p className={`absolute left-[560px] w-[1440px] top-[858px] text-center text-[30px] font-semibold ${dark ? "text-white" : "text-[#101828]"}`}>flowrate.agency</p>
+    </Frame>
+  );
+}
+
 export function Covers({ c, guides, theme }: { c?: string; guides: boolean; theme?: string }) {
   const dark = theme === "dark";
   if (c === "li") return <LinkedInProfile dark={dark} guides={guides} />;
   if (c === "lip") return <LinkedInPage dark={dark} guides={guides} />;
   if (c === "fb") return <Facebook dark={dark} guides={guides} />;
+  if (c === "yt") return <YouTube dark={dark} guides={guides} />;
   return (
     <div className="flex flex-col gap-10 p-10">
       <LinkedInProfile dark={dark} guides={guides} />
