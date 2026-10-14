@@ -2,6 +2,7 @@ import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Problem } from "@/components/Problem";
 import { Convergence } from "@/components/Convergence";
+import { SheetBand } from "@/components/SheetBand";
 import { Showcase } from "@/components/Showcase";
 import { CaseStudy } from "@/components/CaseStudy";
 import { HowItWorks } from "@/components/HowItWorks";
@@ -57,6 +58,7 @@ export default function Home() {
         <Hero />
         <Problem />
         <Convergence />
+        <SheetBand />
         <Showcase />
         <CaseStudy />
         <HowItWorks />

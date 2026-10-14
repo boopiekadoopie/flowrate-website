@@ -204,7 +204,7 @@ function FieldScreen({ reduce }: ScreenProps) {
   const step = reduce ? 8 : stepLater;
 
   const items = [
-    { label: "Photo of finished work", d: glyph.camera, done: <span className="relative block w-7 h-7 rounded-[5px] overflow-hidden border border-white/20"><Image src={PHOTO} alt="" fill sizes="28px" className="object-cover" /></span> },
+    { label: "Photo of finished work", d: glyph.camera, done: <span className="relative block w-6 h-6 rounded-[5px] overflow-hidden border border-white/20"><Image src={PHOTO} alt="" fill sizes="24px" className="object-cover" /></span> },
     { label: "Parts used", d: glyph.box, done: <span className="text-[10.5px] text-white/80">Door seal × 1</span> },
     { label: "Customer signature", d: glyph.pen, done: <Signature className="w-[34px] sm:w-[46px] h-[11px] text-[#99E58C]" /> },
     { label: "Time on site", d: glyph.clock, done: <span className="text-[10.5px] text-white/80 tabular-nums">1.5 h</span> },
@@ -215,7 +215,7 @@ function FieldScreen({ reduce }: ScreenProps) {
     <div className="h-full flex items-center justify-center gap-2.5 sm:gap-5 md:gap-6 p-3 sm:p-6 bg-canvas">
       {/* phone */}
       <div className="w-[194px] sm:w-[216px] shrink-0 rounded-[26px] bg-carbon p-2 shadow-[0_24px_48px_-20px_rgba(16,24,40,0.5)]">
-        <div className="rounded-[20px] bg-[#141414] px-3 sm:px-3.5 pt-3 pb-3.5 min-h-[372px] sm:min-h-[388px] flex flex-col">
+        <div className="rounded-[20px] bg-[#141414] px-3 sm:px-3.5 pt-3 pb-3.5 h-[400px] sm:h-[404px] overflow-hidden flex flex-col">
           <div className="flex justify-between items-center text-[10px] text-white/50 mb-3">
             <span className="tabular-nums">09:41</span>
             <span className="flex items-center gap-1">{sent ? <I d={glyph.signal} className="w-3 h-3" /> : <span className="text-[9px]">No signal</span>}<I d={glyph.wifi} className="w-3 h-3" /></span>
@@ -233,7 +233,7 @@ function FieldScreen({ reduce }: ScreenProps) {
             {items.map((it, i) => {
               const done = step > i;
               return (
-                <div key={it.label} className={`flex items-center gap-2 rounded-[8px] px-2 py-1.5 border transition-colors duration-200 ${done ? "bg-white/[0.06] border-white/10" : "border-white/10"}`}>
+                <div key={it.label} className={`flex items-center gap-2 rounded-[8px] px-2 h-[34px] border transition-colors duration-200 ${done ? "bg-white/[0.06] border-white/10" : "border-white/10"}`}>
                   <span className={`w-5 h-5 shrink-0 rounded-[5px] flex items-center justify-center transition-colors duration-200 ${done ? "bg-[#99E58C] text-[#0C1A0D]" : "text-white/45 border border-white/20"}`}>
                     {done ? <Check className="w-3 h-3" /> : <I d={it.d} className="w-3 h-3" />}
                   </span>
@@ -245,13 +245,16 @@ function FieldScreen({ reduce }: ScreenProps) {
           </div>
 
           <div className="mt-auto pt-3">
-            <AnimatePresence mode="wait">
-              {step === 5 && (
-                <motion.p key="off" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="rounded-[8px] bg-white/10 text-[10px] text-white/70 px-2.5 py-2 mb-2 leading-snug">
-                  No signal. Saved on this phone, it’ll send itself.
-                </motion.p>
-              )}
-            </AnimatePresence>
+            {/* the notice has its own slot, so nothing on the screen moves when it appears */}
+            <div className="h-[44px] mb-2 flex items-end">
+              <AnimatePresence mode="wait">
+                {step === 5 && (
+                  <motion.p key="off" initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="w-full rounded-[8px] bg-white/10 text-[10px] text-white/70 px-2.5 py-2 leading-snug">
+                    No signal. Saved on this phone, it’ll send itself.
+                  </motion.p>
+                )}
+              </AnimatePresence>
+            </div>
             <div className={`h-9 rounded-[10px] flex items-center justify-center gap-1.5 text-[12px] font-bold transition-colors duration-200 ${sent ? "bg-white/10 text-[#99E58C]" : "bg-[#99E58C] text-[#0C1A0D]"}`}>
               {sent ? <><Check className="w-3.5 h-3.5" /> Sent</> : "Finish job"}
             </div>

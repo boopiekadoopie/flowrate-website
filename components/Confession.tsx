@@ -1,11 +1,12 @@
 "use client";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { WinkMascot } from "./WinkMascot";
 import { LeadCapture } from "./LeadCapture";
 import { Arrow, Container } from "./ui";
 import { mascot } from "@/lib/mascot";
 import type { ConfessionResult } from "@/app/api/confession/route";
+import { SHEET_KEY } from "./SheetBand";
 
 /*
  * Spreadsheet confession: paste the top row of the spreadsheet you hate, see the app it would become.
@@ -37,6 +38,10 @@ export function Confession() {
 
   async function go(e: React.FormEvent) {
     e.preventDefault();
+    run(headers);
+  }
+
+  async function run(headers: string) {
     if (busy || headers.trim().length < 3) return;
     setBusy(true);
     setError("");
@@ -58,6 +63,25 @@ export function Confession() {
       setBusy(false);
     }
   }
+
+  // arriving from the homepage band: pick up what was pasted there (sessionStorage, never the URL) and run it
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("run") !== "1") return;
+    // read and clear inside the timer, so a cancelled first pass (React's double effect in development) leaves it be
+    const t = setTimeout(() => {
+      let h = "";
+      try {
+        h = sessionStorage.getItem(SHEET_KEY) || "";
+        sessionStorage.removeItem(SHEET_KEY);
+      } catch {}
+      history.replaceState(null, "", "/spreadsheet");
+      if (!h) return;
+      setHeaders(h);
+      run(h);
+    }, 0);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function sendToAndrew() {
     if (!result) return;

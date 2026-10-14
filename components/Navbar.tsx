@@ -12,7 +12,8 @@ const CALENDLY_URL = "https://calendly.com/flowrate/30min";
 const leftLinks = [
   { label: "What we build", href: "/#services", active: false, chevron: false },
   { label: "Our work", href: "/work", active: false, chevron: false },
-  { label: "How it works", href: "/#how-it-works", active: false, chevron: false },
+  { label: "Your spreadsheet", href: "/spreadsheet", active: false, chevron: false },
+  { label: "How it works", href: "/#how-it-works", active: false, chevron: false, wide: true }, // only on wide screens: the bar has room for four links on a laptop
   { label: "About", href: "/#about", active: false, chevron: false },
 ];
 
@@ -110,12 +111,12 @@ export function Navbar() {
 
         {/* Desktop bar: links / centered mascot / contact cluster */}
         <div className="hidden lg:grid grid-cols-[1fr_auto_1fr] items-center gap-4 h-full">
-          <nav className="flex items-center gap-7 justify-start">
+          <nav className="flex items-center gap-5 xl:gap-7 justify-start">
             {leftLinks.map((l) => (
               <a
                 key={l.label}
                 href={l.href}
-                className={`fr-ul inline-flex items-center gap-1 text-[14px] font-semibold transition-colors duration-200 ${
+                className={`fr-ul ${"wide" in l && l.wide ? "hidden xl:inline-flex" : "inline-flex"} whitespace-nowrap items-center gap-1 text-[14px] font-semibold transition-colors duration-200 ${
                   l.active ? "text-heading" : "text-body hover:text-heading"
                 }`}
               >

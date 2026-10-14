@@ -4,9 +4,10 @@ import { useSyncExternalStore } from "react";
 /*
  * The site's sound: off unless the visitor turns it on (the switch in the footer), remembered in
  * localStorage. Five soft sounds from the brand kit, used sparingly: pop-in (something arrives), pop-out
- * (something leaves), tick (a step done), slide (a panel moves), chord (it's done).
+ * (something leaves), tick (a step done), slide (a panel moves), chord (it's done). Plus Andrew's own voice:
+ * "Huh, nice one." when the contact form is sent.
  */
-export type Sound = "pop-in" | "pop-out" | "tick" | "slide" | "chord";
+export type Sound = "pop-in" | "pop-out" | "tick" | "slide" | "chord" | "nice-one";
 const KEY = "sound";
 const EVENT = "flowrate-sound";
 

@@ -28,6 +28,7 @@ export function LeadCapture({ prefill }: { prefill?: string } = {}) {
       doneRef.current?.focus();
       setTimeout(() => mascot.play("lead", "wink"), 350);
       play("chord", 0.8, 150);
+      play("nice-one", 1, 900);
     }
   }, [status]);
 
