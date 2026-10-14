@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Archivo_Black } from "next/font/google";
 import "./globals.css";
 import { MotionProvider } from "@/components/MotionProvider";
+import { MascotExtras } from "@/components/MascotExtras";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -64,7 +65,10 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <MotionProvider>{children}</MotionProvider>
+        <MotionProvider>
+          {children}
+          <MascotExtras />
+        </MotionProvider>
       </body>
     </html>
   );

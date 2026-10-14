@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { WinkMascot } from "./WinkMascot";
+import { mascot } from "@/lib/mascot";
 
 const CALENDLY_URL = "https://calendly.com/flowrate/30min";
 
@@ -44,14 +45,22 @@ function Rich({ text, dark = false }: { text: string; dark?: boolean }) {
 
 /* The mascot's head in a small tile; it winks hello when it appears. The crop scale sits on its own layer
    so the wink's lift and tilt don't fight it. */
-function Avatar({ size = "w-7 h-7", wink }: { size?: string; wink?: number }) {
+function Avatar({ size = "w-7 h-7", wink, pose }: { size?: string; wink?: number; pose?: "think" | null }) {
   return (
     <div className={`${size} relative rounded-[7px] overflow-hidden bg-canvas border border-line flex-shrink-0`}>
       <div className="absolute inset-x-0 top-0 origin-top scale-[1.35]">
-        <WinkMascot sizes="40px" winkOnMount={wink} className="w-full" imgClassName="block w-full h-auto" />
+        <WinkMascot sizes="40px" winkOnMount={wink} pose={pose} className="w-full" imgClassName="block w-full h-auto" />
       </div>
     </div>
   );
+}
+
+// The header avatar answers with a little body language: a nod for a yes, a head shake for a no,
+// otherwise the glint. The look of the reply decides, so the assistant's prompt does not change.
+function reactTo(reply: string) {
+  const r = reply.trim().toLowerCase();
+  const g = /^(yes|yep|yeah|sure|absolutely|definitely|of course)\b/.test(r) ? "nod" : /^(no|nope|sorry|unfortunately|not really|i can't|i cannot)\b/.test(r) ? "shake" : "glint";
+  setTimeout(() => mascot.play("chat", g), 280);
 }
 
 export function ChatWidget() {
@@ -105,6 +114,7 @@ export function ChatWidget() {
           ? data.reply
           : "The chat is having trouble right now. You can reach Andrew directly at andrew@flowrate.agency.";
       setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+      reactTo(reply);
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -137,7 +147,7 @@ export function ChatWidget() {
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 relative rounded-[8px] overflow-hidden border border-white/20 bg-white/10 flex-shrink-0">
                   <div className="absolute inset-x-0 top-0 origin-top scale-[1.35]">
-                    <WinkMascot sizes="48px" winkOnMount={450} className="w-full" imgClassName="block w-full h-auto" />
+                    <WinkMascot sizes="48px" winkOnMount={450} role="chat" pose={thinking ? "think" : null} className="w-full" imgClassName="block w-full h-auto" />
                   </div>
                 </div>
                 <div>
@@ -189,7 +199,7 @@ export function ChatWidget() {
 
               {thinking && (
                 <div className="flex items-start gap-2.5">
-                  <Avatar />
+                  <Avatar pose="think" />
                   <div className="bg-paper border border-line rounded-lg rounded-tl-sm px-4 py-3">
                     <div className="flex items-center gap-1.5">
                       {[0, 1, 2].map((i) => (

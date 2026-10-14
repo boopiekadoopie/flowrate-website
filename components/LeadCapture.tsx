@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { WinkMascot } from "@/components/WinkMascot";
 import { motion } from "framer-motion";
+import { mascot, POSES } from "@/lib/mascot";
 import { Arrow, CALENDLY_URL, Check, Container, EMAIL, H2, Lede, Reveal } from "./ui";
 
 const inputs = [
@@ -18,8 +19,33 @@ export function LeadCapture() {
 
   // Move focus to the confirmation so keyboard and screen-reader users know it went through.
   useEffect(() => {
-    if (status === "sent") doneRef.current?.focus();
+    if (status === "sent") {
+      doneRef.current?.focus();
+      setTimeout(() => mascot.play("lead", "wink"), 350);
+    }
   }, [status]);
+
+  // The mascot on top of the form keeps an eye on it: he leans toward the field being filled in, gives a
+  // small lift when a field is done, and a sideways look (plus a friendly line, never a red error) when
+  // something looks off.
+  const [hints, setHints] = useState<Record<string, string>>({});
+  const HINT: Record<string, string> = { email: "That email looks a little off. Mind checking it?" };
+  const buddy = {
+    onFocus: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => mascot.lean("lead", e.currentTarget),
+    onBlur: (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const el = e.currentTarget;
+      mascot.lean("lead", null);
+      if (!el.value.trim()) return;
+      if (el.checkValidity()) {
+        mascot.play("lead", "lift");
+      } else {
+        mascot.hold("lead", POSES.sideEye);
+        setTimeout(() => mascot.hold("lead", { l: 0, r: 0 }), 900);
+        const msg = HINT[el.name];
+        if (msg) setHints((h) => ({ ...h, [el.name]: msg }));
+      }
+    },
+  };
   // Spam checks: when the visitor started typing, and a hidden field only bots fill in.
   const startedAt = useRef<number | null>(null);
   const [trap, setTrap] = useState("");
@@ -60,6 +86,7 @@ export function LeadCapture() {
   const set = (name: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     startedAt.current ??= Date.now();
     setValues((v) => ({ ...v, [name]: e.target.value }));
+    if (hints[name]) setHints((h) => ({ ...h, [name]: "" }));
   };
 
   const field =
@@ -101,7 +128,7 @@ export function LeadCapture() {
               className="absolute top-0 right-6 sm:right-10 w-[120px] z-0"
               aria-hidden
             >
-              <WinkMascot sizes="120px" className="w-full" imgClassName="block w-full h-auto" />
+              <WinkMascot sizes="120px" role="lead" className="w-full" imgClassName="block w-full h-auto" />
             </motion.div>
 
             <div className="relative z-10 rounded-lg bg-paper border border-line shadow-[0_1px_3px_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)] p-6 sm:p-8">
@@ -134,8 +161,15 @@ export function LeadCapture() {
                         autoComplete={f.autoComplete}
                         value={values[f.name] || ""}
                         onChange={set(f.name)}
+                        {...buddy}
+                        aria-describedby={hints[f.name] ? `hint-${f.name}` : undefined}
                         className={field}
                       />
+                      {hints[f.name] && (
+                        <span id={`hint-${f.name}`} className="text-[13px] text-body leading-snug">
+                          {hints[f.name]}
+                        </span>
+                      )}
                     </label>
                   ))}
                   <label className="flex flex-col gap-1.5 sm:col-span-2">
@@ -146,6 +180,7 @@ export function LeadCapture() {
                       rows={4}
                       value={values.message || ""}
                       onChange={set("message")}
+                      {...buddy}
                       placeholder="e.g. Every Friday we copy job sheets from WhatsApp into a spreadsheet, then into the accounts."
                       className={`${field} resize-y min-h-[120px] leading-[1.5]`}
                     />

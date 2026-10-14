@@ -3,6 +3,24 @@ import { useRef } from "react";
 import { HeroBackdrop } from "./HeroBackdrop";
 import { HeroStage, HeroStageMobile } from "./HeroStage";
 import { Arrow, CALENDLY_URL } from "./ui";
+import { mascot, POSES } from "@/lib/mascot";
+
+// The navbar mascot gives these words a half-lidded side-eye while the pointer rests on them. No visual
+// change on the words themselves: it is a look people find by accident.
+function SideEye({ children }: { children: React.ReactNode }) {
+  return (
+    <span onPointerEnter={() => mascot.hold("nav", POSES.sideEye)} onPointerLeave={() => mascot.hold("nav", null)}>
+      {children}
+    </span>
+  );
+}
+
+const lean = {
+  onPointerEnter: (e: React.PointerEvent<HTMLElement>) => mascot.lean("nav", e.currentTarget),
+  onPointerLeave: () => mascot.lean("nav", null),
+  onFocus: (e: React.FocusEvent<HTMLElement>) => mascot.lean("nav", e.currentTarget),
+  onBlur: () => mascot.lean("nav", null),
+};
 
 const builds = ["Admin systems", "Field apps", "Reporting", "Websites"];
 
@@ -21,14 +39,15 @@ export function Hero() {
             We build the systems your business runs on.
           </h1>
           <p className="text-body text-[17px] md:text-[19px] leading-[1.55] max-w-[620px] mx-auto mb-8 [text-wrap:pretty]">
-            Built around the way your team already works, so information goes in once and the
-            retyping, the chasing and the month-end scramble stop.
+            Built around the way your team already works, so information goes in once and <SideEye>the
+            retyping</SideEye>, <SideEye>the chasing</SideEye> and <SideEye>the month-end scramble</SideEye> stop.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
               href={CALENDLY_URL}
               target="_blank"
               rel="noopener noreferrer"
+              {...lean}
               className="group inline-flex items-center justify-center gap-2 bg-green text-[#0C1A0D] font-bold uppercase tracking-[0.025em] text-[14px] px-7 py-4 rounded-lg hover:bg-green-light active:scale-[0.98] transition-[background-color,transform] duration-150 cursor-pointer shadow-[0_8px_24px_-8px_rgba(29,107,43,0.45)]"
             >
               Book a free call

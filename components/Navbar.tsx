@@ -85,7 +85,7 @@ export function Navbar() {
         {/* Mobile bar: mascot on the left, hamburger on the right */}
         <div className="lg:hidden flex items-center justify-between h-full">
           <Link href="/" onClick={toTop} aria-label="Flowrate home" className="flex items-center">
-            <WinkMascot alt="Flowrate" priority sizes="32px" intro className="h-11 drop-shadow-[0_4px_8px_rgba(16,24,40,0.18)]" />
+            <WinkMascot alt="Flowrate" priority sizes="32px" intro idle role="nav" className="h-11 drop-shadow-[0_4px_8px_rgba(16,24,40,0.18)]" />
           </Link>
           <div className="flex items-center gap-1">
           <ThemeToggle compact />
@@ -117,7 +117,7 @@ export function Navbar() {
           </nav>
 
           <Link href="/" onClick={toTop} aria-label="Flowrate home" className="justify-self-center relative z-10">
-            <WinkMascot alt="Flowrate" priority sizes="64px" intro className="h-[92px] -mb-9 drop-shadow-[0_8px_14px_rgba(16,24,40,0.22)]" />
+            <WinkMascot alt="Flowrate" priority sizes="64px" intro idle role="nav" className="h-[92px] -mb-9 drop-shadow-[0_8px_14px_rgba(16,24,40,0.22)]" />
           </Link>
 
           <div className="flex items-center gap-6 justify-end">
