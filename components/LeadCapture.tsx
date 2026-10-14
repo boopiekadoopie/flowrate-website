@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import { WinkMascot } from "@/components/WinkMascot";
 import { motion } from "framer-motion";
 import { Arrow, CALENDLY_URL, Check, Container, EMAIL, H2, Lede, Reveal } from "./ui";
 
@@ -101,7 +101,7 @@ export function LeadCapture() {
               className="absolute top-0 right-6 sm:right-10 w-[120px] z-0"
               aria-hidden
             >
-              <Image src="/mascot.png" alt="" width={1002} height={1530} sizes="120px" className="w-full h-auto" />
+              <WinkMascot sizes="120px" className="w-full" imgClassName="block w-full h-auto" />
             </motion.div>
 
             <div className="relative z-10 rounded-lg bg-paper border border-line shadow-[0_1px_3px_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)] p-6 sm:p-8">

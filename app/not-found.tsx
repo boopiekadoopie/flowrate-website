@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import { WinkMascot } from "@/components/WinkMascot";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CALENDLY_URL } from "@/lib/site";
@@ -12,7 +12,7 @@ export default function NotFound() {
       <Navbar />
       <main className="bg-paper pt-40 pb-24 md:pt-48 md:pb-32">
         <div className="max-w-[640px] mx-auto px-5 text-center">
-          <Image src="/mascot.png" alt="" width={1002} height={1530} sizes="96px" className="w-24 h-auto mx-auto mb-8" />
+          <WinkMascot sizes="96px" intro className="w-24 mx-auto mb-8 !block" imgClassName="block w-full h-auto" />
           <h1 className="font-display text-heading uppercase text-[34px] sm:text-[48px] leading-[1] tracking-[-0.02em] mb-5">
             This page doesn&apos;t exist.
           </h1>

@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { WinkMascot } from "@/components/WinkMascot";
 import { Container, H2, PrimaryButton, Reveal } from "./ui";
 
 export function About() {
@@ -26,14 +27,7 @@ export function About() {
               transition={{ delay: 0.35, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="absolute -right-2 sm:-right-14 -bottom-6 w-[110px] sm:w-[150px]"
             >
-              <Image
-                src="/mascot.png"
-                alt="The Flowrate mascot, a cartoon of Andrew"
-                width={1002}
-                height={1530}
-                sizes="(min-width: 640px) 150px, 110px"
-                className="w-full h-auto drop-shadow-[0_12px_20px_rgba(16,24,40,0.25)]"
-              />
+              <WinkMascot alt="The Flowrate mascot, a cartoon of Andrew" sizes="(min-width: 640px) 150px, 110px" className="w-full drop-shadow-[0_12px_20px_rgba(16,24,40,0.25)]" imgClassName="block w-full h-auto" />
             </motion.div>
           </Reveal>
 

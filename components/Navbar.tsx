@@ -1,10 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { ThemeToggle } from "./ThemeToggle";
+import { WinkMascot } from "./WinkMascot";
 import { MotionToggle } from "./MotionToggle";
 
 const CALENDLY_URL = "https://calendly.com/flowrate/30min";
@@ -85,15 +85,7 @@ export function Navbar() {
         {/* Mobile bar: mascot on the left, hamburger on the right */}
         <div className="lg:hidden flex items-center justify-between h-full">
           <Link href="/" onClick={toTop} aria-label="Flowrate home" className="flex items-center">
-            <Image
-              src="/mascot.png"
-              alt="Flowrate"
-              width={1002}
-              height={1530}
-              priority
-              sizes="32px"
-              className="h-11 w-auto drop-shadow-[0_4px_8px_rgba(16,24,40,0.18)]"
-            />
+            <WinkMascot alt="Flowrate" priority sizes="32px" intro className="h-11 drop-shadow-[0_4px_8px_rgba(16,24,40,0.18)]" />
           </Link>
           <div className="flex items-center gap-1">
           <ThemeToggle compact />
@@ -125,15 +117,7 @@ export function Navbar() {
           </nav>
 
           <Link href="/" onClick={toTop} aria-label="Flowrate home" className="justify-self-center relative z-10">
-            <Image
-              src="/mascot.png"
-              alt="Flowrate"
-              width={1002}
-              height={1530}
-              priority
-              sizes="64px"
-              className="h-[92px] w-auto -mb-9 drop-shadow-[0_8px_14px_rgba(16,24,40,0.22)]"
-            />
+            <WinkMascot alt="Flowrate" priority sizes="64px" intro className="h-[92px] -mb-9 drop-shadow-[0_8px_14px_rgba(16,24,40,0.22)]" />
           </Link>
 
           <div className="flex items-center gap-6 justify-end">
