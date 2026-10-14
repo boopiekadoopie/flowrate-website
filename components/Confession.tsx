@@ -38,6 +38,10 @@ export function Confession() {
 
   async function go(e: React.FormEvent) {
     e.preventDefault();
+    if (headers.trim().length < 3) {
+      document.getElementById("headers")?.focus();
+      return;
+    }
     run(headers);
   }
 
@@ -123,8 +127,8 @@ export function Confession() {
               <div className="mt-3 flex flex-col sm:flex-row sm:items-center gap-3">
                 <button
                   type="submit"
-                  disabled={busy || headers.trim().length < 3}
-                  className="inline-flex items-center justify-center gap-2 bg-green text-[#0C1A0D] font-bold uppercase tracking-[0.025em] text-[14px] px-6 py-3.5 rounded-lg hover:bg-green-light transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-default"
+                  disabled={busy}
+                  className="inline-flex items-center justify-center gap-2 whitespace-nowrap bg-green text-[#0C1A0D] font-bold uppercase tracking-[0.025em] text-[14px] px-6 py-3.5 rounded-lg hover:bg-green-light transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-default"
                 >
                   {busy ? "Thinking…" : "Show me the app"}
                   {!busy && <Arrow className="w-4 h-4" />}

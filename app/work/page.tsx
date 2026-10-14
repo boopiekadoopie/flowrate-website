@@ -34,7 +34,7 @@ function BeforeNow({ story }: { story: Story }) {
   const tilt = [-2, 1.5, -1];
   return (
     <div className="mt-12">
-      <div className="grid gap-4 md:grid-cols-[1fr_56px_1fr] items-stretch">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-[1fr_56px_1fr] items-stretch [&>*]:min-w-0">
         <div className="rounded-2xl border-2 border-dashed border-line-strong bg-soft p-6">
           <span className="inline-flex items-center h-7 px-3 rounded-full bg-line text-muted text-[13px] font-bold">Before</span>
           <p className="mt-3 text-[20px] font-bold text-muted leading-snug">{story.before.title}</p>
@@ -69,9 +69,9 @@ function BeforeNow({ story }: { story: Story }) {
             {story.now.rows.map(([a, b, c, chip]) => (
               <div key={a + b} className="flex items-center gap-3 px-3.5 h-[44px] border-b border-white/10 dark:border-[#101828]/10 last:border-b-0 text-[13px]">
                 <span className="font-semibold tabular-nums w-[56px]">{a}</span>
-                <span className="opacity-70 w-[64px] truncate">{b}</span>
-                <span className="opacity-70 flex-1 truncate">{c}</span>
-                <span className="rounded-full px-2.5 h-[22px] flex items-center text-[11.5px] font-semibold bg-white/12 dark:bg-[#101828]/8 whitespace-nowrap">{chip}</span>
+                <span className="hidden sm:block opacity-70 w-[64px] truncate">{b}</span>
+                <span className="hidden sm:block opacity-70 flex-1 min-w-0 truncate">{c}</span>
+                <span className="ml-auto rounded-full px-2.5 h-[22px] flex items-center text-[11.5px] font-semibold bg-white/12 dark:bg-[#101828]/8 whitespace-nowrap">{chip}</span>
               </div>
             ))}
           </div>
