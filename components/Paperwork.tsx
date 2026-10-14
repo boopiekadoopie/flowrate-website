@@ -76,7 +76,10 @@ export function Mail() {
 const pen: CSSProperties = { color: "#1E3A8A" };
 
 /* `total` adds a filled-in total line (the Problem diagram follows that number); without it the card is unchanged. */
-export function JobCard({ width = 150, total }: { width?: number; total?: string }) {
+export type JobCardData = { no: string; customer: string; date: string; time: string; job: string; parts: string; by: string; stamp?: string };
+const JOB_0418: JobCardData = { no: "0418", customer: "Greenway Café", date: "14 Oct", time: "08:30", job: "Fridge not cooling — door seal", parts: "Door seal × 1", by: "Sam", stamp: "NOT INVOICED" };
+
+export function JobCard({ width = 150, total, data = JOB_0418 }: { width?: number; total?: string; data?: JobCardData }) {
   const field = (label: string, value: string, wide = false) => (
     <div className={`border-b border-[#B9BDC6] pb-[2px] ${wide ? "col-span-2" : ""}`}>
       <p className="text-[5.5px] uppercase tracking-[0.1em] text-[#8A8F99] leading-none">{label}</p>
@@ -90,15 +93,15 @@ export function JobCard({ width = 150, total }: { width?: number; total?: string
     >
       <div className="flex items-baseline justify-between border-b-[1.5px] border-[#333] pb-1.5">
         <p className="font-bold text-[9px] tracking-[0.08em]">JOB CARD</p>
-        <p className="text-[7px] text-[#8A8F99]">No. <span className="font-mono text-[#333]">0418</span></p>
+        <p className="text-[7px] text-[#8A8F99]">No. <span className="font-mono text-[#333]">{data.no}</span></p>
       </div>
       <div className="grid grid-cols-2 gap-x-3 gap-y-2 mt-2">
-        {field("Customer", "Greenway Café", true)}
-        {field("Date", "14 Oct")}
-        {field("Time", "08:30")}
-        {field("Job", "Fridge not cooling — door seal", true)}
-        {field("Parts", "Door seal × 1")}
-        {field("Done by", "Sam")}
+        {field("Customer", data.customer, true)}
+        {field("Date", data.date)}
+        {field("Time", data.time)}
+        {field("Job", data.job, true)}
+        {field("Parts", data.parts)}
+        {field("Done by", data.by)}
         {total && (
           <div className="col-span-2 flex items-baseline justify-between border-b border-[#B9BDC6] pb-[2px]">
             <p className="text-[5.5px] uppercase tracking-[0.1em] text-[#8A8F99] leading-none">Total</p>
@@ -113,7 +116,9 @@ export function JobCard({ width = 150, total }: { width?: number; total?: string
             <path d="M2 10 C 8 2, 12 2, 16 9 S 24 12, 28 6 S 36 3, 40 9 S 50 12, 56 5 S 66 4, 78 8" fill="none" stroke="#1E3A8A" strokeWidth="1.1" strokeLinecap="round" />
           </svg>
         </div>
-        <span className="rotate-[-6deg] border-[1.5px] border-[#C2410C]/80 text-[#C2410C]/85 text-[6px] font-bold tracking-[0.12em] px-1.5 py-[2px] rounded-[2px] leading-none">NOT INVOICED</span>
+        {data.stamp && (
+          <span className="rotate-[-6deg] border-[1.5px] border-[#C2410C]/80 text-[#C2410C]/85 text-[6px] font-bold tracking-[0.12em] px-1.5 py-[2px] rounded-[2px] leading-none">{data.stamp}</span>
+        )}
       </div>
     </div>
   );

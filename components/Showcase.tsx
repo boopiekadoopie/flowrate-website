@@ -4,6 +4,7 @@ import Image from "next/image";
 import { AnimatePresence, MotionConfig, motion, useInView } from "framer-motion";
 import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
 import { Check, Container, H2, Lede } from "./ui";
+import { JobCard, type JobCardData } from "./Paperwork";
 
 /*
  * Four example product screens, one per tab. Every screen is pinned to the light palette so it reads
@@ -313,7 +314,101 @@ function FieldScreen({ reduce }: ScreenProps) {
 
 /* ---------------------------------------------------------------- 3. Reports */
 
+/* Every number has a receipt: tap a total and see the jobs that make it up; tap a job and see what was
+   captured on site. Made-up jobs, in the same world as job 0418. */
+type Row = { card: JobCardData; status: "invoiced" | "hold"; inv?: string };
+const job = (no: string, customer: string, date: string, time: string, j: string, parts: string, by: string): JobCardData => ({ no, customer, date, time, job: j, parts, by });
+const RECENT: Row[] = [
+  { card: job("0452", "Greenway Café", "Fri, wk 8", "16:10", "Ice machine service", "Filter × 1", "Sam"), status: "invoiced", inv: "INV-0201" },
+  { card: job("0451", "Mara’s Bakery", "Fri, wk 8", "11:25", "Oven door hinge", "Hinge × 2", "Alex"), status: "invoiced", inv: "INV-0200" },
+  { card: job("0450", "Kaya Building", "Thu, wk 8", "14:05", "Boardroom aircon", "Gas top-up", "Jo"), status: "invoiced", inv: "INV-0199" },
+  { card: job("0449", "Northgate Gym", "Thu, wk 8", "09:40", "Shower pressure", "Valve × 1", "Sam"), status: "invoiced", inv: "INV-0198" },
+  { card: job("0448", "Hill & Co", "Wed, wk 8", "15:30", "Kitchen extractor", "Belt × 1", "Alex"), status: "invoiced", inv: "INV-0197" },
+  { card: job("0447", "Bluebird Café", "Wed, wk 8", "10:15", "Fridge seal", "Door seal × 1", "Jo"), status: "invoiced", inv: "INV-0196" },
+];
+const HELD: Row[] = [
+  { card: { ...job("0436", "Kaya Building", "Wed, wk 6", "13:20", "Geyser element", "Element × 1", "Sam"), stamp: "NOT INVOICED" }, status: "hold" },
+  { card: { ...job("0441", "Hill & Co", "Thu, wk 6", "17:05", "Leak under sink", "Trap × 1", "Jo"), stamp: "NOT INVOICED" }, status: "hold" },
+];
+const TILES = [
+  { key: "done", k: "Jobs done", v: "64", rows: [...RECENT.slice(0, 4), ...HELD], more: 58 },
+  { key: "invoiced", k: "Invoiced", v: "62", rows: RECENT, more: 56 },
+  { key: "hold", k: "Not yet invoiced", v: "2", rows: HELD, more: 0, hold: true },
+] as const;
+
+function Receipt({ tile, onClose }: { tile: (typeof TILES)[number]; onClose: () => void }) {
+  const [pick, setPick] = useState<Row | null>(null);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 6 }}
+      transition={{ duration: 0.28, ease }}
+      className="flex-1 min-h-0 rounded-lg border border-line bg-paper flex flex-col overflow-hidden"
+    >
+      <div className="flex items-center gap-2 px-3.5 h-10 border-b border-line text-[11.5px]">
+        <button type="button" onClick={pick ? () => setPick(null) : onClose} className="text-muted hover:text-heading cursor-pointer">Reports</button>
+        <span className="text-faint">/</span>
+        <button type="button" onClick={() => setPick(null)} className={`cursor-pointer ${pick ? "text-muted hover:text-heading" : "text-heading font-semibold"}`}>
+          {tile.k} · {tile.v}
+        </button>
+        {pick && (
+          <>
+            <span className="text-faint">/</span>
+            <span className="text-heading font-semibold">Job {pick.card.no}</span>
+          </>
+        )}
+        <button type="button" onClick={onClose} aria-label="Close" className="ml-auto w-6 h-6 rounded-[6px] hover:bg-soft text-muted flex items-center justify-center cursor-pointer">
+          <svg viewBox="0 0 14 14" className="w-3 h-3" aria-hidden><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
+        </button>
+      </div>
+      <AnimatePresence mode="wait" initial={false}>
+        {!pick ? (
+          <motion.div key="list" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, x: -10 }} transition={{ duration: 0.2 }} className="flex-1 min-h-0 overflow-y-auto">
+            {tile.rows.map((r, i) => (
+              <motion.button
+                key={r.card.no}
+                type="button"
+                onClick={() => setPick(r)}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.04, duration: 0.24, ease }}
+                className="w-full grid grid-cols-[52px_1fr_auto] sm:grid-cols-[52px_1fr_92px_auto] gap-2 items-center px-3.5 h-9 border-b border-line text-left text-[11.5px] hover:bg-soft cursor-pointer"
+              >
+                <span className="tabular-nums text-muted">J-{r.card.no}</span>
+                <span className="text-heading truncate">{r.card.customer} <span className="text-muted">· {r.card.job}</span></span>
+                <span className="hidden sm:block text-muted truncate">{r.card.date}</span>
+                {r.status === "hold" ? (
+                  <span className="rounded-full px-2 h-5 inline-flex items-center text-[10px] font-semibold bg-hold-bg text-hold">Not invoiced</span>
+                ) : (
+                  <span className="text-[10.5px] text-muted tabular-nums">{r.inv}</span>
+                )}
+              </motion.button>
+            ))}
+            {tile.more > 0 && <p className="px-3.5 py-2 text-[11px] text-faint">and {tile.more} more in the full list</p>}
+          </motion.div>
+        ) : (
+          <motion.div key="pick" initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.26, ease }} className="flex-1 min-h-0 p-3.5 flex gap-4 items-start">
+            <div className="shrink-0 -rotate-2 origin-top-left">
+              <JobCard width={168} data={pick.card} />
+            </div>
+            <div className="min-w-0 text-[11.5px] leading-relaxed">
+              <p className="font-semibold text-heading">Captured on {pick.card.by}&rsquo;s phone</p>
+              <p className="text-muted">{pick.card.date} · {pick.card.time} · photo and signature</p>
+              <p className={`mt-2 inline-flex items-center rounded-full px-2 h-5 text-[10px] font-semibold ${pick.status === "hold" ? "bg-hold-bg text-hold" : "bg-ok-bg text-ok"}`}>
+                {pick.status === "hold" ? "Done, never invoiced" : `Invoiced · ${pick.inv}`}
+              </p>
+              <p className="mt-2 text-body">This is the record the total is counted from. Nobody built it by hand.</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
 function ReportScreen({ reduce }: ScreenProps) {
+  const [open, setOpen] = useState<(typeof TILES)[number]["key"] | null>(null);
   const done = [6, 8, 7, 9, 8, 10, 7, 9];
   const invoiced = done.map((w, i) => (i === 5 ? w - 2 : w));
   const max = 10;
@@ -334,19 +429,33 @@ function ReportScreen({ reduce }: ScreenProps) {
       </div>
 
       <div className="grid grid-cols-3 gap-2 sm:gap-3">
-        {[
-          { k: "Jobs done", v: "64" },
-          { k: "Invoiced", v: "62" },
-          { k: "Not yet invoiced", v: "2", hold: true },
-        ].map((s, i) => (
-          <motion.div key={s.k} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: d(i * 0.08) }} className={`rounded-lg border px-3 py-2.5 ${s.hold ? "border-hold/30 bg-hold-bg" : "border-line bg-paper"}`}>
-            <p className={`text-[10.5px] sm:text-[11px] leading-tight ${s.hold ? "text-hold" : "text-muted"}`}>{s.k}</p>
-            <p className={`font-display text-[22px] sm:text-[26px] leading-none mt-1.5 tabular-nums ${s.hold ? "text-hold" : "text-heading"}`}>{s.v}</p>
-          </motion.div>
-        ))}
+        {TILES.map((s, i) => {
+          const hold = "hold" in s && s.hold;
+          const on = open === s.key;
+          return (
+            <motion.button
+              type="button"
+              key={s.k}
+              onClick={() => setOpen(on ? null : s.key)}
+              aria-expanded={on}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: d(i * 0.08) }}
+              className={`group relative text-left rounded-lg border px-3 py-2.5 cursor-pointer transition-colors ${hold ? "border-hold/30 bg-hold-bg hover:border-hold/60" : "border-line bg-paper hover:border-line-strong"} ${on ? (hold ? "ring-2 ring-hold/35" : "ring-2 ring-heading/15") : ""}`}
+            >
+              <p className={`text-[10.5px] sm:text-[11px] leading-tight ${hold ? "text-hold" : "text-muted"}`}>{s.k}</p>
+              <p className={`font-display text-[22px] sm:text-[26px] leading-none mt-1.5 tabular-nums ${hold ? "text-hold" : "text-heading"}`}>{s.v}</p>
+              <span aria-hidden className={`absolute right-2.5 top-2.5 text-[11px] opacity-40 group-hover:opacity-100 transition-opacity ${hold ? "text-hold" : "text-muted"}`}>↗</span>
+            </motion.button>
+          );
+        })}
       </div>
 
-      <div className="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-[1.55fr_1fr] gap-3">
+      <AnimatePresence mode="wait" initial={false}>
+      {open ? (
+        <Receipt key={open} tile={TILES.find((t) => t.key === open)!} onClose={() => setOpen(null)} />
+      ) : (
+      <motion.div key="charts" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} className="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-[1.55fr_1fr] gap-3">
         <div className="rounded-lg border border-line bg-paper p-3.5 flex flex-col min-h-0">
           <div className="flex items-start justify-between mb-2">
             <p className="font-semibold text-heading">Done vs invoiced, by week</p>
@@ -389,7 +498,9 @@ function ReportScreen({ reduce }: ScreenProps) {
           </div>
           <p className="mt-auto pt-3 border-t border-line flex justify-between text-[11px] font-semibold text-heading tabular-nums"><span>Total owed</span><span>14,233.00</span></p>
         </div>
-      </div>
+      </motion.div>
+      )}
+      </AnimatePresence>
     </div>
   );
 }

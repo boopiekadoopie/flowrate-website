@@ -10,6 +10,8 @@ const siteLinks = [
   { label: "About", href: "/#about" },
   { label: "Questions", href: "/#faq" },
   { label: "Contact", href: "/#contact" },
+  { label: "Your spreadsheet, as an app", href: "/spreadsheet" },
+  { label: "What's new", href: "/changelog" },
 ];
 
 const socials = [

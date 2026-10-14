@@ -16,8 +16,8 @@ const inputs = [
   { name: "phone", label: "Phone", type: "tel", required: false, autoComplete: "tel" },
 ];
 
-export function LeadCapture() {
-  const [values, setValues] = useState<Record<string, string>>({});
+export function LeadCapture({ prefill }: { prefill?: string } = {}) {
+  const [values, setValues] = useState<Record<string, string>>(prefill ? { message: prefill } : {});
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const doneRef = useRef<HTMLParagraphElement>(null);
 

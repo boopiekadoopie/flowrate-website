@@ -1,13 +1,21 @@
 "use client";
-import { useEffect, useSyncExternalStore } from "react";
-import { motion, useMotionValue, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion";
+import { useEffect, useRef, useSyncExternalStore } from "react";
+import { animate, motion, useMotionValue, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion";
 import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
 import { Chat, JobCard, Mail, Receipt, Sheet, Sticky } from "./Paperwork";
 
 /*
  * The paperwork a business runs on, drifting around the headline at different depths.
  * As you scroll it gets pulled in toward the product and fades: the system absorbs it.
+ *
+ * Make a mess: on a desktop the pieces can be picked up and thrown around. Pointing at the main button
+ * (the "fr-gather" event from the hero) pulls every piece, one after another, into the product below;
+ * letting go lets them drift back to their own places, tidy again. The visitor makes the mess, the
+ * system tidies it. Phones and reduced motion keep the quiet drifting version.
  */
+export const GATHER_EVENT = "fr-gather";
+const GATHER: [number, number, number, number] = [0.55, 0, 0.7, 0.2];
+const FLOW: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 const HOVER_QUERY = "(hover: hover) and (pointer: fine)";
 const subscribe = (cb: () => void) => {
@@ -39,20 +47,71 @@ const MOBILE_PIECES: Piece[] = [
   { el: <Sheet />, side: 1, x: "74%", y: 714, depth: 0.6, rot: -5, dur: 13, scale: 0.5, fade: 0.75 },
 ];
 
-function Floating({ p, mx, my, progress }: { p: Piece; mx: MotionValue<number>; my: MotionValue<number>; progress: MotionValue<number> }) {
+function Floating({ p, i, mx, my, progress, interactive }: { p: Piece; i: number; mx: MotionValue<number>; my: MotionValue<number>; progress: MotionValue<number>; interactive: boolean }) {
   const reach = 160 * p.depth;
   const x = useTransform(() => mx.get() * 22 * p.depth + -p.side * progress.get() * reach);
   const y = useTransform(() => my.get() * 16 * p.depth + progress.get() * 220 * p.depth);
   const opacity = useTransform(progress, [0, 0.55], [p.fade ?? (p.depth < 0.6 ? 0.6 : 1), 0]);
   const blur = (1 - p.depth) * 4;
   const scale = p.scale ?? (0.7 + p.depth * 0.3) * K;
+  // the visitor's own layer: where they dragged it, and the trip into the product and back
+  const dx = useMotionValue(0), dy = useMotionValue(0), gs = useMotionValue(1), go = useMotionValue(1);
+  const ref = useRef<HTMLDivElement>(null);
+  const away = useRef(false);
+  useEffect(() => {
+    if (!interactive) return;
+    const onGather = (e: Event) => {
+      const on = (e as CustomEvent<boolean>).detail;
+      const el = ref.current, target = document.querySelector("[data-gather-target]");
+      if (!el || !target) return;
+      if (on && !away.current) {
+        away.current = true;
+        const a = el.getBoundingClientRect(), t = target.getBoundingClientRect();
+        const tx = t.left + t.width / 2 - (a.left + a.width / 2), ty = t.top + 48 - (a.top + a.height / 2);
+        const o = { duration: 0.48, ease: GATHER, delay: i * 0.06 };
+        animate(dx, dx.get() + tx, o);
+        animate(dy, dy.get() + ty, o);
+        animate(gs, 0.3, o);
+        animate(go, 0, { ...o, duration: 0.3, delay: o.delay + 0.2 });
+      } else if (!on && away.current) {
+        away.current = false;
+        const o = { duration: 1.6, ease: FLOW, delay: (5 - i) * 0.05 };
+        animate(dx, 0, o);
+        animate(dy, 0, o);
+        animate(gs, 1, o);
+        animate(go, 1, { duration: 0.5, delay: o.delay });
+      }
+    };
+    window.addEventListener(GATHER_EVENT, onGather);
+    return () => window.removeEventListener(GATHER_EVENT, onGather);
+  }, [interactive, i, dx, dy, gs, go]);
+
+  const piece = (
+    <div style={{ transform: `scale(${scale})`, filter: blur ? `blur(${blur.toFixed(1)}px)` : undefined }}>
+      <div className="paper-float" style={{ ["--r" as string]: `${p.rot}deg`, ["--d" as string]: `${p.dur}s` }}>
+        {p.el}
+      </div>
+    </div>
+  );
   return (
     <motion.div className="absolute" style={{ left: p.x, top: p.y, x, y, opacity }}>
-      <div style={{ transform: `scale(${scale})`, filter: blur ? `blur(${blur.toFixed(1)}px)` : undefined }}>
-        <div className="paper-float" style={{ ["--r" as string]: `${p.rot}deg`, ["--d" as string]: `${p.dur}s` }}>
-          {p.el}
-        </div>
-      </div>
+      {interactive ? (
+        <motion.div
+          ref={ref}
+          drag
+          dragMomentum
+          dragTransition={{ power: 0.25, timeConstant: 260 }}
+          whileDrag={{ scale: 1.04, cursor: "grabbing" }}
+          style={{ x: dx, y: dy, scale: gs, opacity: go }}
+          onDragStart={() => document.body.classList.add("select-none")}
+          onDragEnd={() => document.body.classList.remove("select-none")}
+          className="pointer-events-auto cursor-grab touch-none select-none"
+        >
+          {piece}
+        </motion.div>
+      ) : (
+        piece
+      )}
     </motion.div>
   );
 }
@@ -77,14 +136,14 @@ export function HeroBackdrop({ sectionRef }: { sectionRef: React.RefObject<HTMLE
 
   return (
     <>
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[900px] hidden lg:block">
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[900px] hidden lg:block z-[5]">
         {PIECES.map((p, i) => (
-          <Floating key={i} p={p} mx={mx} my={my} progress={progress} />
+          <Floating key={i} i={i} p={p} mx={mx} my={my} progress={progress} interactive={canHover && !reduce} />
         ))}
       </div>
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[820px] lg:hidden">
         {MOBILE_PIECES.map((p, i) => (
-          <Floating key={i} p={p} mx={mx} my={my} progress={progress} />
+          <Floating key={i} i={i} p={p} mx={mx} my={my} progress={progress} interactive={false} />
         ))}
       </div>
     </>

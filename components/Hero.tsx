@@ -1,6 +1,6 @@
 "use client";
 import { useRef } from "react";
-import { HeroBackdrop } from "./HeroBackdrop";
+import { GATHER_EVENT, HeroBackdrop } from "./HeroBackdrop";
 import { HeroStage, HeroStageMobile } from "./HeroStage";
 import { Arrow, CALENDLY_URL } from "./ui";
 import { mascot, POSES } from "@/lib/mascot";
@@ -15,11 +15,26 @@ function SideEye({ children }: { children: React.ReactNode }) {
   );
 }
 
+// Pointing at the main button: the mascot leans toward it and the paperwork around the headline is pulled
+// into the product below (see HeroBackdrop).
+const gather = (on: boolean) => window.dispatchEvent(new CustomEvent(GATHER_EVENT, { detail: on }));
 const lean = {
-  onPointerEnter: (e: React.PointerEvent<HTMLElement>) => mascot.lean("nav", e.currentTarget),
-  onPointerLeave: () => mascot.lean("nav", null),
-  onFocus: (e: React.FocusEvent<HTMLElement>) => mascot.lean("nav", e.currentTarget),
-  onBlur: () => mascot.lean("nav", null),
+  onPointerEnter: (e: React.PointerEvent<HTMLElement>) => {
+    mascot.lean("nav", e.currentTarget);
+    gather(true);
+  },
+  onPointerLeave: () => {
+    mascot.lean("nav", null);
+    gather(false);
+  },
+  onFocus: (e: React.FocusEvent<HTMLElement>) => {
+    mascot.lean("nav", e.currentTarget);
+    gather(true);
+  },
+  onBlur: () => {
+    mascot.lean("nav", null);
+    gather(false);
+  },
 };
 
 const builds = ["Admin systems", "Field apps", "Reporting", "Websites"];
@@ -69,7 +84,7 @@ export function Hero() {
           </ul>
         </div>
 
-        <div className="fr-rise-in mt-14 lg:mt-20">
+        <div data-gather-target className="fr-rise-in mt-14 lg:mt-20">
           <div className="hidden lg:block">
             <HeroStage />
           </div>

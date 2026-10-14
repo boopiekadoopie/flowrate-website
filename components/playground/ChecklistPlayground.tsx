@@ -24,6 +24,20 @@ const subscribeOnline = (cb: () => void) => {
     window.removeEventListener("offline", cb);
   };
 };
+/* The paper sheet carries a QR code that opens this demo with the same check already filled in, so the person
+   holding the paper watches it become the app in their other hand. (Pre-generated, encodes
+   https://flowrate.agency/work?paper=1#workshop-checklist) */
+const QR_PATH = "M0 0.5h7m1 0h1m3 0h2m1 0h4m4 0h1m2 0h7M0 1.5h1m5 0h1m3 0h2m1 0h2m1 0h1m1 0h3m3 0h1m1 0h1m5 0h1M0 2.5h1m1 0h3m1 0h1m2 0h2m1 0h1m1 0h1m2 0h6m3 0h1m1 0h3m1 0h1M0 3.5h1m1 0h3m1 0h1m1 0h2m6 0h1m1 0h2m2 0h3m1 0h1m1 0h3m1 0h1M0 4.5h1m1 0h3m1 0h1m1 0h1m1 0h4m2 0h1m6 0h1m2 0h1m1 0h3m1 0h1M0 5.5h1m5 0h1m1 0h2m1 0h1m1 0h3m1 0h4m5 0h1m5 0h1M0 6.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M8 7.5h2m1 0h2m4 0h2m1 0h2m2 0h1M0 8.5h1m3 0h1m1 0h5m4 0h3m2 0h4m1 0h5m2 0h1M2 9.5h2m1 0h1m2 0h3m1 0h1m1 0h2m5 0h3m1 0h1m3 0h2M0 10.5h1m3 0h8m1 0h3m4 0h2m1 0h4m2 0h1m1 0h1M1 11.5h1m1 0h1m6 0h4m2 0h3m1 0h2m2 0h3m4 0h1M2 12.5h1m1 0h3m1 0h2m1 0h1m1 0h1m1 0h3m1 0h4m1 0h1m1 0h1m1 0h2m2 0h1M0 13.5h3m1 0h1m2 0h1m2 0h1m1 0h1m1 0h1m2 0h1m5 0h1m3 0h1m2 0h1M0 14.5h7m4 0h1m1 0h1m1 0h1m1 0h1m2 0h2m1 0h1m1 0h2m2 0h3M0 15.5h1m2 0h2m3 0h1m1 0h1m2 0h7m1 0h3m1 0h2m1 0h2M0 16.5h1m1 0h6m3 0h1m5 0h2m1 0h4m2 0h1m1 0h2m1 0h1M0 17.5h1m2 0h2m5 0h3m1 0h3m1 0h1m4 0h1m1 0h1m3 0h3M1 18.5h1m1 0h4m2 0h2m1 0h1m1 0h5m1 0h1m1 0h3m2 0h1m1 0h1m1 0h1M0 19.5h2m1 0h1m3 0h2m7 0h2m1 0h3m2 0h1m1 0h2M0 20.5h5m1 0h6m1 0h2m3 0h7m1 0h4m1 0h2M0 21.5h1m1 0h1m1 0h1m5 0h2m1 0h1m2 0h3m4 0h1m1 0h1m1 0h1m1 0h1m1 0h1M3 22.5h1m1 0h3m5 0h2m1 0h1m1 0h1m1 0h2m1 0h3m5 0h1M2 23.5h2m3 0h2m1 0h1m6 0h3m1 0h1m4 0h4m1 0h2M0 24.5h5m1 0h2m3 0h1m3 0h3m1 0h3m2 0h6m2 0h1M8 25.5h1m2 0h1m2 0h4m3 0h1m2 0h1m3 0h1m1 0h1M0 26.5h7m1 0h2m1 0h1m1 0h3m2 0h1m1 0h3m1 0h1m1 0h1m1 0h2m1 0h1M0 27.5h1m5 0h1m2 0h3m9 0h2m1 0h1m3 0h1m2 0h1M0 28.5h1m1 0h3m1 0h1m1 0h1m1 0h2m2 0h3m2 0h4m1 0h6m1 0h2M0 29.5h1m1 0h3m1 0h1m3 0h3m5 0h1m2 0h1m2 0h1m1 0h3m1 0h1M0 30.5h1m1 0h3m1 0h1m2 0h2m2 0h3m2 0h1m1 0h1m3 0h1m1 0h3M0 31.5h1m5 0h1m2 0h4m2 0h4m1 0h3m1 0h1m1 0h1m2 0h1M0 32.5h7m1 0h1m2 0h4m2 0h1m1 0h6m7 0h1";
+function PaperQR() {
+  return (
+    <svg viewBox="0 0 33 33" shapeRendering="crispEdges" className="w-[64px] h-[64px]" role="img" aria-label="QR code: open this check on your phone">
+      <path fill="#fff" d="M0 0h33v33H0z" />
+      <path stroke="#101828" d={QR_PATH} />
+    </svg>
+  );
+}
+const PAPER_ANS: Record<number, Ans> = { 1: "ok", 2: "fault", 3: "ok", 4: "ok", 5: "ok", 6: "ok", 7: "ok", 8: "na" };
+
 function useOnline() {
   return useSyncExternalStore(subscribeOnline, () => navigator.onLine, () => true);
 }
@@ -169,6 +183,18 @@ export function ChecklistPlayground() {
   const rAnswered = Object.keys(shownAns).length;
   const rFaults = ITEMS.filter((i) => shownAns[i.n] === "fault");
   const rStatus = rFaults.some((i) => i.stop) ? "stop" : rFaults.length ? "faults" : "ok";
+
+  // opened from the QR on the paper sheet: fill in the same answers as the printed example
+  const [fromPaper, setFromPaper] = useState(false);
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("paper") !== "1") return;
+    const t = setTimeout(() => {
+      setAns(PAPER_ANS);
+      setParts({ 2: ["Cracked"] });
+      setFromPaper(true);
+    }, 600);
+    return () => clearTimeout(t);
+  }, []);
 
   const answered = Object.keys(ans).length;
   const faults = ITEMS.filter((i) => ans[i.n] === "fault");
@@ -366,6 +392,9 @@ export function ChecklistPlayground() {
           </div>
           <Toast show={toast} id="sent" title="Sent to the supervisor" sub={faults.length ? `With ${faults.length} ${faults.length === 1 ? "fault" : "faults"} marked` : "All checks OK"} />
         </PhoneFrame>
+        {fromPaper && (
+          <p className="mt-4 max-w-[300px] mx-auto text-center text-[13px] font-semibold text-heading leading-snug">Filled in from the paper sheet you scanned.</p>
+        )}
         <p className="mt-4 max-w-[300px] mx-auto text-center text-[13px] text-muted leading-snug">
           Try it: turn your Wi-Fi off and keep ticking. It saves on the phone and sends when the signal is back.
         </p>
@@ -484,9 +513,13 @@ export function ChecklistPlayground() {
               <p className="text-[#6A7282] font-semibold">Faults found</p>
               <p className="border-b border-[#99A1AF] min-h-[20px] [font-family:'Bradley_Hand','Marker_Felt',cursive] text-[13px] text-[#1E3A8A]">{faults.map((f) => `${f.label}${(parts[f.n] || []).length ? ` (${(parts[f.n] || []).join(", ").toLowerCase()})` : ""}`).join("; ")}</p>
             </div>
-            <div className="grid grid-cols-2 gap-6 mt-4 text-[11px] text-[#6A7282] font-semibold">
+            <div className="grid grid-cols-[1fr_1fr_auto] gap-6 mt-4 items-end text-[11px] text-[#6A7282] font-semibold">
               <p className="border-t border-[#99A1AF] pt-1">Operator signature</p>
               <p className="border-t border-[#99A1AF] pt-1">Supervisor signature</p>
+              <div className="flex items-center gap-2">
+                <p className="text-[9.5px] leading-tight text-right max-w-[92px] font-semibold">Scan: the same check, on the phone</p>
+                <PaperQR />
+              </div>
             </div>
           </div>
 <p className="mt-3 text-[13px] text-muted">Ready to print: the same checks, route and STOP items, for machines without a phone nearby. Your taps on the phone fill it in here.</p>
