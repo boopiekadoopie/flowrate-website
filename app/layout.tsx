@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, Archivo_Black } from "next/font/google";
 import "./globals.css";
 import { MotionProvider } from "@/components/MotionProvider";
 import { MascotExtras } from "@/components/MascotExtras";
+import { UnderlineFrom } from "@/components/UnderlineFrom";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -68,6 +69,7 @@ export default function RootLayout({
         <MotionProvider>
           {children}
           <MascotExtras />
+          <UnderlineFrom />
         </MotionProvider>
       </body>
     </html>

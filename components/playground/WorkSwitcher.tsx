@@ -5,7 +5,8 @@ import { EASE } from "./kit";
 
 /*
  * Pick one project, see one project. The chosen card is solid and the rest dim (focus by dimming), and the
- * showcase below swaps with a short lift-swap. The choice lives in the URL hash so a project can be linked to.
+ * showcase below hands over sideways: the next project slides in from the side of the card you picked, so the
+ * three read as one track. The choice lives in the URL hash so a project can be linked to.
  */
 
 export type WorkItem = { id: string; name: string; who: string; line: string; device: "phone" | "desktop"; content: ReactNode };
@@ -31,7 +32,10 @@ export function WorkSwitcher({ items }: { items: WorkItem[] }) {
     return () => window.removeEventListener("hashchange", read);
   }, [items]);
 
+  // which way the track moves: +1 when the new project sits to the right of the old one
+  const [dir, setDir] = useState(1);
   const pick = (id: string) => {
+    setDir(items.findIndex((i) => i.id === id) >= items.findIndex((i) => i.id === sel) ? 1 : -1);
     setSel(id);
     history.replaceState(null, "", `#${id}`);
   };
@@ -71,8 +75,19 @@ export function WorkSwitcher({ items }: { items: WorkItem[] }) {
       </div>
 
       <div id="work-panel" role="tabpanel" className="mt-8">
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div key={cur.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} transition={{ duration: 0.35, ease: EASE }}>
+        <AnimatePresence mode="wait" initial={false} custom={dir}>
+          <motion.div
+            key={cur.id}
+            custom={dir}
+            variants={{
+              enter: (d: number) => ({ opacity: 0, x: d * 56 }),
+              show: { opacity: 1, x: 0, transition: { duration: 0.36, ease: EASE } },
+              leave: (d: number) => ({ opacity: 0, x: d * -40, transition: { duration: 0.22, ease: [0.4, 0, 0.2, 1] } }),
+            }}
+            initial="enter"
+            animate="show"
+            exit="leave"
+          >
             {cur.content}
           </motion.div>
         </AnimatePresence>

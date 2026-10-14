@@ -135,3 +135,16 @@ html { scroll-padding-top: 88px; }
   body[data-printing="ck-paper"] #ck-paper, body[data-printing="ck-paper"] #ck-paper * { visibility: visible !important; }
   body[data-printing="ck-paper"] #ck-paper { position: fixed; left: 0; top: 0; width: 100%; transform: none !important; }
 }
+
+/* Links that draw their underline from the side the pointer came in, and let go toward the side it left
+   (the side is set by components/UnderlineFrom.tsx). */
+.fr-ul {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  background-position: var(--ul-from, left) 100%;
+  padding-bottom: 2px;
+  transition: background-size 220ms cubic-bezier(0.22, 1, 0.36, 1), color 200ms;
+}
+.fr-ul:hover, .fr-ul:focus-visible { background-size: 100% 1px; }
+@media (prefers-reduced-motion: reduce) { .fr-ul { transition: color 200ms; } }

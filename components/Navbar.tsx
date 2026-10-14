@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ThemeToggle } from "./ThemeToggle";
 import { WinkMascot } from "./WinkMascot";
 import { MotionToggle } from "./MotionToggle";
@@ -67,6 +67,10 @@ export function Navbar() {
   };
 
   const [scrolled, setScrolled] = useState(false);
+  // the line that stays: how far down the page you are, as a fine line along the bottom of the bar.
+  // It fades out at the very end, where the footer's own line of light takes over.
+  const { scrollYProgress } = useScroll();
+  const lineOpacity = useTransform(scrollYProgress, [0, 0.02, 0.97, 1], [0, 1, 1, 0]);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -81,6 +85,11 @@ export function Navbar() {
         scrolled ? "shadow-[0_1px_3px_rgba(0,0,0,0.06)]" : ""
       }`}
     >
+      <motion.div
+        aria-hidden
+        style={{ scaleX: scrollYProgress, opacity: lineOpacity }}
+        className="pointer-events-none absolute left-0 right-0 -bottom-px h-px origin-left bg-heading/40"
+      />
       <div className="max-w-7xl mx-auto px-5 lg:px-8 h-16">
         {/* Mobile bar: mascot on the left, hamburger on the right */}
         <div className="lg:hidden flex items-center justify-between h-full">
@@ -106,7 +115,7 @@ export function Navbar() {
               <a
                 key={l.label}
                 href={l.href}
-                className={`inline-flex items-center gap-1 text-[14px] font-semibold transition-colors duration-200 ${
+                className={`fr-ul inline-flex items-center gap-1 text-[14px] font-semibold transition-colors duration-200 ${
                   l.active ? "text-heading" : "text-body hover:text-heading"
                 }`}
               >
@@ -127,7 +136,7 @@ export function Navbar() {
             </div>
             <Link
               href="/#contact"
-              className="text-[14px] font-semibold text-body hover:text-heading transition-colors duration-200"
+              className="fr-ul text-[14px] font-semibold text-body hover:text-heading transition-colors duration-200"
             >
               Contact
             </Link>

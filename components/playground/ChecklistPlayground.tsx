@@ -1,6 +1,6 @@
 "use client";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Check } from "@/components/ui";
 import { EASE, Hl, PhoneFrame, Steps, Toast, useTimers } from "./kit";
 
@@ -12,6 +12,21 @@ import { EASE, Hl, PhoneFrame, Steps, Toast, useTimers } from "./kit";
  */
 
 type Ans = "ok" | "fault" | "na";
+
+/* Pull the plug: the demo reads the visitor's real connection. With no signal the checks keep saving on the
+   phone (as the real app does) and the supervisor's report waits; when the signal is back, the waiting
+   changes go across one by one. */
+const subscribeOnline = (cb: () => void) => {
+  window.addEventListener("online", cb);
+  window.addEventListener("offline", cb);
+  return () => {
+    window.removeEventListener("online", cb);
+    window.removeEventListener("offline", cb);
+  };
+};
+function useOnline() {
+  return useSyncExternalStore(subscribeOnline, () => navigator.onLine, () => true);
+}
 type Item = { n: number; zone: number; label: string; hint: string; parts: string[]; stop?: boolean };
 const ZONES = ["Walk around", "In the cab & start"];
 const ITEMS: Item[] = [
@@ -103,6 +118,58 @@ export function ChecklistPlayground() {
   const { later, clear } = useTimers();
   const listRef = useRef<HTMLDivElement>(null);
 
+  // what the supervisor's report shows: live while online; frozen while offline, then caught up one change at a time
+  const online = useOnline();
+  const [frozen, setFrozen] = useState<{ ans: Record<number, Ans>; parts: Record<number, string[]> } | null>(null);
+  const [flash, setFlash] = useState<number | null>(null);
+  const [justSynced, setJustSynced] = useState(false);
+  const [sendQueued, setSendQueued] = useState(false);
+  const pendingKeys = frozen ? ITEMS.map((i) => i.n).filter((n) => frozen.ans[n] !== ans[n] || (frozen.parts[n] || []).join() !== (parts[n] || []).join()) : [];
+
+  // freeze the report at the moment the signal goes
+  const latest = useRef({ ans, parts });
+  useEffect(() => {
+    latest.current = { ans, parts };
+  }, [ans, parts]);
+  useEffect(() => {
+    const off = () => setFrozen((f) => f ?? { ans: { ...latest.current.ans }, parts: { ...latest.current.parts } });
+    window.addEventListener("offline", off);
+    return () => window.removeEventListener("offline", off);
+  }, []);
+
+  // signal back: catch the report up, one waiting change at a time
+  useEffect(() => {
+    if (!online || !frozen) return;
+    const n = pendingKeys[0];
+    if (n === undefined) {
+      const t = setTimeout(() => {
+        setFrozen(null);
+        setJustSynced(true);
+        if (sendQueued) {
+          setSendQueued(false);
+          setSent(true);
+          setToast(true);
+          later(3000, () => setToast(false));
+        }
+        later(3200, () => setJustSynced(false));
+      }, 300);
+      return () => clearTimeout(t);
+    }
+    const t = setTimeout(() => {
+      setFrozen((f) => (f ? { ans: { ...f.ans, [n]: ans[n] }, parts: { ...f.parts, [n]: parts[n] || [] } } : f));
+      setFlash(n);
+      later(600, () => setFlash(null));
+    }, 380);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [online, frozen, ans, parts]);
+  const shownAns = frozen?.ans ?? ans;
+  const shownParts = frozen?.parts ?? parts;
+  // the report's own counts, from what it has actually received
+  const rAnswered = Object.keys(shownAns).length;
+  const rFaults = ITEMS.filter((i) => shownAns[i.n] === "fault");
+  const rStatus = rFaults.some((i) => i.stop) ? "stop" : rFaults.length ? "faults" : "ok";
+
   const answered = Object.keys(ans).length;
   const faults = ITEMS.filter((i) => ans[i.n] === "fault");
   const stopFault = faults.some((i) => i.stop);
@@ -131,12 +198,17 @@ export function ChecklistPlayground() {
   });
   const send = () => {
     if (answered < ITEMS.length || sent) return;
+    if (!online || frozen) {
+      setSendQueued(true);
+      return;
+    }
     setSent(true);
     later(200, () => setToast(true));
     later(3200, () => setToast(false));
   };
   const reset = () => {
     clear(); setAns({}); setParts({}); setSent(false); setToast(false); setAuto(false); setView("report");
+    setSendQueued(false); setFrozen(online ? null : { ans: {}, parts: {} });
   };
   const watch = () => {
     reset(); setAuto(true);
@@ -190,6 +262,24 @@ export function ChecklistPlayground() {
             <div className="mt-2 h-[4px] rounded-full bg-white/20 overflow-hidden">
               <motion.div className="h-full bg-white" animate={{ width: `${(answered / ITEMS.length) * 100}%` }} transition={{ duration: 0.35, ease: EASE }} />
             </div>
+            <AnimatePresence initial={false}>
+              {(!online || frozen) && (
+                <motion.p
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.25, ease: EASE }}
+                  className="overflow-hidden text-[11px] font-semibold text-white/85"
+                  role="status"
+                >
+                  <span className="block pt-2">
+                    {!online
+                      ? `No signal · saved on this phone${pendingKeys.length ? ` · ${pendingKeys.length} waiting` : ""}`
+                      : `Signal back · sending ${pendingKeys.length || ""}`.trim()}
+                  </span>
+                </motion.p>
+              )}
+            </AnimatePresence>
           </div>
           <AnimatePresence>
             {status === "stop" && (
@@ -270,12 +360,15 @@ export function ChecklistPlayground() {
           <div className="absolute bottom-0 inset-x-0 px-3 pb-4 pt-3 bg-[linear-gradient(to_top,#F4F4F2_70%,rgba(244,244,242,0))]">
             <Hl on={step === "send" && answered === ITEMS.length && !auto}>
               <button type="button" onClick={send} disabled={answered < ITEMS.length || sent} className="w-full h-[50px] rounded-[14px] bg-[#101828] text-white text-[14px] font-extrabold disabled:bg-[#101828]/35 cursor-pointer">
-                {sent ? "Sent to supervisor" : answered < ITEMS.length ? `Send to supervisor (${ITEMS.length - answered} left)` : "Send to supervisor"}
+                {sent ? "Sent to supervisor" : sendQueued ? "Sends when there's signal" : answered < ITEMS.length ? `Send to supervisor (${ITEMS.length - answered} left)` : "Send to supervisor"}
               </button>
             </Hl>
           </div>
           <Toast show={toast} id="sent" title="Sent to the supervisor" sub={faults.length ? `With ${faults.length} ${faults.length === 1 ? "fault" : "faults"} marked` : "All checks OK"} />
         </PhoneFrame>
+        <p className="mt-4 max-w-[300px] mx-auto text-center text-[13px] text-muted leading-snug">
+          Try it: turn your Wi-Fi off and keep ticking. It saves on the phone and sends when the signal is back.
+        </p>
       </div>
 
       {/* ---------------- the report that goes to the supervisor, or the same check on paper */}
@@ -304,19 +397,19 @@ export function ChecklistPlayground() {
             <p className="text-[15px] font-bold">Report for the supervisor · TRK 04</p>
             <span className="text-[12px] text-[#6A7282]">Example data</span>
           </div>
-          <div className={`px-5 py-3 flex items-center justify-between text-[13px] font-bold transition-colors duration-300 ${status === "stop" ? "bg-[#FEE4E2] text-[#912018]" : status === "faults" ? "bg-[#FEF3C7] text-[#92400E]" : "bg-[#EAF8E6] text-[#1D6B2B]"}`}>
-            <span>{status === "stop" ? "Do not start" : status === "faults" ? `${faults.length} ${faults.length === 1 ? "fault" : "faults"} to fix` : answered ? "Safe to start so far" : "Waiting for the check"}</span>
-            <span className="font-semibold tabular-nums">{answered}/{ITEMS.length} checked</span>
+          <div className={`px-5 py-3 flex items-center justify-between text-[13px] font-bold transition-colors duration-300 ${rStatus === "stop" ? "bg-[#FEE4E2] text-[#912018]" : rStatus === "faults" ? "bg-[#FEF3C7] text-[#92400E]" : "bg-[#EAF8E6] text-[#1D6B2B]"}`}>
+            <span>{rStatus === "stop" ? "Do not start" : rStatus === "faults" ? `${rFaults.length} ${rFaults.length === 1 ? "fault" : "faults"} to fix` : rAnswered ? "Safe to start so far" : "Waiting for the check"}</span>
+            <span className="font-semibold tabular-nums">{rAnswered}/{ITEMS.length} checked</span>
           </div>
           <div>
             {ITEMS.map((it) => {
-              const a = ans[it.n];
+              const a = shownAns[it.n];
               return (
-                <div key={it.n} className="grid grid-cols-[24px_1fr_auto] gap-3 items-center px-5 h-[42px] border-b border-[#F3F4F6] text-[13px]">
+                <div key={it.n} className={`grid grid-cols-[24px_1fr_auto] gap-3 items-center px-5 h-[42px] border-b border-[#F3F4F6] text-[13px] transition-colors duration-500 ${flash === it.n ? "bg-[#EAF8E6]" : ""}`}>
                   <span className="text-[#99A1AF] tabular-nums">{it.n}</span>
                   <span className="min-w-0 truncate">
                     {it.label}
-                    {a === "fault" && (parts[it.n] || []).length > 0 && <span className="text-[#B42318]"> · {(parts[it.n] || []).join(", ")}</span>}
+                    {a === "fault" && (shownParts[it.n] || []).length > 0 && <span className="text-[#B42318]"> · {(shownParts[it.n] || []).join(", ")}</span>}
                   </span>
                   <AnimatePresence mode="wait" initial={false}>
                     <motion.span key={a || "none"} initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.2 }} className="justify-self-end">
@@ -337,7 +430,11 @@ export function ChecklistPlayground() {
           </div>
           <div className="px-5 py-3 text-[12px] text-[#6A7282] flex justify-between bg-[#FAFAFA]">
             <span>Checked by Sam M. · 6:42</span>
-            <span className={sent ? "text-[#1D6B2B] font-semibold" : ""}>{sent ? "✓ Sent on WhatsApp" : "Not sent yet"}</span>
+            <span className={sent || justSynced ? "text-[#1D6B2B] font-semibold" : !online ? "text-[#92400E] font-semibold" : ""}>
+              {!online
+                ? pendingKeys.length ? `Waiting for signal · ${pendingKeys.length} on the phone` : "Waiting for signal"
+                : frozen ? "Receiving…" : sent ? "✓ Sent on WhatsApp" : justSynced ? "✓ Synced just now" : "Not sent yet"}
+            </span>
           </div>
         </div>
         <p className="mt-3 text-[13px] text-muted">When the check is sent, the supervisor gets this report on WhatsApp, with every fault named.</p>

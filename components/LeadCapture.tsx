@@ -1,9 +1,13 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { WinkMascot } from "@/components/WinkMascot";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { mascot, POSES } from "@/lib/mascot";
 import { Arrow, CALENDLY_URL, Check, Container, EMAIL, H2, Lede, Reveal } from "./ui";
+
+// When the message goes, the fields fold away one after another and the form becomes one card: what was sent
+const foldOut: Variants = { exit: { opacity: 0, y: -18, transition: { duration: 0.16, ease: [0.4, 0, 0.2, 1] } } };
+const FLOW = [0.22, 1, 0.36, 1] as const;
 
 const inputs = [
   { name: "name", label: "Your name", type: "text", required: true, autoComplete: "name" },
@@ -132,24 +136,46 @@ export function LeadCapture() {
             </motion.div>
 
             <div className="relative z-10 rounded-lg bg-paper border border-line shadow-[0_1px_3px_rgba(0,0,0,0.1),0_1px_2px_-1px_rgba(0,0,0,0.1)] p-6 sm:p-8">
+              <AnimatePresence mode="wait" initial={false}>
               {status === "sent" ? (
-                <div className="py-10 text-center">
-                  <div className="w-12 h-12 mx-auto mb-5 rounded-lg bg-ok-bg text-ok flex items-center justify-center">
+                <motion.div
+                  key="sent"
+                  initial={{ opacity: 0, scaleY: 0.72, y: -12 }}
+                  animate={{ opacity: 1, scaleY: 1, y: 0 }}
+                  transition={{ duration: 0.45, ease: FLOW }}
+                  style={{ originY: 0 }}
+                  className="relative py-6"
+                >
+                  <div className="w-11 h-11 mb-5 rounded-lg bg-ok-bg text-ok flex items-center justify-center">
                     <Check className="w-6 h-6" />
                   </div>
-                  <p ref={doneRef} tabIndex={-1} className="text-heading font-bold text-[20px] mb-2 outline-none">Got it. Thanks.</p>
-                  <p className="text-body text-[15px] leading-relaxed max-w-[340px] mx-auto">
-                    Andrew will read it and reply to you personally.
+                  <p ref={doneRef} tabIndex={-1} className="text-heading font-bold text-[20px] mb-2 outline-none">
+                    Got it{values.name?.trim() ? `, ${values.name.trim().split(" ")[0]}` : ""}. Thanks.
                   </p>
-                </div>
+                  <p className="text-body text-[15px] leading-relaxed">
+                    Andrew will read it and reply{values.email ? <> to <span className="text-heading font-semibold">{values.email}</span></> : null} personally.
+                  </p>
+                  {values.message?.trim() && (
+                    <p className="mt-5 border-l-2 border-heading/60 pl-4 text-[14px] text-body leading-relaxed line-clamp-3 [overflow-wrap:anywhere]">
+                      {values.message.trim()}
+                    </p>
+                  )}
+                  <motion.span
+                    aria-hidden
+                    initial={{ scaleX: 0, opacity: 0.9 }}
+                    animate={{ scaleX: 1, opacity: 0.35 }}
+                    transition={{ scaleX: { duration: 0.5, ease: FLOW, delay: 0.2 }, opacity: { duration: 1.2, delay: 0.8 } }}
+                    className="absolute inset-x-0 -bottom-px h-px origin-left bg-[linear-gradient(90deg,transparent,rgba(16,24,40,0.45)_20%,rgba(16,24,40,0.45)_80%,transparent)] dark:bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.5)_20%,rgba(255,255,255,0.5)_80%,transparent)]"
+                  />
+                </motion.div>
               ) : (
-                <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <motion.form key="form" exit="exit" variants={{ exit: { transition: { staggerChildren: 0.04 } } }} onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <label aria-hidden className="absolute -left-[9999px] w-px h-px overflow-hidden">
                     Leave this empty
                     <input type="text" name="website" tabIndex={-1} autoComplete="off" value={trap} onChange={(e) => setTrap(e.target.value)} />
                   </label>
                   {inputs.map((f) => (
-                    <label key={f.name} className="flex flex-col gap-1.5">
+                    <motion.label variants={foldOut} key={f.name} className="flex flex-col gap-1.5">
                       <span className="text-[14px] font-medium text-heading">
                         {f.label}
                         {!f.required && <span className="text-faint font-normal"> (optional)</span>}
@@ -170,9 +196,9 @@ export function LeadCapture() {
                           {hints[f.name]}
                         </span>
                       )}
-                    </label>
+                    </motion.label>
                   ))}
-                  <label className="flex flex-col gap-1.5 sm:col-span-2">
+                  <motion.label variants={foldOut} className="flex flex-col gap-1.5 sm:col-span-2">
                     <span className="text-[14px] font-medium text-heading">What&apos;s the job?</span>
                     <textarea
                       name="message"
@@ -184,15 +210,16 @@ export function LeadCapture() {
                       placeholder="e.g. Every Friday we copy job sheets from WhatsApp into a spreadsheet, then into the accounts."
                       className={`${field} resize-y min-h-[120px] leading-[1.5]`}
                     />
-                  </label>
-                  <button
+                  </motion.label>
+                  <motion.button
+                    variants={foldOut}
                     type="submit"
                     disabled={status === "sending"}
                     className="sm:col-span-2 mt-1 inline-flex items-center justify-center gap-2 bg-green text-[#0C1A0D] font-bold uppercase tracking-[0.025em] text-[14px] px-6 py-4 rounded-lg hover:bg-green-light transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-default"
                   >
                     {status === "sending" ? "Sending…" : "Send it to Andrew"}
                     {status !== "sending" && <Arrow className="w-4 h-4" />}
-                  </button>
+                  </motion.button>
                   <div role="status" aria-live="polite" className="sm:col-span-2 empty:hidden">
                     {status === "sending" && <span className="sr-only">Sending your message</span>}
                     {status === "error" && (
@@ -208,8 +235,9 @@ export function LeadCapture() {
                   <p className="sm:col-span-2 text-muted text-[13px] text-center">
                     No mailing list, no follow-up sequence. Just a reply.
                   </p>
-                </form>
+                </motion.form>
               )}
+              </AnimatePresence>
             </div>
           </Reveal>
         </div>

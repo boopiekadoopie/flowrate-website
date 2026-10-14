@@ -35,7 +35,7 @@ function Column({ title, links, external = false }: { title: string; links: { la
             <a
               href={l.href}
               {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className="text-white/60 text-[14px] hover:text-white transition-colors"
+              className="fr-ul text-white/60 text-[14px] hover:text-white transition-colors"
             >
               {l.label}
             </a>
@@ -79,7 +79,7 @@ export function Footer() {
               >
                 Book a free call
               </a>
-              <a href={`mailto:${EMAIL}`} className="text-white/70 text-[14px] hover:text-white transition-colors">
+              <a href={`mailto:${EMAIL}`} className="fr-ul text-white/70 text-[14px] hover:text-white transition-colors">
                 {EMAIL}
               </a>
             </div>
