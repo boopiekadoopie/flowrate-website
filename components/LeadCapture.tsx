@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { WinkMascot } from "@/components/WinkMascot";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { mascot, POSES } from "@/lib/mascot";
+import { play } from "@/lib/sound";
 import { Arrow, CALENDLY_URL, Check, Container, EMAIL, H2, Lede, Reveal } from "./ui";
 
 // When the message goes, the fields fold away one after another and the form becomes one card: what was sent
@@ -26,6 +27,7 @@ export function LeadCapture({ prefill }: { prefill?: string } = {}) {
     if (status === "sent") {
       doneRef.current?.focus();
       setTimeout(() => mascot.play("lead", "wink"), 350);
+      play("chord", 0.8, 150);
     }
   }, [status]);
 

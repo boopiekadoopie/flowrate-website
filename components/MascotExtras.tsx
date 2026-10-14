@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
 import { mascot } from "@/lib/mascot";
+import { play } from "@/lib/sound";
 
 /*
  * Small things around the mascot that live outside any one section:
@@ -56,6 +57,7 @@ export function MascotExtras() {
       const t = e.target as HTMLElement | null;
       if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
       mascot.play("nav", e.shiftKey ? "doubleTake" : "wink");
+      play("pop-in", 0.4, 90);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);

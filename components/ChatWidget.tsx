@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { WinkMascot } from "./WinkMascot";
 import { mascot } from "@/lib/mascot";
+import { play } from "@/lib/sound";
 
 const CALENDLY_URL = "https://calendly.com/flowrate/30min";
 
@@ -61,6 +62,7 @@ function reactTo(reply: string) {
   const r = reply.trim().toLowerCase();
   const g = /^(yes|yep|yeah|sure|absolutely|definitely|of course)\b/.test(r) ? "nod" : /^(no|nope|sorry|unfortunately|not really|i can't|i cannot)\b/.test(r) ? "shake" : "glint";
   setTimeout(() => mascot.play("chat", g), 280);
+  play("tick", 0.6);
 }
 
 export function ChatWidget() {

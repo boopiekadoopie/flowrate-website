@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Check } from "@/components/ui";
 import { EASE, Hl, PhoneFrame, Steps, Toast, useTimers } from "./kit";
+import { play } from "@/lib/sound";
 
 /*
  * Playground 2: the pre-start checklist we built for a transport fleet's workshop, rebuilt as a safe demo.
@@ -172,6 +173,7 @@ export function ChecklistPlayground() {
     const t = setTimeout(() => {
       setFrozen((f) => (f ? { ans: { ...f.ans, [n]: ans[n] }, parts: { ...f.parts, [n]: parts[n] || [] } } : f));
       setFlash(n);
+      play("tick", 0.5);
       later(600, () => setFlash(null));
     }, 380);
     return () => clearTimeout(t);

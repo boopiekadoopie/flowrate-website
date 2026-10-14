@@ -5,6 +5,7 @@ import { AnimatePresence, MotionConfig, motion, useInView } from "framer-motion"
 import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
 import { Check, Container, H2, Lede } from "./ui";
 import { JobCard, type JobCardData } from "./Paperwork";
+import { play } from "@/lib/sound";
 
 /*
  * Four example product screens, one per tab. Every screen is pinned to the light palette so it reads
@@ -436,7 +437,10 @@ function ReportScreen({ reduce }: ScreenProps) {
             <motion.button
               type="button"
               key={s.k}
-              onClick={() => setOpen(on ? null : s.key)}
+              onClick={() => {
+                setOpen(on ? null : s.key);
+                play(on ? "pop-out" : "slide", 0.5);
+              }}
               aria-expanded={on}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}

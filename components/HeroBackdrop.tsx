@@ -3,6 +3,7 @@ import { useEffect, useRef, useSyncExternalStore } from "react";
 import { animate, motion, useMotionValue, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion";
 import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
 import { Chat, JobCard, Mail, Receipt, Sheet, Sticky } from "./Paperwork";
+import { play } from "@/lib/sound";
 
 /*
  * The paperwork a business runs on, drifting around the headline at different depths.
@@ -73,6 +74,7 @@ function Floating({ p, i, mx, my, progress, interactive }: { p: Piece; i: number
         animate(dy, dy.get() + ty, o);
         animate(gs, 0.3, o);
         animate(go, 0, { ...o, duration: 0.3, delay: o.delay + 0.2 });
+        play("pop-in", 0.3, (o.delay + 0.45) * 1000);
       } else if (!on && away.current) {
         away.current = false;
         const o = { duration: 1.6, ease: FLOW, delay: (5 - i) * 0.05 };
