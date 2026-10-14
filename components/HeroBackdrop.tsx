@@ -74,7 +74,7 @@ function Floating({ p, i, mx, my, progress, interactive }: { p: Piece; i: number
         animate(dy, dy.get() + ty, o);
         animate(gs, 0.3, o);
         animate(go, 0, { ...o, duration: 0.3, delay: o.delay + 0.2 });
-        play("pop-in", 0.3, (o.delay + 0.45) * 1000);
+        if (i === PIECES.length - 1) play("pop-in", 0.35, (o.delay + 0.45) * 1000); // one soft pop as the pile lands
       } else if (!on && away.current) {
         away.current = false;
         const o = { duration: 1.6, ease: FLOW, delay: (5 - i) * 0.05 };

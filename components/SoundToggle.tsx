@@ -1,7 +1,7 @@
 "use client";
 import { setSoundOn, useSoundOn } from "@/lib/sound";
 
-/* Sound is off by default; this plain switch in the footer turns the site's few soft sounds on. */
+/* Sound is on by default (nothing plays before a click); this plain switch in the footer turns it off. */
 export function SoundToggle() {
   const on = useSoundOn();
   return (

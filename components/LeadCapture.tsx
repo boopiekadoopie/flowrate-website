@@ -27,8 +27,8 @@ export function LeadCapture({ prefill }: { prefill?: string } = {}) {
     if (status === "sent") {
       doneRef.current?.focus();
       setTimeout(() => mascot.play("lead", "wink"), 350);
-      play("chord", 0.8, 150);
-      play("nice-one", 1, 900);
+      play("check", 1, 150);
+      play("nice-one", 1, 520);
     }
   }, [status]);
 

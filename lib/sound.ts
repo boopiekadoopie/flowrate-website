@@ -2,20 +2,21 @@
 import { useSyncExternalStore } from "react";
 
 /*
- * The site's sound: off unless the visitor turns it on (the switch in the footer), remembered in
- * localStorage. Five soft sounds from the brand kit, used sparingly: pop-in (something arrives), pop-out
- * (something leaves), tick (a step done), slide (a panel moves), chord (it's done). Plus Andrew's own voice:
- * "Huh, nice one." when the contact form is sent.
+ * The site's sound: on unless the visitor turns it off (the switch in the footer), remembered in
+ * localStorage. Browsers play nothing until the visitor has clicked or tapped, and nearly every sound here
+ * follows a click anyway, so the page never makes a noise on its own. Five soft sounds from the brand kit, used sparingly: pop-in (something arrives), pop-out
+ * (something leaves), tick (a step done), slide (a panel moves), chord (it's done), check (sent: two soft
+ * rising notes). Plus Andrew's own voice: "Huh, nice one." straight after the check when the contact form is sent.
  */
-export type Sound = "pop-in" | "pop-out" | "tick" | "slide" | "chord" | "nice-one";
+export type Sound = "pop-in" | "pop-out" | "tick" | "slide" | "chord" | "check" | "nice-one";
 const KEY = "sound";
 const EVENT = "flowrate-sound";
 
 function read(): boolean {
   try {
-    return localStorage.getItem(KEY) === "on";
+    return localStorage.getItem(KEY) !== "off";
   } catch {
-    return false;
+    return true;
   }
 }
 const subscribe = (cb: () => void) => {
@@ -28,13 +29,12 @@ const subscribe = (cb: () => void) => {
 };
 
 export function useSoundOn(): boolean {
-  return useSyncExternalStore(subscribe, read, () => false);
+  return useSyncExternalStore(subscribe, read, () => true);
 }
 
 export function setSoundOn(on: boolean) {
   try {
-    if (on) localStorage.setItem(KEY, "on");
-    else localStorage.removeItem(KEY);
+    localStorage.setItem(KEY, on ? "on" : "off");
   } catch {
     /* private mode: the choice lasts for this page only */
   }

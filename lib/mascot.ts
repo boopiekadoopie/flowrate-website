@@ -28,7 +28,8 @@ export const MASCOT_REST = 1200;
 
 export interface MascotHandle {
   el: () => HTMLElement | null;
-  play: (g: Gesture, opts?: { auto?: boolean }) => boolean;
+  /** auto: an idle gesture that waits its turn; user: the visitor caused it (counts on the wink counter) */
+  play: (g: Gesture, opts?: { auto?: boolean; user?: boolean }) => boolean;
   hold: (p: Pose | null) => void;
 }
 
@@ -52,8 +53,8 @@ function each(role: string, fn: (h: MascotHandle) => void) {
 }
 
 export const mascot = {
-  play(role: string, g: Gesture) {
-    each(role, (h) => h.play(g));
+  play(role: string, g: Gesture, opts?: { user?: boolean }) {
+    each(role, (h) => h.play(g, opts));
   },
   hold(role: string, p: Pose | null) {
     each(role, (h) => h.hold(p));

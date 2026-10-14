@@ -56,7 +56,7 @@ export function MascotExtras() {
       if (e.key.toLowerCase() !== "w" || e.metaKey || e.ctrlKey || e.altKey || e.repeat) return;
       const t = e.target as HTMLElement | null;
       if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
-      mascot.play("nav", e.shiftKey ? "doubleTake" : "wink");
+      mascot.play("nav", e.shiftKey ? "doubleTake" : "wink", { user: true });
       play("pop-in", 0.4, 90);
     };
     window.addEventListener("keydown", onKey);

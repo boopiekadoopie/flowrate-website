@@ -8,7 +8,8 @@ export const CHANGELOG: ChangeDay[] = [
   {
     date: "2026-10-14",
     items: [
-      "A sound switch in the footer: off unless you turn it on, then a few soft sounds for the moments that matter.",
+      "A few soft sounds for the moments that matter, and a switch in the footer to turn them off.",
+      "A wink counter: see how many times you've made the mascot wink (it stays in your browser).",
       "New: paste the column names of a spreadsheet and see the simple app it would become.",
       "On the Reports example, each total opens the jobs behind it, and each job opens what was captured on site.",
       "The paperwork around the homepage headline can be picked up and thrown around. Point at the main button to tidy it.",

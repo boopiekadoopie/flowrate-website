@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useId, useRef } from "react";
 import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
 import { MASCOT_REST, POSES, registerMascot, type Gesture, type Pose } from "@/lib/mascot";
+import { countWink } from "@/lib/winks";
 
 /*
  * The mascot, with a face that moves. Both eyelids are drawn in SVG over the original artwork, in the
@@ -58,6 +59,7 @@ export function WinkMascot({
   const body = useRef<HTMLSpanElement>(null);
   const parts = useRef<Record<string, SVGElement | null>>({});
   const glint = useRef<SVGGElement>(null);
+  const tally = useRef<HTMLSpanElement>(null);
 
   const busy = useRef(false);
   const lastEnd = useRef(0);
@@ -107,11 +109,23 @@ export function WinkMascot({
     );
 
   const play = useCallback(
-    (g: Gesture, opts?: { auto?: boolean }) => {
+    (g: Gesture, opts?: { auto?: boolean; user?: boolean }) => {
       if (reduce || busy.current) return false;
       if (opts?.auto && (performance.now() - lastEnd.current < MASCOT_REST || base.current.l || base.current.r)) return false;
       busy.current = true;
       const b = base.current, w = wrap.current;
+      // the visitor's wink counter: only winks they caused, and the new total pops up beside him for a moment
+      if (g === "wink" && opts?.user) {
+        const n = countWink();
+        const t = tally.current;
+        if (t && (w?.offsetHeight ?? 0) >= 60) {
+          t.textContent = String(n);
+          t.animate(
+            [{ opacity: 0, transform: "translateY(6px) scale(0.8)" }, { opacity: 1, transform: "translateY(0) scale(1)", offset: 0.15 }, { opacity: 1, transform: "translateY(0) scale(1)", offset: 0.8 }, { opacity: 0, transform: "translateY(-4px) scale(0.95)" }],
+            { duration: 1500, easing: FLOW }
+          );
+        }
+      }
       const run = async () => {
         if (g === "wink") {
           // a little lift and head tilt so the wink reads even when the mascot is small
@@ -249,7 +263,7 @@ export function WinkMascot({
     };
   }, [idle, reduce]);
 
-  const onWink = () => play("wink");
+  const onWink = () => play("wink", { user: true });
   // overlay parts register themselves by their data-part name
   const setPart = useCallback((el: SVGElement | null) => {
     if (el?.dataset.part) parts.current[el.dataset.part] = el;
@@ -285,6 +299,11 @@ export function WinkMascot({
           </g>
         </svg>
       </span>
+      <span
+        ref={tally}
+        aria-hidden
+        className="pointer-events-none absolute -top-1 -right-3 min-w-[22px] h-[22px] px-1.5 rounded-full bg-heading text-paper text-[11px] font-bold tabular-nums flex items-center justify-center opacity-0 shadow-[0_4px_10px_rgba(16,24,40,0.25)]"
+      />
     </span>
   );
 }

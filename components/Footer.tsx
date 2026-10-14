@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { FooterWordmark } from "./FooterWordmark";
 import { SoundToggle } from "./SoundToggle";
+import { WinkCounter } from "./WinkCounter";
 
 const CALENDLY_URL = "https://calendly.com/flowrate/30min";
 const EMAIL = "andrew@flowrate.agency";
@@ -95,6 +96,7 @@ export function Footer() {
         <div className="pt-8 flex flex-col sm:flex-row justify-between gap-3 text-white/40 text-[13px]">
           <p>&copy; {new Date().getFullYear()} Flowrate. All rights reserved.</p>
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+            <WinkCounter />
             <SoundToggle />
             <p>Designed and built by Flowrate.</p>
           </div>
