@@ -9,7 +9,8 @@ import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
  * closed curve and back, then a small glint flashes on the smile. Same wink as the brand sting, so it
  * stays crisp at any size and the artwork itself never changes.
  *
- * Winks on hover, focus and press; `intro` winks once per visit shortly after the page loads.
+ * Winks on hover, focus and press; `intro` winks once per visit shortly after the page loads;
+ * `winkOnMount` winks every time it appears, after that many ms (the chat avatar saying hello).
  * Stands still with reduced motion or when the visitor has paused animations.
  */
 
@@ -24,6 +25,7 @@ export function WinkMascot({
   priority = false,
   alt = "",
   intro = false,
+  winkOnMount,
 }: {
   className?: string;
   imgClassName?: string;
@@ -31,6 +33,7 @@ export function WinkMascot({
   priority?: boolean;
   alt?: string;
   intro?: boolean;
+  winkOnMount?: number;
 }) {
   const id = useId().replace(/:/g, "");
   const reduce = useReduceAfterMount();
@@ -96,6 +99,12 @@ export function WinkMascot({
     }, 1400);
     return () => clearTimeout(tm);
   }, [intro, reduce]);
+
+  useEffect(() => {
+    if (winkOnMount === undefined || reduce) return;
+    const tm = setTimeout(() => winkRef.current(), winkOnMount);
+    return () => clearTimeout(tm);
+  }, [winkOnMount, reduce]);
 
   return (
     <span ref={wrap} className={`relative inline-block ${className}`} onPointerEnter={wink} onPointerDown={wink} onFocus={wink}>

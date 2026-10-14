@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+import { WinkMascot } from "./WinkMascot";
 
 const CALENDLY_URL = "https://calendly.com/flowrate/30min";
 
@@ -42,10 +42,14 @@ function Rich({ text, dark = false }: { text: string; dark?: boolean }) {
   );
 }
 
-function Avatar({ size = "w-7 h-7" }: { size?: string }) {
+/* The mascot's head in a small tile; it winks hello when it appears. The crop scale sits on its own layer
+   so the wink's lift and tilt don't fight it. */
+function Avatar({ size = "w-7 h-7", wink }: { size?: string; wink?: number }) {
   return (
     <div className={`${size} relative rounded-[7px] overflow-hidden bg-canvas border border-line flex-shrink-0`}>
-      <Image src="/mascot.png" alt="" fill sizes="28px" className="object-cover object-top scale-[1.35] origin-top" />
+      <div className="absolute inset-x-0 top-0 origin-top scale-[1.35]">
+        <WinkMascot sizes="40px" winkOnMount={wink} className="w-full" imgClassName="block w-full h-auto" />
+      </div>
     </div>
   );
 }
@@ -132,7 +136,9 @@ export function ChatWidget() {
             <div className="bg-carbon px-5 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 relative rounded-[8px] overflow-hidden border border-white/20 bg-white/10 flex-shrink-0">
-                  <Image src="/mascot.png" alt="" fill sizes="36px" className="object-cover object-top scale-[1.35] origin-top" />
+                  <div className="absolute inset-x-0 top-0 origin-top scale-[1.35]">
+                    <WinkMascot sizes="48px" winkOnMount={450} className="w-full" imgClassName="block w-full h-auto" />
+                  </div>
                 </div>
                 <div>
                   <p className="text-white font-bold text-sm leading-tight">Flowrate assistant</p>
@@ -242,7 +248,7 @@ export function ChatWidget() {
             className="relative max-sm:hidden bg-paper border border-line rounded-lg pl-4 pr-8 py-3 shadow-[0_12px_32px_-8px_rgba(16,24,40,0.2)] cursor-pointer hover:border-line-strong transition-colors max-w-[230px]"
           >
             <div className="flex items-start gap-2.5">
-              <Avatar />
+              <Avatar wink={700} />
               <div>
                 <p className="text-heading text-xs leading-relaxed">
                   Wondering if your process could be a system? Ask our AI assistant.
