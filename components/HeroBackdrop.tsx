@@ -59,6 +59,7 @@ function Floating({ p, i, mx, my, progress, interactive }: { p: Piece; i: number
   const dx = useMotionValue(0), dy = useMotionValue(0), gs = useMotionValue(1), go = useMotionValue(1);
   const ref = useRef<HTMLDivElement>(null);
   const away = useRef(false);
+  const trip = useRef(0);
   useEffect(() => {
     if (!interactive) return;
     const onGather = (e: Event) => {
@@ -67,6 +68,8 @@ function Floating({ p, i, mx, my, progress, interactive }: { p: Piece; i: number
       if (!el || !target) return;
       if (on && !away.current) {
         away.current = true;
+        trip.current += 1;
+        el.style.pointerEvents = "none"; // in flight and parked, the pieces never catch the pointer meant for the button
         const a = el.getBoundingClientRect(), t = target.getBoundingClientRect();
         const tx = t.left + t.width / 2 - (a.left + a.width / 2), ty = t.top + 48 - (a.top + a.height / 2);
         const o = { duration: 0.48, ease: GATHER, delay: i * 0.06 };
@@ -74,12 +77,14 @@ function Floating({ p, i, mx, my, progress, interactive }: { p: Piece; i: number
         animate(dy, dy.get() + ty, o);
         animate(gs, 0.3, o);
         animate(go, 0, { ...o, duration: 0.3, delay: o.delay + 0.2 });
-        if (i === PIECES.length - 1) play("pop-in", 0.35, (o.delay + 0.45) * 1000); // one soft pop as the pile lands
+        play("pop-in", 0.24, (o.delay + 0.45) * 1000, 0.94 + i * 0.03); // a soft pop as each piece lands, rising a touch
       } else if (!on && away.current) {
         away.current = false;
-        const o = { duration: 1.6, ease: FLOW, delay: (5 - i) * 0.05 };
+        const o = { duration: 1.6, ease: FLOW, delay: (PIECES.length - 1 - i) * 0.07 };
+        play("pop-in", 0.2, (o.delay + 0.1) * 1000, 1.08 - (PIECES.length - 1 - i) * 0.03); // and one as each springs back out
+        const t = trip.current;
         animate(dx, 0, o);
-        animate(dy, 0, o);
+        animate(dy, 0, o).then(() => { if (t === trip.current && !away.current) el.style.pointerEvents = ""; });
         animate(gs, 1, o);
         animate(go, 1, { duration: 0.5, delay: o.delay });
       }

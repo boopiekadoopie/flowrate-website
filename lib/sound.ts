@@ -92,8 +92,8 @@ function fallback(name: Sound, volume: number) {
   a.play().catch(() => {});
 }
 
-/** Play a kit sound if the visitor has sound on. `volume` is relative (0 to 1); `delay` in ms. */
-export function play(name: Sound, volume = 1, delay = 0) {
+/** Play a kit sound if the visitor has sound on. `volume` is relative (0 to 1); `delay` in ms; `rate` nudges the pitch (1 = as recorded). */
+export function play(name: Sound, volume = 1, delay = 0, rate = 1) {
   if (typeof window === "undefined" || !read()) return;
   const c = context();
   if (!c) {
@@ -109,6 +109,7 @@ export function play(name: Sound, volume = 1, delay = 0) {
     const gain = c.createGain();
     gain.gain.value = Math.min(1, 0.7 * volume);
     src.buffer = buf;
+    src.playbackRate.value = rate;
     src.connect(gain).connect(c.destination);
     src.start(Math.max(c.currentTime, startAt));
   });

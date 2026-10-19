@@ -95,8 +95,7 @@ function Streak({ d, delay, dur }: { d: string; delay: number; dur: number }) {
 
 /*
  * The core: not a black box but the system itself, a small white app screen (screens stay white in both themes).
- * Each source's wire plugs into its own row, the row ticks when that wire's light arrives, and the card stands on
- * the brand's line of light. "Typed once, used everywhere" is shown, not just said.
+ * Each source's wire plugs into its own row, the row ticks when that wire's light arrives. "Typed once, used everywhere" is shown, not just said.
  */
 const Tick = ({ className = "" }: { className?: string }) => (
   <svg viewBox="0 0 16 16" fill="none" className={className} aria-hidden><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
@@ -106,16 +105,6 @@ function CoreCard({ live, reduce }: { live: boolean; reduce: boolean }) {
   const top = (u: number) => pct(u, CORE.h);
   return (
     <>
-      {/* the line of light it stands on */}
-      <motion.span
-        aria-hidden
-        initial={{ scaleX: 0, opacity: 0 }}
-        whileInView={{ scaleX: 1, opacity: 1 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ delay: 0.5, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute h-px bg-[linear-gradient(90deg,transparent,rgba(16,24,40,0.4)_25%,rgba(16,24,40,0.4)_75%,transparent)] dark:bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.55)_25%,rgba(255,255,255,0.55)_75%,transparent)] dark:shadow-[0_0_10px_rgba(255,255,255,0.25)]"
-        style={{ left: pct(CORE.x - 50, VW), width: pct(CORE.w + 100, VW), top: pct(CORE.y + CORE.h + 14, VH) }}
-      />
       <motion.div
         initial={{ opacity: 0, y: 12, scale: 0.96 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -314,8 +303,6 @@ function Mobile() {
       </div>
 
       {/* Core: the same white system card, compact; each wire lands on its own tick */}
-      <span aria-hidden className="absolute h-px bg-[linear-gradient(90deg,transparent,rgba(16,24,40,0.4)_25%,rgba(16,24,40,0.4)_75%,transparent)] dark:bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.55)_25%,rgba(255,255,255,0.55)_75%,transparent)]"
-        style={{ left: mpct(M_CORE.x - 30, MW), width: mpct(M_CORE.w + 60, MW), top: mpct(M_CORE.y + M_CORE.h + 9, MH) }} />
       <motion.div
         initial={{ opacity: 0, y: 8, scale: 0.96 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}

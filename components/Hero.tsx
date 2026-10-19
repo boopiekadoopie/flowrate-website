@@ -17,7 +17,14 @@ function SideEye({ children }: { children: React.ReactNode }) {
 
 // Pointing at the main button: the mascot leans toward it and the paperwork around the headline is pulled
 // into the product below (see HeroBackdrop).
-const gather = (on: boolean) => window.dispatchEvent(new CustomEvent(GATHER_EVENT, { detail: on }));
+// Leaving waits a beat, so brushing the button's edge doesn't send the paperwork back and forth.
+let leaveTimer: ReturnType<typeof setTimeout> | undefined;
+const gather = (on: boolean) => {
+  clearTimeout(leaveTimer);
+  const send = () => window.dispatchEvent(new CustomEvent(GATHER_EVENT, { detail: on }));
+  if (on) send();
+  else leaveTimer = setTimeout(send, 140);
+};
 const lean = {
   onPointerEnter: (e: React.PointerEvent<HTMLElement>) => {
     mascot.lean("nav", e.currentTarget);
@@ -57,7 +64,7 @@ export function Hero() {
             Built around the way your team already works, so information goes in once and <SideEye>the
             retyping</SideEye>, <SideEye>the chasing</SideEye> and <SideEye>the month-end scramble</SideEye> stop.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <div className="relative z-10 flex flex-col sm:flex-row gap-3 justify-center">
             <a
               href={CALENDLY_URL}
               target="_blank"
