@@ -56,7 +56,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${jakarta.variable} ${archivo.variable} scroll-smooth`} suppressHydrationWarning>
+    <html lang="en" data-scroll-behavior="smooth" className={`${jakarta.variable} ${archivo.variable} scroll-smooth`} suppressHydrationWarning>
       <head>
         {/* Apply the saved (or device) theme before first paint, so there is no light flash. */}
         <script
