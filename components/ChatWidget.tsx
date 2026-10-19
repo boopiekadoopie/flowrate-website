@@ -90,6 +90,21 @@ export function ChatWidget() {
     return () => { clearTimeout(show); clearTimeout(hide); };
   }, []);
 
+  // Small phones: the launcher waits until you've scrolled half a screen, so it never sits on the hero copy.
+  // Short pages that can't scroll that far show it straight away. (The classes only bite under 431px.)
+  const [tucked, setTucked] = useState(true);
+  useEffect(() => {
+    const check = () => {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      setTucked(maxScroll > 40 && window.scrollY < Math.min(window.innerHeight * 0.5, maxScroll - 1));
+    };
+    check();
+    window.addEventListener("scroll", check, { passive: true });
+    window.addEventListener("resize", check);
+    return () => { window.removeEventListener("scroll", check); window.removeEventListener("resize", check); };
+  }, []);
+  const hideSmall = tucked && !open;
+
   // Keep the latest message in view
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -132,7 +147,7 @@ export function ChatWidget() {
   }
 
   return (
-    <div className="fr-chat fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+    <div className={`fr-chat fixed bottom-6 right-6 max-[430px]:bottom-[max(1rem,env(safe-area-inset-bottom))] max-[430px]:right-4 z-50 flex flex-col items-end gap-3 transition-[opacity,transform] duration-300 ${hideSmall ? "max-[430px]:opacity-0 max-[430px]:translate-y-4 max-[430px]:pointer-events-none" : ""}`}>
 
       {/* Chat panel */}
       <AnimatePresence>
@@ -284,7 +299,7 @@ export function ChatWidget() {
       {/* Trigger bubble button */}
       <button
         onClick={() => { setOpen(!open); setShowBubble(false); }}
-        className="fr-pop-in w-14 h-14 rounded-[16px] bg-green shadow-[0_8px_24px_-6px_rgba(16,24,40,0.3)] flex items-center justify-center cursor-pointer hover:bg-green-light transition-colors relative"
+        className="fr-pop-in w-14 h-14 max-[430px]:w-12 max-[430px]:h-12 rounded-[16px] max-[430px]:rounded-[14px] bg-green shadow-[0_8px_24px_-6px_rgba(16,24,40,0.3)] flex items-center justify-center cursor-pointer hover:bg-green-light transition-colors relative"
         aria-label="Chat with the Flowrate AI assistant"
       >
         <AnimatePresence mode="wait">
