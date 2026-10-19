@@ -1,3 +1,5 @@
+import { RetypeCost } from "@/components/RetypeCost";
+import { BeforeAfter } from "@/components/BeforeAfter";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Problem } from "@/components/Problem";
@@ -58,11 +60,13 @@ export default function Home() {
         <Hero />
         <Problem />
         <Convergence />
+        <BeforeAfter />
         <SheetBand />
         <Showcase />
         <CaseStudy />
         <HowItWorks />
         <About />
+        <RetypeCost />
         <FAQ />
         <LeadCapture />
       </main>

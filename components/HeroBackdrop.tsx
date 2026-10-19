@@ -12,7 +12,8 @@ import { play } from "@/lib/sound";
  * Make a mess: on a desktop the pieces can be picked up and thrown around. Pointing at the main button
  * (the "fr-gather" event from the hero) pulls every piece, one after another, into the product below;
  * letting go lets them drift back to their own places, tidy again. The visitor makes the mess, the
- * system tidies it. Phones and reduced motion keep the quiet drifting version.
+ * system tidies it. On phones the same tidy-up plays once as the visitor starts to scroll. Reduced motion keeps
+ * the quiet drifting version.
  */
 export const GATHER_EVENT = "fr-gather";
 const GATHER: [number, number, number, number] = [0.55, 0, 0.7, 0.2];
@@ -48,7 +49,7 @@ const MOBILE_PIECES: Piece[] = [
   { el: <Sheet />, side: 1, x: "74%", y: 714, depth: 0.6, rot: -5, dur: 13, scale: 0.5, fade: 0.75 },
 ];
 
-function Floating({ p, i, mx, my, progress, interactive }: { p: Piece; i: number; mx: MotionValue<number>; my: MotionValue<number>; progress: MotionValue<number>; interactive: boolean }) {
+function Floating({ p, i, n, mx, my, progress, interactive, gatherable }: { p: Piece; i: number; n: number; mx: MotionValue<number>; my: MotionValue<number>; progress: MotionValue<number>; interactive: boolean; gatherable: boolean }) {
   const reach = 160 * p.depth;
   const x = useTransform(() => mx.get() * 22 * p.depth + -p.side * progress.get() * reach);
   const y = useTransform(() => my.get() * 16 * p.depth + progress.get() * 220 * p.depth);
@@ -61,11 +62,11 @@ function Floating({ p, i, mx, my, progress, interactive }: { p: Piece; i: number
   const away = useRef(false);
   const trip = useRef(0);
   useEffect(() => {
-    if (!interactive) return;
+    if (!gatherable) return;
     const onGather = (e: Event) => {
       const on = (e as CustomEvent<boolean>).detail;
       const el = ref.current, target = document.querySelector("[data-gather-target]");
-      if (!el || !target) return;
+      if (!el || !target || !el.offsetParent) return; // the other screen size's set is hidden
       if (on && !away.current) {
         away.current = true;
         trip.current += 1;
@@ -80,8 +81,8 @@ function Floating({ p, i, mx, my, progress, interactive }: { p: Piece; i: number
         play("pop-in", 0.24, (o.delay + 0.45) * 1000, 0.94 + i * 0.03); // a soft pop as each piece lands, rising a touch
       } else if (!on && away.current) {
         away.current = false;
-        const o = { duration: 1.6, ease: FLOW, delay: (PIECES.length - 1 - i) * 0.07 };
-        play("pop-in", 0.2, (o.delay + 0.1) * 1000, 1.08 - (PIECES.length - 1 - i) * 0.03); // and one as each springs back out
+        const o = { duration: 1.6, ease: FLOW, delay: (n - 1 - i) * 0.07 };
+        play("pop-in", 0.2, (o.delay + 0.1) * 1000, 1.08 - (n - 1 - i) * 0.03); // and one as each springs back out
         const t = trip.current;
         animate(dx, 0, o);
         animate(dy, 0, o).then(() => { if (t === trip.current && !away.current) el.style.pointerEvents = ""; });
@@ -91,7 +92,7 @@ function Floating({ p, i, mx, my, progress, interactive }: { p: Piece; i: number
     };
     window.addEventListener(GATHER_EVENT, onGather);
     return () => window.removeEventListener(GATHER_EVENT, onGather);
-  }, [interactive, i, dx, dy, gs, go]);
+  }, [gatherable, i, n, dx, dy, gs, go]);
 
   const piece = (
     <div style={{ transform: `scale(${scale})`, filter: blur ? `blur(${blur.toFixed(1)}px)` : undefined }}>
@@ -102,23 +103,21 @@ function Floating({ p, i, mx, my, progress, interactive }: { p: Piece; i: number
   );
   return (
     <motion.div className="absolute" style={{ left: p.x, top: p.y, x, y, opacity }}>
-      {interactive ? (
-        <motion.div
-          ref={ref}
-          drag
-          dragMomentum
-          dragTransition={{ power: 0.25, timeConstant: 260 }}
-          whileDrag={{ scale: 1.04, cursor: "grabbing" }}
-          style={{ x: dx, y: dy, scale: gs, opacity: go }}
-          onDragStart={() => { document.body.classList.add("select-none"); play("tick", 0.3); }}
-          onDragEnd={() => { document.body.classList.remove("select-none"); play("pop-in", 0.28); }}
-          className="pointer-events-auto cursor-grab touch-none select-none"
-        >
-          {piece}
-        </motion.div>
-      ) : (
-        piece
-      )}
+      <motion.div
+        ref={ref}
+        style={{ x: dx, y: dy, scale: gs, opacity: go }}
+        {...(interactive && {
+          drag: true,
+          dragMomentum: true,
+          dragTransition: { power: 0.25, timeConstant: 260 },
+          whileDrag: { scale: 1.04, cursor: "grabbing" },
+          onDragStart: () => { document.body.classList.add("select-none"); play("tick", 0.3); },
+          onDragEnd: () => { document.body.classList.remove("select-none"); play("pop-in", 0.28); },
+          className: "pointer-events-auto cursor-grab touch-none select-none",
+        })}
+      >
+        {piece}
+      </motion.div>
     </motion.div>
   );
 }
@@ -141,16 +140,30 @@ export function HeroBackdrop({ sectionRef }: { sectionRef: React.RefObject<HTMLE
     return () => el.removeEventListener("mousemove", onMove);
   }, [sectionRef, canHover, reduce, mx, my]);
 
+  // Phones have no pointer to rest on the button, so the tidy-up plays as they start to scroll, and the mess
+  // comes back if they return to the very top.
+  useEffect(() => {
+    if (canHover || reduce) return;
+    let gathered = false;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (!gathered && y > 24) { gathered = true; window.dispatchEvent(new CustomEvent(GATHER_EVENT, { detail: true })); }
+      else if (gathered && y < 4) { gathered = false; window.dispatchEvent(new CustomEvent(GATHER_EVENT, { detail: false })); }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [canHover, reduce]);
+
   return (
     <>
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[900px] hidden lg:block z-[5]">
         {PIECES.map((p, i) => (
-          <Floating key={i} i={i} p={p} mx={mx} my={my} progress={progress} interactive={canHover && !reduce} />
+          <Floating key={i} i={i} n={PIECES.length} p={p} mx={mx} my={my} progress={progress} interactive={canHover && !reduce} gatherable={canHover && !reduce} />
         ))}
       </div>
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-[820px] lg:hidden">
         {MOBILE_PIECES.map((p, i) => (
-          <Floating key={i} i={i} p={p} mx={mx} my={my} progress={progress} interactive={false} />
+          <Floating key={i} i={i} n={MOBILE_PIECES.length} p={p} mx={mx} my={my} progress={progress} interactive={false} gatherable={!canHover && !reduce} />
         ))}
       </div>
     </>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Container } from "@/components/ui";
-import { posts, fmtDate } from "@/lib/posts";
+import { posts, fmtDate, readMinutes } from "@/lib/posts";
 
 export const metadata: Metadata = {
   title: "Guides | Flowrate",
@@ -29,7 +29,7 @@ export default function BlogPage() {
                     <Image src={p.cover} alt={p.coverAlt} fill loading={i < 3 ? "eager" : "lazy"} sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
                   </div>
                   <div className="p-5">
-                    <p className="text-[13px] text-muted">{fmtDate(p.date)}</p>
+                    <p className="text-[13px] text-muted">{fmtDate(p.date)} · {readMinutes(p)} min read</p>
                     <h2 className="mt-1.5 text-[19px] leading-[1.3] font-bold text-heading [text-wrap:balance]">{p.title}</h2>
                   </div>
                 </Link>

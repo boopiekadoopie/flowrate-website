@@ -5,6 +5,7 @@ import { MotionProvider } from "@/components/MotionProvider";
 import { MascotExtras } from "@/components/MascotExtras";
 import { UnderlineFrom } from "@/components/UnderlineFrom";
 import { HashSettle } from "@/components/HashSettle";
+import { RouteLine } from "@/components/RouteLine";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -72,6 +73,7 @@ export default function RootLayout({
           <MascotExtras />
           <UnderlineFrom />
           <HashSettle />
+          <RouteLine />
         </MotionProvider>
       </body>
     </html>

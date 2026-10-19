@@ -160,3 +160,14 @@ export const posts: Post[] = [
 
 export const postBySlug = (slug: string) => posts.find((p) => p.slug === slug);
 export const fmtDate = (iso: string) => new Date(iso + "T12:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+
+/* Minutes to read, at an easy 220 words a minute (pictures not counted). */
+export const readMinutes = (p: Post) => {
+  const words = p.body.reduce((n, b) => n + (b.t === "p" || b.t === "h2" ? b.text : b.t === "list" ? b.items.flat().join(" ") : "").split(/\s+/).filter(Boolean).length, 0);
+  return Math.max(1, Math.ceil(words / 220));
+};
+/* The guide after this one (older first, then round to the newest), for the "Read next" card. */
+export const nextPost = (slug: string) => {
+  const i = posts.findIndex((p) => p.slug === slug);
+  return posts[(i + 1) % posts.length];
+};

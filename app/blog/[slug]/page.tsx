@@ -5,7 +5,8 @@ import { notFound } from "next/navigation";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PrimaryButton } from "@/components/ui";
-import { posts, postBySlug, fmtDate } from "@/lib/posts";
+import { posts, postBySlug, fmtDate, readMinutes, nextPost } from "@/lib/posts";
+import { ReadProgress } from "@/components/ReadProgress";
 import { industries } from "@/lib/industries";
 
 export function generateStaticParams() {
@@ -28,7 +29,8 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const p = postBySlug(slug);
   if (!p) notFound();
-  const more = posts.filter((x) => x.slug !== p.slug).slice(0, 3);
+  const next = nextPost(p.slug);
+  const more = posts.filter((x) => x.slug !== p.slug && x.slug !== next.slug).slice(0, 3);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -44,12 +46,13 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   return (
     <>
       <Navbar />
+      <ReadProgress target="guide" />
       <main className="bg-paper pt-32 md:pt-40 pb-24">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-        <article className="max-w-[720px] mx-auto px-5 sm:px-8">
+        <article id="guide" className="max-w-[720px] mx-auto px-5 sm:px-8">
           <Link href="/blog" className="fr-ul text-[14px] font-semibold text-body hover:text-heading">← All guides</Link>
           <h1 className="mt-6 font-display uppercase text-heading text-[34px] sm:text-[46px] leading-[1.0] tracking-[-0.025em] [text-wrap:balance]">{p.title}</h1>
-          <p className="mt-4 text-[14px] text-muted">{fmtDate(p.date)} · Andrew Murray, Flowrate</p>
+          <p className="mt-4 text-[14px] text-muted">{fmtDate(p.date)} · {readMinutes(p)} min read · Andrew Murray, Flowrate</p>
           <div className="mt-8 relative aspect-[4/5] max-w-[520px] rounded-[22px] overflow-hidden border border-line">
             <Image src={p.cover} alt={p.coverAlt} fill priority sizes="(min-width: 640px) 520px, 100vw" className="object-cover" />
           </div>
@@ -75,7 +78,17 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               );
             })}
           </div>
-          <div className="mt-14 rounded-[22px] bg-canvas border border-line p-6 sm:p-8">
+          <Link href={`/blog/${next.slug}`} className="group mt-14 flex items-center gap-4 sm:gap-5 rounded-[22px] border border-line p-3 pr-5 sm:pr-6 hover:border-line-strong transition-colors">
+            <span className="relative shrink-0 w-[72px] sm:w-[88px] aspect-[4/5] rounded-[14px] overflow-hidden border border-line">
+              <Image src={next.cover} alt="" fill sizes="88px" className="object-cover" />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-[13px] text-muted">Read next · {readMinutes(next)} min</span>
+              <span className="mt-1 block text-[17px] sm:text-[19px] font-bold text-heading leading-snug [text-wrap:balance]">{next.title}</span>
+            </span>
+            <span aria-hidden className="shrink-0 text-heading text-[20px] transition-transform duration-200 group-hover:translate-x-1">→</span>
+          </Link>
+          <div className="mt-6 rounded-[22px] bg-canvas border border-line p-6 sm:p-8">
             <p className="text-[22px] font-bold text-heading leading-tight">Want this sorted for your business?</p>
             <p className="mt-2 text-[16px] leading-[1.6] text-body">Flowrate builds custom apps, dashboards, portals and websites around how you already work. Tell us how your work runs on a free call.</p>
             <PrimaryButton className="mt-5">Book a free call</PrimaryButton>
@@ -96,7 +109,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             {more.map((m) => (
               <li key={m.slug}>
                 <Link href={`/blog/${m.slug}`} className="block rounded-[18px] border border-line p-5 hover:border-line-strong transition-colors h-full">
-                  <p className="text-[13px] text-muted">{fmtDate(m.date)}</p>
+                  <p className="text-[13px] text-muted">{fmtDate(m.date)} · {readMinutes(m)} min read</p>
                   <p className="mt-1 text-[17px] font-bold text-heading leading-snug">{m.title}</p>
                 </Link>
               </li>

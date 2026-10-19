@@ -152,3 +152,17 @@ html { scroll-padding-top: 88px; }
 /* mobile menu open: the page behind stays still and the chat bubble steps aside */
 html[data-menu="open"] { overflow: hidden; }
 html[data-menu="open"] .fr-chat { display: none; }
+
+/* Range sliders (the retyping calculator): an ink track that fills to the thumb. Ink, not green: green is for booking. */
+.fr-range { -webkit-appearance: none; appearance: none; height: 28px; background: transparent; cursor: pointer; --ink: #101828; --rail: #E5E7EB; }
+[data-theme="dark"] .fr-range { --ink: #FFFFFF; --rail: rgba(255, 255, 255, 0.16); }
+.fr-range::-webkit-slider-runnable-track { height: 4px; border-radius: 999px; background: linear-gradient(90deg, var(--ink) var(--fill), var(--rail) var(--fill)); }
+.fr-range::-moz-range-track { height: 4px; border-radius: 999px; background: var(--rail); }
+.fr-range::-moz-range-progress { height: 4px; border-radius: 999px; background: var(--ink); }
+.fr-range::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; margin-top: -9px; border-radius: 999px; background: #fff; border: 2px solid var(--ink); box-shadow: 0 2px 8px -2px rgba(16, 24, 40, 0.35); transition: transform 150ms; }
+.fr-range::-moz-range-thumb { width: 18px; height: 18px; border-radius: 999px; background: #fff; border: 2px solid var(--ink); box-shadow: 0 2px 8px -2px rgba(16, 24, 40, 0.35); }
+.fr-range:active::-webkit-slider-thumb { transform: scale(1.12); }
+.fr-range:focus-visible { outline: none; }
+.fr-range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 5px rgba(16, 24, 40, 0.18); }
+[data-theme="dark"] .fr-range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.22); }
+html[data-menu="open"] .fr-progress { display: none; }
