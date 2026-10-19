@@ -173,11 +173,7 @@ export function BeforeAfter() {
             play("tick", 0.3);
           }}
           onPointerMove={(e) => dragging.current && setFrom(e.clientX)}
-          onPointerUp={() => {
-            if (!dragging.current) return;
-            dragging.current = false;
-            play("pop-in", 0.25);
-          }}
+          onPointerUp={() => (dragging.current = false)}
           onPointerCancel={() => (dragging.current = false)}
         >
           <div className="layer min-h-[340px]" aria-label="Before: a shared spreadsheet with copies, gaps and unclear notes" role="img">

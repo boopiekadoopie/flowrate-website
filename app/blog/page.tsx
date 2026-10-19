@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Container } from "@/components/ui";
+import { LineArt } from "@/components/LineArt";
 import { posts, fmtDate, readMinutes } from "@/lib/posts";
 
 export const metadata: Metadata = {
@@ -19,8 +20,13 @@ export default function BlogPage() {
       <Navbar />
       <main className="bg-canvas min-h-dvh pt-32 md:pt-40 pb-24">
         <Container>
-          <h1 className="font-display uppercase text-heading text-[42px] sm:text-[58px] leading-[0.96] tracking-[-0.03em]">Guides</h1>
-          <p className="mt-5 text-[18px] sm:text-[20px] leading-[1.5] text-body max-w-[620px]">Plain-English guides on getting the retyping, chasing and manual admin out of how a business runs.</p>
+          <div className="flex items-end justify-between gap-10">
+            <div>
+              <h1 className="font-display uppercase text-heading text-[42px] sm:text-[58px] leading-[0.96] tracking-[-0.03em]">Guides</h1>
+              <p className="mt-5 text-[18px] sm:text-[20px] leading-[1.5] text-body max-w-[620px]">Plain-English guides on getting the retyping, chasing and manual admin out of how a business runs.</p>
+            </div>
+            <LineArt figure="format" surface="canvas" label="Crooked lines of a file snapping square as the pointer runs down them" className="hidden lg:block w-[260px] shrink-0 -mb-6" />
+          </div>
           <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((p, i) => (
               <li key={p.slug}>

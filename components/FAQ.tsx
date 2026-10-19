@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { LineArt } from "./LineArt";
 import { AnimatePresence, motion } from "framer-motion";
 import { Container, EMAIL, H2, Lede } from "./ui";
 import { faqs } from "@/lib/faqs";
@@ -55,6 +56,7 @@ export function FAQ() {
               </a>
               .
             </Lede>
+            <LineArt figure="query" surface="paper" label="A question mark that turns toward your pointer" className="hidden lg:block mt-10 w-[300px] -ml-4" />
           </div>
           <div className="border-t border-line">
             {faqs.map((f, i) => (

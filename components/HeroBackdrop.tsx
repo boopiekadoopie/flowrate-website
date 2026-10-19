@@ -78,11 +78,11 @@ function Floating({ p, i, n, mx, my, progress, interactive, gatherable }: { p: P
         animate(dy, dy.get() + ty, o);
         animate(gs, 0.3, o);
         animate(go, 0, { ...o, duration: 0.3, delay: o.delay + 0.2 });
-        play("pop-in", 0.24, (o.delay + 0.45) * 1000, 0.94 + i * 0.03); // a soft pop as each piece lands, rising a touch
+        if (interactive) play("pop-in", 0.24, (o.delay + 0.45) * 1000, 0.94 + i * 0.03); // a soft pop as each piece lands, rising a touch
       } else if (!on && away.current) {
         away.current = false;
         const o = { duration: 1.6, ease: FLOW, delay: (n - 1 - i) * 0.07 };
-        play("pop-in", 0.2, (o.delay + 0.1) * 1000, 1.08 - (n - 1 - i) * 0.03); // and one as each springs back out
+        if (interactive) play("pop-in", 0.2, (o.delay + 0.1) * 1000, 1.08 - (n - 1 - i) * 0.03); // and one as each springs back out (desktop hover only: phones tidy up silently on scroll)
         const t = trip.current;
         animate(dx, 0, o);
         animate(dy, 0, o).then(() => { if (t === trip.current && !away.current) el.style.pointerEvents = ""; });
@@ -92,7 +92,7 @@ function Floating({ p, i, n, mx, my, progress, interactive, gatherable }: { p: P
     };
     window.addEventListener(GATHER_EVENT, onGather);
     return () => window.removeEventListener(GATHER_EVENT, onGather);
-  }, [gatherable, i, n, dx, dy, gs, go]);
+  }, [gatherable, interactive, i, n, dx, dy, gs, go]);
 
   const piece = (
     <div style={{ transform: `scale(${scale})`, filter: blur ? `blur(${blur.toFixed(1)}px)` : undefined }}>
@@ -112,7 +112,7 @@ function Floating({ p, i, n, mx, my, progress, interactive, gatherable }: { p: P
           dragTransition: { power: 0.25, timeConstant: 260 },
           whileDrag: { scale: 1.04, cursor: "grabbing" },
           onDragStart: () => { document.body.classList.add("select-none"); play("tick", 0.3); },
-          onDragEnd: () => { document.body.classList.remove("select-none"); play("pop-in", 0.28); },
+          onDragEnd: () => document.body.classList.remove("select-none"), // a click on pick-up only: no second sound on drop
           className: "pointer-events-auto cursor-grab touch-none select-none",
         })}
       >

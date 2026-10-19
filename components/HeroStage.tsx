@@ -854,8 +854,8 @@ export function HeroStage() {
         transition={{ duration: 0.5, ease: "easeInOut" }}
       >
         <motion.div className="relative w-full h-full origin-[50%_0%]" style={reduce ? undefined : { rotateX, scale: lift }}>
-          {/* light falls from the top-left; the ground catches a soft contact shadow */}
-          <div aria-hidden className="absolute -inset-x-16 -top-20 h-[420px] pointer-events-none bg-[radial-gradient(60%_60%_at_30%_20%,rgba(255,255,255,0.75),transparent_70%)] dark:bg-[radial-gradient(60%_60%_at_30%_20%,rgba(255,255,255,0.05),transparent_70%)]" />
+          {/* light falls from the top-left (closest-side keeps it fading out before its box edges: no cut line); the ground catches a soft contact shadow */}
+          <div aria-hidden className="absolute -inset-x-16 -top-44 h-[460px] pointer-events-none bg-[radial-gradient(closest-side_at_38%_50%,rgba(255,255,255,0.75),rgba(255,255,255,0.3)_50%,transparent)] dark:bg-[radial-gradient(closest-side_at_38%_50%,rgba(255,255,255,0.055),rgba(255,255,255,0.02)_50%,transparent)]" />
           <div aria-hidden className="absolute left-[10%] right-[10%] bottom-[-44px] h-[90px] rounded-[50%] bg-[#101828]/10 dark:bg-black/60 blur-3xl" />
 
           <Layer x={210} y={20} depth={6} mx={mx} my={my}>
