@@ -163,6 +163,19 @@ export function LeadCapture({ prefill }: { prefill?: string } = {}) {
                       {values.message.trim()}
                     </p>
                   )}
+                  {/* straight after sending is when people are keenest: offer the call right here (no details in the link) */}
+                  <div className="mt-6 rounded-lg border border-line bg-soft p-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between">
+                    <p className="text-[15px] font-semibold text-heading">Rather talk it through? Pick a time now.</p>
+                    <a
+                      href={CALENDLY_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex items-center justify-center gap-2 whitespace-nowrap bg-green text-[#0C1A0D] font-bold uppercase tracking-[0.025em] text-[13px] px-5 py-3 rounded-lg hover:bg-green-light transition-colors"
+                    >
+                      Book a free call
+                      <Arrow className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+                    </a>
+                  </div>
                   <motion.span
                     aria-hidden
                     initial={{ scaleX: 0, opacity: 0.9 }}

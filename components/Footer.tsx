@@ -2,6 +2,7 @@ import Image from "next/image";
 import { FooterWordmark } from "./FooterWordmark";
 import { SoundToggle } from "./SoundToggle";
 import { WinkCounter } from "./WinkCounter";
+import { industries } from "@/lib/industries";
 
 const CALENDLY_URL = "https://calendly.com/flowrate/30min";
 const EMAIL = "andrew@flowrate.agency";
@@ -13,6 +14,7 @@ const siteLinks = [
   { label: "Questions", href: "/#faq" },
   { label: "Contact", href: "/#contact" },
   { label: "Your spreadsheet, as an app", href: "/spreadsheet" },
+  { label: "Guides", href: "/blog" },
   { label: "What's new", href: "/changelog" },
 ];
 
@@ -28,6 +30,8 @@ const policies = [
   { label: "Privacy Policy", href: "/privacy" },
   { label: "Terms of Service", href: "/terms" },
 ];
+
+const industryLinks = industries.map((i) => ({ label: i.label, href: `/for/${i.slug}` }));
 
 function Column({ title, links, external = false }: { title: string; links: { label: string; href: string }[]; external?: boolean }) {
   return (
@@ -54,7 +58,7 @@ export function Footer() {
   return (
     <footer className="bg-carbon overflow-hidden">
       <div className="max-w-[1240px] mx-auto px-5 sm:px-8 pt-16 pb-2">
-        <div className="grid grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] gap-x-8 gap-y-12 pb-14 border-b border-white/10">
+        <div className="grid grid-cols-2 lg:grid-cols-[1.4fr_1fr_1.1fr_0.8fr_0.8fr] gap-x-8 gap-y-12 pb-14 border-b border-white/10">
           <div className="col-span-2 lg:col-span-1">
             {/* Lock-up set in code: the mascot is the mark, the name in Archivo. No colour, like the rest of the footer. */}
             <div data-logo className="flex items-center gap-4 mb-6 w-fit">
@@ -72,7 +76,7 @@ export function Footer() {
               </div>
             </div>
             <p className="text-white/60 text-[15px] leading-relaxed max-w-[320px] mb-6">
-              Custom systems for businesses that have outgrown WhatsApp and spreadsheets.
+              Custom apps, dashboards, portals and websites, built around how your business works.
             </p>
             <div className="flex flex-col sm:flex-row sm:items-center gap-4">
               <a
@@ -89,6 +93,7 @@ export function Footer() {
             </div>
           </div>
           <Column title="Site" links={siteLinks} />
+          <Column title="Who we build for" links={industryLinks} />
           <Column title="Follow" links={socials} external />
           <Column title="Legal" links={policies} />
         </div>
