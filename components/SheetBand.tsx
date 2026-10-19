@@ -62,7 +62,7 @@ export function SheetBand() {
                 Show me the app
                 <Arrow className="w-4 h-4" />
               </button>
-              <button type="button" onClick={() => setHeaders(EXAMPLE)} className="fr-ul whitespace-nowrap text-[14px] font-semibold text-body hover:text-heading w-fit cursor-pointer">
+              <button type="button" onClick={() => setHeaders(EXAMPLE)} className="fr-ul whitespace-nowrap text-[14px] font-semibold text-body hover:text-heading w-fit cursor-pointer py-3 -my-3 sm:py-0 sm:my-0">
                 Try an example
               </button>
             </div>

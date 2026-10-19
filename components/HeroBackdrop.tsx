@@ -32,7 +32,7 @@ type Piece = { el: React.ReactNode; side: -1 | 1; x: string; y: number; depth: n
 const K = 0.88;
 
 const PIECES: Piece[] = [
-  { el: <JobCard width={156} />, side: -1, x: "4%", y: 150, depth: 1, rot: -9, dur: 12 },
+  { el: <JobCard width={156} />, side: -1, x: "min(4%, calc(50% - 600px))", y: 150, depth: 1, rot: -9, dur: 12 },
   { el: <Sticky />, side: -1, x: "13%", y: 470, depth: 0.75, rot: 6, dur: 10 },
   { el: <Receipt />, side: -1, x: "-1%", y: 520, depth: 0.5, rot: -4, dur: 14 },
   { el: <Chat />, side: 1, x: "82%", y: 140, depth: 1, rot: 5, dur: 11 },

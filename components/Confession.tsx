@@ -133,7 +133,7 @@ export function Confession() {
                   {busy ? "Thinking…" : "Show me the app"}
                   {!busy && <Arrow className="w-4 h-4" />}
                 </button>
-                <button type="button" onClick={() => setHeaders(EXAMPLE)} className="fr-ul text-[14px] font-semibold text-body hover:text-heading w-fit cursor-pointer">
+                <button type="button" onClick={() => setHeaders(EXAMPLE)} className="fr-ul text-[14px] font-semibold text-body hover:text-heading w-fit cursor-pointer py-3 -my-3 sm:py-0 sm:my-0">
                   Try an example
                 </button>
                 <p className="sm:ml-auto text-[13px] text-muted">Only the column names are sent. Nothing is stored.</p>

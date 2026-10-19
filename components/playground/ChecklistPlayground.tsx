@@ -265,7 +265,7 @@ export function ChecklistPlayground() {
   const head = status === "stop" ? "bg-[#B42318]" : "bg-[#101828]";
 
   return (
-    <div className="grid gap-10 lg:gap-8 lg:grid-cols-[300px_330px_minmax(0,1fr)] items-start">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-10 lg:gap-8 lg:grid-cols-[300px_330px_minmax(0,1fr)] items-start">
       <Steps
         steps={STEPS}
         current={step}
@@ -277,7 +277,7 @@ export function ChecklistPlayground() {
       />
 
       {/* ---------------- phone */}
-      <div className="justify-self-center lg:pt-[46px]">
+      <div className="justify-self-center lg:pt-[46px] max-[399px]:[zoom:0.92] max-[369px]:[zoom:0.74]">
         <PhoneFrame>
           <div className={`${head} text-white px-4 pt-1 pb-3 transition-colors duration-300`}>
             <div className="flex items-center justify-between">

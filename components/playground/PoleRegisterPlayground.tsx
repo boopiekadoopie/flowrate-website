@@ -110,7 +110,7 @@ export function PoleRegisterPlayground() {
   const value = (r: Row) => (r.read !== r.pen ? fix[r.pole] ?? r.read : r.pen);
 
   return (
-    <div className="grid gap-10 lg:gap-8 lg:grid-cols-[300px_minmax(0,1fr)] items-start">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-10 lg:gap-8 lg:grid-cols-[300px_minmax(0,1fr)] items-start">
       <Steps steps={STEPS} current={step} allDone={step === "done"} auto={auto} onWatch={watch} onReset={reset}
         note={{ title: "The paper book stays", body: "Inspectors keep writing on the same sheets. The register indexes them, and every record links back to the photo of the page it came from." }} />
 
@@ -219,7 +219,7 @@ export function PoleRegisterPlayground() {
                 <div className="mt-2 flex flex-wrap gap-1.5 text-[12px] text-[#6A7282] items-center">
                   Try:
                   {["40317", "40319", "40321"].map((p) => (
-                    <button key={p} type="button" onClick={() => { setQ(p); search(p); }} className="h-[26px] px-2.5 rounded-full border border-[#E5E7EB] font-semibold text-[#101828] tabular-nums cursor-pointer">{p}</button>
+                    <button key={p} type="button" onClick={() => { setQ(p); search(p); }} className="h-[34px] px-3 rounded-full border border-[#E5E7EB] font-semibold text-[#101828] tabular-nums cursor-pointer">{p}</button>
                   ))}
                 </div>
                 <AnimatePresence mode="wait">

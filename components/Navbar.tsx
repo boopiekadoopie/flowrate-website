@@ -74,6 +74,19 @@ export function Navbar() {
   const lineOpacity = useTransform(scrollYProgress, [0, 0.02, 0.97, 1], [0, 1, 1, 0]);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // mobile menu open: lock the page behind it, hide the chat bubble, close on Escape or when the bar goes desktop
+  useEffect(() => {
+    if (!menuOpen) return;
+    const html = document.documentElement;
+    html.dataset.menu = "open";
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setMenuOpen(false); };
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const onMq = () => { if (mq.matches) setMenuOpen(false); };
+    window.addEventListener("keydown", onKey);
+    mq.addEventListener("change", onMq);
+    return () => { delete html.dataset.menu; window.removeEventListener("keydown", onKey); mq.removeEventListener("change", onMq); };
+  }, [menuOpen]);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -101,8 +114,10 @@ export function Navbar() {
           <ThemeToggle compact />
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="p-2 -mr-2 text-body hover:text-heading transition-colors cursor-pointer"
-            aria-label="Toggle menu"
+            className="p-3 -mr-3 text-body hover:text-heading transition-colors cursor-pointer"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
           >
             <HamburgerIcon open={menuOpen} />
           </button>
@@ -158,7 +173,8 @@ export function Navbar() {
         <motion.div
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="lg:hidden bg-paper border-t border-line px-6 py-6 flex flex-col gap-4"
+          id="mobile-menu"
+          className="lg:hidden bg-paper border-t border-line px-6 pt-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] flex flex-col gap-4 h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain"
         >
           {leftLinks.map((l) => (
             <a

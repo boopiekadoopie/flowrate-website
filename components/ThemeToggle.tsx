@@ -48,7 +48,7 @@ export function ThemeToggle({ compact = false }: { compact?: boolean }) {
         type="button"
         onClick={() => setTheme(next)}
         aria-label={`Switch to ${next} mode`}
-        className="p-2 text-body hover:text-heading transition-colors cursor-pointer"
+        className="p-3 -m-1 text-body hover:text-heading transition-colors cursor-pointer"
       >
         {theme === "dark" ? <Sun /> : <Moon />}
       </button>

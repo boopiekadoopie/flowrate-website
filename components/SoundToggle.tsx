@@ -9,7 +9,7 @@ export function SoundToggle() {
       type="button"
       onClick={() => setSoundOn(!on)}
       aria-pressed={on}
-      className="fr-ul inline-flex items-center gap-1.5 text-white/40 hover:text-white/80 transition-colors cursor-pointer w-fit"
+      className="fr-ul inline-flex items-center gap-1.5 py-3 -my-3 text-white/40 hover:text-white/80 transition-colors cursor-pointer w-fit"
     >
       <svg viewBox="0 0 20 20" className="w-[14px] h-[14px]" aria-hidden>
         <path d="M3 8h3l4-3v10l-4-3H3z" fill="currentColor" />

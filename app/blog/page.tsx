@@ -15,7 +15,7 @@ export default function BlogPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-canvas min-h-screen flex items-center justify-center px-6 pt-24">
+      <main className="bg-canvas min-h-dvh flex items-center justify-center px-6 pt-24">
         <div className="max-w-2xl text-center py-24">
           <h1 className="font-display text-heading uppercase text-4xl md:text-6xl leading-[1.04] tracking-[-0.02em] mb-6">
             First posts are on the way.

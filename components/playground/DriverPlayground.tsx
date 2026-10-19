@@ -188,7 +188,7 @@ export function DriverPlayground() {
   const fresh = office.find((l) => l.fresh);
 
   return (
-    <div className="grid gap-10 lg:gap-8 lg:grid-cols-[300px_330px_minmax(0,1fr)] items-start">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-10 lg:gap-8 lg:grid-cols-[300px_330px_minmax(0,1fr)] items-start">
       {/* ---------------- steps (focus by dimming) */}
       <div className="lg:pt-6">
         <ol className="space-y-1.5">
@@ -224,13 +224,14 @@ export function DriverPlayground() {
       </div>
 
       {/* ---------------- the phone */}
-      <div className="justify-self-center">
+      <div className="justify-self-center max-[399px]:[zoom:0.92] max-[369px]:[zoom:0.74]">
         <div className="mb-4 flex items-center justify-center gap-3">
           <span className="text-[14px] font-semibold text-heading">Phone signal</span>
           <button
             type="button"
             role="switch"
             aria-checked={signal}
+            aria-label="Phone signal"
             onClick={() => setSignal((v) => !v)}
             className={`relative w-[52px] h-[30px] rounded-full transition-colors cursor-pointer ${signal ? "bg-heading" : "bg-line-strong"}`}
           >

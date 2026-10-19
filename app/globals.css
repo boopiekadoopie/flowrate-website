@@ -148,3 +148,7 @@ html { scroll-padding-top: 88px; }
 }
 .fr-ul:hover, .fr-ul:focus-visible { background-size: 100% 1px; }
 @media (prefers-reduced-motion: reduce) { .fr-ul { transition: color 200ms; } }
+
+/* mobile menu open: the page behind stays still and the chat bubble steps aside */
+html[data-menu="open"] { overflow: hidden; }
+html[data-menu="open"] .fr-chat { display: none; }
