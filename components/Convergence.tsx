@@ -9,20 +9,21 @@ import { Container, H2, Lede } from "./ui";
 /* Diagram geometry lives in one 1000×480 coordinate space shared by the SVG and the HTML chips. */
 const VW = 1000;
 const VH = 480;
-const CORE = { x: 420, y: 160, w: 160, h: 160 };
+const CORE = { x: 395, y: 112, w: 210, h: 256 };
+const C_HEAD = 60, C_ROW = 28, C_FOOT = 28; // header, one row per source, footer (all in diagram units)
 
 /*
  * The six places the truth about a job lives today. Real tools get their real marks (brand colour
  * on a neutral tile); the human ones (paper, memory) get plain line icons on the same tile.
  */
 type Input = { label: string; short: string; brand?: SimpleIcon; icon?: ReactNode };
-const inputs: Input[] = [
-  { label: "WhatsApp groups", short: "WhatsApp", brand: siWhatsapp },
-  { label: "Google Sheets", short: "Sheets", brand: siGooglesheets },
-  { label: "Gmail threads", short: "Gmail", brand: siGmail },
-  { label: "Xero, on its own", short: "Xero", brand: siXero },
-  { label: "Paper job cards", short: "Paper", icon: <><path d="M4 2.5h5.5l2.5 2.5v8.5H4z" /><path d="M9.5 2.5V5H12M6 8h4M6 10.5h3" /></> },
-  { label: "Someone’s memory", short: "Memory", icon: <><path d="M8 8.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" /><path d="M2.5 14a5.5 5.5 0 0 1 11 0" /></> },
+const inputs: (Input & { field: string })[] = [
+  { label: "WhatsApp groups", short: "WhatsApp", brand: siWhatsapp, field: "Booking" },
+  { label: "Google Sheets", short: "Sheets", brand: siGooglesheets, field: "Customer" },
+  { label: "Gmail threads", short: "Gmail", brand: siGmail, field: "Quote" },
+  { label: "Xero, on its own", short: "Xero", brand: siXero, field: "Invoice" },
+  { label: "Paper job cards", short: "Paper", icon: <><path d="M4 2.5h5.5l2.5 2.5v8.5H4z" /><path d="M9.5 2.5V5H12M6 8h4M6 10.5h3" /></>, field: "Job sheet" },
+  { label: "Someone’s memory", short: "Memory", icon: <><path d="M8 8.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" /><path d="M2.5 14a5.5 5.5 0 0 1 11 0" /></>, field: "Notes" },
 ];
 
 const outputs: { label: string; meta: string }[] = [
@@ -34,14 +35,18 @@ const outputs: { label: string; meta: string }[] = [
 
 const inY = (i: number) => 40 + i * 80;
 const outY = (i: number) => 90 + i * 100;
-const coreY = (i: number, n: number) => CORE.y + 28 + (i * (CORE.h - 56)) / (n - 1);
+const rowY = (i: number) => CORE.y + C_HEAD + C_ROW * i + C_ROW / 2;
+const outSY = (i: number, n: number) => CORE.y + 84 + (i * (CORE.h - 128)) / (n - 1);
+// when each source's streak first reaches the card (matches the Streak timings below); the cycle repeats every 4.2 s
+const ARRIVE = (i: number) => 2.8 + i * 0.4;
+const PERIOD = 4.2;
 
 const inPaths = inputs.map((_, i) => {
-  const y = inY(i), ty = coreY(i, inputs.length);
+  const y = inY(i), ty = rowY(i);
   return `M 236 ${y} C 330 ${y}, 330 ${ty}, ${CORE.x} ${ty}`;
 });
 const outPaths = outputs.map((_, i) => {
-  const y = outY(i), sy = coreY(i, outputs.length);
+  const y = outY(i), sy = outSY(i, outputs.length);
   return `M ${CORE.x + CORE.w} ${sy} C 680 ${sy}, 680 ${y}, 764 ${y}`;
 });
 
@@ -87,29 +92,70 @@ function Streak({ d, delay, dur }: { d: string; delay: number; dur: number }) {
   );
 }
 
-/*
- * The core is the one inverted object in the diagram. Carbon on the light page; on the dark page
- * carbon would sink into the canvas, so it flips to paper (the same inversion the dark button uses).
- */
-const coreCls =
-  "absolute rounded-xl bg-carbon text-white dark:bg-white dark:text-[#101828] flex flex-col items-center justify-center text-center " +
-  "shadow-[0_24px_48px_-16px_rgba(16,24,40,0.45)] dark:shadow-[0_24px_56px_-12px_rgba(0,0,0,0.7)]";
 
-/* Inner hairline, a top-light sheen, and a slow breath that brightens the core each time a streak lands. */
-function CoreFinish({ reduce, period = 4.2 }: { reduce: boolean; period?: number }) {
+/*
+ * The core: not a black box but the system itself, a small white app screen (screens stay white in both themes).
+ * Each source's wire plugs into its own row, the row ticks when that wire's light arrives, and the card stands on
+ * the brand's line of light. "Typed once, used everywhere" is shown, not just said.
+ */
+const Tick = ({ className = "" }: { className?: string }) => (
+  <svg viewBox="0 0 16 16" fill="none" className={className} aria-hidden><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+);
+
+function CoreCard({ live, reduce }: { live: boolean; reduce: boolean }) {
+  const top = (u: number) => pct(u, CORE.h);
   return (
     <>
-      <span className="absolute inset-0 rounded-xl bg-[linear-gradient(160deg,rgba(255,255,255,0.14),transparent_48%)] dark:bg-[linear-gradient(160deg,rgba(255,255,255,0.9),rgba(255,255,255,0)_55%),linear-gradient(340deg,rgba(16,24,40,0.08),transparent_50%)]" aria-hidden />
-      <span className="absolute inset-2 rounded-lg border border-white/10 dark:border-[#101828]/10" aria-hidden />
-      {!reduce && (
-        <motion.span
-          className="absolute inset-0 rounded-xl bg-[linear-gradient(160deg,rgba(255,255,255,0.22),transparent_60%)] dark:bg-[linear-gradient(160deg,rgba(29,107,43,0.12),transparent_60%)]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 0, 1, 0] }}
-          transition={{ delay: 1.4, duration: period, times: [0, 0.55, 0.72, 1], ease: "easeInOut", repeat: Infinity }}
-          aria-hidden
-        />
-      )}
+      {/* the line of light it stands on */}
+      <motion.span
+        aria-hidden
+        initial={{ scaleX: 0, opacity: 0 }}
+        whileInView={{ scaleX: 1, opacity: 1 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ delay: 0.5, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute h-px bg-[linear-gradient(90deg,transparent,rgba(16,24,40,0.4)_25%,rgba(16,24,40,0.4)_75%,transparent)] dark:bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.55)_25%,rgba(255,255,255,0.55)_75%,transparent)] dark:shadow-[0_0_10px_rgba(255,255,255,0.25)]"
+        style={{ left: pct(CORE.x - 50, VW), width: pct(CORE.w + 100, VW), top: pct(CORE.y + CORE.h + 14, VH) }}
+      />
+      <motion.div
+        initial={{ opacity: 0, y: 12, scale: 0.96 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ delay: 0.6, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute rounded-[14px] bg-white text-[#101828] border border-[#E5E7EB] dark:border-white/10 shadow-[0_24px_48px_-18px_rgba(16,24,40,0.35)] dark:shadow-[0_24px_56px_-12px_rgba(0,0,0,0.75)] overflow-hidden"
+        style={{ left: pct(CORE.x, VW), top: pct(CORE.y, VH), width: pct(CORE.w, VW), height: pct(CORE.h, VH), fontSize: "clamp(8.5px, 1.2cqw, 13px)" }}
+      >
+        <div className="absolute inset-x-0 top-0 flex flex-col justify-center px-[1.1em] border-b border-[#EEF0F2]" style={{ height: top(C_HEAD) }}>
+          <span className="font-display uppercase text-[1.3em] leading-none tracking-[-0.01em]">Your system</span>
+          <span className="text-[0.9em] text-[#6A7282] mt-[0.35em] leading-none">Job 0418 · Hill &amp; Co</span>
+        </div>
+        {inputs.map((it, i) => (
+          <div key={it.field} className="absolute inset-x-0 flex items-center gap-[0.7em] px-[1.1em] border-b border-[#F2F3F5]" style={{ top: top(C_HEAD + C_ROW * i), height: top(C_ROW) }}>
+            {live && (
+              <motion.span
+                aria-hidden
+                className="absolute inset-0 bg-[#101828]/[0.045]"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 1, 0] }}
+                transition={{ delay: ARRIVE(i) + PERIOD, duration: 0.7, repeat: Infinity, repeatDelay: PERIOD - 0.7, ease: "easeOut" }}
+              />
+            )}
+            <motion.span
+              className="relative w-[1.25em] h-[1.25em] rounded-[0.35em] flex items-center justify-center shrink-0"
+              initial={reduce ? false : { backgroundColor: "rgba(16,24,40,0)", boxShadow: "inset 0 0 0 1.5px rgba(16,24,40,0.2)", color: "rgba(255,255,255,0)" }}
+              whileInView={{ backgroundColor: "rgba(16,24,40,1)", boxShadow: "inset 0 0 0 0px rgba(16,24,40,0)", color: "rgba(255,255,255,1)" }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ delay: reduce ? 0 : ARRIVE(i), duration: 0.25 }}
+              style={reduce ? { backgroundColor: "#101828", color: "#fff" } : undefined}
+            >
+              <Tick className="w-[0.85em] h-[0.85em]" />
+            </motion.span>
+            <span className="relative text-[1em] font-semibold leading-none">{it.field}</span>
+          </div>
+        ))}
+        <div className="absolute inset-x-0 bottom-0 flex items-center px-[1.1em] text-[0.88em] text-[#4A5565] font-medium" style={{ height: top(C_FOOT) }}>
+          Entered once. Used everywhere.
+        </div>
+      </motion.div>
     </>
   );
 }
@@ -120,7 +166,7 @@ function Desktop() {
   const ref = useRef<HTMLDivElement>(null);
   const live = useInView(ref, { margin: "120px" }) && !reduce;
   return (
-    <div ref={ref} className="relative hidden md:block w-full" style={{ aspectRatio: `${VW} / ${VH}` }}>
+    <div ref={ref} className="relative hidden md:block w-full" style={{ aspectRatio: `${VW} / ${VH}`, containerType: "inline-size" }}>
       <svg viewBox={`0 0 ${VW} ${VH}`} className="absolute inset-0 w-full h-full overflow-visible" aria-hidden>
         {[...inPaths, ...outPaths].map((d, i) => (
           <motion.path
@@ -161,18 +207,7 @@ function Desktop() {
         </motion.div>
       ))}
 
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ delay: 0.7, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className={coreCls}
-        style={{ left: pct(CORE.x, VW), top: pct(CORE.y, VH), width: pct(CORE.w, VW), height: pct(CORE.h, VH) }}
-      >
-        <CoreFinish reduce={!live} />
-        <span className="relative font-display uppercase text-[15px] lg:text-[17px] leading-tight tracking-[-0.01em]">Your system</span>
-        <span className="relative text-[11px] lg:text-[12px] text-white/55 dark:text-[#4A5565] mt-1">Entered once</span>
-      </motion.div>
+      <CoreCard live={live} reduce={reduce} />
 
       {outputs.map((it, i) => (
         <motion.div
@@ -202,13 +237,14 @@ function Desktop() {
  */
 const MW = 350;
 const MH = 446;
-const M_CORE = { x: 105, y: 186, w: 140, h: 76 };
+const M_CORE = { x: 65, y: 180, w: 220, h: 98 };
 const M_TRAY_BOTTOM = 112;
 const M_OUT_Y = 360;
+function mTickXEarly(i: number) { return M_CORE.x + 26 + (i * (M_CORE.w - 52)) / (inputs.length - 1); }
 const mInX = inputs.map((_, i) => 30 + i * 58);
 const mOutX = outputs.map((_, i) => 44 + i * 87.3);
 const mInPaths = mInX.map((x, i) => {
-  const tx = M_CORE.x + 20 + (i * (M_CORE.w - 40)) / (inputs.length - 1);
+  const tx = mTickXEarly(i);
   return `M ${x} ${M_TRAY_BOTTOM} C ${x} ${M_TRAY_BOTTOM + 44}, ${tx} ${M_CORE.y - 36}, ${tx} ${M_CORE.y}`;
 });
 const mOutPaths = mOutX.map((x, i) => {
@@ -217,6 +253,7 @@ const mOutPaths = mOutX.map((x, i) => {
   return `M ${sx} ${by} C ${sx} ${by + 40}, ${x} ${M_OUT_Y - 40}, ${x} ${M_OUT_Y}`;
 });
 const mpct = (v: number, of: number) => `${(v / of) * 100}%`;
+const mTickX = mTickXEarly;
 
 function Mobile() {
   const reduce = useReduceAfterMount();
@@ -276,18 +313,35 @@ function Mobile() {
         ))}
       </div>
 
-      {/* Core */}
+      {/* Core: the same white system card, compact; each wire lands on its own tick */}
+      <span aria-hidden className="absolute h-px bg-[linear-gradient(90deg,transparent,rgba(16,24,40,0.4)_25%,rgba(16,24,40,0.4)_75%,transparent)] dark:bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.55)_25%,rgba(255,255,255,0.55)_75%,transparent)]"
+        style={{ left: mpct(M_CORE.x - 30, MW), width: mpct(M_CORE.w + 60, MW), top: mpct(M_CORE.y + M_CORE.h + 9, MH) }} />
       <motion.div
-        initial={{ opacity: 0, scale: 0.92 }}
-        whileInView={{ opacity: 1, scale: 1 }}
+        initial={{ opacity: 0, y: 8, scale: 0.96 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true }}
         transition={{ delay: 0.8, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className={coreCls}
+        className="absolute rounded-[12px] bg-white text-[#101828] border border-[#E5E7EB] dark:border-white/10 shadow-[0_18px_36px_-14px_rgba(16,24,40,0.35)] dark:shadow-[0_18px_40px_-10px_rgba(0,0,0,0.75)]"
         style={{ left: mpct(M_CORE.x, MW), top: mpct(M_CORE.y, MH), width: mpct(M_CORE.w, MW), height: mpct(M_CORE.h, MH) }}
       >
-        <CoreFinish reduce={!live} period={3.8} />
-        <span className="relative font-display uppercase text-[13px] leading-none tracking-[-0.01em]">Your system</span>
-        <span className="relative text-[11px] text-white/55 dark:text-[#4A5565] mt-1.5">Entered once</span>
+        {inputs.map((it, i) => (
+          <motion.span
+            key={it.field}
+            title={it.field}
+            className="absolute -translate-x-1/2 w-[15px] h-[15px] rounded-[4px] flex items-center justify-center"
+            style={{ left: mpct(mTickX(i) - M_CORE.x, M_CORE.w), top: 10, ...(reduce ? { backgroundColor: "#101828", color: "#fff" } : {}) }}
+            initial={reduce ? false : { backgroundColor: "rgba(16,24,40,0)", boxShadow: "inset 0 0 0 1.5px rgba(16,24,40,0.2)", color: "rgba(255,255,255,0)" }}
+            whileInView={{ backgroundColor: "rgba(16,24,40,1)", boxShadow: "inset 0 0 0 0px rgba(16,24,40,0)", color: "rgba(255,255,255,1)" }}
+            viewport={{ once: true }}
+            transition={{ delay: reduce ? 0 : 2.6 + i * 0.35, duration: 0.25 }}
+          >
+            <Tick className="w-[10px] h-[10px]" />
+          </motion.span>
+        ))}
+        <div className="absolute inset-x-0 bottom-0 top-[34px] flex flex-col items-center justify-center text-center border-t border-[#EEF0F2]">
+          <span className="font-display uppercase text-[13px] leading-none tracking-[-0.01em]">Your system</span>
+          <span className="text-[11px] text-[#6A7282] mt-1.5 leading-none">Entered once. Used everywhere.</span>
+        </div>
       </motion.div>
 
       {/* What comes out */}
