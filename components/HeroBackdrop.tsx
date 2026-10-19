@@ -105,8 +105,8 @@ function Floating({ p, i, mx, my, progress, interactive }: { p: Piece; i: number
           dragTransition={{ power: 0.25, timeConstant: 260 }}
           whileDrag={{ scale: 1.04, cursor: "grabbing" }}
           style={{ x: dx, y: dy, scale: gs, opacity: go }}
-          onDragStart={() => document.body.classList.add("select-none")}
-          onDragEnd={() => document.body.classList.remove("select-none")}
+          onDragStart={() => { document.body.classList.add("select-none"); play("tick", 0.3); }}
+          onDragEnd={() => { document.body.classList.remove("select-none"); play("pop-in", 0.28); }}
           className="pointer-events-auto cursor-grab touch-none select-none"
         >
           {piece}
