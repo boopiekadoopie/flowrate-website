@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { OG_IMAGES } from "@/lib/site";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CHANGELOG } from "@/lib/changelog";
@@ -7,7 +8,7 @@ export const metadata: Metadata = {
   title: "What's new | Flowrate",
   description: "Small changes to the Flowrate site and its demos, as they ship.",
   alternates: { canonical: "/changelog" },
-  openGraph: { title: "What's new | Flowrate", url: "/changelog" },
+  openGraph: { title: "What's new | Flowrate", url: "/changelog", images: OG_IMAGES },
 };
 
 const fmt = (d: string) =>

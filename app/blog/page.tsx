@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { OG_IMAGES } from "@/lib/site";
 import Image from "next/image";
 import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
   title: "Guides | Flowrate",
   description: "Plain-English guides on getting the retyping, chasing and manual admin out of how a business runs.",
   alternates: { canonical: "/blog" },
-  openGraph: { title: "Guides | Flowrate", url: "/blog" },
+  openGraph: { title: "Guides | Flowrate", url: "/blog", images: OG_IMAGES },
 };
 
 export default function BlogPage() {

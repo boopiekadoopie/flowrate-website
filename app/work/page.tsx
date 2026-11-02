@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { OG_IMAGES } from "@/lib/site";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import type { ReactNode } from "react";
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
   title: "Our work | Flowrate",
   description: "Try working demos of apps and systems we've built for real businesses. Made-up data, nothing you tap goes anywhere.",
   alternates: { canonical: "/work" },
-  openGraph: { title: "Our work | Flowrate", url: "/work" },
+  openGraph: { title: "Our work | Flowrate", url: "/work", images: OG_IMAGES },
 };
 
 const X = () => (

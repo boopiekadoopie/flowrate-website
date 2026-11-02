@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import { OG_IMAGES } from "@/lib/site";
 import { LegalPage, type LegalSection } from "@/components/LegalPage";
 
 export const metadata: Metadata = {
   title: "Terms of Service | Flowrate",
   description: "The terms that apply to this website and to the systems, apps and websites Flowrate builds for clients.",
   alternates: { canonical: "/terms" },
-  openGraph: { title: "Terms of Service | Flowrate", url: "/terms" },
+  openGraph: { title: "Terms of Service | Flowrate", url: "/terms", images: OG_IMAGES },
 };
 
 const EMAIL = "andrew@flowrate.agency";

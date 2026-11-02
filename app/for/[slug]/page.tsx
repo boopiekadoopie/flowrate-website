@@ -7,6 +7,7 @@ import { LeadCapture } from "@/components/LeadCapture";
 import { IndustryApp } from "@/components/IndustryApp";
 import { Container, H2, Lede, PrimaryButton, DarkButton, Check } from "@/components/ui";
 import { industries, industryBySlug } from "@/lib/industries";
+import { OG_IMAGES } from "@/lib/site";
 
 /*
  * /for/[slug]: one page per kind of business. The same promise as the homepage, told in that industry's words,
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: ind.title,
     description: ind.description,
     alternates: { canonical: `/for/${ind.slug}` },
-    openGraph: { title: ind.title, description: ind.description, url: `/for/${ind.slug}`, images: [{ url: "/og-home-v2.jpg", width: 1200, height: 630, alt: "Flowrate" }] },
+    openGraph: { title: ind.title, description: ind.description, url: `/for/${ind.slug}`, images: OG_IMAGES },
   };
 }
 

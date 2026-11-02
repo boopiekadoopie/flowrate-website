@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import { OG_IMAGES } from "@/lib/site";
 import { LegalPage, type LegalSection } from "@/components/LegalPage";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | Flowrate",
   description: "What information Flowrate collects through this website, why, who processes it, and your rights under POPIA.",
   alternates: { canonical: "/privacy" },
-  openGraph: { title: "Privacy Policy | Flowrate", url: "/privacy" },
+  openGraph: { title: "Privacy Policy | Flowrate", url: "/privacy", images: OG_IMAGES },
 };
 
 const EMAIL = "andrew@flowrate.agency";
