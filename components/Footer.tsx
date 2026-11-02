@@ -102,7 +102,7 @@ export function Footer() {
           <Column title="Legal" links={policies} />
         </div>
 
-        <div className="pt-8 flex flex-col sm:flex-row justify-between gap-3 text-white/40 text-[13px]">
+        <div className="pt-8 flex flex-col sm:flex-row justify-between gap-3 text-white/50 text-[13px]">
           <p>&copy; {new Date().getFullYear()} Flowrate. All rights reserved.</p>
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
             <WinkCounter />
