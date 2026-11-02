@@ -2,7 +2,7 @@
 export const faqs = [
   {
     q: "What kind of systems do you build?",
-    a: "Admin systems that track every job from first call to paid invoice, apps your team uses on their phones out on the job, reports that show what really happened, and websites. Most projects are a mix: the point is that information gets entered once and flows everywhere it needs to go.",
+    a: "Custom software of any kind a business runs on: admin systems that track every job from first call to paid invoice, apps your team or drivers use on their phones, booking and ordering tools, portals for your clients, dashboards and reports that show what really happened, and websites. Most projects are a mix: the point is that information gets entered once and flows everywhere it needs to go.",
   },
   {
     q: "Do you only work with certain industries?",
@@ -29,7 +29,7 @@ export const faqs = [
     a: "It depends on the size of the system. You’ll get a timeline with your quote, and you’ll see how it works before the build starts.",
   },
   {
-    q: "Do you still build websites?",
+    q: "Do you build websites too?",
     a: "Yes. Websites are part of what we build, often alongside a system that handles what happens after someone gets in touch.",
   },
 ];
