@@ -6,7 +6,8 @@ export type Block =
   | { t: "p"; text: string }
   | { t: "h2"; text: string }
   | { t: "list"; items: [string, string][] }
-  | { t: "img"; src: string; alt: string };
+  | { t: "img"; src: string; alt: string }
+  | { t: "see"; href: string; text: string }; // a link to a demo or industry page, on its own line
 
 export type Post = {
   slug: string;
@@ -47,6 +48,7 @@ export const posts: Post[] = [
       { t: "p", text: "The fix isn't another tool on top. It's one simple app where the job lives from start to finish: booked, moved, on site, done, invoiced. The person doing the work taps it on their phone; everyone else sees it straight away." },
       img("wheres-the-job-right-now", "slide-08-one-answer", "One app, one answer: the job's timeline on a phone."),
       { t: "p", text: "That's what we build at Flowrate: an app shaped around how your business already works, so the next time a customer asks, the answer is one tap away." },
+      { t: "see", href: "/work", text: "Try working demos of apps we've built" },
     ],
   },
   {
@@ -71,6 +73,7 @@ export const posts: Post[] = [
       { t: "p", text: "That's normally the point where a simple app beats the sheet. Everyone adds things in one place, from their phone or the office. Everyone sees the same thing. The totals add themselves up, and nobody has to retype a thing." },
       img("five-signs-youve-outgrown-your-spreadsheet", "slide-06-nobody-trusts-the-total", "Nobody trusts the total."),
       { t: "p", text: "And if your spreadsheet still does the job? Keep it. We'd rather tell you that on a free call than build something you don't need." },
+      { t: "see", href: "/spreadsheet", text: "Paste your spreadsheet's top row and see the app it would become" },
     ],
   },
   {
@@ -105,6 +108,7 @@ export const posts: Post[] = [
       img("tech-words-in-plain-english", "slide-03-automation", "Automation, explained."),
       img("tech-words-in-plain-english", "slide-06-audit-trail", "Audit trail, explained."),
       { t: "p", text: "You don't need to know any of these to get a system built. Tell us how your work runs, in your own words, and we'll do the translating." },
+      { t: "see", href: "/work#driver-app", text: "See offline mode for yourself: switch the signal off in our driver app demo" },
     ],
   },
   {
@@ -129,6 +133,7 @@ export const posts: Post[] = [
       { t: "h2", text: "Same job, nothing to retype" },
       { t: "p", text: "The point isn't to get rid of the sheet. It's to keep the sheet your team already understands and stop typing it twice. We build the app around the boxes you already use, so the switch feels familiar on day one." },
       img("paper-job-sheet-to-phone", "slide-08-nothing-to-retype", "Same job. Nothing to retype."),
+      { t: "see", href: "/for/trades", text: "See what a job app for a trade business looks like" },
     ],
   },
   {
@@ -154,6 +159,7 @@ export const posts: Post[] = [
       ] },
       img("why-off-the-shelf-software-doesnt-fit", "slide-08-built-around-you", "Built around your business."),
       { t: "p", text: "That's what Flowrate does, for any business: custom apps, dashboards, portals and websites, built around how you already work." },
+      { t: "see", href: "/work", text: "Try working demos of apps we've built for different businesses" },
     ],
   },
 ];

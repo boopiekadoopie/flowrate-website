@@ -71,6 +71,12 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                     ))}
                   </ul>
                 );
+              if (b.t === "see")
+                return (
+                  <p key={i} className="text-[18px] leading-[1.6]">
+                    <Link href={b.href} className="fr-ul font-semibold text-heading">{b.text} →</Link>
+                  </p>
+                );
               return (
                 <figure key={i} className="relative aspect-[4/5] max-w-[440px] rounded-[18px] overflow-hidden border border-line">
                   <Image src={b.src} alt={b.alt} fill sizes="(min-width: 640px) 440px, 100vw" className="object-cover" />
