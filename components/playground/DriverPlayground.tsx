@@ -179,7 +179,7 @@ export function DriverPlayground() {
   const fresh = office.find((l) => l.fresh);
 
   return (
-    <div className="grid grid-cols-[minmax(0,1fr)] gap-10 lg:gap-8 lg:grid-cols-[300px_330px_minmax(0,1fr)] items-start">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-10 lg:gap-8 lg:grid-cols-[300px_minmax(0,1fr)] xl:grid-cols-[300px_330px_minmax(0,1fr)] items-start">
       {/* ---------------- steps (focus by dimming) */}
       <div className="lg:pt-6">
         <ol className="space-y-1.5">
@@ -376,7 +376,7 @@ export function DriverPlayground() {
       </div>
 
       {/* ---------------- the office */}
-      <div className="lg:pt-[46px] min-w-0">
+      <div className="lg:col-span-2 xl:col-span-1 xl:pt-[46px] min-w-0">
         <div className="rounded-[20px] bg-white border border-[#E5E7EB] overflow-hidden text-[#101828] [filter:drop-shadow(0_30px_40px_rgba(16,24,40,0.12))]" data-theme="light">
           <div className="flex items-center justify-between px-5 h-[58px] border-b border-[#EEF0F2] bg-[#FAFAFA]">
             <div>

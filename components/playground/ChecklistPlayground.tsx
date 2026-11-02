@@ -265,7 +265,7 @@ export function ChecklistPlayground() {
   const head = status === "stop" ? "bg-[#B42318]" : "bg-[#101828]";
 
   return (
-    <div className="grid grid-cols-[minmax(0,1fr)] gap-10 lg:gap-8 lg:grid-cols-[300px_330px_minmax(0,1fr)] items-start">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-10 lg:gap-8 lg:grid-cols-[300px_minmax(0,1fr)] xl:grid-cols-[300px_330px_minmax(0,1fr)] items-start">
       <Steps
         steps={STEPS}
         current={step}
@@ -403,7 +403,7 @@ export function ChecklistPlayground() {
       </div>
 
       {/* ---------------- the report that goes to the supervisor, or the same check on paper */}
-      <div className="min-w-0">
+      <div className="lg:col-span-2 xl:col-span-1 min-w-0">
         <div className="mb-4 flex items-center justify-between gap-3 flex-wrap">
           <div className="inline-flex rounded-full bg-soft border border-line p-1">
             {([["report", "Report"], ["paper", "Paper version"]] as const).map(([k, l]) => (
