@@ -132,10 +132,11 @@ function PhoneApp({ r, s, TAP, SENT }: { r: SketchResult; s: number; TAP: number
         </div>
       </div>
       <p className="px-3.5 pt-3 pb-2 text-[14px] font-bold tracking-[-0.01em] truncate">{r.phone.title}</p>
-      <div className="px-2.5 flex flex-col gap-1.5">
+      {/* the fields take what's left and fade like a scrolling list; the button is pinned clear of the home bar */}
+      <div className="px-2.5 flex flex-col gap-1.5 flex-1 min-h-0 overflow-hidden [mask-image:linear-gradient(to_bottom,#000_calc(100%-14px),transparent)]">
         {r.phone.fields.map((f, i) => <Field key={f.label + i} f={f} on={s > i} header={c.header} />)}
       </div>
-      <div className="px-2.5 mt-2.5">
+      <div className="px-2.5 pt-2 pb-[22px]">
         <div className="relative h-[34px] rounded-[10px] flex items-center justify-center gap-1.5 text-[11.5px] font-bold transition-colors duration-300" style={sent ? { background: "#2F8F3E", color: "#fff" } : { background: c.accent, color: c.header }}>
           {sent && <Tick className="w-3 h-3" />}
           <span className="truncate">{sent ? "Sent" : r.phone.button}</span>
