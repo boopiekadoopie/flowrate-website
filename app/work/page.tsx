@@ -183,7 +183,7 @@ export default function WorkPage() {
             See what we build. Then try it.
           </h1>
           <p className="mt-6 text-[17px] md:text-[19px] leading-[1.6] text-body max-w-[680px] [text-wrap:pretty]">
-            These are working demos of apps we&apos;ve built for real businesses, with made-up names and numbers. Tap
+            These are working demos of apps we&apos;ve built for <span className="kw">real</span> businesses, with made-up names and numbers. Tap
             around as much as you like. Nothing you do here goes anywhere.
           </p>
         </section>

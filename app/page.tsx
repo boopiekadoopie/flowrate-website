@@ -9,6 +9,7 @@ import { Showcase } from "@/components/Showcase";
 import { CaseStudy } from "@/components/CaseStudy";
 import { HowItWorks } from "@/components/HowItWorks";
 import { About } from "@/components/About";
+import { Watch } from "@/components/Watch";
 import { FAQ } from "@/components/FAQ";
 import { LeadCapture } from "@/components/LeadCapture";
 import { Footer } from "@/components/Footer";
@@ -66,6 +67,7 @@ export default function Home() {
         <CaseStudy />
         <HowItWorks />
         <About />
+        <Watch />
         <RetypeCost />
         <FAQ />
         <LeadCapture />

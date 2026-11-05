@@ -6,6 +6,16 @@ export type ChangeDay = { date: string; items: string[] };
 
 export const CHANGELOG: ChangeDay[] = [
   {
+    date: "2026-11-05",
+    items: [
+      "Dark mode is now a deep navy, the same as our posts.",
+      "New on What we build: Tracking pages. One tap from the team updates the customer's page, and their WhatsApp lands.",
+      "Reporting is now the Monday numbers screen: five numbers on one page, and work that was never invoiced drafted in one click. Press Invoice 4 to try it.",
+      "New: short films. Our newest videos, playing on a phone below About.",
+      "Every phone on the site is now the same realistic device.",
+    ],
+  },
+  {
     date: "2026-10-14",
     items: [
       "A few soft sounds for the moments that matter, and a switch in the footer to turn them off.",

@@ -31,7 +31,7 @@ export function CaseStudy() {
               <H2 light className="mb-5">The example above isn&apos;t a concept.</H2>
               <Lede light className="mb-8">
                 We built the same kind of system inside a working fleet, and it runs every day. Drivers
-                photograph their paperwork at the end of a run, and the office never retypes it.
+                photograph their paperwork at the end of a run, and the office <span className="kw">never</span> retypes it.
               </Lede>
               <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-3 mb-9">
                 {facts.map((f) => (

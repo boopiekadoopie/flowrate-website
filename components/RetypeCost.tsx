@@ -71,7 +71,7 @@ export function RetypeCost() {
             <Slider label="What an hour of their time costs" value={rate} set={setRate} min={0} max={150} step={5} hint="In your own currency. Leave it at 0 to see hours only." />
           </div>
 
-          <div className="bg-[#101828] dark:bg-[#0B0B0D] dark:border-l dark:border-white/10 text-white p-6 sm:p-10 flex flex-col">
+          <div className="bg-[#101828] dark:bg-[#070C18] dark:border-l dark:border-white/10 text-white p-6 sm:p-10 flex flex-col">
             <p className="text-white/70 text-[15px]">Hours a year spent typing things in twice</p>
             <p className="font-display text-[56px] sm:text-[72px] leading-none tracking-[-0.02em] mt-3">
               <Rolling value={hours} />

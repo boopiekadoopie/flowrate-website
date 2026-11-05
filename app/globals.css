@@ -65,16 +65,16 @@ html {
    colours on purpose, so they read as devices sitting on a dark page. */
 [data-theme="dark"] {
   color-scheme: dark;
-  --color-canvas: #0B0B0C;
-  --color-paper: #111113;
-  --color-soft: #161618;
-  --color-heading: #F4F4F5;
-  --color-body: #A1A1AA;
-  --color-muted: #8E8E96;
-  --color-faint: #83838C;
-  --color-line: #26262A;
-  --color-line-strong: #34343A;
-  --color-carbon: #1A1A1D;
+  --color-canvas: #0B1220;
+  --color-paper: #101828;
+  --color-soft: #162036;
+  --color-heading: #F4F6FA;
+  --color-body: #AEB7C6;
+  --color-muted: #8F99AB;
+  --color-faint: #8590A2;
+  --color-line: #232E44;
+  --color-line-strong: #314059;
+  --color-carbon: #17223A;
 }
 
 body {
@@ -166,3 +166,10 @@ html[data-menu="open"] .fr-chat { display: none; }
 .fr-range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 5px rgba(16, 24, 40, 0.18); }
 [data-theme="dark"] .fr-range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.22); }
 html[data-menu="open"] .fr-progress { display: none; }
+
+/* Key word: the reels' green italic serif, one per lead line at most. Darker green on light so CTAs still lead (#267C35: 4.8:1 on the canvas, AA for body text).
+   In the components layer, so a dark panel's lead can switch it to the bright green with a utility. */
+@layer components {
+  .kw { font-family: var(--font-serif), Georgia, serif; font-style: italic; font-weight: 400; font-size: 1.16em; line-height: 1; letter-spacing: -0.005em; color: #267C35; }
+  [data-theme="dark"] .kw { color: #99E58C; }
+}

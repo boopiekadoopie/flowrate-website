@@ -106,7 +106,7 @@ export function LeadCapture({ prefill }: { prefill?: string } = {}) {
           <div className="lg:pt-6">
             <H2 className="mb-6">Tell us the job you&apos;d love to stop doing by hand.</H2>
             <Lede className="mb-9 max-w-[520px]">
-              A few lines is enough. Andrew reads every message himself and replies with
+              A few lines is enough. Andrew reads every message <span className="kw">himself</span> and replies with
               how he&apos;d approach it, whether or not that ends with us working together.
             </Lede>
             <Reveal className="flex flex-col gap-3 text-[15px]">

@@ -730,7 +730,7 @@ export function Invoice({ t, held }: { t: number; held: boolean }) {
 function Beam({ d, fire, id }: { d: string; fire: boolean; id: string }) {
   return (
     <g>
-      <path d={d} fill="none" stroke="currentColor" strokeWidth="1.2" strokeDasharray="2 5" className="text-[#D4D4D4] dark:text-[#3A3A40]" />
+      <path d={d} fill="none" stroke="currentColor" strokeWidth="1.2" strokeDasharray="2 5" className="text-[#D4D4D4] dark:text-[#36425C]" />
       {fire && (
         <>
           <motion.path

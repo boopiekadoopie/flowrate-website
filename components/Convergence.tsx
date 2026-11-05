@@ -359,7 +359,7 @@ export function Convergence() {
           <H2>Six places to look. Or one.</H2>
           <Lede>
             Right now the truth about a job is scattered across WhatsApp, Google Sheets, Gmail, Xero,
-            paper and somebody&apos;s memory. We pull it into one system, and the invoices, reports and
+            paper and somebody&apos;s memory. We pull it into <span className="kw">one</span> system, and the invoices, reports and
             updates come out the other side.
           </Lede>
         </div>

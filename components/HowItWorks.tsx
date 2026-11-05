@@ -32,7 +32,7 @@ export function HowItWorks() {
           <H2>How a build works.</H2>
           <Lede>
             No long requirements documents, and no software you have to bend your
-            business around. It starts with how you work now.
+            business around. It starts with how you work <span className="kw">now</span>.
           </Lede>
         </div>
 

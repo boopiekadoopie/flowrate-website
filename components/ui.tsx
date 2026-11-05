@@ -72,7 +72,7 @@ export function Lede({ children, className = "", light = false }: { children: Re
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-80px" }}
-      className={`text-[17px] md:text-[18px] leading-[1.6] [text-wrap:pretty] ${light ? "text-white/70" : "text-body"} ${className}`}
+      className={`text-[17px] md:text-[18px] leading-[1.6] [text-wrap:pretty] ${light ? "text-white/70 [&_.kw]:text-green" : "text-body"} ${className}`}
     >
       {children}
     </motion.p>

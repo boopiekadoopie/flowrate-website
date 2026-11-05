@@ -1,17 +1,20 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, MotionConfig, motion, useInView } from "framer-motion";
 import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
 import { Check, Container, H2, Lede } from "./ui";
-import { JobCard, type JobCardData } from "./Paperwork";
+import { Fingertip, HdPhone } from "./kit/Device";
+import { DropBanner, LockScreen, TeamApp, TrackerPage } from "./kit/Torvik";
+import { MondayBoard } from "./kit/Monday";
 import { play } from "@/lib/sound";
 
 /*
- * Four example product screens, one per tab. Every screen is pinned to the light palette so it reads
+ * Five example product screens, one per tab. Every screen is pinned to the light palette so it reads
  * as a device on the dark page. The same made-up everyday job (Greenway Café, job 0418, 1,633.00)
- * runs through all four, so the number the Problem section watches being mistyped is seen here
- * flowing through untouched.
+ * runs through the jobs list, the field app and the Monday numbers, so the number the Problem section
+ * watches being mistyped is seen here flowing through untouched. The tracking page and the Monday
+ * numbers are the same screens as the reels and carousels (components/kit), shown as real devices.
  */
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -316,203 +319,143 @@ function FieldScreen({ reduce }: ScreenProps) {
   );
 }
 
-/* ---------------------------------------------------------------- 3. Reports */
+/* ---------------------------------------------------------------- 3. Tracking page */
 
-/* Every number has a receipt: tap a total and see the jobs that make it up; tap a job and see what was
-   captured on site. Made-up jobs, in the same world as job 0418. */
-type Row = { card: JobCardData; status: "invoiced" | "hold"; inv?: string };
-const job = (no: string, customer: string, date: string, time: string, j: string, parts: string, by: string): JobCardData => ({ no, customer, date, time, job: j, parts, by });
-const RECENT: Row[] = [
-  { card: job("0452", "Greenway Café", "Fri, wk 8", "16:10", "Ice machine service", "Filter × 1", "Sam"), status: "invoiced", inv: "INV-0201" },
-  { card: job("0451", "Mara’s Bakery", "Fri, wk 8", "11:25", "Oven door hinge", "Hinge × 2", "Alex"), status: "invoiced", inv: "INV-0200" },
-  { card: job("0450", "Kaya Building", "Thu, wk 8", "14:05", "Boardroom aircon", "Gas top-up", "Jo"), status: "invoiced", inv: "INV-0199" },
-  { card: job("0449", "Northgate Gym", "Thu, wk 8", "09:40", "Shower pressure", "Valve × 1", "Sam"), status: "invoiced", inv: "INV-0198" },
-  { card: job("0448", "Hill & Co", "Wed, wk 8", "15:30", "Kitchen extractor", "Belt × 1", "Alex"), status: "invoiced", inv: "INV-0197" },
-  { card: job("0447", "Bluebird Café", "Wed, wk 8", "10:15", "Fridge seal", "Door seal × 1", "Jo"), status: "invoiced", inv: "INV-0196" },
-];
-const HELD: Row[] = [
-  { card: { ...job("0436", "Kaya Building", "Wed, wk 6", "13:20", "Geyser element", "Element × 1", "Sam"), stamp: "NOT INVOICED" }, status: "hold" },
-  { card: { ...job("0441", "Hill & Co", "Thu, wk 6", "17:05", "Leak under sink", "Trap × 1", "Jo"), stamp: "NOT INVOICED" }, status: "hold" },
-];
-const TILES = [
-  { key: "done", k: "Jobs done", v: "64", rows: [...RECENT.slice(0, 4), ...HELD], more: 58 },
-  { key: "invoiced", k: "Invoiced", v: "62", rows: RECENT, more: 56 },
-  { key: "hold", k: "Not yet invoiced", v: "2", rows: HELD, more: 0, hold: true },
-] as const;
+/*
+ * The "Is it ready yet?" reel as working screens, on real phones: one tap on the team's phone, a line of light
+ * carries it to the customer's tracking page, the page ticks over, then the WhatsApp lands on the lock screen.
+ * Where the panel is too narrow for three phones, the WhatsApp drops onto the tracking page instead.
+ */
+type Pt = { x: number; y: number };
+const at = (el: Element, box: DOMRect, side: "c" | "l" | "r" = "c"): Pt => {
+  const r = el.getBoundingClientRect();
+  return { x: (side === "r" ? r.right : side === "l" ? r.left : r.left + r.width / 2) - box.left, y: r.top + r.height / 2 - box.top };
+};
+const curve = (a: Pt, b: Pt) => {
+  const k = (b.x - a.x) * 0.45;
+  return `M${a.x} ${a.y} C${a.x + k} ${a.y} ${b.x - k} ${b.y} ${b.x} ${b.y}`;
+};
+type Leg = { d: string; a: Pt; b: Pt };
 
-function Receipt({ tile, onClose }: { tile: (typeof TILES)[number]; onClose: () => void }) {
-  const [pick, setPick] = useState<Row | null>(null);
+function LightLeg({ id, leg, on, reduce }: { id: string; leg: Leg | null; on: boolean; reduce: boolean }) {
+  if (!leg) return null;
+  const t = reduce ? { duration: 0 } : { pathLength: { duration: 0.75, ease: [0.65, 0, 0.35, 1] as const }, opacity: { duration: 0.15 } };
+  const show = { pathLength: on ? 1 : 0, opacity: on ? 1 : 0 };
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 6 }}
-      transition={{ duration: 0.28, ease }}
-      className="flex-1 min-h-0 rounded-lg border border-line bg-paper flex flex-col overflow-hidden"
-    >
-      <div className="flex items-center gap-2 px-3.5 h-10 border-b border-line text-[11.5px]">
-        <button type="button" onClick={pick ? () => setPick(null) : onClose} className="text-muted hover:text-heading cursor-pointer">Reports</button>
-        <span className="text-faint">/</span>
-        <button type="button" onClick={() => setPick(null)} className={`cursor-pointer ${pick ? "text-muted hover:text-heading" : "text-heading font-semibold"}`}>
-          {tile.k} · {tile.v}
-        </button>
-        {pick && (
-          <>
-            <span className="text-faint">/</span>
-            <span className="text-heading font-semibold">Job {pick.card.no}</span>
-          </>
-        )}
-        <button type="button" onClick={onClose} aria-label="Close" className="ml-auto w-6 h-6 rounded-[6px] hover:bg-soft text-muted flex items-center justify-center cursor-pointer">
-          <svg viewBox="0 0 14 14" className="w-3 h-3" aria-hidden><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>
-        </button>
-      </div>
-      <AnimatePresence mode="wait" initial={false}>
-        {!pick ? (
-          <motion.div key="list" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, x: -10 }} transition={{ duration: 0.2 }} className="flex-1 min-h-0 overflow-y-auto">
-            {tile.rows.map((r, i) => (
-              <motion.button
-                key={r.card.no}
-                type="button"
-                onClick={() => setPick(r)}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.04, duration: 0.24, ease }}
-                className="w-full grid grid-cols-[52px_1fr_auto] sm:grid-cols-[52px_1fr_92px_auto] gap-2 items-center px-3.5 h-9 border-b border-line text-left text-[11.5px] hover:bg-soft cursor-pointer"
-              >
-                <span className="tabular-nums text-muted">J-{r.card.no}</span>
-                <span className="text-heading truncate">{r.card.customer} <span className="text-muted">· {r.card.job}</span></span>
-                <span className="hidden sm:block text-muted truncate">{r.card.date}</span>
-                {r.status === "hold" ? (
-                  <span className="rounded-full px-2 h-5 inline-flex items-center text-[10px] font-semibold bg-hold-bg text-hold">Not invoiced</span>
-                ) : (
-                  <span className="text-[10.5px] text-muted tabular-nums">{r.inv}</span>
-                )}
-              </motion.button>
-            ))}
-            {tile.more > 0 && <p className="px-3.5 py-2 text-[11px] text-faint">and {tile.more} more in the full list</p>}
-          </motion.div>
-        ) : (
-          <motion.div key="pick" initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.26, ease }} className="flex-1 min-h-0 p-3.5 flex gap-4 items-start">
-            <div className="shrink-0 -rotate-2 origin-top-left">
-              <JobCard width={168} data={pick.card} />
-            </div>
-            <div className="min-w-0 text-[11.5px] leading-relaxed">
-              <p className="font-semibold text-heading">Captured on {pick.card.by}&rsquo;s phone</p>
-              <p className="text-muted">{pick.card.date} · {pick.card.time} · photo and signature</p>
-              <p className={`mt-2 inline-flex items-center rounded-full px-2 h-5 text-[10px] font-semibold ${pick.status === "hold" ? "bg-hold-bg text-hold" : "bg-ok-bg text-ok"}`}>
-                {pick.status === "hold" ? "Done, never invoiced" : `Invoiced · ${pick.inv}`}
-              </p>
-              <p className="mt-2 text-body">This is the record the total is counted from. Nobody built it by hand.</p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+    <g>
+      <defs>
+        <linearGradient id={id} gradientUnits="userSpaceOnUse" x1={leg.a.x} y1={leg.a.y} x2={leg.b.x} y2={leg.b.y}>
+          <stop offset="0" stopColor="#2F8F3E" />
+          <stop offset="1" stopColor="#7FD873" />
+        </linearGradient>
+      </defs>
+      <motion.path d={leg.d} fill="none" stroke="#99E58C" strokeWidth={8} strokeLinecap="round" style={{ filter: "blur(4px)" }} initial={false} animate={{ ...show, opacity: on ? 0.55 : 0 }} transition={t} />
+      <motion.path d={leg.d} fill="none" stroke={`url(#${id})`} strokeWidth={2} strokeLinecap="round" initial={false} animate={show} transition={t} />
+      {on && !reduce && (
+        <motion.circle cx={leg.b.x} cy={leg.b.y} r={9} fill="none" stroke="#7FD873" strokeWidth={2} initial={{ scale: 0.4, opacity: 0 }} animate={{ scale: [0.4, 2], opacity: [0.9, 0] }} transition={{ duration: 0.7, delay: 0.7, ease }} style={{ transformBox: "fill-box", transformOrigin: "center" }} />
+      )}
+    </g>
   );
 }
 
-function ReportScreen({ reduce }: ScreenProps) {
-  const [open, setOpen] = useState<(typeof TILES)[number]["key"] | null>(null);
-  const done = [6, 8, 7, 9, 8, 10, 7, 9];
-  const invoiced = done.map((w, i) => (i === 5 ? w - 2 : w));
-  const max = 10;
-  const owed = [
-    ["Kaya Building", "7,300.00", 100],
-    ["Hill & Co", "4,120.00", 56],
-    ["Greenway Café", "1,633.00", 22],
-    ["Mara’s Bakery", "1,180.00", 16],
-  ] as const;
-  const d = (i: number) => (reduce ? 0 : i);
+function TrackingScreen({ reduce }: ScreenProps) {
+  // 1 finger lands, 2 tap: ready, 3 line of light to the tracking page, 4 page ticks over, 5 the WhatsApp lands
+  const [stepLater, setStep] = useState(0);
+  useEffect(() => {
+    if (reduce) return;
+    const ids = [450, 1050, 1250, 2000, 2750].map((ms, i) => setTimeout(() => setStep(i + 1), ms));
+    return () => ids.forEach(clearTimeout);
+  }, [reduce]);
+  const step = reduce ? 5 : stepLater;
+
+  const wrap = useRef<HTMLDivElement>(null);
+  const mark = useRef<HTMLDivElement>(null);
+  const dot = useRef<HTMLSpanElement>(null);
+  const [leg, setLeg] = useState<Leg | null>(null);
+  const measure = useCallback(() => {
+    const el = wrap.current;
+    if (!el || !mark.current || !dot.current) return;
+    const box = el.getBoundingClientRect();
+    const a = at(mark.current, box, "r");
+    const b = at(dot.current, box);
+    setLeg({ d: curve(a, b), a, b });
+  }, []);
+  useEffect(() => {
+    const el = wrap.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => measure());
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [measure]);
+  // fonts and the tab's own entrance can nudge the layout: measure again (after layout) as the story moves on
+  useEffect(() => {
+    const id = requestAnimationFrame(measure);
+    return () => cancelAnimationFrame(id);
+  }, [step, measure]);
 
   return (
-    <div className="h-full p-4 sm:p-5 text-[12px] flex flex-col gap-3">
-      <div className="flex items-center gap-2">
-        <p className="text-[15px] font-semibold text-heading mr-auto">Reports</p>
-        <span className="inline-flex items-center gap-1.5 h-7 rounded-[6px] border border-line bg-paper px-2 text-[11px] text-heading"><I d={glyph.calendar} className="w-3.5 h-3.5 text-muted" />Last 8 weeks</span>
-        <span className="hidden sm:inline-flex items-center gap-1.5 h-7 rounded-[6px] border border-line bg-paper px-2 text-[11px] text-heading"><I d={glyph.download} className="w-3.5 h-3.5 text-muted" />Export</span>
+    <div ref={wrap} className="relative h-full flex items-center justify-center gap-3 sm:gap-8 px-2 sm:px-6 bg-canvas overflow-hidden">
+      <div aria-hidden className="absolute inset-0" style={{ background: "radial-gradient(70% 80% at 50% 42%, #FFFFFF 0%, rgba(255,255,255,0) 72%)" }} />
+      <div className="relative max-sm:[zoom:0.8] max-[370px]:[zoom:0.74]">
+        <HdPhone w={188}>
+          <TeamApp ready={step >= 2} ref={mark}>
+            <span className="absolute left-[36%] top-1/2"><Fingertip show={step >= 1 && step < 3} down={step === 2} /></span>
+          </TeamApp>
+        </HdPhone>
       </div>
-
-      <div className="grid grid-cols-3 gap-2 sm:gap-3">
-        {TILES.map((s, i) => {
-          const hold = "hold" in s && s.hold;
-          const on = open === s.key;
-          return (
-            <motion.button
-              type="button"
-              key={s.k}
-              onClick={() => {
-                setOpen(on ? null : s.key);
-                play(on ? "pop-out" : "slide", 0.5);
-              }}
-              aria-expanded={on}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: d(i * 0.08) }}
-              className={`group relative text-left rounded-lg border px-3 py-2.5 cursor-pointer transition-colors ${hold ? "border-hold/30 bg-hold-bg hover:border-hold/60" : "border-line bg-paper hover:border-line-strong"} ${on ? (hold ? "ring-2 ring-hold/35" : "ring-2 ring-heading/15") : ""}`}
-            >
-              <p className={`text-[10.5px] sm:text-[11px] leading-tight ${hold ? "text-hold" : "text-muted"}`}>{s.k}</p>
-              <p className={`font-display text-[22px] sm:text-[26px] leading-none mt-1.5 tabular-nums ${hold ? "text-hold" : "text-heading"}`}>{s.v}</p>
-              <span aria-hidden className={`absolute right-2.5 top-2.5 text-[11px] opacity-40 group-hover:opacity-100 transition-opacity ${hold ? "text-hold" : "text-muted"}`}>↗</span>
-            </motion.button>
-          );
-        })}
+      <div className="relative max-sm:[zoom:0.8] max-[370px]:[zoom:0.74]">
+        <HdPhone w={188}>
+          <TrackerPage ready={step >= 4} ref={dot} banner={<div className="md:max-lg:hidden min-[1140px]:hidden"><DropBanner show={step >= 5} /></div>} />
+        </HdPhone>
       </div>
-
-      <AnimatePresence mode="wait" initial={false}>
-      {open ? (
-        <Receipt key={open} tile={TILES.find((t) => t.key === open)!} onClose={() => setOpen(null)} />
-      ) : (
-      <motion.div key="charts" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }} className="flex-1 min-h-0 grid grid-cols-1 md:grid-cols-[1.55fr_1fr] gap-3">
-        <div className="rounded-lg border border-line bg-paper p-3.5 flex flex-col min-h-0">
-          <div className="flex items-start justify-between mb-2">
-            <p className="font-semibold text-heading">Done vs invoiced, by week</p>
-            <span className="flex gap-3 text-[10.5px] text-muted">
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-[2px] bg-heading" />Done</span>
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-[2px] bg-line-strong" />Invoiced</span>
-            </span>
-          </div>
-          <div className="flex-1 relative min-h-[112px]">
-            {[0, 1, 2, 3].map((g) => <span key={g} className="absolute left-0 right-0 border-t border-line" style={{ top: `${g * 33.33}%` }} />)}
-            <div className="absolute inset-0 flex items-end gap-1.5 sm:gap-3 border-b border-line-strong">
-              {done.map((w, i) => (
-                <div key={i} className="flex-1 h-full flex items-end justify-center gap-[3px]">
-                  <motion.span initial={{ height: 0 }} animate={{ height: `${(w / max) * 100}%` }} transition={{ delay: d(0.15 + i * 0.05), duration: 0.6, ease }} className="w-2.5 sm:w-3.5 rounded-t-[2px] bg-heading" />
-                  <motion.span initial={{ height: 0 }} animate={{ height: `${(invoiced[i] / max) * 100}%` }} transition={{ delay: d(0.2 + i * 0.05), duration: 0.6, ease }} className={`w-2.5 sm:w-3.5 rounded-t-[2px] ${i === 5 ? "bg-hold/70" : "bg-line-strong"}`} />
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="flex gap-1.5 sm:gap-3 text-[9.5px] text-faint mt-1 tabular-nums">
-            {done.map((_, i) => <span key={i} className="flex-1 text-center">W{i + 1}</span>)}
-          </div>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: d(1) }} className="mt-2 rounded-[6px] bg-hold-bg text-hold font-semibold text-[11px] px-2.5 py-1.5 w-fit">
-            Week 6: two jobs were done but never invoiced
-          </motion.p>
-        </div>
-
-        <div className="hidden md:flex rounded-lg border border-line bg-paper p-3.5 flex-col">
-          <p className="font-semibold text-heading">Waiting to be paid</p>
-          <p className="text-[10.5px] text-muted mb-2">By customer</p>
-          <div className="flex flex-col gap-2.5">
-            {owed.map(([who, amt, pct], i) => (
-              <div key={who}>
-                <div className="flex justify-between text-[11px] mb-1"><span className="text-heading">{who}</span><span className="tabular-nums text-body">{amt}</span></div>
-                <div className="h-[5px] rounded-[3px] bg-canvas overflow-hidden">
-                  <motion.div initial={{ width: 0 }} animate={{ width: `${pct}%` }} transition={{ delay: d(0.3 + i * 0.08), duration: 0.7, ease }} className="h-full rounded-[3px] bg-heading" />
-                </div>
-              </div>
-            ))}
-          </div>
-          <p className="mt-auto pt-3 border-t border-line flex justify-between text-[11px] font-semibold text-heading tabular-nums"><span>Total owed</span><span>14,233.00</span></p>
-        </div>
-      </motion.div>
-      )}
-      </AnimatePresence>
+      <div className="relative hidden md:max-lg:block min-[1140px]:block">
+        <HdPhone w={188} screen="#0B0E14">
+          <LockScreen show={step >= 5} />
+        </HdPhone>
+      </div>
+      <motion.svg initial={false} animate={{ opacity: step >= 5 ? 0.45 : 1 }} transition={{ duration: 0.6 }} className="pointer-events-none absolute inset-0 w-full h-full z-50 overflow-visible" aria-hidden>
+        <LightLeg id="fr-light" leg={leg} on={step >= 3} reduce={reduce} />
+      </motion.svg>
     </div>
   );
 }
 
-/* ---------------------------------------------------------------- 4. Website */
+/* ---------------------------------------------------------------- 4. Monday numbers */
+
+/* Carousel 43's one screen. It counts up, ticks each number, then someone presses "Invoice 4" and the four
+   jobs that were done but never invoiced draft themselves. Press it yourself to see it again. */
+const AUTO: [number, number][] = [[80, 1], [900, 2], [1020, 3], [1140, 4], [1260, 5], [1380, 6], [1500, 7], [2050, 8], [2200, 9], [2400, 10], [2580, 11], [2760, 12], [2940, 13], [4500, 14], [4750, 15]];
+const PRESSED: [number, number][] = [[0, 8], [150, 9], [350, 10], [530, 11], [710, 12], [890, 13], [3200, 14], [3450, 15]];
+
+function MondayScreen({ reduce }: ScreenProps) {
+  const [s, setS] = useState(0);
+  const [take, setTake] = useState(0);
+  useEffect(() => {
+    if (reduce) return;
+    const ids = (take === 0 ? AUTO : PRESSED).map(([ms, st]) => setTimeout(() => setS(st), ms));
+    return () => ids.forEach(clearTimeout);
+  }, [reduce, take]);
+  // Motion off: the finished board, or the drafts open after someone presses the button.
+  const step = reduce ? (take % 2 ? 13 : 15) : s;
+  return (
+    <MondayBoard
+      reduce={reduce}
+      run={step >= 1}
+      ticks={Math.min(5, Math.max(0, step - 1))}
+      pointer={step >= 7 && step < 9}
+      pressed={step === 8}
+      sheet={step >= 9 && step < 14}
+      rows={Math.min(4, Math.max(0, step - 9))}
+      drafted={step >= 15}
+      onInvoice={() => {
+        setTake((n) => n + 1);
+        play("slide", 0.5);
+      }}
+    />
+  );
+}
+
+/* ---------------------------------------------------------------- 5. Website */
 
 function WebScreen({ reduce }: ScreenProps) {
   const msg = "Lunch for 24 at our office, next Thursday.";
@@ -632,7 +575,8 @@ function WebScreen({ reduce }: ScreenProps) {
 const tabs = [
   { title: "Admin systems", desc: "One place where every job, order or booking lives, from the first call to the paid invoice.", path: "Jobs", screen: AdminScreen },
   { title: "Field apps", desc: "Your people finish the job on their phone, photo and signature included. It works without signal and sends itself later.", path: "Field app", screen: FieldScreen },
-  { title: "Reporting", desc: "What you did next to what you billed, without anyone building the report.", path: "Reports", screen: ReportScreen },
+  { title: "Tracking pages", desc: "Every job gets a page the customer can check, like a parcel. Your team taps once, and a WhatsApp goes out when it’s ready.", path: "Tracking page", screen: TrackingScreen },
+  { title: "Reporting", desc: "Your Monday numbers on one screen. Work that was done but never invoiced gets drafted in one click.", path: "Monday numbers", screen: MondayScreen },
   { title: "Websites", desc: "Sites that look as good as your work, with enquiries that land straight in your system.", path: "Website", screen: WebScreen },
 ];
 

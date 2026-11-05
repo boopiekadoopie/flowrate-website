@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Archivo_Black } from "next/font/google";
+import { Plus_Jakarta_Sans, Archivo_Black, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { MotionProvider } from "@/components/MotionProvider";
 import { MascotExtras } from "@/components/MascotExtras";
@@ -18,6 +18,15 @@ const archivo = Archivo_Black({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-archivo",
+  display: "swap",
+});
+
+/* The reels' key-word serif: one green italic word in a lead line. */
+const serif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: "italic",
+  variable: "--font-serif",
   display: "swap",
 });
 
@@ -58,7 +67,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-scroll-behavior="smooth" className={`${jakarta.variable} ${archivo.variable} scroll-smooth`} suppressHydrationWarning>
+    <html lang="en" data-scroll-behavior="smooth" className={`${jakarta.variable} ${archivo.variable} ${serif.variable} scroll-smooth`} suppressHydrationWarning>
       <head>
         {/* Apply the saved (or device) theme before first paint, so there is no light flash. */}
         <script

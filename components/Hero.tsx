@@ -61,7 +61,7 @@ export function Hero() {
             We build the systems your business runs on.
           </h1>
           <p className="text-body text-[17px] md:text-[19px] leading-[1.55] max-w-[620px] mx-auto mb-8 [text-wrap:pretty]">
-            Built around the way your team already works, so information goes in once and <SideEye>the
+            Built around the way your team already works, so information goes in <span className="kw">once</span> and <SideEye>the
             retyping</SideEye>, <SideEye>the chasing</SideEye> and <SideEye>the month-end scramble</SideEye> stop.
           </p>
           <div className="relative z-10 flex flex-col sm:flex-row gap-3 justify-center">
