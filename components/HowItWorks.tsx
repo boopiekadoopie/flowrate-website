@@ -44,7 +44,7 @@ export function HowItWorks() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ delay: i * 0.12, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              className="relative pt-8 pb-10 lg:pb-0 lg:border-t border-line border-b lg:border-b-0 last:border-b-0"
+              className="relative pt-6 pb-8 sm:pt-8 sm:pb-10 lg:pb-0 lg:border-t border-line border-b lg:border-b-0 last:border-b-0"
             >
               <motion.span
                 aria-hidden
@@ -55,12 +55,13 @@ export function HowItWorks() {
                 className="absolute -top-px left-0 right-0 h-[2px] bg-heading origin-left"
               />
               <div className="flex items-start justify-between gap-4">
-                <span className="font-display text-[48px] leading-none text-heading tabular-nums">{i + 1}</span>
+                <span className="font-display text-[36px] sm:text-[48px] leading-none text-heading tabular-nums">{i + 1}</span>
               </div>
-              <ArtFrame className="my-6 h-[168px] sm:h-[176px]">
+              {/* phones: the steps without their drawings, so the page stays short */}
+              <ArtFrame className="hidden sm:block my-6 h-[176px]">
                 <s.art />
               </ArtFrame>
-              <h3 className="text-heading text-[20px] font-bold tracking-[-0.01em] mb-2.5">{s.title}</h3>
+              <h3 className="mt-4 sm:mt-0 text-heading text-[20px] font-bold tracking-[-0.01em] mb-2.5">{s.title}</h3>
               <p className="text-body text-[16px] leading-[1.6] mb-6">{s.body}</p>
               <p className="rounded-lg bg-canvas border border-line px-4 py-3 text-[14px] text-heading font-medium">
                 {s.out}

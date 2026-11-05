@@ -12,7 +12,7 @@ const CALENDLY_URL = "https://calendly.com/flowrate/30min";
 const leftLinks = [
   { label: "What we build", href: "/#services", active: false, chevron: false },
   { label: "Our work", href: "/work", active: false, chevron: false },
-  { label: "Your spreadsheet", href: "/spreadsheet", active: false, chevron: false },
+  { label: "Sketch my app", href: "/sketch", active: false, chevron: false },
   { label: "How it works", href: "/#how-it-works", active: false, chevron: false, wide: true }, // only on wide screens: the bar has room for four links on a laptop
   { label: "About", href: "/#about", active: false, chevron: false },
 ];

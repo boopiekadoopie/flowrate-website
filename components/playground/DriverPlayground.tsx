@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { DeliveryNote } from "@/components/HeroStage";
 import { Check } from "@/components/ui";
+import { PhoneFrame } from "./kit";
 
 /*
  * Playground 1: the driver app we built for a logistics company, rebuilt as a safe demo.
@@ -50,16 +51,6 @@ function TruckIcon({ kind, className = "" }: { kind: Kind; className?: string })
     <svg viewBox="0 0 40 20" className={className} aria-hidden><path d="M2 6h7v8H2zM10 3h26v11H10z" fill="currentColor" /><circle cx="7" cy="16" r="2.4" fill="currentColor" /><circle cx="27" cy="16" r="2.4" fill="currentColor" /><circle cx="33" cy="16" r="2.4" fill="currentColor" /></svg>
   ) : (
     <svg viewBox="0 0 40 20" className={className} aria-hidden><path d="M2 6h7v8H2z" fill="currentColor" /><rect x="11" y="3" width="26" height="10" rx="5" fill="currentColor" /><path d="M10 14h27" stroke="currentColor" strokeWidth="1.6" /><circle cx="7" cy="16" r="2.4" fill="currentColor" /><circle cx="27" cy="16" r="2.4" fill="currentColor" /><circle cx="33" cy="16" r="2.4" fill="currentColor" /></svg>
-  );
-}
-
-function Bars({ on }: { on: boolean }) {
-  return (
-    <span className="flex items-end gap-[2px]" aria-label={on ? "Signal" : "No signal"}>
-      {[4, 6, 8, 10].map((h, i) => (
-        <span key={h} className={`w-[3px] rounded-[1px] ${on ? "bg-[#101828]" : i === 0 ? "bg-[#101828]/40" : "bg-[#101828]/15"}`} style={{ height: h }} />
-      ))}
-    </span>
   );
 }
 
@@ -240,15 +231,7 @@ export function DriverPlayground() {
           <span className="text-[13px] text-muted w-[30px]">{signal ? "On" : "Off"}</span>
         </div>
 
-        <div className="relative w-[312px] h-[692px] rounded-[52px] p-[3px] [filter:drop-shadow(0_40px_50px_rgba(16,24,40,0.22))_drop-shadow(0_10px_16px_rgba(16,24,40,0.1))]" style={{ background: "linear-gradient(150deg,#4A4A4E 0%,#1C1C1F 28%,#232326 60%,#515156 100%)" }}>
-          <div className="relative w-full h-full rounded-[49px] bg-[#070708] p-[8px]">
-            <div className="relative w-full h-full rounded-[41px] bg-[#F4F4F2] overflow-hidden text-[#101828]" data-theme="light">
-              {/* status bar */}
-              <div className="absolute top-[10px] left-1/2 -translate-x-1/2 w-[86px] h-[25px] rounded-full bg-black z-30" />
-              <div className="relative z-20 h-[46px] flex items-center justify-between px-7 text-[13px] font-semibold">
-                <span className="tabular-nums">9:41</span>
-                <Bars on={signal} />
-              </div>
+        <PhoneFrame time="9:41" offline={!signal}>
               {/* app header */}
               <div className="bg-white border-b-[3px] border-[#101828] px-5 pb-3 pt-1 text-center">
                 <p className="text-[15px] font-extrabold tracking-tight">Northline Transport</p>
@@ -389,9 +372,7 @@ export function DriverPlayground() {
                   </div>
                 )}
               </div>
-            </div>
-          </div>
-        </div>
+        </PhoneFrame>
       </div>
 
       {/* ---------------- the office */}

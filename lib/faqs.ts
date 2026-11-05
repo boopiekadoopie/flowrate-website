@@ -33,3 +33,13 @@ export const faqs = [
     a: "Yes. Websites are part of what we build, often alongside a system that handles what happens after someone gets in touch.",
   },
 ];
+
+/* The five the homepage shows (and its FAQ structured data, which must match what's visible). */
+const HOME = [
+  "What kind of systems do you build?",
+  "Do I actually need custom software?",
+  "How much does a system cost?",
+  "How long does a build take?",
+  "Will it work with the tools we already use?",
+];
+export const homeFaqs = HOME.map((q) => faqs.find((f) => f.q === q)).filter((f): f is (typeof faqs)[number] => !!f);

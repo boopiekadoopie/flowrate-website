@@ -2,6 +2,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef, type ReactNode } from "react";
 import { Check } from "@/components/ui";
+import { HdPhone, HomeBar, StatusBar } from "@/components/kit/Device";
 
 /* Shared pieces for the /work playgrounds: phone frame, steps list, outline hint, toast, timers. */
 
@@ -72,26 +73,20 @@ export function Steps({ steps, current, allDone, note, onWatch, onReset, auto }:
   );
 }
 
-/* A phone with a light app screen inside. */
-export function PhoneFrame({ children, h = 692 }: { children: ReactNode; h?: number }) {
+/*
+ * A phone with an app screen inside: the site's one realistic device (components/kit/Device.tsx) at the /work
+ * size. The status bar keeps its 46 px row, so every app below it sits where it always has. `dark` is for apps
+ * with a dark screen (white status bar and home bar); `offline` dims the signal.
+ */
+export function PhoneFrame({ children, h = 692, time = "6:42", offline = false, dark = false }: { children: ReactNode; h?: number; time?: string; offline?: boolean; dark?: boolean }) {
   return (
-    <div
-      className="relative w-[312px] rounded-[52px] p-[3px] [filter:drop-shadow(0_40px_50px_rgba(16,24,40,0.22))_drop-shadow(0_10px_16px_rgba(16,24,40,0.1))]"
-      style={{ height: h, background: "linear-gradient(150deg,#4A4A4E 0%,#1C1C1F 28%,#232326 60%,#515156 100%)" }}
-    >
-      <div className="relative w-full h-full rounded-[49px] bg-[#070708] p-[8px]">
-        <div className="relative w-full h-full rounded-[41px] bg-[#F4F4F2] overflow-hidden text-[#101828]" data-theme="light">
-          <div className="absolute top-[10px] left-1/2 -translate-x-1/2 w-[86px] h-[25px] rounded-full bg-black z-30" />
-          <div className="relative z-20 h-[46px] flex items-center justify-between px-7 text-[13px] font-semibold">
-            <span className="tabular-nums">6:42</span>
-            <span className="flex items-end gap-[2px]">
-              {[4, 6, 8, 10].map((x) => <span key={x} className="w-[3px] rounded-[1px] bg-[#101828]" style={{ height: x }} />)}
-            </span>
-          </div>
-          {children}
-        </div>
+    <HdPhone w={312} h={h} screen={dark ? "#121214" : "#F4F4F2"}>
+      <div className="absolute inset-0 text-[#101828]" data-theme="light">
+        <StatusBar time={time} h={46} offline={offline} light={dark} />
+        {children}
       </div>
-    </div>
+      <HomeBar light={dark} />
+    </HdPhone>
   );
 }
 

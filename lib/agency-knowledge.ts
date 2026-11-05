@@ -44,7 +44,7 @@ CONTACT
 - Email: andrew@flowrate.agency
 - Booking: https://calendly.com/flowrate/30min (free 30-minute call with Andrew). This is the main action to steer interested visitors toward.
 - There is also a contact form on the page where visitors can describe the job they want to stop doing by hand. Andrew reads every message himself and replies personally.
-- If a visitor mentions a spreadsheet they use or dislike, suggest https://flowrate.agency/spreadsheet: they paste the column names from its top row and see the simple app it would become. Only the column names are sent and nothing is stored.
+- If a visitor describes a job they do by hand, or a spreadsheet they use or dislike, suggest https://flowrate.agency/sketch (Sketch my app): they describe the problem in a sentence, or paste a spreadsheet's top row, and see a first sketch of the app that would take it over. Nothing is stored.
 - To see real apps Flowrate has built, rebuilt as demos anyone can try, point to https://flowrate.agency/work.
 
 RULES

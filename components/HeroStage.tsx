@@ -12,6 +12,7 @@ import {
   type MotionValue,
 } from "framer-motion";
 import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
+import { HdPhone, StatusBar } from "./kit/Device";
 
 /*
  * Hero showpiece. A fixed 1180×620 artboard, scaled to fit, showing one finished job travel from
@@ -240,48 +241,14 @@ export function DeliveryNote({ t, held, scanning, width, tilt = 0 }: { t: number
 
 /* ------------------------------------------------------------- the phone */
 
-function StatusBar({ offline }: { offline: boolean }) {
-  /* Kept narrow so the right-hand cluster clears the island. Offline, the bars dim rather than
-     spelling out "No service": the toast on screen already says there's no signal. */
-  return (
-    <div className="relative z-10 flex items-center justify-between pl-[22px] pr-[16px] pt-[14px] text-[10.5px] font-semibold text-white">
-      <span className="tabular-nums tracking-[0.01em]">17:42</span>
-      <span className="flex items-center gap-[4px]">
-        <svg viewBox="0 0 18 10" className="w-[14px] h-[8px]" aria-hidden>
-          {[3.5, 5.5, 7.5, 9.5].map((h, i) => (
-            <rect key={h} x={i * 4.5} y={10 - h} width="3" height={h} rx="0.8" fill="white" opacity={offline ? (i === 0 ? 0.6 : 0.22) : 1} />
-          ))}
-        </svg>
-        <Icon d={ICON.wifi} className={`w-[12px] h-[12px] ${offline ? "text-white/35" : "text-white"}`} sw={1.6} />
-        <span className="relative ml-[1px] w-[20px] h-[10px] rounded-[3px] border border-white/60">
-          <span className="absolute inset-[1.5px] right-[4px] rounded-[1.5px] bg-white" />
-          <span className="absolute -right-[2.5px] top-[2.5px] w-[1.5px] h-[4px] rounded-r bg-white/60" />
-        </span>
-      </span>
-    </div>
-  );
-}
-
 export function Phone({ t }: { t: number }) {
   const shots = Math.min(3, Math.max(0, t));
   const tapped = t === 4;
   const offline = t >= 4 && t < 7;
   const sent = t >= 7;
   return (
-    <div
-      className="relative w-[230px] h-[456px] rounded-[44px] p-[3px]"
-      style={{ background: "linear-gradient(150deg,#4A4A4E 0%,#1C1C1F 28%,#232326 60%,#515156 100%)" }}
-    >
-      {/* side keys */}
-      <span className="absolute -left-[2.5px] top-[98px] w-[2.5px] h-[22px] rounded-l-[2px] bg-[linear-gradient(90deg,#3A3A3E,#1A1A1C)]" />
-      <span className="absolute -left-[2.5px] top-[136px] w-[2.5px] h-[38px] rounded-l-[2px] bg-[linear-gradient(90deg,#3A3A3E,#1A1A1C)]" />
-      <span className="absolute -left-[2.5px] top-[184px] w-[2.5px] h-[38px] rounded-l-[2px] bg-[linear-gradient(90deg,#3A3A3E,#1A1A1C)]" />
-      <span className="absolute -right-[2.5px] top-[150px] w-[2.5px] h-[60px] rounded-r-[2px] bg-[linear-gradient(90deg,#1A1A1C,#3A3A3E)]" />
-
-      <div className="relative w-full h-full rounded-[41px] bg-[#070708] p-[7px] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]">
-        <div className="relative w-full h-full rounded-[34px] bg-[#0B0B0C] overflow-hidden shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)]">
-          <div className="absolute top-[9px] left-1/2 -translate-x-1/2 w-[62px] h-[20px] rounded-full bg-black z-20" />
-          <StatusBar offline={offline} />
+    <HdPhone w={230} h={456} screen="#0B0B0C" bare>
+          <StatusBar time="17:42" light offline={offline} />
 
           {/* viewfinder */}
           <div className="absolute inset-x-0 top-[40px] h-[262px] overflow-hidden" style={{ background: "radial-gradient(120% 80% at 50% 30%, #35332E 0%, #1E1D1B 55%, #0F0F0F 100%)" }}>
@@ -356,11 +323,7 @@ export function Phone({ t }: { t: number }) {
             </motion.div>
           </div>
 
-          {/* glass: a soft specular sheen over the whole screen */}
-          <div aria-hidden className="pointer-events-none absolute inset-0 z-30 rounded-[34px]" style={{ background: "linear-gradient(112deg, rgba(255,255,255,0.11) 0%, rgba(255,255,255,0.04) 24%, rgba(255,255,255,0) 42%, rgba(255,255,255,0) 100%)" }} />
-        </div>
-      </div>
-    </div>
+    </HdPhone>
   );
 }
 

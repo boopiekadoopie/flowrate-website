@@ -13,7 +13,7 @@ const siteLinks = [
   { label: "About", href: "/#about" },
   { label: "Questions", href: "/#faq" },
   { label: "Contact", href: "/#contact" },
-  { label: "Your spreadsheet, as an app", href: "/spreadsheet" },
+  { label: "Sketch my app", href: "/sketch" },
   { label: "Guides", href: "/blog" },
   { label: "What's new", href: "/changelog" },
 ];

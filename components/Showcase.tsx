@@ -4,7 +4,7 @@ import Image from "next/image";
 import { AnimatePresence, MotionConfig, motion, useInView } from "framer-motion";
 import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
 import { Check, Container, H2, Lede } from "./ui";
-import { Fingertip, HdPhone } from "./kit/Device";
+import { Fingertip, HdLaptop, HdPhone, HdTablet, HomeBar, StatusBar, SYS } from "./kit/Device";
 import { DropBanner, LockScreen, TeamApp, TrackerPage } from "./kit/Torvik";
 import { MondayBoard } from "./kit/Monday";
 import { play } from "@/lib/sound";
@@ -82,17 +82,67 @@ function Signature({ className = "w-[52px] h-[12px]" }: { className?: string }) 
   );
 }
 
-/* ---------------------------------------------------------------- 1. Jobs */
+/* ---------------------------------------------------------------- loops, light and fitting */
 
-function AdminScreen({ reduce }: ScreenProps) {
-  const [flippedLater, setFlipped] = useState(false);
+/*
+ * Every screen loops like a product film: play the moment, hold the payoff, fade the whole scene, start again
+ * from a clean frame. With motion off it's the finished frame, still. Holds run past the 7 s auto-advance, so
+ * on its own the showcase moves on before a replay; a picked tab keeps looping for as long as it's watched.
+ */
+const FADE_MS = 450;
+function useLoop(times: readonly number[], reduce: boolean, hold = 4000) {
+  const [step, setStep] = useState(0);
+  const [fading, setFading] = useState(false);
+  const [cycle, setCycle] = useState(0);
   useEffect(() => {
     if (reduce) return;
-    const id = setTimeout(() => setFlipped(true), 1800);
-    return () => clearTimeout(id);
-  }, [reduce]);
-  const flipped = reduce || flippedLater;
+    const end = times[times.length - 1] + hold;
+    const ids = times.map((ms, i) => setTimeout(() => setStep(i + 1), ms));
+    ids.push(setTimeout(() => setFading(true), end));
+    ids.push(setTimeout(() => {
+      setStep(0);
+      setFading(false);
+      setCycle((c) => c + 1);
+    }, end + FADE_MS));
+    return () => ids.forEach(clearTimeout);
+  }, [times, reduce, hold, cycle]);
+  return { step: reduce ? times.length : step, fading: !reduce && fading, cycle };
+}
 
+function Fade({ out, children, className = "h-full" }: { out: boolean; children: React.ReactNode; className?: string }) {
+  return (
+    <motion.div className={className} initial={false} animate={{ opacity: out ? 0 : 1 }} transition={{ duration: FADE_MS / 1000, ease: "easeInOut" }}>
+      {children}
+    </motion.div>
+  );
+}
+
+/* The soft studio light the devices stand in. */
+function Studio({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div className={`relative h-full bg-canvas overflow-hidden ${className}`}>
+      <div aria-hidden className="absolute inset-0" style={{ background: "radial-gradient(70% 80% at 50% 42%, #FFFFFF 0%, rgba(255,255,255,0) 72%)" }} />
+      {children}
+    </div>
+  );
+}
+
+/* Wide compositions are drawn for the 796 px panel and step down with it (zoom on an inner box only). */
+const FIT = "sm:max-md:[zoom:0.74] md:max-lg:[zoom:0.9] lg:max-[1139px]:[zoom:0.74] min-[1140px]:max-[1239px]:[zoom:0.9]";
+
+/* Fits a `design`-px-wide app into HdLaptop(w)'s screen: the zoom, and the design height that fills it exactly. */
+function laptopFit(w: number, design: number) {
+  const k = w / 620;
+  const sw = w - 26 * k;
+  const zoom = sw / design;
+  return { zoom, width: design, height: Math.round(Math.round((sw * 10) / 16) / zoom) };
+}
+
+/* ---------------------------------------------------------------- 1. Jobs */
+
+const JOBS_T = [900, 1500] as const; // 1 Sam's phone sends, 2 the office list flips and says so
+
+function JobsApp({ flipped, reduce }: { flipped: boolean; reduce: boolean }) {
   const rows = [
     { job: "0419", who: "Hill & Co", what: "Office lighting, three floors", owner: "LK", tone: "wait" as const, status: "Quote sent", amt: "4,120.00" },
     { job: "0418", who: "Greenway Café", what: "Fridge not cooling — door seal", owner: "SR", tone: flipped ? ("ok" as const) : ("wait" as const), status: flipped ? "Ready to invoice" : "Waiting on signature", amt: "1,633.00" },
@@ -107,9 +157,8 @@ function AdminScreen({ reduce }: ScreenProps) {
     ["Reports", glyph.reports, ""],
     ["Settings", glyph.settings, ""],
   ];
-
   return (
-    <div className="relative h-full flex text-[12px]">
+    <div className="relative h-full flex text-[12px] bg-paper">
       <aside className="hidden sm:flex w-[168px] flex-col border-r border-line bg-soft p-3">
         <div className="flex items-center gap-2 px-1.5 mb-3">
           <Avatar n="YB" dark />
@@ -133,32 +182,32 @@ function AdminScreen({ reduce }: ScreenProps) {
         </div>
       </aside>
 
-      <div className="flex-1 min-w-0 p-4 sm:p-5 flex flex-col">
+      <div className="flex-1 min-w-0 p-3.5 sm:p-5 flex flex-col">
         <div className="flex items-center gap-2 mb-3 shrink-0">
           <p className="text-[15px] font-semibold text-heading mr-auto">Jobs</p>
           <span className="hidden sm:flex items-center gap-1.5 h-7 w-[170px] rounded-[6px] border border-line bg-paper px-2 text-muted">
             <I d={glyph.search} className="w-3.5 h-3.5" />
-            <span className="text-[11px]">Search jobs, customers…</span>
+            <span className="text-[11px] whitespace-nowrap truncate">Search jobs, customers…</span>
           </span>
           <span className="h-7 inline-flex items-center rounded-[6px] bg-carbon text-white px-2.5 text-[11px] font-semibold">New job</span>
         </div>
         <div className="flex gap-1.5 mb-3 shrink-0 overflow-hidden">
           {["All 24", "Needs a look 1", "Ready to invoice 3", "This week"].map((f, i) => (
-            <span key={f} className={`px-2 py-1 rounded-[6px] border text-[11px] whitespace-nowrap ${i === 0 ? "border-heading text-heading" : "border-line text-muted"} ${i === 3 ? "hidden md:inline" : ""}`}>{f}</span>
+            <span key={f} className={`px-2 py-1 rounded-[6px] border text-[11px] whitespace-nowrap ${i === 0 ? "border-heading text-heading" : "border-line text-muted"} ${i >= 2 ? "hidden sm:inline" : ""}`}>{f}</span>
           ))}
         </div>
 
         <div className="rounded-lg border border-line overflow-hidden bg-paper shrink-0">
-          <div className="grid grid-cols-[44px_1fr_auto] sm:grid-cols-[44px_1fr_28px_72px_auto] gap-3 px-3 py-1.5 bg-soft border-b border-line text-[10.5px] text-muted">
+          <div className="grid grid-cols-[38px_1fr_auto] sm:grid-cols-[44px_1fr_28px_72px_auto] gap-2.5 sm:gap-3 px-3 py-1.5 bg-soft border-b border-line text-[10.5px] text-muted">
             <span>Job</span><span>Customer</span><span className="hidden sm:block" /><span className="hidden sm:block text-right">Amount</span><span>Status</span>
           </div>
           {rows.map((r, i) => (
             <motion.div
               key={r.job}
-              initial={{ opacity: 0, y: 6 }}
+              initial={reduce ? false : { opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0, backgroundColor: r.job === "0418" && flipped ? ["#EAF8E6", "#FFFFFF"] : "#FFFFFF" }}
               transition={{ delay: reduce ? 0 : i * 0.06, duration: 0.4, backgroundColor: { duration: 1.4 } }}
-              className="grid grid-cols-[44px_1fr_auto] sm:grid-cols-[44px_1fr_28px_72px_auto] gap-3 items-center px-3 py-1.5 border-b border-line last:border-0"
+              className="grid grid-cols-[38px_1fr_auto] sm:grid-cols-[44px_1fr_28px_72px_auto] gap-2.5 sm:gap-3 items-center px-3 py-1.5 border-b border-line last:border-0"
             >
               <span className="text-heading font-medium tabular-nums">{r.job}</span>
               <span className="min-w-0">
@@ -177,13 +226,13 @@ function AdminScreen({ reduce }: ScreenProps) {
       <AnimatePresence>
         {flipped && (
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={reduce ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease }}
-            className={`absolute right-3 bottom-3 sm:right-5 sm:bottom-5 max-w-[calc(100%-24px)] flex items-center gap-2 rounded-lg bg-carbon text-white pl-2.5 pr-3 py-2 ${lift}`}
+            className={`absolute left-3 right-3 bottom-3 sm:left-auto sm:right-5 sm:bottom-5 flex items-center gap-2 rounded-lg bg-carbon text-white pl-2.5 pr-3 py-2 ${lift}`}
           >
-            <span className="w-5 h-5 rounded-[5px] bg-white/10 flex items-center justify-center"><Check className="w-3 h-3 text-[#99E58C]" /></span>
-            <span className="text-[11px] leading-tight">
+            <span className="w-5 h-5 shrink-0 rounded-[5px] bg-white/10 flex items-center justify-center"><Check className="w-3 h-3 text-[#99E58C]" /></span>
+            <span className="text-[11px] leading-tight min-w-0">
               <span className="block font-semibold">Greenway Café signed off job 0418</span>
               <span className="block text-white/60">From Sam’s phone · ready to invoice</span>
             </span>
@@ -194,128 +243,298 @@ function AdminScreen({ reduce }: ScreenProps) {
   );
 }
 
+function AdminScreen({ reduce }: ScreenProps) {
+  const { step, fading, cycle } = useLoop(JOBS_T, reduce);
+  const fit = laptopFit(600, 760);
+  return (
+    <Studio>
+      <Fade out={fading}>
+        <div key={cycle} className="h-full">
+          {/* wide: the office laptop, and Sam's phone that just sent the job */}
+          <div className="hidden sm:flex h-full items-center justify-center">
+            <div className={`relative ${FIT}`} style={{ width: 760, height: 430 }}>
+              <div className="absolute right-0 bottom-[6px]">
+                <HdLaptop w={600}>
+                  <div style={{ zoom: fit.zoom, width: fit.width, height: fit.height }}>
+                    <JobsApp flipped={step >= 2} reduce={reduce} />
+                  </div>
+                </HdLaptop>
+              </div>
+              <motion.div
+                className="absolute left-[6px] bottom-0"
+                initial={reduce ? false : { opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease, delay: 0.15 }}
+              >
+                <div style={{ zoom: 0.8 }}>
+                  <HdPhone w={188}>
+                    <FieldApp step={step >= 1 ? 6 : 4} />
+                  </HdPhone>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+          {/* phones: the same system on the office tablet */}
+          <div className="sm:hidden h-full flex items-center justify-center">
+            <div className="max-[369px]:[zoom:0.92]">
+              <HdTablet w={316} h={416}>
+                <JobsApp flipped={step >= 2} reduce={reduce} />
+              </HdTablet>
+            </div>
+          </div>
+        </div>
+      </Fade>
+    </Studio>
+  );
+}
+
 /* ---------------------------------------------------------------- 2. Field app */
 
-function FieldScreen({ reduce }: ScreenProps) {
-  // 1–4 checklist ticks, 5 offline notice, 6 sent, 7 office card, 8 invoice draft
-  const [stepLater, setStep] = useState(0);
-  useEffect(() => {
-    if (reduce) return;
-    const ids = [600, 1300, 2000, 2700, 3400, 4600, 5300, 6000].map((ms, i) => setTimeout(() => setStep(i + 1), ms));
-    return () => ids.forEach(clearTimeout);
-  }, [reduce]);
-  const step = reduce ? 8 : stepLater;
+// 1–4 checklist ticks, 5 no signal (saved on the phone), 6 sent, 7 the office has it, 8 the invoice drafts itself
+const FIELD_T = [500, 1000, 1500, 2000, 2550, 3350, 3850, 4450] as const;
 
+function FieldApp({ step }: { step: number }) {
   const items = [
-    { label: "Photo of finished work", d: glyph.camera, done: <span className="relative block w-6 h-6 rounded-[5px] overflow-hidden border border-white/20"><Image src={PHOTO} alt="" fill sizes="24px" className="object-cover" /></span> },
-    { label: "Parts used", d: glyph.box, done: <span className="text-[10.5px] text-white/80">Door seal × 1</span> },
-    { label: "Customer signature", d: glyph.pen, done: <Signature className="w-[34px] sm:w-[46px] h-[11px] text-[#99E58C]" /> },
-    { label: "Time on site", d: glyph.clock, done: <span className="text-[10.5px] text-white/80 tabular-nums">1.5 h</span> },
+    { label: "Photo of finished work", d: glyph.camera, done: <span className="relative block w-[22px] h-[22px] rounded-[5px] overflow-hidden ring-1 ring-white/15"><Image src={PHOTO} alt="" fill sizes="22px" className="object-cover" /></span> },
+    { label: "Parts used", d: glyph.box, done: <span className="text-[10px] text-white/80">Door seal × 1</span> },
+    { label: "Customer signature", d: glyph.pen, done: <Signature className="w-[38px] h-[11px] text-[#99E58C]" /> },
+    { label: "Time on site", d: glyph.clock, done: <span className="text-[10px] text-white/80 tabular-nums">1.5 h</span> },
   ];
   const sent = step >= 6;
-
   return (
-    <div className="h-full flex items-center justify-center gap-2.5 sm:gap-5 md:gap-6 p-3 sm:p-6 bg-canvas">
-      {/* phone */}
-      <div className="w-[194px] sm:w-[216px] shrink-0 rounded-[26px] bg-carbon p-2 shadow-[0_24px_48px_-20px_rgba(16,24,40,0.5)]">
-        <div className="rounded-[20px] bg-[#141414] px-3 sm:px-3.5 pt-3 pb-3.5 h-[400px] sm:h-[404px] overflow-hidden flex flex-col">
-          <div className="flex justify-between items-center text-[10px] text-white/50 mb-3">
-            <span className="tabular-nums">09:41</span>
-            <span className="flex items-center gap-1">{sent ? <I d={glyph.signal} className="w-3 h-3" /> : <span className="text-[9px]">No signal</span>}<I d={glyph.wifi} className="w-3 h-3" /></span>
-          </div>
-          <div className="flex items-center gap-1.5 text-white/60 text-[10.5px]">
-            <I d={glyph.back} className="w-3 h-3" />
-            <span>Today<span className="hidden sm:inline"> · 2 of 3</span></span>
-            <span className="ml-auto rounded-[4px] bg-white/10 px-1.5 py-0.5 text-[9.5px] text-white/80">Job 0418</span>
-          </div>
-          <p className="text-[15px] font-semibold text-white mt-2 leading-tight">Greenway Café</p>
-          <p className="text-[11px] text-white/55 leading-snug">Fridge not cooling — door seal</p>
-          <p className="flex items-center gap-1 text-[10px] text-white/40 mt-1"><I d={glyph.pin} className="w-3 h-3" />14 Mill Lane · 08:30</p>
-
-          <div className="flex flex-col gap-1.5 mt-3.5">
-            {items.map((it, i) => {
-              const done = step > i;
-              return (
-                <div key={it.label} className={`flex items-center gap-2 rounded-[8px] px-2 h-[34px] border transition-colors duration-200 ${done ? "bg-white/[0.06] border-white/10" : "border-white/10"}`}>
-                  <span className={`w-5 h-5 shrink-0 rounded-[5px] flex items-center justify-center transition-colors duration-200 ${done ? "bg-[#99E58C] text-[#0C1A0D]" : "text-white/45 border border-white/20"}`}>
-                    {done ? <Check className="w-3 h-3" /> : <I d={it.d} className="w-3 h-3" />}
-                  </span>
-                  <span className={`text-[11px] leading-tight flex-1 ${done ? "text-white" : "text-white/55"}`}>{it.label}</span>
-                  <AnimatePresence>{done && <motion.span initial={{ opacity: 0, x: 4 }} animate={{ opacity: 1, x: 0 }} className="flex items-center">{it.done}</motion.span>}</AnimatePresence>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="mt-auto pt-3">
-            {/* the notice has its own slot, so nothing on the screen moves when it appears */}
-            <div className="h-[44px] mb-2 flex items-end">
-              <AnimatePresence mode="wait">
-                {step === 5 && (
-                  <motion.p key="off" initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="w-full rounded-[8px] bg-white/10 text-[10px] text-white/70 px-2.5 py-2 leading-snug">
-                    No signal. Saved on this phone, it’ll send itself.
-                  </motion.p>
-                )}
-              </AnimatePresence>
+    <div className="absolute inset-0 flex flex-col text-white" style={{ background: "#111214" }}>
+      <StatusBar time="09:41" light offline={step === 5} />
+      <div className="px-3.5">
+        <div className="flex items-center gap-1.5 text-white/55 text-[10px]">
+          <I d={glyph.back} className="w-3 h-3" />
+          <span>Today · 2 of 3</span>
+          <span className="ml-auto rounded-[5px] bg-white/[0.08] px-1.5 py-[3px] text-[9px] text-white/80">Job 0418</span>
+        </div>
+        <p className="text-[15px] font-semibold mt-2 leading-tight">Greenway Café</p>
+        <p className="text-[10.5px] text-white/55 leading-snug">Fridge not cooling — door seal</p>
+        <p className="flex items-center gap-1 text-[9.5px] text-white/40 mt-1"><I d={glyph.pin} className="w-3 h-3" />14 Mill Lane · 08:30</p>
+      </div>
+      <div className="flex flex-col gap-1.5 mt-3 px-3">
+        {items.map((it, i) => {
+          const done = step > i;
+          return (
+            <div key={it.label} className={`flex items-center gap-2 rounded-[10px] px-2 h-[32px] border transition-colors duration-200 ${done ? "bg-white/[0.05] border-white/[0.08]" : "border-white/[0.07]"}`}>
+              <span className={`w-5 h-5 shrink-0 rounded-[6px] flex items-center justify-center transition-colors duration-200 ${done ? "bg-[#99E58C] text-[#0C1A0D]" : "bg-white/[0.06] text-white/45"}`}>
+                {done ? <Check className="w-3 h-3" /> : <I d={it.d} className="w-3 h-3" />}
+              </span>
+              <span className={`text-[10.5px] leading-tight flex-1 ${done ? "text-white" : "text-white/55"}`}>{it.label}</span>
+              <AnimatePresence>{done && <motion.span initial={{ opacity: 0, x: 4 }} animate={{ opacity: 1, x: 0 }} className="flex items-center">{it.done}</motion.span>}</AnimatePresence>
             </div>
-            <div className={`h-9 rounded-[10px] flex items-center justify-center gap-1.5 text-[12px] font-bold transition-colors duration-200 ${sent ? "bg-white/10 text-[#99E58C]" : "bg-[#99E58C] text-[#0C1A0D]"}`}>
-              {sent ? <><Check className="w-3.5 h-3.5" /> Sent</> : "Finish job"}
-            </div>
-          </div>
+          );
+        })}
+      </div>
+      <div className="mt-auto px-3 pb-[22px]">
+        {/* the notice has its own slot, so nothing on the screen moves when it appears */}
+        <div className="h-[36px] mb-1.5 flex items-end">
+          <AnimatePresence mode="wait">
+            {step === 5 && (
+              <motion.p key="off" initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="w-full rounded-[9px] bg-white/[0.08] text-[9.5px] text-white/75 px-2.5 py-1.5 leading-snug">
+                No signal. Saved on this phone, it’ll send itself.
+              </motion.p>
+            )}
+          </AnimatePresence>
+        </div>
+        <div className={`h-9 rounded-[11px] flex items-center justify-center gap-1.5 text-[12px] font-semibold transition-colors duration-200 ${sent ? "bg-white/[0.08] text-[#99E58C]" : "bg-[#99E58C] text-[#0C1A0D]"}`}>
+          {sent ? <><Check className="w-3.5 h-3.5" /> Sent to the office</> : "Finish job"}
         </div>
       </div>
+      <HomeBar light />
+    </div>
+  );
+}
 
-      <I d={glyph.arrow} className={`hidden sm:block w-4 h-4 shrink-0 transition-colors duration-300 ${step >= 7 ? "text-heading" : "text-line-strong"}`} />
+const INVOICE: [string, string][] = [["Door seal × 1", "640.00"], ["Labour · 1.5 h", "780.00"], ["Tax", "213.00"]];
+const CAPTURED = ["Photo attached", "Door seal × 1 from stock", "Signed by the customer", "1.5 h on site"];
 
-      {/* office */}
-      <motion.div
-        initial={false}
-        animate={{ opacity: step >= 7 ? 1 : 0.4 }}
-        transition={{ duration: 0.45, ease }}
-        className={`w-[142px] sm:w-[196px] shrink-0 rounded-lg bg-paper border border-line ${lift} text-[12px] overflow-hidden`}
-      >
-        <div className="flex items-center gap-2 px-3 py-2.5 border-b border-line">
-          <Avatar n="NO" />
-          <span className="min-w-0">
-            <span className="block font-semibold text-heading leading-tight">Office</span>
-            <span className="block text-[10px] text-muted leading-tight">{step >= 7 ? "Job 0418 arrived · just now" : "Waiting for job 0418"}</span>
+/* The office side of job 0418, as the business's own web app (drawn 640 × 400, fitted into the laptop). */
+function OfficeApp({ step }: { step: number }) {
+  const arrived = step >= 7;
+  const drafted = step >= 8;
+  const jobs: [string, string, string, "ok" | "wait" | "done"][] = [
+    ["0419", "Hill & Co", "Quote sent", "wait"],
+    ["0418", "Greenway Café", arrived ? "Ready to invoice" : "On site", arrived ? "ok" : "wait"],
+    ["0416", "Mara’s Bakery", "Ready to invoice", "ok"],
+    ["0415", "Harbour Foods", "Invoiced", "done"],
+  ];
+  return (
+    <div className="h-full flex flex-col bg-paper text-[12px] text-heading">
+      <div className="h-10 shrink-0 flex items-center gap-2 px-4 border-b border-line">
+        <Avatar n="YB" dark />
+        <span className="font-semibold">Your business</span>
+        <span className="text-faint">/</span>
+        <span className="text-muted">Jobs</span>
+        <span className="text-faint">/</span>
+        <span className="text-heading tabular-nums">0418</span>
+        <span className="relative ml-auto text-muted">
+          <I d={glyph.bell} className="w-4 h-4" />
+          {arrived && <span className="absolute -top-1 -right-1.5 min-w-[13px] h-[13px] px-0.5 rounded-[3px] bg-heading text-white text-[8px] font-bold flex items-center justify-center">1</span>}
+        </span>
+      </div>
+      <div className="flex-1 min-h-0 grid grid-cols-[190px_1fr]">
+        <aside className="border-r border-line bg-soft p-2.5 flex flex-col gap-1.5">
+          <p className="px-1 pb-0.5 text-[10.5px] text-muted">Today</p>
+          {jobs.map(([no, who, st, tone]) => (
+            <motion.div
+              key={no}
+              initial={false}
+              animate={{ backgroundColor: no === "0418" && arrived ? ["#EAF8E6", "#FFFFFF"] : "#FFFFFF" }}
+              transition={{ duration: 1.4 }}
+              className={`rounded-[8px] border px-2.5 py-2 ${no === "0418" ? "border-heading/40" : "border-line"}`}
+            >
+              <span className="flex items-center justify-between gap-2">
+                <span className="font-semibold tabular-nums">{no}</span>
+                <Pill tone={tone}>{st}</Pill>
+              </span>
+              <span className="block text-[11px] text-muted mt-0.5 truncate">{who}</span>
+            </motion.div>
+          ))}
+        </aside>
+        <div className="p-4 flex gap-3 min-w-0">
+          <div className="flex-1 min-w-0 rounded-lg border border-line overflow-hidden flex flex-col">
+            <div className="px-3.5 py-3 border-b border-line">
+              <p className="font-semibold text-[13px] leading-tight">Greenway Café</p>
+              <p className="text-[11px] text-muted mt-0.5">Fridge not cooling — door seal · 14 Mill Lane</p>
+              <p className={`mt-2 inline-flex items-center gap-1.5 text-[11px] ${arrived ? "text-ok" : "text-muted"}`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${arrived ? "bg-ok" : "bg-line-strong"}`} />
+                {arrived ? "Arrived from Sam’s phone · just now" : "Sam is on site"}
+              </p>
+            </div>
+            <div className="px-3.5 py-1.5">
+              {CAPTURED.map((t, i) => (
+                <motion.p
+                  key={t}
+                  initial={false}
+                  animate={{ opacity: arrived ? 1 : 0.45 }}
+                  transition={{ duration: 0.3, delay: arrived ? i * 0.08 : 0 }}
+                  className="flex items-center gap-2 py-[7px] border-b border-line last:border-0 text-body text-[11.5px]"
+                >
+                  <Check className={`w-3.5 h-3.5 shrink-0 ${arrived ? "text-ok" : "text-faint"}`} />
+                  {t}
+                  {i === 0 && arrived && (
+                    <span className="ml-auto relative w-[38px] h-[26px] rounded-[4px] overflow-hidden ring-1 ring-line">
+                      <Image src={PHOTO} alt="" fill sizes="38px" className="object-cover" />
+                    </span>
+                  )}
+                  {i === 2 && arrived && <Signature className="ml-auto w-[46px] h-[12px] text-heading" />}
+                </motion.p>
+              ))}
+            </div>
+          </div>
+          <motion.div
+            initial={false}
+            animate={drafted ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+            transition={{ duration: 0.45, ease }}
+            className={`w-[196px] shrink-0 self-start rounded-lg bg-paper border border-line ${lift} text-[11px] overflow-hidden`}
+          >
+            <div className="px-3 py-2.5 border-b border-line flex items-center justify-between">
+              <span className="font-semibold">Invoice draft</span>
+              <span className="text-[10px] text-muted tabular-nums">INV-0193</span>
+            </div>
+            <div className="px-3 py-2 tabular-nums">
+              {INVOICE.map(([k, v]) => (
+                <p key={k} className="flex justify-between py-1 text-body"><span>{k}</span><span>{v}</span></p>
+              ))}
+              <p className="flex justify-between pt-1.5 mt-0.5 border-t border-line font-semibold"><span>Total</span><span>1,633.00</span></p>
+            </div>
+            <p className="px-3 py-2 bg-soft border-t border-line text-[10px] text-muted">Built from the job. Nothing retyped.</p>
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* The same office view on the owner's phone, for small screens. */
+function OfficePhoneApp({ step }: { step: number }) {
+  const arrived = step >= 7;
+  const drafted = step >= 8;
+  return (
+    <div className="absolute inset-0 flex flex-col bg-[#F6F7F9] text-heading">
+      <div className="bg-paper border-b border-line">
+        <StatusBar time="09:41" />
+        <div className="flex items-center gap-2 px-3.5 pb-2.5">
+          <span className="text-[13px] font-semibold">Your business</span>
+          <span className="relative ml-auto text-muted">
+            <I d={glyph.bell} className="w-3.5 h-3.5" />
+            {arrived && <span className="absolute -top-1 -right-1.5 min-w-[12px] h-[12px] px-0.5 rounded-[3px] bg-heading text-white text-[7.5px] font-bold flex items-center justify-center">1</span>}
           </span>
         </div>
-        <div className="px-3 py-1">
-          {["Photo attached", "Door seal × 1 from stock", "Signed by the customer", "1.5 h on site"].map((t) => (
-            <p key={t} className="flex items-center gap-2 py-1.5 border-b border-line last:border-0 text-body text-[11px]">
-              <Check className={`w-3.5 h-3.5 shrink-0 ${step >= 7 ? "text-ok" : "text-faint"}`} />{t}
-            </p>
-          ))}
-        </div>
-        <div className="px-3 py-2.5 bg-soft border-t border-line flex items-center justify-between">
-          <span className="text-[10px] text-muted">Status</span>
-          <Pill tone={step >= 7 ? "ok" : "wait"}>{step >= 7 ? "Ready to invoice" : "On site"}</Pill>
-        </div>
-      </motion.div>
-
-      <I d={glyph.arrow} className={`hidden md:block w-4 h-4 shrink-0 transition-colors duration-300 ${step >= 8 ? "text-heading" : "text-line-strong"}`} />
-
-      {/* invoice draft */}
-      <motion.div
-        initial={false}
-        animate={step >= 8 ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-        transition={{ duration: 0.45, ease }}
-        className={`hidden md:block w-[184px] shrink-0 rounded-lg bg-paper border border-line ${lift} text-[11px] overflow-hidden`}
-      >
-        <div className="px-3 py-2.5 border-b border-line flex items-center justify-between">
-          <span className="font-semibold text-heading">Invoice draft</span>
-          <span className="text-[10px] text-muted tabular-nums">INV-0193</span>
-        </div>
-        <div className="px-3 py-2 tabular-nums">
-          {[["Door seal × 1", "640.00"], ["Labour · 1.5 h", "780.00"], ["Tax", "213.00"]].map(([k, v]) => (
-            <p key={k} className="flex justify-between py-1 text-body"><span>{k}</span><span>{v}</span></p>
-          ))}
-          <p className="flex justify-between pt-1.5 mt-0.5 border-t border-line font-semibold text-heading"><span>Total</span><span>1,633.00</span></p>
-        </div>
-        <p className="px-3 py-2 bg-soft border-t border-line text-[10px] text-muted">Built from the job. Nothing retyped.</p>
-      </motion.div>
+      </div>
+      <div className="p-2.5 flex flex-col gap-2">
+        <motion.div initial={false} animate={{ backgroundColor: arrived ? ["#EAF8E6", "#FFFFFF"] : "#FFFFFF" }} transition={{ duration: 1.4 }} className="rounded-[12px] border border-line p-2.5">
+          <span className="flex items-center justify-between gap-1">
+            <span className="text-[11.5px] font-semibold leading-tight">Greenway Café</span>
+            <span className="text-[9px] text-muted tabular-nums">0418</span>
+          </span>
+          <span className="block text-[9.5px] text-muted mt-0.5">{arrived ? "From Sam’s phone · just now" : "Sam is on site"}</span>
+          <span className="mt-1.5 flex flex-wrap gap-1">
+            {["Photo", "Parts", "Signed", "1.5 h"].map((t) => (
+              <span key={t} className={`inline-flex items-center gap-0.5 rounded-[5px] px-1.5 py-[2px] text-[8.5px] font-semibold ${arrived ? "bg-ok-bg text-ok" : "bg-canvas text-faint"}`}>
+                <Check className="w-2.5 h-2.5" />{t}
+              </span>
+            ))}
+          </span>
+          <span className="mt-1.5 block"><Pill tone={arrived ? "ok" : "wait"}>{arrived ? "Ready to invoice" : "On site"}</Pill></span>
+        </motion.div>
+        <motion.div initial={false} animate={drafted ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }} transition={{ duration: 0.45, ease }} className="rounded-[12px] border border-line bg-paper overflow-hidden text-[10px]">
+          <div className="px-2.5 py-2 border-b border-line flex items-center justify-between">
+            <span className="font-semibold text-[11px]">Invoice draft</span>
+            <span className="text-[9px] text-muted tabular-nums">INV-0193</span>
+          </div>
+          <div className="px-2.5 py-1.5 tabular-nums">
+            {INVOICE.map(([k, v]) => (
+              <p key={k} className="flex justify-between py-[3px] text-body"><span>{k}</span><span>{v}</span></p>
+            ))}
+            <p className="flex justify-between pt-1 mt-0.5 border-t border-line font-semibold"><span>Total</span><span>1,633.00</span></p>
+          </div>
+        </motion.div>
+      </div>
+      <HomeBar />
     </div>
+  );
+}
+
+function FieldScreen({ reduce }: ScreenProps) {
+  const { step, fading, cycle } = useLoop(FIELD_T, reduce, 3200);
+  const fit = laptopFit(500, 640);
+  return (
+    <Studio>
+      <Fade out={fading}>
+        <div key={cycle} className="h-full">
+          <div className="hidden sm:flex h-full items-center justify-center">
+            <div className={`relative flex items-end gap-7 ${FIT}`}>
+              <HdPhone w={200}>
+                <FieldApp step={step} />
+              </HdPhone>
+              <div className="mb-[8px]">
+                <HdLaptop w={500}>
+                  <div style={{ zoom: fit.zoom, width: fit.width, height: fit.height }}>
+                    <OfficeApp step={step} />
+                  </div>
+                </HdLaptop>
+              </div>
+            </div>
+          </div>
+          <div className="sm:hidden h-full flex items-center justify-center gap-2.5">
+            <div className="[zoom:0.8] max-[369px]:[zoom:0.74]">
+              <HdPhone w={188}>
+                <FieldApp step={step} />
+              </HdPhone>
+            </div>
+            <div className="[zoom:0.8] max-[369px]:[zoom:0.74]">
+              <HdPhone w={188}>
+                <OfficePhoneApp step={step} />
+              </HdPhone>
+            </div>
+          </div>
+        </div>
+      </Fade>
+    </Studio>
   );
 }
 
@@ -358,16 +577,11 @@ function LightLeg({ id, leg, on, reduce }: { id: string; leg: Leg | null; on: bo
   );
 }
 
-function TrackingScreen({ reduce }: ScreenProps) {
-  // 1 finger lands, 2 tap: ready, 3 line of light to the tracking page, 4 page ticks over, 5 the WhatsApp lands
-  const [stepLater, setStep] = useState(0);
-  useEffect(() => {
-    if (reduce) return;
-    const ids = [450, 1050, 1250, 2000, 2750].map((ms, i) => setTimeout(() => setStep(i + 1), ms));
-    return () => ids.forEach(clearTimeout);
-  }, [reduce]);
-  const step = reduce ? 5 : stepLater;
+// 1 finger lands, 2 tap: ready, 3 line of light to the tracking page, 4 page ticks over, 5 the WhatsApp lands
+const TRACK_T = [450, 1050, 1250, 2000, 2750] as const;
 
+function TrackingScreen({ reduce }: ScreenProps) {
+  const { step, fading } = useLoop(TRACK_T, reduce);
   const wrap = useRef<HTMLDivElement>(null);
   const mark = useRef<HTMLDivElement>(null);
   const dot = useRef<HTMLSpanElement>(null);
@@ -394,51 +608,68 @@ function TrackingScreen({ reduce }: ScreenProps) {
   }, [step, measure]);
 
   return (
-    <div ref={wrap} className="relative h-full flex items-center justify-center gap-3 sm:gap-8 px-2 sm:px-6 bg-canvas overflow-hidden">
-      <div aria-hidden className="absolute inset-0" style={{ background: "radial-gradient(70% 80% at 50% 42%, #FFFFFF 0%, rgba(255,255,255,0) 72%)" }} />
-      <div className="relative max-sm:[zoom:0.8] max-[370px]:[zoom:0.74]">
-        <HdPhone w={188}>
-          <TeamApp ready={step >= 2} ref={mark}>
-            <span className="absolute left-[36%] top-1/2"><Fingertip show={step >= 1 && step < 3} down={step === 2} /></span>
-          </TeamApp>
-        </HdPhone>
-      </div>
-      <div className="relative max-sm:[zoom:0.8] max-[370px]:[zoom:0.74]">
-        <HdPhone w={188}>
-          <TrackerPage ready={step >= 4} ref={dot} banner={<div className="md:max-lg:hidden min-[1140px]:hidden"><DropBanner show={step >= 5} /></div>} />
-        </HdPhone>
-      </div>
-      <div className="relative hidden md:max-lg:block min-[1140px]:block">
-        <HdPhone w={188} screen="#0B0E14">
-          <LockScreen show={step >= 5} />
-        </HdPhone>
-      </div>
-      <motion.svg initial={false} animate={{ opacity: step >= 5 ? 0.45 : 1 }} transition={{ duration: 0.6 }} className="pointer-events-none absolute inset-0 w-full h-full z-50 overflow-visible" aria-hidden>
-        <LightLeg id="fr-light" leg={leg} on={step >= 3} reduce={reduce} />
-      </motion.svg>
-    </div>
+    <Studio>
+      <Fade out={fading}>
+        <div ref={wrap} className="relative h-full flex items-center justify-center gap-3 sm:gap-8 px-2 sm:px-6">
+          <div className="relative max-sm:[zoom:0.8] max-[369px]:[zoom:0.74]">
+            <HdPhone w={188}>
+              <TeamApp ready={step >= 2} ref={mark}>
+                <span className="absolute left-[36%] top-1/2"><Fingertip show={step >= 1 && step < 3} down={step === 2} /></span>
+              </TeamApp>
+            </HdPhone>
+          </div>
+          <div className="relative max-sm:[zoom:0.8] max-[369px]:[zoom:0.74]">
+            <HdPhone w={188}>
+              <TrackerPage ready={step >= 4} ref={dot} banner={<div className="md:max-lg:hidden min-[1140px]:hidden"><DropBanner show={step >= 5} /></div>} />
+            </HdPhone>
+          </div>
+          <div className="relative hidden md:max-lg:block min-[1140px]:block">
+            <HdPhone w={188} screen="#0B0E14">
+              <LockScreen show={step >= 5} />
+            </HdPhone>
+          </div>
+          <motion.svg initial={false} animate={{ opacity: step >= 5 ? 0.45 : 1 }} transition={{ duration: 0.6 }} className="pointer-events-none absolute inset-0 w-full h-full z-50 overflow-visible" aria-hidden>
+            <LightLeg id="fr-light" leg={leg} on={step >= 3} reduce={reduce} />
+          </motion.svg>
+        </div>
+      </Fade>
+    </Studio>
   );
 }
 
 /* ---------------------------------------------------------------- 4. Monday numbers */
 
-/* Carousel 43's one screen. It counts up, ticks each number, then someone presses "Invoice 4" and the four
-   jobs that were done but never invoiced draft themselves. Press it yourself to see it again. */
+/* Carousel 43's one screen, on the office laptop. It counts up, ticks each number, then someone presses
+   "Invoice 4" and the four jobs that were done but never invoiced draft themselves. Press it yourself to see it
+   again; either way it loops. */
 const AUTO: [number, number][] = [[80, 1], [900, 2], [1020, 3], [1140, 4], [1260, 5], [1380, 6], [1500, 7], [2050, 8], [2200, 9], [2400, 10], [2580, 11], [2760, 12], [2940, 13], [4500, 14], [4750, 15]];
 const PRESSED: [number, number][] = [[0, 8], [150, 9], [350, 10], [530, 11], [710, 12], [890, 13], [3200, 14], [3450, 15]];
+const MONDAY_HOLD = 2800;
 
 function MondayScreen({ reduce }: ScreenProps) {
   const [s, setS] = useState(0);
   const [take, setTake] = useState(0);
+  const [fading, setFading] = useState(false);
+  const [cycle, setCycle] = useState(0);
   useEffect(() => {
     if (reduce) return;
-    const ids = (take === 0 ? AUTO : PRESSED).map(([ms, st]) => setTimeout(() => setS(st), ms));
+    const plan = take === 0 ? AUTO : PRESSED;
+    const end = plan[plan.length - 1][0] + MONDAY_HOLD;
+    const ids = plan.map(([ms, st]) => setTimeout(() => setS(st), ms));
+    ids.push(setTimeout(() => setFading(true), end));
+    ids.push(setTimeout(() => {
+      setS(0);
+      setTake(0);
+      setFading(false);
+      setCycle((c) => c + 1);
+    }, end + FADE_MS));
     return () => ids.forEach(clearTimeout);
-  }, [reduce, take]);
+  }, [reduce, take, cycle]);
   // Motion off: the finished board, or the drafts open after someone presses the button.
   const step = reduce ? (take % 2 ? 13 : 15) : s;
-  return (
+  const board = (
     <MondayBoard
+      key={cycle}
       reduce={reduce}
       run={step >= 1}
       ticks={Math.min(5, Math.max(0, step - 1))}
@@ -448,17 +679,47 @@ function MondayScreen({ reduce }: ScreenProps) {
       rows={Math.min(4, Math.max(0, step - 9))}
       drafted={step >= 15}
       onInvoice={() => {
+        setFading(false);
         setTake((n) => n + 1);
         play("slide", 0.5);
       }}
     />
   );
+  const fit = laptopFit(600, 760);
+  return (
+    <Studio>
+      <Fade out={fading}>
+        <div className="hidden sm:flex h-full items-center justify-center">
+          <div className={FIT}>
+            <HdLaptop w={600}>
+              <div style={{ zoom: fit.zoom, width: fit.width, height: fit.height }}>{board}</div>
+            </HdLaptop>
+          </div>
+        </div>
+        <div className="sm:hidden h-full flex items-center justify-center">
+          <div className="max-[369px]:[zoom:0.92]">
+            <HdTablet w={316} h={416}>
+              {board}
+            </HdTablet>
+          </div>
+        </div>
+      </Fade>
+    </Studio>
+  );
 }
 
 /* ---------------------------------------------------------------- 5. Website */
 
-function WebScreen({ reduce }: ScreenProps) {
-  const msg = "Lunch for 24 at our office, next Thursday.";
+const WEB_T = [2300, 2700] as const; // the visitor has typed and sent; the enquiry lands
+const MSG = "Lunch for 24 at our office, next Thursday.";
+const EXISTING = [
+  ["Hill & Co", "Office lunch, Fri", "Booked", "ok"],
+  ["Jordan K.", "Birthday, table of 6", "Booked", "ok"],
+  ["Oakline Joinery", "Breakfast meeting", "Quote sent", "wait"],
+] as const;
+
+/* Types the enquiry once per scene (the scene remounts on every loop). */
+function useTyping(reduce: boolean) {
   const [typedLater, setTyped] = useState(0);
   useEffect(() => {
     if (reduce) return;
@@ -466,107 +727,193 @@ function WebScreen({ reduce }: ScreenProps) {
     const id = setInterval(() => {
       i += 1;
       setTyped(i);
-      if (i >= msg.length + 30) clearInterval(id);
+      if (i >= MSG.length + 30) clearInterval(id);
     }, 38);
     return () => clearInterval(id);
-  }, [reduce, msg.length]);
-  const typed = reduce ? msg.length + 30 : typedLater;
-  const sent = typed > msg.length + 8;
+  }, [reduce]);
+  const typed = reduce ? MSG.length + 30 : typedLater;
+  return { typed, sent: typed > MSG.length + 8 };
+}
 
-  const existing = [
-    ["Hill & Co", "Office lunch, Fri", "Booked", "ok"],
-    ["Jordan K.", "Birthday, table of 6", "Booked", "ok"],
-    ["Oakline Joinery", "Breakfast meeting", "Quote sent", "wait"],
-  ] as const;
-
+/* The café's own site in a desktop browser (drawn 760 × 475, fitted into the laptop). */
+function CafeSite({ typed, sent }: { typed: number; sent: boolean }) {
   return (
-    <div className="relative h-full flex flex-col p-3 sm:p-5 bg-canvas text-[11px]">
-      {/* The business's own website */}
-      <div className={`relative flex-1 min-h-0 sm:absolute sm:left-5 sm:top-5 sm:bottom-5 sm:right-[216px] rounded-lg border border-line bg-paper overflow-hidden ${lift} flex flex-col`}>
-        <div className="h-7 flex items-center gap-2 px-2.5 border-b border-line bg-soft shrink-0 text-faint">
-          <I d={glyph.back} className="w-3 h-3" />
-          <I d={glyph.chevron} className="w-3 h-3" />
-          <span className="mx-auto w-[52%] h-[18px] rounded-[4px] bg-paper border border-line text-[9px] text-muted flex items-center justify-center gap-1"><I d={glyph.lock} className="w-2.5 h-2.5" />greenwaycafe.com</span>
-          <span className="w-6" />
-        </div>
-        <div className="flex items-center justify-between px-4 sm:px-5 h-9 sm:h-10 border-b border-line shrink-0">
-          <span className="font-display uppercase text-[12px] tracking-[-0.01em] text-heading">Greenway Café</span>
-          <span className="hidden md:flex gap-4 text-muted"><span>Menu</span><span>Catering</span><span>Find us</span></span>
-          <span className="rounded-[5px] bg-heading text-white px-2.5 py-1 font-semibold">Book a table</span>
-        </div>
-
-        <div className="flex-1 min-h-0 grid grid-cols-1 grid-rows-[auto_minmax(0,1fr)] md:grid-rows-1 md:grid-cols-[1fr_1.1fr] gap-2.5 md:gap-5 px-4 sm:px-5 pt-2.5 sm:pt-4 pb-2.5 sm:pb-3 overflow-hidden">
-          <div className="flex flex-col min-h-0">
-            <p className="font-display uppercase text-[18px] sm:text-[22px] leading-[0.98] tracking-[-0.02em] text-heading">Breakfast, lunch and good coffee.<span className="hidden sm:inline"> Seven days.</span></p>
-            <p className="text-muted mt-2 leading-[1.5] max-w-[250px] hidden sm:block">Everything made in our kitchen from 7am. Catering for offices, events and the odd birthday.</p>
-            <div className="flex gap-1.5 mt-2.5 sm:mt-3">
-              <span className="rounded-[5px] bg-heading text-white px-3 py-1.5 font-semibold">Book a table</span>
-              <span className="rounded-[5px] border border-line px-3 py-1.5 font-semibold text-heading">See the menu</span>
-            </div>
-            <div className="hidden md:flex mt-auto gap-3 border-t border-line pt-3 text-[10px] text-body">
-              {[[glyph.clock, "7am daily"], [glyph.people, "Catering"], [glyph.leaf, "Baked here"]].map(([d, t]) => (
-                <span key={t} className="flex items-center gap-1.5 whitespace-nowrap"><I d={d} className="w-3.5 h-3.5 text-muted shrink-0" />{t}</span>
-              ))}
-            </div>
+    <div className="h-full flex flex-col bg-paper text-[11px] text-heading">
+      <div className="h-[34px] shrink-0 flex items-center gap-3 px-3 border-b border-line bg-[#F3F3F4]">
+        <span className="flex gap-[6px]">{["#FF5F57", "#FEBC2E", "#28C840"].map((c) => <span key={c} className="w-[11px] h-[11px] rounded-full" style={{ background: c, boxShadow: "inset 0 0 0 0.5px rgba(0,0,0,0.12)" }} />)}</span>
+        <span className="flex gap-2 text-faint"><I d={glyph.back} className="w-3.5 h-3.5" /><I d={glyph.chevron} className="w-3.5 h-3.5" /></span>
+        <span className="mx-auto w-[46%] h-[22px] rounded-[7px] bg-paper border border-line text-[10.5px] text-body flex items-center justify-center gap-1.5">
+          <I d={glyph.lock} className="w-3 h-3 text-muted" />greenwaycafe.com
+        </span>
+        <span className="w-[58px]" />
+      </div>
+      <div className="flex items-center justify-between px-6 h-11 border-b border-line shrink-0">
+        <span className="font-display uppercase text-[13px] tracking-[-0.01em]">Greenway Café</span>
+        <span className="flex gap-5 text-muted"><span>Menu</span><span>Catering</span><span>Find us</span></span>
+        <span className="rounded-[5px] bg-heading text-white px-3 py-1.5 font-semibold">Book a table</span>
+      </div>
+      <div className="flex-1 min-h-0 grid grid-cols-[1fr_1.1fr] gap-6 px-6 pt-5 pb-4">
+        <div className="flex flex-col min-h-0">
+          <p className="font-display uppercase text-[26px] leading-[0.98] tracking-[-0.02em]">Breakfast, lunch and good coffee. Seven days.</p>
+          <p className="text-muted mt-3 leading-[1.5] max-w-[270px]">Everything made in our kitchen from 7am. Catering for offices, events and the odd birthday.</p>
+          <div className="flex gap-1.5 mt-4">
+            <span className="rounded-[5px] bg-heading text-white px-3 py-1.5 font-semibold">Book a table</span>
+            <span className="rounded-[5px] border border-line px-3 py-1.5 font-semibold">See the menu</span>
           </div>
-          <div className="relative rounded-[8px] overflow-hidden min-h-[48px] border border-line">
-            <Image src={PHOTO} alt="The counter at Greenway Café: pastries, sandwiches and two flat whites" fill sizes="(max-width: 768px) 320px, 360px" className="object-cover object-[50%_78%]" />
-            <span className="absolute left-2 bottom-2 hidden sm:flex items-center gap-1.5 rounded-[5px] bg-paper/95 border border-line px-2 py-1 text-[10px] text-heading">
-              <I d={glyph.coffee} className="w-3 h-3 text-muted" />Today’s lunch · roast veg &amp; halloumi
-            </span>
+          <div className="mt-auto flex gap-4 border-t border-line pt-3 text-[10px] text-body">
+            {[[glyph.clock, "7am daily"], [glyph.people, "Catering"], [glyph.leaf, "Baked here"]].map(([d, t]) => (
+              <span key={t} className="flex items-center gap-1.5 whitespace-nowrap"><I d={d} className="w-3.5 h-3.5 text-muted shrink-0" />{t}</span>
+            ))}
           </div>
         </div>
-
-        {/* enquiry strip */}
-        <div className="border-t border-line bg-soft px-4 sm:px-5 py-2 sm:py-3 flex items-end gap-2 shrink-0">
-          <div className="flex-1 min-w-0">
-            <p className="hidden sm:block text-[9.5px] text-muted mb-1">Catering enquiry · tell us about your event</p>
-            <div className="h-7 rounded-[5px] border border-line bg-paper px-2 flex items-center text-heading truncate">
-              {msg.slice(0, typed)}
-              {typed < msg.length && <span className="inline-block w-px h-3 bg-heading ml-px animate-pulse" />}
-            </div>
-          </div>
-          <span className={`h-7 inline-flex items-center px-3 rounded-[5px] font-bold transition-colors duration-200 ${sent ? "bg-ok-bg text-ok" : "bg-heading text-white"}`}>
-            {sent ? "Sent" : "Send"}
+        <div className="relative rounded-[8px] overflow-hidden border border-line">
+          <Image src={PHOTO} alt="The counter at Greenway Café: pastries, sandwiches and two flat whites" fill sizes="420px" className="object-cover object-[50%_78%]" />
+          <span className="absolute left-2 bottom-2 flex items-center gap-1.5 rounded-[5px] bg-paper/95 border border-line px-2 py-1 text-[10px]">
+            <I d={glyph.coffee} className="w-3 h-3 text-muted" />Today’s lunch · roast veg &amp; halloumi
           </span>
         </div>
       </div>
+      <div className="border-t border-line bg-soft px-6 py-3 flex items-end gap-2 shrink-0">
+        <div className="flex-1 min-w-0">
+          <p className="text-[9.5px] text-muted mb-1">Catering enquiry · tell us about your event</p>
+          <div className="h-7 rounded-[5px] border border-line bg-paper px-2 flex items-center truncate">
+            {MSG.slice(0, typed)}
+            {typed < MSG.length && <span className="inline-block w-px h-3 bg-heading ml-px animate-pulse" />}
+          </div>
+        </div>
+        <span className={`h-7 inline-flex items-center px-3 rounded-[5px] font-bold transition-colors duration-200 ${sent ? "bg-ok-bg text-ok" : "bg-heading text-white"}`}>{sent ? "Sent" : "Send"}</span>
+      </div>
+    </div>
+  );
+}
 
-      {/* …and the enquiry lands in the business's own system */}
-      <div className={`mt-3 sm:mt-0 shrink-0 sm:absolute sm:right-5 sm:top-5 sm:bottom-5 sm:w-[184px] flex flex-col rounded-lg border border-line bg-paper ${lift} overflow-hidden`}>
-        <div className="px-3 py-2 sm:py-2.5 border-b border-line flex items-center gap-2">
+/* The same site on the customer's phone (small screens). */
+function CafeMobile({ typed, sent }: { typed: number; sent: boolean }) {
+  return (
+    <div className="absolute inset-0 flex flex-col bg-paper text-heading text-[10px]">
+      <StatusBar time="11:20" />
+      <div className="flex items-center justify-between px-3 h-8 border-b border-line">
+        <span className="font-display uppercase text-[10.5px] tracking-[-0.01em]">Greenway Café</span>
+        <I d={glyph.jobs} className="w-3.5 h-3.5 text-body" />
+      </div>
+      <div className="relative h-[74px] shrink-0">
+        <Image src={PHOTO} alt="" fill sizes="190px" className="object-cover object-[50%_78%]" />
+      </div>
+      <div className="px-3 pt-2.5">
+        <p className="font-display uppercase text-[14px] leading-[0.98] tracking-[-0.02em]">Breakfast, lunch and good coffee.</p>
+        <span className="mt-2 inline-flex rounded-[5px] bg-heading text-white px-2.5 py-1 font-semibold text-[9.5px]">Book a table</span>
+      </div>
+      <div className="mt-2.5 mx-3 rounded-[10px] border border-line bg-soft p-2">
+        <p className="text-[8.5px] text-muted mb-1">Catering enquiry</p>
+        <div className="min-h-[30px] rounded-[6px] border border-line bg-paper px-1.5 py-1 leading-snug text-[9.5px]">
+          {MSG.slice(0, typed)}
+          {typed < MSG.length && <span className="inline-block w-px h-2.5 bg-heading ml-px animate-pulse align-middle" />}
+        </div>
+        <span className={`mt-1.5 flex h-6 items-center justify-center rounded-[6px] font-bold text-[9.5px] transition-colors duration-200 ${sent ? "bg-ok-bg text-ok" : "bg-heading text-white"}`}>{sent ? "Sent" : "Send"}</span>
+      </div>
+      <div className="mt-auto pt-1.5 pb-[17px] px-2.5 border-t border-black/[0.06] bg-paper/90 backdrop-blur-md" style={{ fontFamily: SYS }}>
+        <div className="h-[22px] rounded-[7px] bg-black/[0.06] flex items-center justify-center gap-1 text-[9px] text-[#3A3A40]">
+          <I d={glyph.lock} className="w-2.5 h-2.5" />greenwaycafe.com
+        </div>
+      </div>
+      <HomeBar />
+    </div>
+  );
+}
+
+/* …and the enquiry lands in the business's own system, on the owner's phone. */
+function SystemPhoneApp({ sent }: { sent: boolean }) {
+  return (
+    <div className="absolute inset-0 flex flex-col bg-[#F6F7F9] text-heading text-[10.5px]">
+      <div className="bg-paper border-b border-line">
+        <StatusBar time="11:20" />
+        <div className="flex items-center gap-2 px-3.5 pb-2.5">
           <span className="min-w-0 mr-auto">
-            <span className="block font-semibold text-heading leading-tight">Your system</span>
-            <span className="block text-[10px] text-muted leading-tight">Enquiries</span>
+            <span className="block text-[13px] font-semibold leading-tight">Your system</span>
+            <span className="block text-[9.5px] text-muted leading-tight">Enquiries</span>
           </span>
           <span className="relative text-muted">
             <I d={glyph.bell} className="w-3.5 h-3.5" />
-            {sent && <span className="absolute -top-1 -right-1.5 min-w-[13px] h-[13px] px-0.5 rounded-[3px] bg-heading text-white text-[8px] font-bold flex items-center justify-center">1</span>}
+            {sent && <span className="absolute -top-1 -right-1.5 min-w-[12px] h-[12px] px-0.5 rounded-[3px] bg-heading text-white text-[7.5px] font-bold flex items-center justify-center">1</span>}
           </span>
         </div>
-        <div className="p-2 flex sm:flex-col gap-1.5 overflow-hidden">
-          <AnimatePresence>
-            {sent && (
-              <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease }} className="shrink-0 w-[168px] sm:w-auto">
-                <div className="rounded-[6px] border border-ok/30 bg-ok-bg p-2">
-                  <p className="flex items-center justify-between font-semibold text-ok">New <span className="text-[9px] font-normal">just now</span></p>
-                  <p className="text-heading mt-0.5 leading-snug">Office lunch for 24 · Thu</p>
-                  <p className="hidden sm:block text-[9.5px] text-body mt-1">For Sam · reply drafted</p>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-          {existing.map(([who, what, st, tone], i) => (
-            <div key={who} className={`shrink-0 w-[150px] sm:w-auto rounded-[6px] border border-line p-2 ${i > 0 ? "hidden sm:block" : ""}`}>
-              <p className="text-heading font-medium leading-tight truncate">{who}</p>
-              <p className="text-[10px] text-muted leading-tight mb-1.5 truncate">{what}</p>
-              <Pill tone={tone}>{st}</Pill>
-            </div>
-          ))}
-        </div>
-        <p className="hidden sm:block mt-auto px-3 py-2 border-t border-line text-[9.5px] text-muted">No inbox to check. Nothing retyped.</p>
       </div>
+      <div className="p-2.5 flex flex-col gap-1.5">
+        <AnimatePresence>
+          {sent && (
+            <motion.div initial={{ opacity: 0, y: -10, height: 0 }} animate={{ opacity: 1, y: 0, height: "auto" }} transition={{ duration: 0.45, ease }} className="overflow-hidden">
+              <div className="rounded-[10px] border border-ok/30 bg-ok-bg p-2">
+                <p className="flex items-center justify-between font-semibold text-ok">New <span className="text-[8.5px] font-normal">just now</span></p>
+                <p className="mt-0.5 leading-snug">Office lunch for 24 · Thu</p>
+                <p className="text-[9px] text-body mt-0.5">For Sam · reply drafted</p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+        {/* two earlier enquiries: the list has to end above the home bar */}
+        {EXISTING.slice(0, 2).map(([who, what, st, tone]) => (
+          <div key={who} className="rounded-[10px] border border-line bg-paper p-2">
+            <p className="font-medium leading-tight truncate">{who}</p>
+            <p className="text-[9.5px] text-muted leading-tight mb-1.5 truncate">{what}</p>
+            <Pill tone={tone}>{st}</Pill>
+          </div>
+        ))}
+      </div>
+      <p className="mt-auto mb-[22px] px-3.5 text-[9px] text-muted">No inbox to check. Nothing retyped.</p>
+      <HomeBar />
     </div>
+  );
+}
+
+function WebScene({ reduce }: ScreenProps) {
+  const { typed, sent } = useTyping(reduce);
+  const fit = laptopFit(560, 760);
+  return (
+    <>
+      <div className="hidden sm:flex h-full items-center justify-center">
+        <div className={`relative ${FIT}`} style={{ width: 770, height: 430 }}>
+          <div className="absolute left-0 bottom-[6px]">
+            <HdLaptop w={560}>
+              <div style={{ zoom: fit.zoom, width: fit.width, height: fit.height }}>
+                <CafeSite typed={typed} sent={sent} />
+              </div>
+            </HdLaptop>
+          </div>
+          <div className="absolute right-0 bottom-0">
+            <div style={{ zoom: 0.86 }}>
+              <HdPhone w={188}>
+                <SystemPhoneApp sent={sent} />
+              </HdPhone>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="sm:hidden h-full flex items-center justify-center gap-2.5">
+        <div className="[zoom:0.8] max-[369px]:[zoom:0.74]">
+          <HdPhone w={188}>
+            <CafeMobile typed={typed} sent={sent} />
+          </HdPhone>
+        </div>
+        <div className="[zoom:0.8] max-[369px]:[zoom:0.74]">
+          <HdPhone w={188}>
+            <SystemPhoneApp sent={sent} />
+          </HdPhone>
+        </div>
+      </div>
+    </>
+  );
+}
+
+function WebScreen({ reduce }: ScreenProps) {
+  const { fading, cycle } = useLoop(WEB_T, reduce);
+  return (
+    <Studio>
+      <Fade out={fading}>
+        <div key={cycle} className="h-full">
+          <WebScene reduce={reduce} />
+        </div>
+      </Fade>
+    </Studio>
   );
 }
 

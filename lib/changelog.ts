@@ -8,6 +8,7 @@ export const CHANGELOG: ChangeDay[] = [
   {
     date: "2026-11-05",
     items: [
+      "New: Sketch my app. Say what eats your week in a sentence and see a first sketch of the app that would take it over. Pasting a spreadsheet's top row still works there.",
       "Dark mode is now a deep navy, the same as our posts.",
       "New on What we build: Tracking pages. One tap from the team updates the customer's page, and their WhatsApp lands.",
       "Reporting is now the Monday numbers screen: five numbers on one page, and work that was never invoiced drafted in one click. Press Invoice 4 to try it.",

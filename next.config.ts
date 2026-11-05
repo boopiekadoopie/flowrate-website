@@ -30,6 +30,8 @@ const nextConfig: NextConfig = {
   // don't treat the two as duplicate copies of the site.
   async redirects() {
     return [
+      // the spreadsheet tool grew into Sketch my app (a spreadsheet's top row still works there)
+      { source: "/spreadsheet", destination: "/sketch", permanent: true },
       {
         source: "/:path*",
         has: [{ type: "host", value: "www.flowrate.agency" }],

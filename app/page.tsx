@@ -1,20 +1,16 @@
-import { RetypeCost } from "@/components/RetypeCost";
-import { BeforeAfter } from "@/components/BeforeAfter";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { Problem } from "@/components/Problem";
-import { Convergence } from "@/components/Convergence";
-import { SheetBand } from "@/components/SheetBand";
+import { SketchBand } from "@/components/SketchBand";
 import { Showcase } from "@/components/Showcase";
-import { CaseStudy } from "@/components/CaseStudy";
+import { OurWork } from "@/components/OurWork";
 import { HowItWorks } from "@/components/HowItWorks";
 import { About } from "@/components/About";
-import { Watch } from "@/components/Watch";
 import { FAQ } from "@/components/FAQ";
 import { LeadCapture } from "@/components/LeadCapture";
 import { Footer } from "@/components/Footer";
 import { ChatWidget } from "@/components/ChatWidget";
-import { faqs } from "@/lib/faqs";
+import { homeFaqs } from "@/lib/faqs";
 
 /* Structured data for search engines, built only from what the page already says. */
 const jsonLd = {
@@ -40,7 +36,7 @@ const jsonLd = {
     },
     {
       "@type": "FAQPage",
-      mainEntity: faqs.map((f) => ({
+      mainEntity: homeFaqs.map((f) => ({
         "@type": "Question",
         name: f.q,
         acceptedAnswer: { "@type": "Answer", text: f.a },
@@ -60,15 +56,11 @@ export default function Home() {
       <main>
         <Hero />
         <Problem />
-        <Convergence />
-        <BeforeAfter />
-        <SheetBand />
         <Showcase />
-        <CaseStudy />
+        <SketchBand />
+        <OurWork />
         <HowItWorks />
         <About />
-        <Watch />
-        <RetypeCost />
         <FAQ />
         <LeadCapture />
       </main>

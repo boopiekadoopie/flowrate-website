@@ -3,6 +3,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { WinkMascot } from "@/components/WinkMascot";
 import { Container, H2, PrimaryButton, Reveal } from "./ui";
+import { FilmCards } from "./Films";
 
 export function About() {
   return (
@@ -47,6 +48,10 @@ export function About() {
                 When you book a call, it&apos;s with me. You&apos;ll be talking to the
                 person who designs your system and builds it.
               </p>
+            </Reveal>
+
+            <Reveal delay={0.05} className="mt-8">
+              <FilmCards />
             </Reveal>
 
             <Reveal delay={0.1} className="mt-9 flex flex-col sm:flex-row sm:items-end gap-7 sm:gap-10">

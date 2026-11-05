@@ -36,6 +36,10 @@ const sections: LegalSection[] = [
           <strong className={b}>The chat assistant:</strong> the messages you type into the chat.
         </li>
         <li>
+          <strong className={b}>Sketch my app:</strong> the description, or the spreadsheet column names, you
+          type to get a sketch. It is only used to draw the sketch and is not stored.
+        </li>
+        <li>
           <strong className={b}>Booking a call:</strong> the details you enter on our booking page, which
           is run by Calendly.
         </li>
@@ -75,7 +79,8 @@ const sections: LegalSection[] = [
         </li>
         <li>
           <strong className={b}>Anthropic</strong> provides the AI model that writes the chat
-          assistant&apos;s replies. Your chat messages are sent to it to produce an answer.
+          assistant&apos;s replies and draws the app sketches. What you type into either is sent to it to
+          produce an answer.
         </li>
         <li><strong className={b}>Resend</strong> delivers enquiry form messages to our inbox.</li>
         <li><strong className={b}>Calendly</strong> runs our booking page.</li>

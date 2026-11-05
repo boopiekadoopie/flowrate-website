@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { PhoneFrame } from "./playground/kit";
+import { HdTablet, StatusBar } from "./kit/Device";
 
 /*
  * One example app per industry, each in its own (made-up) brand, so the pages don't all look like the same app:
@@ -62,9 +63,9 @@ function Trades() {
 function Transport() {
   const O = "#FF6A1F";
   return (
-    <PhoneFrame h={620}>
+    <PhoneFrame h={620} dark>
       <div className="absolute inset-0 z-[21] bg-[#121214]">
-        <div className="h-[46px] flex items-center justify-between px-7 text-[13px] font-semibold text-white"><span className="tabular-nums">6:42</span><span className="flex items-end gap-[2px]">{[4, 6, 8, 10].map((x) => <span key={x} className="w-[3px] rounded-[1px] bg-white" style={{ height: x }} />)}</span></div>
+        <StatusBar time="6:42" h={46} light />
       </div>
       <div className="relative z-[22] px-3 pb-3 text-white font-['Rockwell','Roboto_Slab',Georgia,serif]">
         <p className="text-[12px] text-white/60 font-bold tracking-[0.08em] uppercase">Northbound Freight</p>
@@ -183,15 +184,15 @@ function Manufacturing() {
   const COND = "font-['DIN_Condensed','DIN_Alternate','Arial_Narrow','Roboto_Condensed',sans-serif]";
   const rows: [string, string, string, string][] = [["2417", "Pine poles 5 m", "09:40", "Pass"], ["2416", "Pine poles 7 m", "Mon", "Pass"], ["2415", "Fence droppers", "Mon", "Recheck"], ["2414", "Pine poles 5 m", "Fri", "Pass"]];
   return (
-    <div className="w-[min(620px,100%)] rounded-[30px] p-[10px] bg-[#1A1A1C] [filter:drop-shadow(0_40px_50px_rgba(16,24,40,0.22))]">
-      <div className="rounded-[22px] bg-[#0F0F10] text-white overflow-hidden">
+    <HdTablet w={620} auto fluid screen="#0F0F10">
+      <div className="text-white">
         <div className={`h-[52px] px-5 flex items-center justify-between text-[#111] ${COND}`} style={{ background: Y }}>
           <span className="text-[20px] tracking-[0.06em] uppercase">Ironbark · Batch register</span>
           <span className="text-[16px] tracking-[0.04em] uppercase">Line 2</span>
         </div>
         <div className="p-4 grid grid-cols-1 sm:grid-cols-[1.5fr_1fr] gap-3">
           <div className="rounded-[16px] bg-[#1C1C1E] overflow-hidden">
-            {rows.map(([b, p, t, s], i) => (
+            {rows.map(([b, p, , s], i) => (
               <div key={b} className={`flex items-center gap-3 px-3.5 h-[52px] text-[13px] border-b border-white/5 ${i === 0 ? "bg-white/5" : ""}`}>
                 <span className={`${COND} text-[18px] w-[42px] tabular-nums`} style={{ color: i === 0 ? Y : "#fff" }}>{b}</span>
                 <span className="flex-1 text-white/80 truncate">{p}</span>
@@ -210,7 +211,7 @@ function Manufacturing() {
           </div>
         </div>
       </div>
-    </div>
+    </HdTablet>
   );
 }
 
