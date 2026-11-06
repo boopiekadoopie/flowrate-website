@@ -4,7 +4,7 @@ import { WinkMascot } from "@/components/WinkMascot";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { mascot, POSES } from "@/lib/mascot";
 import { play } from "@/lib/sound";
-import { Arrow, CALENDLY_URL, Check, Container, EMAIL, H2, Lede, Reveal } from "./ui";
+import { Arrow, CALENDLY_URL, Check, Container, EMAIL, H2, Lede, Reveal, WHATSAPP_URL } from "./ui";
 
 // When the message goes, the fields fold away one after another and the form becomes one card: what was sent
 const foldOut: Variants = { exit: { opacity: 0, y: -18, transition: { duration: 0.16, ease: [0.4, 0, 0.2, 1] } } };
@@ -117,6 +117,15 @@ export function LeadCapture({ prefill }: { prefill?: string } = {}) {
                 className="group inline-flex items-center gap-2 text-heading font-semibold w-fit"
               >
                 Rather talk? Book a free 30-minute call
+                <Arrow className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+              </a>
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 text-heading font-semibold w-fit"
+              >
+                Or message Andrew on WhatsApp
                 <Arrow className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" />
               </a>
               <a href={`mailto:${EMAIL}`} className="text-body hover:text-heading w-fit">

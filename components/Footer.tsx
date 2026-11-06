@@ -3,6 +3,7 @@ import { FooterWordmark } from "./FooterWordmark";
 import { SoundToggle } from "./SoundToggle";
 import { WinkCounter } from "./WinkCounter";
 import { industries } from "@/lib/industries";
+import { WHATSAPP_URL } from "@/lib/site";
 
 const CALENDLY_URL = "https://calendly.com/flowrate/30min";
 const EMAIL = "andrew@flowrate.agency";
@@ -89,6 +90,9 @@ export function Footer() {
               </a>
               <a href={`mailto:${EMAIL}`} className="fr-ul text-white/70 text-[14px] hover:text-white transition-colors">
                 {EMAIL}
+              </a>
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="fr-ul text-white/70 text-[14px] hover:text-white transition-colors">
+                WhatsApp Andrew
               </a>
             </div>
           </div>

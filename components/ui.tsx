@@ -2,10 +2,10 @@
 import { motion, type Variants } from "framer-motion";
 import type { ReactNode } from "react";
 import { fadeUp } from "@/lib/animations";
-import { CALENDLY_URL } from "@/lib/site";
+import { CALENDLY_URL, WHATSAPP_URL } from "@/lib/site";
 import { useReduceAfterMount } from "@/lib/useReduceAfterMount";
 
-export { CALENDLY_URL };
+export { CALENDLY_URL, WHATSAPP_URL };
 export const EMAIL = "andrew@flowrate.agency";
 
 export function Container({ children, className = "" }: { children: ReactNode; className?: string }) {

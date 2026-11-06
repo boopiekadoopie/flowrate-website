@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { WinkMascot } from "./WinkMascot";
 import { mascot } from "@/lib/mascot";
 import { play } from "@/lib/sound";
+import { WHATSAPP_URL } from "@/lib/site";
 
 const CALENDLY_URL = "https://calendly.com/flowrate/30min";
 
@@ -256,7 +257,10 @@ export function ChatWidget() {
                 </button>
               </div>
               <p className="text-muted text-[11px] text-center mt-2">
-                AI assistant. For anything it can&apos;t answer, Andrew follows up personally.
+                AI assistant. Rather talk to a person?{" "}
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="font-semibold text-heading underline underline-offset-2">
+                  WhatsApp Andrew
+                </a>
               </p>
             </div>
           </motion.div>
