@@ -110,7 +110,7 @@ export const posts: Post[] = [
       { t: "p", text: "That's normally the point where a simple app beats the sheet. Everyone adds things in one place, from their phone or the office. Everyone sees the same thing. The totals add themselves up, and nobody has to retype a thing." },
       img("five-signs-youve-outgrown-your-spreadsheet", "slide-06-nobody-trusts-the-total", "Nobody trusts the total."),
       { t: "p", text: "And if your spreadsheet still does the job? Keep it. We'd rather tell you that on a free call than build something you don't need." },
-      { t: "see", href: "/spreadsheet", text: "Paste your spreadsheet's top row and see the app it would become" },
+      { t: "see", href: "/sketch", text: "Tell us in one sentence what your spreadsheet does, and see a first sketch of the app" },
     ],
   },
   {

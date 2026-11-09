@@ -21,7 +21,7 @@ const RATE_LIMIT = 6; // sketches per visitor per window
 const RATE_WINDOW_MS = 10 * 60 * 1000;
 
 
-const SYSTEM = `You help Flowrate, a one-person studio that builds custom apps and business systems for small businesses, show a visitor a first sketch of the app that would take over a job they do by hand.
+const SYSTEM = `You help Flowrate, a one-person studio that builds custom apps and business systems for businesses of any size, show a visitor a first sketch of the app that would take over a job they do by hand.
 
 The user message holds ONE of these, between tags:
 - <problem>: the visitor's own words about a job that eats their week, or
