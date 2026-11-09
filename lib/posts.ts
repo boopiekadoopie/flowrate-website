@@ -33,7 +33,6 @@ export const posts: Post[] = [
       { t: "p", text: "An invoice is past its due date and the money hasn't come in. Most owners do one of two things: they say nothing and hope, or they wait until they're annoyed and send something sharp. Neither gets you paid faster. What works better is boring: three short messages, sent on set days, each one a little firmer than the last." },
       { t: "h2", text: "Why a set plan beats chasing when you remember" },
       { t: "p", text: "Late payers are usually not villains. Often the invoice got buried, or the person who pays the bills never saw it. A calm message on a fixed day fixes most of those. The plan also takes the feeling out of it for you: you're not deciding whether it's rude to ask, you're just sending day 7's message because it's day 7." },
-      img("three-messages-late-payment", "slide-01-day-1-7-14", "Day 1, day 7 and day 14 on a tear-off calendar."),
       { t: "h2", text: "Day 1: a friendly nudge" },
       { t: "p", text: "The day after it was due. Keep it light and make paying easy: the invoice number, the amount, and the link or bank details right there in the message, so they can pay in the time it takes to read it." },
       img("three-messages-late-payment", "slide-02-day-1-friendly-nudge", "Day 1 message: Hi name, just a reminder that invoice number for amount was due yesterday. Here's the link to pay. Thanks!"),
