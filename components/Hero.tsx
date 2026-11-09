@@ -101,7 +101,7 @@ export function Hero() {
         </div>
 
         <p className="mt-14 lg:mt-16 text-center text-[13px] text-muted">
-          Built by people who had to do the job by hand first. Names and numbers in the example are made up.
+          Built by someone who did the job by hand first. Names and numbers in the example are made up.
         </p>
       </div>
     </section>
