@@ -74,7 +74,12 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               if (b.t === "see")
                 return (
                   <p key={i} className="text-[18px] leading-[1.6]">
-                    <Link href={b.href} className="fr-ul font-semibold text-heading">{b.text} →</Link>
+                    {/* files (the free PDFs) are plain links; pages go through Link */}
+                    {/\.(pdf|png|jpg)$/.test(b.href) ? (
+                      <a href={b.href} className="fr-ul font-semibold text-heading">{b.text} →</a>
+                    ) : (
+                      <Link href={b.href} className="fr-ul font-semibold text-heading">{b.text} →</Link>
+                    )}
                   </p>
                 );
               return (
