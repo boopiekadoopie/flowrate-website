@@ -24,6 +24,13 @@ const jsonLd = {
       logo: "https://flowrate.agency/icon.png",
       email: "andrew@flowrate.agency",
       founder: { "@type": "Person", name: "Andrew Murray" },
+      /* Our own profiles, so search engines tie the name "Flowrate" to this business and not to flow-rate tools. */
+      sameAs: [
+        "https://www.instagram.com/flowrate.agency",
+        "https://www.tiktok.com/@flowrate.agency",
+        "https://www.linkedin.com/company/flowrate-agency/",
+        "https://www.youtube.com/@flowrateagency",
+      ],
       description:
         "Custom apps, business systems, dashboards and websites built around how your business already works.",
     },

@@ -42,8 +42,31 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
   if (!ind) notFound();
   const others = industries.filter((i) => i.slug !== ind.slug);
 
+  /* Structured data built only from what this page already says. */
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        name: ind.title.replace(/ \| Flowrate$/, ""),
+        description: ind.description,
+        url: `https://flowrate.agency/for/${ind.slug}`,
+        serviceType: "Custom software development",
+        provider: { "@type": "Organization", "@id": "https://flowrate.agency/#org", name: "Flowrate", url: "https://flowrate.agency" },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://flowrate.agency" },
+          { "@type": "ListItem", position: 2, name: ind.label, item: `https://flowrate.agency/for/${ind.slug}` },
+        ],
+      },
+    ],
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <Navbar />
       <main className="bg-paper">
         {/* hero: the promise in this industry's words, and an example app in its own brand */}
