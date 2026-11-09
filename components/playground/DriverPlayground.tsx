@@ -144,6 +144,8 @@ export function DriverPlayground() {
       later(700, () => {
         setQueued([]);
         deliver(send);
+        /* the "Saved on this phone" screen would otherwise still say "No signal right now" after the load arrived */
+        setLastSaved("sent");
       });
     }
   }, [signal, queued, deliver, later]);
