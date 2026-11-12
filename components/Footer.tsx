@@ -24,7 +24,7 @@ const socials = [
   { label: "TikTok", href: "https://www.tiktok.com/@flowrate.agency" },
   { label: "LinkedIn", href: "https://www.linkedin.com/company/flowrate-agency/" },
   { label: "YouTube", href: "https://youtube.com/@flowrateagency" },
-  { label: "Facebook", href: "https://www.facebook.com/share/197A29SQvL/" },
+  { label: "Facebook", href: "https://www.facebook.com/profile.php?id=61591603561803" },
 ];
 
 const policies = [
