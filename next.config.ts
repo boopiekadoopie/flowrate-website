@@ -28,6 +28,10 @@ const nextConfig: NextConfig = {
   },
   // One canonical host: send www to the bare domain so search engines
   // don't treat the two as duplicate copies of the site.
+  // Unlisted client concept pages (noindex in the page itself, not linked from the site)
+  async rewrites() {
+    return [{ source: "/kaia", destination: "/kaia.html" }];
+  },
   async redirects() {
     return [
       // the spreadsheet tool grew into Sketch my app (a spreadsheet's top row still works there)
