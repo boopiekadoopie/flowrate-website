@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Site Progress Log · demo for Carsen Construction</title>
+<link rel="icon" href="/carsen/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wdth,wght@75,700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Carsen Construction's own look (carsen.co.za): logo navy #1E3056, sky #33B7E5, Poppins + Open Sans Condensed. */
+:root {
+  --navy: #1E3056; --navy-2: #2A3F6C; --sky: #33B7E5; --sky-ink: #0B7FAE; --sky-bg: #EAF7FD;
+  --ink: #1E3056; --text: #2F2E2E; --muted: #67708A; --faint: #A7AEBE;
+  --line: #E3E6EC; --line-2: #F0F2F5; --bg: #F3F5F8; --page: #E9ECF1; --card: #FFFFFF;
+  --amber: #F0A020; --ok: #1E8A55; --ok-bg: #E8F5EE;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body { font-family: "Poppins", system-ui, sans-serif; color: var(--ink); background: var(--page); font-size: 14px; line-height: 1.45; font-variant-numeric: tabular-nums; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+button:focus-visible, [contenteditable]:focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; }
+.ey { font-family: "Open Sans", sans-serif; font-stretch: 75%; font-weight: 700; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.sq { display: inline-block; width: 8px; height: 8px; border-radius: 2px; background: var(--amber); flex: none; }
+.sq.ask { background: none; box-shadow: inset 0 0 0 1.6px var(--navy); }
+.sq.done { background: var(--ok); }
+
+/* top bar */
+.top { background: var(--card); border-bottom: 1px solid var(--line); }
+.top .in { max-width: 1320px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; gap: 16px; }
+.top img { height: 22px; width: auto; display: block; }
+.top .app { font-weight: 500; font-size: 15px; padding-left: 16px; border-left: 1px solid #D6DBE4; }
+.top .tag { margin-left: auto; font-size: 12px; color: var(--muted); text-align: right; }
+.top .tag b { color: var(--ink); font-weight: 600; }
+
+/* guide */
+.guide { max-width: 1320px; margin: 16px auto 0; padding: 0 20px; }
+.guide .card { background: var(--navy); color: #FFFFFF; border-radius: 10px; padding: 14px 18px; display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+.guide .card > b { font-size: 15px; font-weight: 600; white-space: nowrap; }
+.guide ol { list-style: none; display: flex; gap: 8px; flex-wrap: wrap; counter-reset: s; flex: 1; }
+.guide li { counter-increment: s; display: flex; align-items: center; gap: 8px; font-size: 13px; background: rgba(255,255,255,0.09); border-radius: 7px; padding: 6px 10px 6px 6px; }
+.guide li::before { content: counter(s); width: 20px; height: 20px; border-radius: 5px; background: rgba(255,255,255,0.16); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex: none; }
+.guide li.done { background: rgba(51,183,229,0.22); }
+.guide li.done::before { content: "✓"; background: var(--sky); color: var(--navy); }
+.guide .reset { margin-left: auto; font-size: 12px; color: rgba(255,255,255,0.75); text-decoration: underline; text-underline-offset: 3px; }
+
+/* tabs (phone/tablet only) */
+.tabs { display: none; max-width: 1320px; margin: 14px auto 0; padding: 0 16px; gap: 6px; }
+.tabs button { flex: 1; height: 40px; border-radius: 8px; background: var(--card); border: 1px solid var(--line); font-size: 13px; font-weight: 500; color: var(--muted); position: relative; }
+.tabs button.on { background: var(--navy); border-color: var(--navy); color: #FFFFFF; }
+.tabs button .nw { position: absolute; top: -6px; right: -4px; background: var(--sky); color: var(--navy); font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 5px; display: none; }
+.tabs button .nw.on { display: block; }
+
+/* layout */
+.wrap { max-width: 1320px; margin: 16px auto 0; padding: 0 20px 28px; display: grid; grid-template-columns: minmax(0, 1fr) 392px; gap: 22px; align-items: start; }
+.wrap > section { min-width: 0; }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.who-hd { display: flex; align-items: baseline; gap: 10px; margin: 0 2px 8px; }
+.who-hd h2 { font-size: 13px; font-weight: 600; }
+.who-hd span { font-size: 12px; color: var(--muted); }
+
+/* desk */
+.desk .bar { height: 50px; display: flex; align-items: center; gap: 12px; padding: 0 18px; border-bottom: 1px solid var(--line); }
+.desk .bar .wk { display: inline-flex; align-items: center; height: 30px; border: 1px solid #D6DBE4; border-radius: 7px; font-size: 13px; font-weight: 500; }
+.desk .bar .wk i { font-style: normal; width: 28px; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--faint); }
+.desk .bar .wk span { padding: 0 12px; border-left: 1px solid var(--line); border-right: 1px solid var(--line); height: 100%; display: flex; align-items: center; }
+.desk .bar .us { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+.desk .bar .us b { color: var(--ink); font-weight: 600; }
+.desk .bar .us em { font-style: normal; width: 28px; height: 28px; border-radius: 7px; background: var(--navy); color: #FFFFFF; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+.desk .bd { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 18px; }
+.desk .chd { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+.desk .chd h3 { font-size: 24px; font-weight: 300; letter-spacing: -0.02em; line-height: 1.15; }
+.desk .chd h3 b { font-weight: 500; }
+.lgd { margin-left: auto; display: flex; gap: 14px; font-size: 12px; color: #4A5470; align-items: center; flex-wrap: wrap; }
+.lgd span { display: inline-flex; align-items: center; gap: 6px; }
+.lgd .sw { width: 14px; height: 10px; border-radius: 3px; background: var(--navy); }
+.lgd .sw.o { background: #FFFFFF; box-shadow: inset 0 0 0 1px var(--navy); }
+
+.tp { display: inline-flex; align-items: center; height: 22px; padding: 0 7px; border-radius: 5px; font-size: 12px; font-weight: 500; white-space: nowrap; box-shadow: inset 0 0 0 1px var(--navy); color: var(--navy); background: #FFFFFF; line-height: 1; }
+.tp.own { background: var(--navy); color: #FFFFFF; box-shadow: none; }
+.tp.dv { box-shadow: inset 0 0 0 1px #B9C0CE; color: #4A5470; }
+
+.gridx { overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+.swipe { display: none; font-size: 11.5px; color: var(--muted); margin-top: -10px; }
+.gr { display: grid; grid-template-columns: 196px repeat(3, minmax(150px, 1fr)) 64px 64px; border-top: 1.5px solid var(--navy); min-width: 720px; }
+.gr > div { border-bottom: 1px solid #E8EBF0; padding: 8px; }
+.gr .gh { display: flex; align-items: center; gap: 5px; padding-top: 10px; padding-bottom: 8px; }
+.gr .gh.td { color: var(--sky-ink); background: var(--sky-bg); }
+.gr .gh.fu { color: var(--faint); }
+.gr .gs { display: flex; flex-direction: column; justify-content: center; text-align: left; border-radius: 0; }
+.gr .gs b { font-size: 14px; font-weight: 600; line-height: 1.25; display: flex; align-items: center; gap: 6px; }
+.gr .gs span { font-size: 12px; color: var(--muted); margin-top: 1px; }
+.gr .gs:hover b { text-decoration: underline; text-underline-offset: 3px; }
+.gr .gc { display: flex; flex-wrap: wrap; gap: 4px; align-content: flex-start; min-height: 62px; }
+.gr .gc.td { background: var(--sky-bg); }
+.gr .gc.fu { background: #FAFBFC; }
+.gr .ni { width: 100%; border: 1px dashed #B9C0CE; border-radius: 6px; padding: 6px 8px; font-size: 12px; color: #4A5470; line-height: 1.35; background: #FFFFFF; }
+.gr .ni u { text-decoration: none; color: var(--navy); font-weight: 600; display: block; }
+.gr .ni.q { border-color: var(--amber); }
+.gr .tm { width: 100%; font-size: 11px; color: var(--sky-ink); font-weight: 500; }
+.gr .gc.flash { animation: flash 1.6s ease-out; }
+@keyframes flash { 0% { background: #BFE8F8; } 100% { background: var(--sky-bg); } }
+
+.lw { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 18px; }
+.wt .hx, .ou .hx { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.wt .hx b { font-size: 15px; font-weight: 500; }
+.wt .hx b small { font-size: 12px; color: var(--muted); font-weight: 400; margin-left: 4px; }
+.wt ul { list-style: none; margin-top: 8px; border-top: 1px solid #E8EBF0; }
+.wt li { display: grid; grid-template-columns: 10px 92px minmax(0, 1fr) auto; align-items: center; gap: 8px; min-height: 40px; padding: 6px 0; border-bottom: 1px solid var(--line-2); font-size: 13px; }
+.wt li .st { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wt li .tx b { font-weight: 600; }
+.wt li .mt { font-size: 12px; color: var(--muted); white-space: nowrap; text-align: right; }
+.wt li.new { animation: rise .5s cubic-bezier(.22,1,.36,1); }
+.wt li.closed .tx { color: var(--muted); text-decoration: line-through; }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.wt .inl { margin-top: 8px; font-size: 12px; line-height: 1.5; color: var(--muted); }
+
+.ou { border: 1px solid #D6DBE4; border-radius: 10px; padding: 12px 14px 14px; display: flex; flex-direction: column; }
+.ou .to { font-size: 15px; font-weight: 600; margin-top: 4px; line-height: 1.3; }
+.ou .to span { font-weight: 400; color: var(--muted); font-size: 13px; }
+.ou .obd { display: grid; grid-template-columns: minmax(0, 1fr) 112px; gap: 12px; margin-top: 8px; }
+.ou .tx { font-size: 13.5px; line-height: 1.6; color: var(--text); border-radius: 6px; padding: 2px; }
+.ou .tx[contenteditable="true"] { background: #FFFDF6; box-shadow: inset 0 0 0 1px #E8D9A8; padding: 6px 8px; }
+.ou .tx .upd { background: #DDF1FA; border-radius: 3px; }
+.ou .ph2 { display: flex; flex-direction: column; gap: 6px; }
+.ou figure { position: relative; height: 62px; overflow: hidden; border-radius: 4px; }
+.ou figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ou figcaption, .pg figcaption { position: absolute; left: 0; right: 0; bottom: 0; background: rgba(30,48,86,0.88); color: #FFFFFF; font-size: 10.5px; font-weight: 500; padding: 2px 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ou .bt { margin-top: 12px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.ou .bt .fr2 { margin-right: auto; font-size: 12px; color: var(--muted); }
+.btn { height: 36px; padding: 0 16px; border-radius: 7px; display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 600; white-space: nowrap; }
+.btn.e2 { box-shadow: inset 0 0 0 1px #B9C0CE; }
+.btn.go { background: var(--navy); color: #FFFFFF; }
+.btn.go:hover { background: var(--navy-2); }
+.btn.sent { background: var(--ok-bg); color: var(--ok); }
+
+/* detail drawer */
+.det { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: #FBFCFD; display: none; }
+.det.on { display: block; animation: rise .4s cubic-bezier(.22,1,.36,1); }
+.det .hx { display: flex; align-items: baseline; gap: 10px; }
+.det .hx b { font-size: 15px; font-weight: 600; }
+.det .hx span { font-size: 12px; color: var(--muted); }
+.det .hx button { margin-left: auto; font-size: 12px; color: var(--sky-ink); font-weight: 600; }
+.det table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 13px; }
+.det td { padding: 7px 6px; border-top: 1px solid var(--line-2); vertical-align: top; }
+.det td:first-child { width: 64px; color: var(--muted); font-weight: 500; }
+
+/* phone */
+.phone-col { position: sticky; top: 14px; }
+.phone { width: 392px; height: 812px; border-radius: 58px; background: #0E0F12; padding: 12px; box-shadow: 0 0 0 1.5px #2B2D33, 0 30px 60px -28px rgba(17,24,39,0.45); }
+.scr { width: 100%; height: 100%; border-radius: 47px; overflow: hidden; background: var(--bg); display: flex; flex-direction: column; position: relative; }
+.sb { height: 50px; flex: none; display: flex; align-items: center; justify-content: space-between; padding: 6px 26px 0 32px; font-size: 15px; font-weight: 600; background: #FFFFFF; color: #0B0C0E; }
+.sb .isl { position: absolute; top: 11px; left: 50%; transform: translateX(-50%); width: 112px; height: 32px; border-radius: 16px; background: #0B0C0E; }
+.sb .sig { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; }
+.sb .sig svg { width: 17px; height: 11px; }
+.sb .sig.off { color: #C2410C; }
+.cph { background: #FFFFFF; padding: 4px 16px 10px; border-bottom: 1px solid var(--line); }
+.cph .r1 { display: flex; align-items: center; gap: 10px; }
+.cph .r1 img { width: 34px; height: 34px; border-radius: 8px; display: block; }
+.cph .r1 b { display: block; font-size: 17px; font-weight: 500; letter-spacing: -0.01em; line-height: 1.2; }
+.cph .r1 span { display: block; font-size: 12px; color: var(--muted); }
+.cph .r1 em { margin-left: auto; font-style: normal; font-size: 11.5px; color: var(--muted); text-align: right; line-height: 1.3; }
+.cph .r1 em u { text-decoration: none; display: block; color: var(--sky-ink); font-weight: 600; }
+.cpb { flex: 1; min-height: 0; overflow-y: auto; padding: 10px 10px 4px; display: flex; flex-direction: column; gap: 8px; scrollbar-width: none; }
+.cpb::-webkit-scrollbar { display: none; }
+.cd { background: #FFFFFF; border: 1px solid #E1E5EC; border-radius: 9px; padding: 9px 11px; }
+.cd .hx { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.cd .hx .rt { font-size: 12px; font-weight: 600; color: var(--navy); }
+.os .row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px; min-height: 40px; border-top: 1px solid var(--line-2); font-size: 13px; }
+.os .row:first-of-type { border-top: 0; }
+.os .row .nm { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.os .row .nm b { font-weight: 600; }
+.os .row .nm small { display: block; font-size: 11px; color: var(--muted); }
+.step { display: inline-flex; align-items: center; border: 1px solid #D6DBE4; border-radius: 8px; height: 32px; }
+.step button { width: 32px; height: 100%; font-size: 17px; color: var(--navy); display: flex; align-items: center; justify-content: center; }
+.step span { min-width: 26px; text-align: center; font-weight: 600; font-size: 14px; }
+.step.pulse { animation: pulse 1.6s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(51,183,229,0); } 50% { box-shadow: 0 0 0 4px rgba(51,183,229,0.35); } }
+.add { font-size: 12.5px; color: var(--sky-ink); font-weight: 600; min-height: 36px; display: flex; align-items: center; border-top: 1px solid var(--line-2); width: 100%; text-align: left; }
+.pick { display: none; flex-wrap: wrap; gap: 6px; padding: 4px 0 6px; }
+.pick.on { display: flex; }
+.pick button { height: 32px; padding: 0 10px; border-radius: 7px; box-shadow: inset 0 0 0 1px #B9C0CE; font-size: 12.5px; font-weight: 500; }
+.dl { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 9px; align-items: center; min-height: 42px; border-top: 1px solid var(--line-2); }
+.dl:first-of-type { border-top: 0; }
+.dl .nt2 { width: 28px; height: 32px; border-radius: 4px; background: var(--bg); border: 1px solid #D6DBE4; display: flex; align-items: center; justify-content: center; }
+.dl .nt2 svg { width: 14px; height: 16px; }
+.dl b { display: block; font-size: 13px; font-weight: 600; }
+.dl span { display: block; font-size: 11px; color: var(--muted); }
+.dl i { font-style: normal; font-size: 11.5px; font-weight: 600; color: var(--navy); white-space: nowrap; }
+.pg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.pg figure { position: relative; height: 82px; overflow: hidden; border-radius: 5px; background: #DCE1E8; }
+.pg figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pg figure.new { display: flex; align-items: center; justify-content: center; background: repeating-linear-gradient(135deg, #E4E8EE 0 8px, #EDF0F4 8px 16px); color: var(--muted); font-size: 11px; font-weight: 500; animation: rise .4s cubic-bezier(.22,1,.36,1); }
+.pg .cam { height: 82px; border: 1.5px dashed #A9B0BF; border-radius: 5px; display: flex; flex-direction: column; gap: 3px; align-items: center; justify-content: center; font-size: 11.5px; font-weight: 500; color: var(--muted); }
+.pg .cam svg { width: 18px; height: 18px; }
+.wa .row { display: flex; align-items: center; gap: 8px; min-height: 36px; font-size: 13px; }
+.wa .row + .row { border-top: 1px solid var(--line-2); }
+.wa .row.closed span:last-child { color: var(--muted); text-decoration: line-through; }
+.foot { flex: none; background: var(--bg); padding: 6px 10px 0; }
+.sg { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 11.5px; color: #4A5470; min-height: 22px; text-align: center; }
+.sg svg { width: 14px; height: 12px; flex: none; }
+.sg.q { color: #9A5B00; font-weight: 500; }
+.sg.ok { color: var(--ok); font-weight: 500; }
+.go2 { margin-top: 5px; width: 100%; height: 46px; border-radius: 9px; background: var(--navy); color: #FFFFFF; font-size: 15px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.go2 svg { width: 15px; height: 15px; }
+.go2.pulse { animation: pulse 1.6s ease-in-out infinite; }
+.go2:disabled { background: #C9CFDA; cursor: default; }
+.nt { flex: none; height: 66px; background: #FFFFFF; border-top: 1px solid #E1E5EC; display: grid; grid-template-columns: repeat(4, 1fr); padding: 7px 4px 0; margin-top: 8px; }
+.nt span { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10.5px; font-weight: 500; color: #8C93A3; }
+.nt span.on { color: var(--navy); font-weight: 600; }
+.nt svg { width: 19px; height: 19px; }
+.sigbtn { margin: 10px auto 0; display: flex; align-items: center; justify-content: center; gap: 8px; width: 392px; height: 40px; border-radius: 9px; background: var(--card); border: 1px solid var(--line); font-size: 13px; font-weight: 500; }
+.sigbtn .k { width: 34px; height: 20px; border-radius: 6px; background: #C9CFDA; position: relative; transition: background .2s; }
+.sigbtn .k::after { content: ""; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; border-radius: 4px; background: #FFFFFF; transition: transform .2s cubic-bezier(.22,1,.36,1); }
+.sigbtn.on .k { background: var(--ok); }
+.sigbtn.on .k::after { transform: translateX(14px); }
+.sigbtn.pulse { animation: pulse 1.6s ease-in-out infinite; }
+
+/* toast + modal */
+.toast { position: fixed; left: 50%; bottom: 22px; transform: translateX(-50%) translateY(20px); opacity: 0; background: var(--navy); color: #FFFFFF; font-size: 13.5px; font-weight: 500; padding: 11px 16px; border-radius: 9px; pointer-events: none; transition: all .3s cubic-bezier(.22,1,.36,1); z-index: 20; max-width: calc(100% - 32px); }
+.toast.on { opacity: 1; transform: translateX(-50%); }
+.modal { position: fixed; inset: 0; background: rgba(17,24,39,0.45); display: none; align-items: center; justify-content: center; padding: 16px; z-index: 30; }
+.modal.on { display: flex; }
+.modal .bx { background: #FFFFFF; border-radius: 12px; max-width: 420px; padding: 20px; }
+.modal .bx b { display: block; font-size: 17px; font-weight: 600; }
+.modal .bx p { margin-top: 8px; font-size: 14px; color: var(--text); }
+.modal .bx .btn { margin-top: 16px; }
+
+/* footer */
+.note { max-width: 1320px; margin: 0 auto; padding: 0 20px 32px; font-size: 12px; color: var(--muted); display: flex; gap: 16px; flex-wrap: wrap; justify-content: space-between; }
+.note b { color: var(--ink); font-weight: 600; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* phone / tablet: one view at a time */
+@media (max-width: 1080px) {
+  .tabs { display: flex; }
+  .wrap { grid-template-columns: 1fr; padding: 0 12px 24px; margin-top: 12px; }
+  .wrap > section { display: none; }
+  .wrap > section.on { display: block; }
+  .phone-col { position: static; }
+  .phone { width: 100%; max-width: 392px; margin: 0 auto; height: 760px; }
+  .sigbtn { width: 100%; max-width: 392px; }
+  .lw { grid-template-columns: 1fr; }
+  .who-hd { margin-left: 4px; }
+  .guide { padding: 0 12px; }
+  .guide .reset { margin-left: 0; }
+  .top .in { padding: 10px 14px; }
+  .top .app { display: none; }
+}
+@media (max-width: 520px) {
+  .phone { padding: 0; border-radius: 0; box-shadow: none; background: none; height: 720px; }
+  .scr { border-radius: 14px; border: 1px solid var(--line); }
+  .sb { height: 34px; padding: 0 14px; font-size: 13px; }
+  .sb .isl { display: none; }
+  .desk .bd { padding: 14px 12px; }
+  .desk .bar { padding: 0 12px; }
+  .desk .bar .us span { display: none; }
+  .ou .obd { grid-template-columns: 1fr; }
+  .ou .ph2 { flex-direction: row; }
+  .ou .ph2 figure { flex: 1; }
+  .guide ol { display: grid; }
+  .guide .card { flex-direction: column; align-items: stretch; gap: 10px; padding: 14px; }
+  .guide .reset { align-self: flex-start; }
+  .gr { grid-template-columns: 124px repeat(3, minmax(132px, 1fr)) 48px 48px; min-width: 616px; }
+  .gr .gs, .gr > .gh:first-child { position: sticky; left: 0; z-index: 1; background: #FFFFFF; box-shadow: 1px 0 0 #E8EBF0; }
+  .gr .gs b { font-size: 13px; }
+  .gr .gs span { white-space: normal; }
+  .swipe { display: block !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="in">
+  <img src="/carsen/logo.png" alt="Carsen Turnkey Construction Solutions">
+  <span class="app">Site Progress Log</span>
+  <span class="tag"><b>A clickable demo</b> made for Carsen Construction by Flowrate</span>
+</div></header>
+
+<div class="guide"><div class="card">
+  <b>Try it in 4 taps</b>
+  <ol id="guide">
+    <li data-s="1">Add a thatcher on Sello's phone</li>
+    <li data-s="2">Save today's entry (no signal on the reserve)</li>
+    <li data-s="3">Turn the signal on</li>
+    <li data-s="4">See Wednesday and the Friday update fill in</li>
+  </ol>
+  <button class="reset" id="reset" type="button">Start again</button>
+</div></div>
+
+<nav class="tabs" id="tabs">
+  <button type="button" data-v="phone" class="on">Sello's phone</button>
+  <button type="button" data-v="desk">Your week<span class="nw" id="nw">new</span></button>
+</nav>
+
+<main class="wrap">
+  <!-- CARL'S WEEK -->
+  <section class="desk-col" id="v-desk">
+    <div class="who-hd"><h2>Your week, on your laptop</h2><span>every build, from the foremen's entries</span></div>
+    <div class="panel desk">
+      <div class="bar">
+        <span class="wk"><i aria-hidden="true">‹</i><span>Week of Mon 16 Nov</span><i aria-hidden="true">›</i></span>
+        <span class="us"><span><b>Carl</b> · 4 builds running</span><em>C</em></span>
+      </div>
+      <div class="bd">
+        <div class="chd">
+          <div><div class="ey">All sites · from the foremen's entries</div><h3>Who was <b>on site</b> this week</h3></div>
+          <div class="lgd">
+            <span><i class="sw"></i>Your team</span><span><i class="sw o"></i>Contractor</span>
+            <span><i class="sq"></i>Waiting</span>
+          </div>
+        </div>
+        <div class="gridx" id="gridx"><div class="gr" id="grid"></div></div>
+        <p class="swipe">Swipe the table sideways for the other days.</p>
+        <div class="det" id="det"></div>
+        <div class="lw">
+          <div class="wt">
+            <div class="hx"><b>Waiting on <small id="wcount"></small></b><span class="ey">from site entries</span></div>
+            <ul id="wlist"></ul>
+            <p class="inl" id="inl"></p>
+          </div>
+          <div class="ou">
+            <div class="hx"><span class="ey">Owner update · draft for Fri 20</span><span class="ey" style="color:var(--sky-ink)" id="ofrom"></span></div>
+            <div class="to">Lodge rebuild, Timbavati <span>→ Anton, owner</span></div>
+            <div class="obd">
+              <div class="tx" id="otx"></div>
+              <div class="ph2" id="oph"></div>
+            </div>
+            <div class="bt">
+              <span class="fr2">You read it and edit it first.</span>
+              <button class="btn e2" id="oedit" type="button">Edit</button>
+              <button class="btn go" id="osend" type="button">Send to Anton</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SELLO'S PHONE -->
+  <section class="phone-col on" id="v-phone">
+    <div class="who-hd"><h2>Sello's phone, on site</h2><span>foreman, lodge rebuild</span></div>
+    <div class="phone"><div class="scr">
+      <div class="sb"><span>16:52</span><span class="isl"></span><span class="sig off" id="sig"></span></div>
+      <div class="cph"><div class="r1">
+        <img src="/carsen/icon.png" alt="">
+        <div><b>Lodge rebuild</b><span>Timbavati · Wed 18 Nov</span></div>
+        <em>Sello<u>foreman</u></em>
+      </div></div>
+      <div class="cpb">
+        <div class="cd os">
+          <div class="hx"><span class="ey">On site today</span><span class="rt" id="ppl"></span></div>
+          <div id="osrows"></div>
+          <button class="add" id="addtrade" type="button">+ Add a trade or a visit</button>
+          <div class="pick" id="pick-trade"></div>
+        </div>
+        <div class="cd">
+          <div class="hx"><span class="ey">Delivered</span><span class="rt" id="dcount"></span></div>
+          <div id="dlrows"></div>
+          <button class="add" id="adddel" type="button">+ Log a delivery</button>
+          <div class="pick" id="pick-del"></div>
+        </div>
+        <div class="cd">
+          <div class="hx"><span class="ey">Photos by area</span><span class="rt" id="pcount"></span></div>
+          <div class="pg" id="pg"></div>
+        </div>
+        <div class="cd wa">
+          <div class="hx"><span class="ey">Waiting or asked</span></div>
+          <div id="warows"></div>
+          <button class="add" id="addask" type="button">+ Owner asked for a change</button>
+        </div>
+      </div>
+      <div class="foot">
+        <div class="sg" id="sg"></div>
+        <button class="go2" id="save" type="button"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 8.5l3.2 3.2L13 5"/></svg><span id="savel">Save today's entry</span></button>
+      </div>
+      <div class="nt">
+        <span class="on"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="14" height="13" rx="2"/><path d="M3 8h14M7 2v4M13 2v4"/></svg>Today</span>
+        <span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="5" width="15" height="11" rx="2"/><path d="M7 5l1.3-2h3.4L13 5"/><circle cx="10" cy="10.5" r="2.8"/></svg>Photos</span>
+        <span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg>Waiting</span>
+        <span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 10.5l4 4L16 6"/></svg>Sent</span>
+      </div>
+    </div></div>
+    <button class="sigbtn" id="sigbtn" type="button" aria-pressed="false"><span class="k"></span><span id="sigl">Phone signal: off (on the reserve)</span></button>
+  </section>
+</main>
+
+<footer class="note">
+  <span><b>Demo only.</b> Builds, foremen, owners, contractors, counts and dates are invented. The thatch roof and joinery photos are Carsen's own. Nothing here is sent anywhere.</span>
+  <span>Flowrate · Andrew Murray · +27 82 410 4936</span>
+</footer>
+
+<div class="toast" id="toast"></div>
+<div class="modal" id="modal"><div class="bx">
+  <b>Ready for Anton</b>
+  <p>In the real app this goes to Anton by email or WhatsApp, but only after you've read and changed what you want. In this demo nothing is sent.</p>
+  <button class="btn go" id="mclose" type="button">OK</button>
+</div></div>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const BARS = '<svg viewBox="0 0 17 11"><rect x="0" y="8" width="3" height="3" rx="0.9" fill="currentColor"/><rect x="4.4" y="5.6" width="3" height="5.4" rx="0.9" fill="currentColor" opacity=".35"/><rect x="8.8" y="3.2" width="3" height="7.8" rx="0.9" fill="currentColor" opacity=".35"/><rect x="13.2" y="0.8" width="3" height="10.2" rx="0.9" fill="currentColor" opacity=".35"/></svg>';
+  const BARS_ON = '<svg viewBox="0 0 17 11"><rect x="0" y="8" width="3" height="3" rx="0.9" fill="currentColor"/><rect x="4.4" y="5.6" width="3" height="5.4" rx="0.9" fill="currentColor"/><rect x="8.8" y="3.2" width="3" height="7.8" rx="0.9" fill="currentColor"/><rect x="13.2" y="0.8" width="3" height="10.2" rx="0.9" fill="currentColor" opacity=".35"/></svg>';
+  const NOTE = '<svg viewBox="0 0 14 16" fill="none" stroke="#67708A" stroke-width="1.2"><path d="M2 1h7l3 3v11H2z"/><path d="M4.5 7h5M4.5 9.5h5M4.5 12h3"/></svg>';
+  const CHECK = '<svg viewBox="0 0 14 14" width="13" height="13" fill="none" stroke="#1E8A55" stroke-width="2"><path d="M2.5 7.5l3 3 6-6.5"/></svg>';
+  const CAM = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="5" width="15" height="11" rx="2"/><path d="M7 5l1.3-2h3.4L13 5"/><circle cx="10" cy="10.5" r="2.8"/></svg>';
+  const SIGNAL_OFF = '<svg viewBox="0 0 16 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11.5c3-2.6 9-2.6 12 0M5 8.4c2-1.4 4-1.4 6 0M1.5 1.5l13 11"/></svg>';
+  const SIGNAL_ON = '<svg viewBox="0 0 16 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1.5 5.5c3.6-3.3 9.4-3.3 13 0M4 8.4c2.3-2 5.7-2 8 0M6.6 11.2c.8-.7 2-.7 2.8 0"/></svg>';
+
+  const TRADES = ['Plumber', 'Glazier', 'Carpenter', 'Tiler', 'Painter', 'Engineer (visit)'];
+  const DELIVERIES = ['Roof sheets, 12', 'Cement, 40 bags', 'Sliding doors, Suite 4'];
+  const ASKS = ['Two more plug points at the boma', 'Darker stain on the deck'];
+  const AREAS = ['Boma · decking', 'Suite 4 · doors', 'Main lodge · deck', 'Suite 3 · bathroom'];
+
+  const fresh = () => ({
+    signal: false, phase: 'draft', dirty: true, sentAt: null, guide: new Set(), trades: TRADES.slice(), dels: DELIVERIES.slice(), asks: ASKS.slice(), areas: AREAS.slice(),
+    rows: [
+      { kind: 'own', label: 'Your team', who: 'Carsen site team', n: 8, at: '06:40' },
+      { kind: 'con', label: 'Thatcher', who: 'Jabu', n: 4, at: '07:10' },
+      { kind: 'con', label: 'Electrician', who: 'Neo', n: 2, at: '08:30' },
+    ],
+    delivered: [{ what: 'Thatching grass, 1 load', by: 'Sello', at: '11:20' }],
+    photos: [{ src: '/carsen/roof.jpg', area: 'Main lodge · roof' }, { src: '/carsen/joinery.jpg', area: 'Suite 2 · built-ins' }],
+    waiting: [{ text: 'Sliding doors, Suite 4', note: 'glazier says Fri', kind: 'wait', closed: false }],
+    flash: false,
+  });
+  let S = fresh();
+  const clock = () => { const d = new Date(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+
+  // ---------------------------------------------------------------- phone
+  function renderPhone() {
+    const ppl = S.rows.reduce((a, r) => a + r.n, 0);
+    $('ppl').textContent = ppl + ' people';
+    $('osrows').innerHTML = S.rows.map((r, i) => `
+      <div class="row">
+        <span class="tp ${r.kind === 'own' ? 'own' : ''}">${esc(r.label)}</span>
+        <span class="nm"><b>${esc(r.who)}</b><small>${r.kind === 'own' ? 'all day' : 'in ' + esc(r.at)}</small></span>
+        <span class="step ${i === 1 && !S.guide.has(1) ? 'pulse' : ''}"><button type="button" aria-label="One fewer ${esc(r.label)}" data-dec="${i}">−</button><span>${r.n}</span><button type="button" aria-label="One more ${esc(r.label)}" data-inc="${i}">+</button></span>
+      </div>`).join('');
+    $('pick-trade').innerHTML = S.trades.map((t) => `<button type="button" data-trade="${esc(t)}">${esc(t)}</button>`).join('');
+    $('dcount').textContent = S.delivered.length;
+    $('dlrows').innerHTML = S.delivered.map((d) => `
+      <div class="dl"><span class="nt2">${NOTE}</span><span><b>${esc(d.what)}</b><span>Received by ${esc(d.by)} · ${esc(d.at)}</span></span><i>${CHECK} note photo</i></div>`).join('');
+    $('pick-del').innerHTML = S.dels.map((t) => `<button type="button" data-del="${esc(t)}">${esc(t)}</button>`).join('');
+    $('adddel').style.display = S.dels.length ? '' : 'none';
+    $('pcount').textContent = S.photos.length;
+    $('pg').innerHTML = S.photos.map((p) => p.src
+      ? `<figure><img src="${p.src}" alt="${esc(p.area)}"><figcaption>${esc(p.area)}</figcaption></figure>`
+      : `<figure class="new" aria-label="New photo, ${esc(p.area)}">photo taken · ${esc(p.at)}<figcaption>${esc(p.area)}</figcaption></figure>`).join('')
+      + (S.areas.length ? `<button class="cam" type="button" id="cam">${CAM}Take a photo</button>` : '');
+    $('warows').innerHTML = S.waiting.map((w) => `
+      <div class="row ${w.closed ? 'closed' : ''}"><i class="sq ${w.kind === 'ask' ? 'ask' : ''} ${w.closed ? 'done' : ''}"></i><span>${w.kind === 'ask' ? 'Owner asked: ' : ''}${esc(w.text)}${w.note ? ' · ' + esc(w.note) : ''}</span></div>`).join('');
+    $('addask').style.display = S.asks.length ? '' : 'none';
+    // signal + save state
+    $('sig').className = 'sig ' + (S.signal ? '' : 'off');
+    $('sig').innerHTML = S.signal ? BARS_ON + ' LTE' : BARS + ' No signal';
+    $('sigbtn').classList.toggle('on', S.signal);
+    $('sigbtn').setAttribute('aria-pressed', S.signal);
+    $('sigl').textContent = S.signal ? 'Phone signal: on (back in range)' : 'Phone signal: off (on the reserve)';
+    $('sigbtn').classList.toggle('pulse', S.phase === 'queued' && !S.signal);
+    const sg = $('sg'), save = $('save');
+    save.classList.toggle('pulse', S.guide.has(1) && S.phase === 'draft');
+    if (S.phase === 'queued') {
+      sg.className = 'sg q'; sg.innerHTML = SIGNAL_OFF + 'Saved on this phone. It sends itself when there\'s signal.';
+      save.disabled = true; $('savel').textContent = 'Waiting for signal';
+    } else if (S.phase === 'sending') {
+      sg.className = 'sg'; sg.innerHTML = SIGNAL_ON + 'Signal back. Sending today\'s entry…';
+      save.disabled = true; $('savel').textContent = 'Sending…';
+    } else if (S.phase === 'sent' && !S.dirty) {
+      sg.className = 'sg ok'; sg.innerHTML = CHECK + 'Sent to the office at ' + S.sentAt + '. Carl can see it.';
+      save.disabled = true; $('savel').textContent = 'Entry sent';
+    } else {
+      sg.className = 'sg'; sg.innerHTML = S.signal ? SIGNAL_ON + 'Signal is on: it sends straight away.' : SIGNAL_OFF + 'No signal here: it saves now and sends on the way out.';
+      save.disabled = false; $('savel').textContent = S.phase === 'sent' ? 'Save the changes' : 'Save today\'s entry';
+    }
+  }
+
+  // ---------------------------------------------------------------- desk
+  const DAYS = ['Mon 16', 'Tue 17', 'Wed 18', 'Thu', 'Fri'];
+  const BUILDS = [
+    { id: 'tim', name: 'Lodge rebuild', place: 'Timbavati reserve', fm: 'Sello', days: [[['own', 'Team 8'], ['', 'Thatcher 4']], [['own', 'Team 8'], ['', 'Thatcher 4'], ['', 'Electrician 2']], 'live'], dl: [1, 0] },
+    { id: 'hwe', name: 'New home', place: 'Hoedspruit Wildlife Estate', fm: 'Johan', days: [[['own', 'Team 5'], ['', 'Plumber 2']], [['own', 'Team 5'], ['', 'Plumber 2']], [['own', 'Team 5'], ['', 'Plumber 1']]], dl: [0, 2, 0] },
+    { id: 'rv', name: 'Renovation', place: 'Raptors View', fm: 'Themba', days: [[['own', 'Team 3']], [['own', 'Team 3'], ['', 'Glazier 2']], 'none'] },
+    { id: 'er', name: 'New home', place: 'Elephant Rock Eco Estate', fm: 'Pieter', days: [[['own', 'Team 6'], ['', 'Electrician 1']], [['own', 'Team 6']], [['own', 'Team 6'], ['', 'Electrician 1']]], dl: [0, 1, 0] },
+  ];
+  const chips = (list) => list.map(([k, t]) => `<span class="tp ${k}">${esc(t)}</span>`).join('');
+  function liveChips() {
+    return S.rows.map((r) => [r.kind === 'own' ? 'own' : '', (r.kind === 'own' ? 'Team' : r.label) + ' ' + r.n]);
+  }
+  function renderDesk() {
+    const head = `<div class="gh ey">Build · foreman</div>` + DAYS.map((d, i) => `<div class="gh ey ${i === 2 ? 'td' : ''} ${i > 2 ? 'fu' : ''}">${i === 2 ? '▲ ' : ''}${d}${i === 2 ? ' · today' : ''}</div>`).join('');
+    const rows = BUILDS.map((b) => {
+      const cells = [0, 1, 2, 3, 4].map((di) => {
+        const cls = 'gc' + (di === 2 ? ' td' : '') + (di > 2 ? ' fu' : '') + (b.id === 'tim' && di === 2 && S.flash ? ' flash' : '');
+        const v = b.days[di];
+        let inner = '';
+        if (v === 'live') {
+          if (S.phase === 'sent') inner = chips(liveChips()) + (S.delivered.length ? `<span class="tp dv">Delivery ${S.delivered.length}</span>` : '') + `<span class="tm">in at ${esc(S.sentAt)}, ${S.photos.length} photos</span>`;
+          else if (S.phase === 'queued' || S.phase === 'sending') inner = `<span class="ni q">Saved on Sello's phone<u>waiting for signal</u></span>`;
+          else inner = `<span class="ni">No entry yet<u>Remind Sello</u></span>`;
+        } else if (v === 'none') inner = `<span class="ni">No entry yet<u>Remind Themba</u></span>`;
+        else if (v) inner = chips(v) + (b.dl && b.dl[di] ? `<span class="tp dv">Delivery ${b.dl[di]}</span>` : '');
+        return `<div class="${cls}">${inner}</div>`;
+      }).join('');
+      const waiting = b.id === 'tim' || b.id === 'rv';
+      return `<button class="gs" type="button" data-build="${b.id}"><b>${esc(b.name)} ${waiting ? '<i class="sq"></i>' : ''}</b><span>${esc(b.place)} · ${esc(b.fm)}</span></button>` + cells;
+    }).join('');
+    $('grid').innerHTML = head + rows;
+    S.flash = false;
+
+    // waiting list
+    const base = [
+      { site: 'HWE', text: '<b>Engineer\'s sign-off</b>, roof trusses · booked', meta: 'Thu 19', kind: 'wait' },
+      { site: 'Raptors View', text: '<b>No entry today</b> from Themba', meta: 'today', kind: 'wait' },
+      { site: 'Timbavati', text: '<b>Thatching grass</b> · second load due', meta: 'Fri 20', kind: 'wait' },
+    ];
+    const tim = S.phase === 'sent' ? S.waiting.map((w) => ({ site: 'Timbavati', text: w.kind === 'ask' ? '<b>Owner asked:</b> ' + esc(w.text.toLowerCase()) : '<b>' + esc(w.text) + '</b>' + (w.note ? ' · ' + esc(w.note) : ''), meta: w.closed ? 'arrived today' : (w.kind === 'ask' ? 'for you to price' : 'since Mon'), kind: w.kind, closed: w.closed, isNew: w.isNew })) : [{ site: 'Timbavati', text: '<b>Sliding doors, Suite 4</b> · glazier says Fri', meta: 'since Mon', kind: 'wait' }];
+    const all = tim.concat(base);
+    $('wcount').textContent = all.filter((w) => !w.closed).length + ' open';
+    $('wlist').innerHTML = all.map((w) => `<li class="${w.closed ? 'closed' : ''} ${w.isNew ? 'new' : ''}"><i class="sq ${w.kind === 'ask' ? 'ask' : ''} ${w.closed ? 'done' : ''}"></i><span class="st">${esc(w.site)}</span><span class="tx">${w.text}</span><span class="mt">${esc(w.meta)}</span></li>`).join('');
+    $('inl').textContent = S.phase === 'sent' ? `Today's entries came in at 16:05 (HWE), 16:20 (Elephant Rock) and ${S.sentAt} (Timbavati, once Sello's phone had signal).` : `Today's entries came in at 16:05 (HWE) and 16:20 (Elephant Rock). Timbavati has no signal on site, so Sello's entry arrives on his way out.`;
+    renderOwner();
+  }
+
+  // ---------------------------------------------------------------- owner update (built from the week's entries)
+  let edited = false;
+  function ownerText() {
+    const live = S.phase === 'sent';
+    const thatch = live ? S.rows.find((r) => r.label === 'Thatcher') : { n: 4 };
+    const extra = live ? S.rows.filter((r) => r.kind === 'con' && r.label !== 'Thatcher' && r.label !== 'Electrician') : [];
+    const doors = S.waiting.find((w) => w.text.startsWith('Sliding doors'));
+    const asks = live ? S.waiting.filter((w) => w.kind === 'ask') : [];
+    const up = (s) => live ? `<span class="upd">${s}</span>` : s;
+    let t = `Hi Anton, here's the week at the lodge. `;
+    t += `The main lodge roof is thatched up to the ridge, with Jabu's team on it every day${thatch && thatch.n !== 4 ? up(' (' + thatch.n + ' of them on Wednesday)') : ''}. `;
+    t += `The Suite 2 built-ins are in, and the electrician started in Suites 1 to 3 on Tuesday. `;
+    if (extra.length) t += up(`The ${extra.map((r) => r.label.replace(' (visit)', '').toLowerCase()).join(' and the ')} ${extra.length > 1 ? 'were' : 'was'} on site on Wednesday too. `);
+    const newDel = live ? S.delivered.slice(1).filter((d) => !d.what.startsWith('Sliding doors')) : [];
+    if (newDel.length) t += up(`Delivered this week: ${['thatching grass', ...newDel.map((d) => d.what.split(',')[0].toLowerCase())].join(', ')}. `);
+    if (doors && doors.closed) t += up('The Suite 4 sliding doors arrived on Wednesday. ');
+    else t += 'Still waiting on the Suite 4 sliding doors: the glazier says Friday. ';
+    if (asks.length) t += up(`You asked for ${asks.map((a) => a.text.toLowerCase()).join(' and ')}: I'll send you a price. `);
+    t += `Photos below. Carl`;
+    return t;
+  }
+  function renderOwner() {
+    const live = S.phase === 'sent';
+    $('ofrom').textContent = live ? 'from 3 entries' : 'from 2 entries';
+    if (!edited) $('otx').innerHTML = ownerText();
+    const ph = S.photos.filter((p) => p.src).slice(0, 2);
+    $('oph').innerHTML = ph.map((p) => `<figure><img src="${p.src}" alt="${esc(p.area)}"><figcaption>${esc(p.area)}</figcaption></figure>`).join('');
+  }
+
+  // ---------------------------------------------------------------- detail drawer
+  function openDetail(id) {
+    const b = BUILDS.find((x) => x.id === id);
+    const det = $('det');
+    if (det.dataset.id === id && det.classList.contains('on')) { det.classList.remove('on'); det.dataset.id = ''; return; }
+    const rows = [0, 1, 2].map((di) => {
+      let v = b.days[di];
+      if (v === 'live') v = S.phase === 'sent' ? liveChips() : null;
+      if (v === 'none') v = null;
+      const txt = v ? v.map(([k, t]) => t).join(', ') : (b.id === 'tim' && S.phase !== 'draft' ? 'saved on the foreman\'s phone, waiting for signal' : 'no entry yet');
+      return `<tr><td>${DAYS[di]}</td><td>${esc(txt)}</td></tr>`;
+    }).join('');
+    det.innerHTML = `<div class="hx"><b>${esc(b.name)}</b><span>${esc(b.place)} · foreman ${esc(b.fm)}</span><button type="button" id="dclose">Close</button></div><table>${rows}</table>`;
+    det.dataset.id = id; det.classList.add('on');
+    $('dclose').onclick = () => det.classList.remove('on');
+  }
+
+  // ---------------------------------------------------------------- actions
+  function mark(n) {
+    S.guide.add(n);
+    document.querySelectorAll('#guide li').forEach((li) => li.classList.toggle('done', S.guide.has(+li.dataset.s)));
+  }
+  function changed() { if (S.phase === 'sent') S.dirty = true; render(); }
+  function toast(msg) { const t = $('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('on'), 2600); }
+  function send() {
+    S.phase = 'sending'; render();
+    setTimeout(() => {
+      S.phase = 'sent'; S.dirty = false; S.sentAt = clock(); S.flash = true;
+      mark(4); render();
+      S.waiting.forEach((w) => { w.isNew = false; });
+      $('nw').classList.add('on');
+      toast('Sello\'s entry is in. Wednesday and the Friday update just filled in.');
+    }, 1300);
+  }
+  function save() {
+    if (S.phase === 'queued' || S.phase === 'sending') return;
+    mark(2);
+    if (S.signal) send();
+    else { S.phase = 'queued'; render(); toast('Saved on the phone. No signal yet.'); }
+  }
+
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest('button');
+    if (!t) return;
+    if (t.dataset.inc !== undefined) { S.rows[+t.dataset.inc].n++; if (S.rows[+t.dataset.inc].label === 'Thatcher') mark(1); changed(); }
+    else if (t.dataset.dec !== undefined) { const r = S.rows[+t.dataset.dec]; if (r.n > (r.kind === 'own' ? 1 : 0)) r.n--; if (r.n === 0) S.rows.splice(+t.dataset.dec, 1); changed(); }
+    else if (t.id === 'addtrade') $('pick-trade').classList.toggle('on');
+    else if (t.dataset.trade) {
+      const name = { Plumber: 'Kobus', Glazier: 'Mpho', Carpenter: 'Lucky', Tiler: 'Sipho', Painter: 'Frans', 'Engineer (visit)': 'Engineer' }[t.dataset.trade];
+      S.rows.push({ kind: 'con', label: t.dataset.trade, who: name, n: 1, at: clock() });
+      S.trades = S.trades.filter((x) => x !== t.dataset.trade); $('pick-trade').classList.remove('on'); mark(1); changed();
+    }
+    else if (t.id === 'adddel') $('pick-del').classList.toggle('on');
+    else if (t.dataset.del) {
+      S.delivered.push({ what: t.dataset.del, by: 'Sello', at: clock() });
+      if (t.dataset.del.startsWith('Sliding doors')) { const w = S.waiting.find((x) => x.text.startsWith('Sliding doors')); if (w) w.closed = true; }
+      S.dels = S.dels.filter((x) => x !== t.dataset.del); $('pick-del').classList.remove('on'); changed();
+    }
+    else if (t.id === 'cam') { S.photos.push({ area: S.areas.shift(), at: clock() }); changed(); toast('In the real app the camera opens here.'); }
+    else if (t.id === 'addask') { S.waiting.push({ text: S.asks.shift(), kind: 'ask', isNew: true }); changed(); }
+    else if (t.id === 'save') save();
+    else if (t.id === 'sigbtn') {
+      S.signal = !S.signal;
+      if (S.signal) mark(3);
+      render();
+      if (S.signal && S.phase === 'queued') setTimeout(send, 500);
+    }
+    else if (t.dataset.build) openDetail(t.dataset.build);
+    else if (t.id === 'oedit') {
+      const x = $('otx'); const on = x.getAttribute('contenteditable') !== 'true';
+      x.setAttribute('contenteditable', on); t.textContent = on ? 'Done' : 'Edit'; if (on) { edited = true; x.focus(); }
+    }
+    else if (t.id === 'osend') { $('modal').classList.add('on'); t.className = 'btn sent'; t.textContent = 'Sent ✓ (demo)'; }
+    else if (t.id === 'mclose') $('modal').classList.remove('on');
+    else if (t.id === 'reset') { S = fresh(); edited = false; $('otx').removeAttribute('contenteditable'); $('oedit').textContent = 'Edit'; const o = $('osend'); o.className = 'btn go'; o.textContent = 'Send to Anton'; $('det').classList.remove('on'); $('nw').classList.remove('on'); document.querySelectorAll('#guide li').forEach((li) => li.classList.remove('done')); render(); }
+    else if (t.dataset.v) {
+      document.querySelectorAll('#tabs button').forEach((b) => b.classList.toggle('on', b === t));
+      $('v-phone').classList.toggle('on', t.dataset.v === 'phone'); $('v-desk').classList.toggle('on', t.dataset.v === 'desk');
+      if (t.dataset.v === 'desk') { $('nw').classList.remove('on'); requestAnimationFrame(toToday); }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+  $('modal').addEventListener('click', (e) => { if (e.target.id === 'modal') $('modal').classList.remove('on'); });
+
+  function toToday() {
+    const g = $('gridx'), td = g.querySelector('.gh.td'), first = g.querySelector('.gh');
+    if (td && g.scrollWidth > g.clientWidth) g.scrollLeft = td.offsetLeft - first.offsetWidth - 8;
+  }
+  function render() { renderPhone(); renderDesk(); }
+  render();
+})();
+</script>
+</body>
+</html>

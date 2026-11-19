@@ -30,7 +30,10 @@ const nextConfig: NextConfig = {
   // don't treat the two as duplicate copies of the site.
   // Unlisted client concept pages (noindex in the page itself, not linked from the site)
   async rewrites() {
-    return [{ source: "/kaia", destination: "/kaia.html" }];
+    return [
+      { source: "/kaia", destination: "/kaia.html" },
+      { source: "/carsen", destination: "/carsen/index.html" },
+    ];
   },
   async redirects() {
     return [
