@@ -47,7 +47,7 @@ button:focus-visible, [contenteditable]:focus-visible { outline: 2px solid var(-
 .asks .hd b { font-size: 15px; font-weight: 600; }
 .asks .hd span { font-size: 12.5px; color: rgba(255,255,255,0.75); }
 .asks .reset { margin-left: auto; font-size: 12px; color: rgba(255,255,255,0.75); text-decoration: underline; text-underline-offset: 3px; }
-.row3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 0.8fr); gap: 8px; }
+.row3 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(0, 0.8fr); gap: 8px; }
 .ask { text-align: left; background: rgba(255,255,255,0.08); border-radius: 9px; padding: 10px 12px; display: flex; gap: 10px; align-items: flex-start; color: #FFFFFF; min-height: 64px; }
 .ask:hover { background: rgba(255,255,255,0.14); }
 .ask .n { width: 24px; height: 24px; border-radius: 6px; background: rgba(255,255,255,0.16); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex: none; margin-top: 1px; }
@@ -315,7 +315,7 @@ table.att th.tot { text-align: right; }
 .go2 { margin-top: 5px; width: 100%; height: 46px; border-radius: 9px; background: var(--navy); color: #FFFFFF; font-size: 15px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; }
 .go2 svg { width: 15px; height: 15px; }
 .go2:disabled { background: #C9CFDA; }
-.nt { flex: none; height: 66px; background: #FFFFFF; border-top: 1px solid #E1E5EC; display: grid; grid-template-columns: repeat(4, 1fr); padding: 7px 4px 0; margin-top: 8px; }
+.nt { flex: none; height: 66px; background: #FFFFFF; border-top: 1px solid #E1E5EC; display: grid; grid-template-columns: repeat(5, 1fr); padding: 7px 4px 0; margin-top: 8px; }
 .nt button { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10.5px; font-weight: 500; color: #8C93A3; height: 44px; position: relative; }
 .nt button.on { color: var(--navy); font-weight: 600; }
 .nt svg { width: 19px; height: 19px; }
@@ -437,6 +437,34 @@ table.att th.tot { text-align: right; }
 .note { max-width: 1320px; margin: 0 auto; padding: 0 20px 32px; font-size: 12px; color: var(--muted); display: flex; gap: 16px; flex-wrap: wrap; justify-content: space-between; }
 .note b { color: var(--ink); font-weight: 600; }
 
+
+/* desk + phone: staff files */
+.sflock { display: flex; gap: 8px; align-items: center; font-size: 12.5px; color: #4A5470; }
+.sflock svg { width: 14px; height: 14px; flex: none; color: var(--navy); }
+table.att tr.nw td { background: var(--sky-bg); }
+table.att .opn { font-size: 12px; font-weight: 600; color: var(--sky-ink); }
+table.att .bk { display: block; font-size: 11px; font-weight: 600; color: var(--sky-ink); margin-top: 2px; }
+.sfd { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: #FBFCFD; animation: rise .4s cubic-bezier(.22,1,.36,1); }
+.sfd .hx { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.sfd .hx b { font-size: 16px; font-weight: 600; }
+.sfd .hx span { font-size: 12px; color: var(--muted); }
+.sfd .hx button { margin-left: auto; font-size: 12px; color: var(--sky-ink); font-weight: 600; }
+.sfgrid { display: grid; grid-template-columns: 236px minmax(0, 1fr); gap: 16px; align-items: start; margin-top: 10px; }
+.idc { aspect-ratio: 1.586; border-radius: 10px; background: linear-gradient(135deg, #EEF4EF 0%, #D9E6DD 100%); border: 1px solid #C6D4CA; padding: 10px 11px; display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 10px; align-content: start; }
+.idc .pic { border-radius: 5px; background: linear-gradient(180deg, #CBD5CE, #AAB8AF); height: 66px; }
+.idc .tl { font-size: 8.5px; font-weight: 700; letter-spacing: 0.08em; color: #4E6B5A; text-transform: uppercase; }
+.idc .ln { height: 6px; border-radius: 3px; background: #9DB0A4; margin-top: 7px; filter: blur(1.3px); }
+.idc .ln.s { width: 55%; } .idc .ln.m { width: 78%; }
+.idcap { font-size: 11.5px; color: var(--muted); margin-top: 6px; }
+table.kv { width: 100%; border-collapse: collapse; font-size: 13px; }
+table.kv td { padding: 7px 6px; border-top: 1px solid var(--line-2); vertical-align: top; }
+table.kv td:first-child { width: 136px; color: var(--muted); font-weight: 500; }
+.sflog { margin-top: 10px; font-size: 12px; color: #4A5470; }
+.sflog b { font-weight: 600; color: var(--navy); }
+.fl { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; padding: 6px 0; border-top: 1px solid var(--line-2); margin-top: 2px; }
+.fl span { color: var(--muted); }
+.fl b { font-weight: 600; text-align: right; }
+@media (max-width: 760px) { .sfgrid { grid-template-columns: 1fr; } .idc { max-width: 260px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 
 /* phone / tablet: one view at a time */
@@ -493,11 +521,12 @@ table.att th.tot { text-align: right; }
 </div></header>
 
 <div class="asks"><div class="card">
-  <div class="hd"><b>You asked for three things. Here they are, on the foreman's phone.</b><span>Pick one and follow the steps.</span><button class="reset" id="reset" type="button">Start again</button></div>
+  <div class="hd"><b>You asked for four things. Here they are, on the foreman's phone and your laptop.</b><span>Pick one and follow the steps.</span><button class="reset" id="reset" type="button">Start again</button></div>
   <div class="row3" id="asks">
     <button class="ask on" type="button" data-ask="att"><span class="n">1</span><span><b>Staff attendance</b><small>A roll call on the foreman's phone. Hours ready for wages.</small></span></button>
-    <button class="ask" type="button" data-ask="photos"><span class="n">2</span><span><b>Photos saved to your drive</b><small>Foundations, first fix and more, filed by build and stage.</small></span></button>
+    <button class="ask" type="button" data-ask="photos"><span class="n">2</span><span><b>Photos saved to your OneDrive</b><small>Foundations, first fix and more, filed by build and stage.</small></span></button>
     <button class="ask" type="button" data-ask="plan"><span class="n">3</span><span><b>A live project plan</b><small>Updated on site, seen in the office straight away.</small></span></button>
+    <button class="ask" type="button" data-ask="staff"><span class="n">4</span><span><b>Staff files</b><small>ID copies and Ideco results. Only managers can open them.</small></span></button>
     <button class="ask lg" type="button" data-ask="log"><span class="n">+</span><span><b>Daily site log</b><small>From the first demo.</small></span></button>
   </div>
   <div class="steps" id="steps"></div>
@@ -519,13 +548,15 @@ table.att th.tot { text-align: right; }
       </div>
       <div class="dtabs" id="dtabs">
         <button type="button" data-d="att" class="on">Attendance<span class="dot" id="dot-att"></span></button>
-        <button type="button" data-d="drive">Photos in your drive<span class="dot" id="dot-drive"></span></button>
+        <button type="button" data-d="drive">Photos in OneDrive<span class="dot" id="dot-drive"></span></button>
         <button type="button" data-d="plan">Project plan<span class="dot" id="dot-plan"></span></button>
+        <button type="button" data-d="staff">Staff files<span class="dot" id="dot-staff"></span></button>
         <button type="button" data-d="week">This week<span class="dot" id="dot-week"></span></button>
       </div>
       <div class="dp on" id="dp-att"><div class="bd" id="att-desk"></div></div>
       <div class="dp" id="dp-drive"><div class="bd" id="drive-desk"></div></div>
       <div class="dp" id="dp-plan"><div class="bd" id="plan-desk"></div></div>
+      <div class="dp" id="dp-staff"><div class="bd" id="staff-desk"></div></div>
       <div class="dp" id="dp-week"><div class="bd">
         <div class="chd">
           <div><div class="ey">All sites · from the foremen's entries</div><h3>Who was <b>on site</b> this week</h3></div>
@@ -578,6 +609,10 @@ table.att th.tot { text-align: right; }
         <div class="cpb" id="pl-body"></div>
         <div class="foot"><div class="sg" id="pl-sg"></div></div>
       </div>
+      <div class="pp" id="pp-staff">
+        <div class="cpb" id="sf-body"></div>
+        <div class="foot"><div class="sg" id="sf-sg"></div></div>
+      </div>
       <div class="pp" id="pp-log">
         <div class="cpb">
           <div class="cd os">
@@ -608,6 +643,7 @@ table.att th.tot { text-align: right; }
         <button type="button" data-t="att" class="on"><span class="qd" id="qd-att"></span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="7.5" cy="7" r="2.6"/><path d="M2.8 16c.6-2.8 2.4-4.2 4.7-4.2s4.1 1.4 4.7 4.2"/><path d="M12.6 9.2l1.6 1.6 3.2-3.4"/></svg>Roll call</button>
         <button type="button" data-t="photos"><span class="qd" id="qd-photos"></span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="5" width="15" height="11" rx="2"/><path d="M7 5l1.3-2h3.4L13 5"/><circle cx="10" cy="10.5" r="2.8"/></svg>Photos</button>
         <button type="button" data-t="plan"><span class="qd" id="qd-plan"></span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 5h8M3 10h12M3 15h6"/><path d="M14 3.5v3M17 8.5v3M12 13.5v3"/></svg>Plan</button>
+        <button type="button" data-t="staff"><span class="qd" id="qd-staff"></span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="4.5" width="15" height="11" rx="2"/><rect x="5" y="7.5" width="4" height="5" rx="1"/><path d="M11 8.5h4M11 11.5h3"/></svg>Staff</button>
         <button type="button" data-t="log"><span class="qd" id="qd-log"></span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="14" height="13" rx="2"/><path d="M3 8h14M7 2v4M13 2v4"/></svg>Day log</button>
       </div>
     </div></div>
@@ -616,7 +652,7 @@ table.att th.tot { text-align: right; }
 </main>
 
 <footer class="note">
-  <span><b>Demo only.</b> Builds, people, hours and dates are invented. The thatch roof and joinery photos are Carsen's own. The drive is shown as an example: the real app files into your own Google Drive or OneDrive. Nothing here is saved or sent anywhere.</span>
+  <span><b>Demo only.</b> Builds, people, hours and dates are invented. The thatch roof and joinery photos are Carsen's own. The OneDrive folders are an example: the real app files into Carsen's own OneDrive. Staff details, ID copies and Ideco results are invented too. Nothing here is saved or sent anywhere.</span>
   <span>Flowrate · Andrew Murray · +27 82 410 4936</span>
 </footer>
 
@@ -665,6 +701,20 @@ table.att th.tot { text-align: right; }
     { site: 'Renovation, Raptors View', fm: 'Themba', here: 0, of: 3, late: 0, at: null },
   ];
 
+  // ---------------------------------------------------------------- 4. staff files (per PEOPLE index; all invented)
+  const STAFF = [
+    { ideco: '12 Jan 2026', since: 'Mar 2019', cell: '082 ··· 4471', nok: 'Thandi M. (wife)' },
+    { ideco: '12 Jan 2026', since: 'Jun 2021', cell: '071 ··· 2290', nok: 'Grace N. (wife)' },
+    { ideco: '4 Feb 2026', since: 'Feb 2022', cell: '076 ··· 8813', nok: 'Lerato M. (sister)' },
+    { ideco: '4 Feb 2026', since: 'Aug 2022', cell: '073 ··· 1052', nok: 'Ruth K. (mother)' },
+    { ideco: '9 Jun 2026', since: 'Jun 2026', cell: '079 ··· 6634', nok: 'Paul M. (brother)' },
+    { ideco: '9 Jun 2026', since: 'Jun 2026', cell: '072 ··· 3378', nok: 'Martha N. (mother)' },
+    { ideco: null, since: 'Oct 2026', cell: '061 ··· 9045', nok: 'Kelebogile B. (sister)' },
+    { ideco: '12 Jan 2026', since: 'Sep 2024', cell: '083 ··· 5527', nok: 'Anna S. (wife)' },
+  ];
+  const NEWW = { nm: 'Mandla K.', role: 'General worker', cell: '060 ··· 1180', nok: 'Nomsa K. (mother)' };
+  const LOCK = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2"/></svg>';
+
   // ---------------------------------------------------------------- 2. photos
   const CKS = () => [
     { id: 'c2', stage: 'First fix · plumbing', area: 'Suite 3', folder: '03 First fix', stem: 'Suite 3 first fix plumbing', why: 'Before plaster starts Mon 23 Nov', shots: [['Wide: the whole wall, every pipe in view', 'wide'], ['Tape measure along the pipe runs', 'measured'], ['Pressure test: the gauge reading', 'pressure test']], got: 0, filed: 0, target: true },
@@ -703,7 +753,8 @@ table.att th.tot { text-align: right; }
     att: PEOPLE.map(() => ({ st: null, at: null, why: null, out: null })), rc: 'draft', co: 'draft', ot: false, attFlash: false,
     cks: CKS(), open: null, ph: 'idle', files: baseFiles(), newFiles: [], folder: '03 First fix', phAt: null, shotN: 0, find: null,
     tasks: TASKS(), ed: null, edStep: null, reason: null, pl: 'clean', plAt: null, plFlash: [], planSent: false,
-    done: new Set(), steps: { att: new Set(), photos: new Set(), plan: new Set() },
+    sf: { id: false, ideco: false, st: 'draft' }, sfOpen: null, sfLog: [],
+    done: new Set(), steps: { att: new Set(), photos: new Set(), plan: new Set(), staff: new Set() },
   });
   let A = freshA();
 
@@ -795,7 +846,7 @@ table.att th.tot { text-align: right; }
       h += `<div class="cd"><div class="hx"><span class="ey">Photo checkpoints · this build</span><span class="rt">${doneN} of ${A.cks.length} done</span></div>`;
       h += A.cks.map((k) => {
         const d = k.got >= k.shots.length;
-        const sub = d && k.doneToday ? (k.filed >= k.got ? 'Done today, filed in your drive' : 'Done today, waiting for signal') : k.why;
+        const sub = d && k.doneToday ? (k.filed >= k.got ? 'Done today, filed in your OneDrive' : 'Done today, waiting for signal') : k.why;
         return `<button class="ck ${d ? 'done' : 'todo'} ${k.target && !d ? 'target pulse' : ''}" type="button" data-ck="${k.id}"><span class="ic">${d ? '✓' : '!'}</span><span><b>${esc(k.stage)} · ${esc(k.area)}</b><small>${esc(sub)}</small></span><span class="ct">${k.got} of ${k.shots.length}</span></button>`;
       }).join('');
       h += `</div><p class="hint2">Each checkpoint says exactly which photos to take, before it gets covered up.</p>`;
@@ -803,15 +854,15 @@ table.att th.tot { text-align: right; }
       const k = A.cks.find((x) => x.id === A.open), d = k.got >= k.shots.length;
       h += `<div class="cd"><button class="back" type="button" data-a="ckback">‹ All checkpoints</button>
         <div class="ckh"><b>${esc(k.stage)} · ${esc(k.area)}</b><small>${esc(d && k.doneToday ? 'Done today' : k.why)}</small></div>
-        <div class="shots">${k.shots.map(([lab], i) => `<div class="shot ${i < k.got ? 'got' : ''}"><span class="th">${i < k.got ? '' : CAM}</span><span><b>${i + 1}. ${esc(lab)}</b><small>${i < k.got ? (k.times && k.times[i] ? 'Taken ' + k.times[i] + ' · named and stamped' : 'Taken earlier · in your drive') : 'Not taken yet'}</small></span></div>`).join('')}</div>
+        <div class="shots">${k.shots.map(([lab], i) => `<div class="shot ${i < k.got ? 'got' : ''}"><span class="th">${i < k.got ? '' : CAM}</span><span><b>${i + 1}. ${esc(lab)}</b><small>${i < k.got ? (k.times && k.times[i] ? 'Taken ' + k.times[i] + ' · named and stamped' : 'Taken earlier · in your OneDrive') : 'Not taken yet'}</small></span></div>`).join('')}</div>
         <button class="take ${!d ? 'pulse' : ''}" type="button" data-a="take" ${d ? 'disabled' : ''}>${d ? CHECK + ' All photos taken' : CAM + ' Take photo ' + (k.got + 1) + ' of ' + k.shots.length}</button>
         <div class="path">Files itself to <b>Carsen Projects › Lodge rebuild, Timbavati › ${esc(k.folder)}</b>, named “${esc(nextName(k))}”</div></div>`;
     }
     $('ph-body').innerHTML = h;
     const sg = $('ph-sg'), n = phPending();
     if (A.ph === 'queued') { sg.className = 'sg q'; sg.innerHTML = SIGNAL_OFF + n + ' photo' + (n === 1 ? '' : 's') + ' saved on this phone. They file when there\'s signal.'; }
-    else if (A.ph === 'sending') { sg.className = 'sg'; sg.innerHTML = SIGNAL_ON + 'Signal back. Filing the photos in your drive…'; }
-    else if (A.ph === 'sent') { sg.className = 'sg ok'; sg.innerHTML = CHECK + 'Filed in your drive at ' + A.phAt + '. Carl can find them.'; }
+    else if (A.ph === 'sending') { sg.className = 'sg'; sg.innerHTML = SIGNAL_ON + 'Signal back. Filing the photos in your OneDrive…'; }
+    else if (A.ph === 'sent') { sg.className = 'sg ok'; sg.innerHTML = CHECK + 'Filed in your OneDrive at ' + A.phAt + '. Carl can find them.'; }
     else { sg.className = 'sg'; sg.innerHTML = 'Photos are named by build, area and stage, then filed for you.'; }
   }
 
@@ -819,7 +870,7 @@ table.att th.tot { text-align: right; }
   function renderDriveDesk() {
     const f = A.files, sel = A.folder;
     const newIn = (n) => f[n].filter(([fn]) => A.newFiles.includes(fn)).length;
-    let tree = `<div class="rt2">Your drive</div><button class="b0" type="button" data-a="nofold">${FOLDER} Carsen Projects</button><button class="b1" type="button" data-a="nofold">${FOLDER} Lodge rebuild, Timbavati</button>`;
+    let tree = `<div class="rt2">OneDrive</div><button class="b0" type="button" data-a="nofold">${FOLDER} Carsen Projects</button><button class="b1" type="button" data-a="nofold">${FOLDER} Lodge rebuild, Timbavati</button>`;
     tree += FOLDERS.map((n) => `<button class="b2 ${!A.find && n === sel ? 'on' : ''}" type="button" data-fold="${n}">${FOLDER} ${esc(n)}<span class="c ${newIn(n) ? 'nw' : ''}">${f[n].length}${newIn(n) ? ' · ' + newIn(n) + ' new' : ''}</span></button>`).join('');
     tree += ['New home, HWE 372', 'Renovation, Raptors View', 'New home, Elephant Rock'].map((n) => `<button class="b1 x" type="button" data-a="otherbuild">${FOLDER} ${esc(n)}</button>`).join('');
     let files, crumb;
@@ -840,7 +891,7 @@ table.att th.tot { text-align: right; }
       return `<li><span class="mk ${mk}">${filedAll ? '✓' : (k.got ? '!' : '✕')}</span><span>${label}</span><span class="chip ${filedAll ? 'ok' : (k.got ? 'wait' : 'late')}">${txt}</span></li>`;
     };
     const c2 = A.cks.find((k) => k.id === 'c2'), c3 = A.cks.find((k) => k.id === 'c3');
-    let h = `<div class="chd"><div><div class="ey">Your drive · every photo filed for you</div><h3>Every checkpoint, <b>in the right folder</b></h3></div><span class="sim">Google Drive or OneDrive · example</span></div>`;
+    let h = `<div class="chd"><div><div class="ey">Your OneDrive · every photo filed for you</div><h3>Every checkpoint, <b>in the right folder</b></h3></div><span class="sim">OneDrive · example</span></div>`;
     h += `<p class="sub2">Named and filed the moment the phone has signal. Years later, when an owner asks where a pipe runs, it takes seconds to find.</p>`;
     h += `<div class="drv"><div class="tree">${tree}</div><div class="files"><div class="crumb">${crumb}</div>${finds}${grid}</div></div>`;
     h += `<div class="cover"><div class="hx"><b>Before it gets plastered over</b><span class="ey">Plaster starts Mon 23 Nov · Suites 1–3</span></div><ul>
@@ -1024,11 +1075,67 @@ table.att th.tot { text-align: right; }
     $('dclose').onclick = () => det.classList.remove('on');
   }
 
+  // ================================================================ 4. staff files: phone
+  function renderStaffPhone() {
+    const f = A.sf, both = f.id && f.ideco;
+    const shot = (ok, lab, sub) => `<div class="shot ${ok ? 'got' : ''}"><span class="th">${ok ? '' : CAM}</span><span><b>${lab}</b><small>${ok ? sub : 'Not taken yet'}</small></span></div>`;
+    let h = `<div class="cd"><div class="hx"><span class="ey">New worker</span><span class="rt">${f.st === 'sent' ? 'in the staff files' : 'starts Thu 19 Nov'}</span></div>
+      <div class="ckh"><b>${esc(NEWW.nm)} · ${esc(NEWW.role)}</b><small>Starts on the lodge rebuild tomorrow. Add his papers once, here.</small></div>
+      <div class="shots">${shot(f.id, '1. ID copy: both sides of his ID', 'Taken · saved to his staff file')}${shot(f.ideco, '2. Ideco result: the slip from his check', 'Taken · saved to his staff file')}</div>
+      <div class="fl"><span>Cellphone</span><b>${esc(NEWW.cell)}</b></div>
+      <div class="fl"><span>Emergency contact</span><b>${esc(NEWW.nok)}</b></div>
+      <button class="take ${!both ? 'pulse' : ''}" type="button" data-a="sftake" ${both ? 'disabled' : ''}>${both ? CHECK + ' Papers added' : CAM + (f.id ? ' Photograph the Ideco result' : ' Photograph his ID')}</button>
+      <div class="path">Saves to <b>Carsen staff files › ${esc(NEWW.nm)}</b>. Sello can add papers but can't open other people's files.</div></div>
+      <p class="hint2">Only managers can open staff files, and every time one is opened it's logged.</p>`;
+    $('sf-body').innerHTML = h;
+    const sg = $('sf-sg');
+    if (f.st === 'queued') { sg.className = 'sg q'; sg.innerHTML = SIGNAL_OFF + 'Saved on this phone. It sends itself when there\'s signal.'; }
+    else if (f.st === 'sending') { sg.className = 'sg'; sg.innerHTML = SIGNAL_ON + 'Signal back. Sending Mandla\'s papers…'; }
+    else if (f.st === 'sent') { sg.className = 'sg ok'; sg.innerHTML = CHECK + 'In the staff files. Only managers can open them.'; }
+    else { sg.className = 'sg'; sg.innerHTML = 'The photos go to his staff file, not the phone\'s gallery.'; }
+  }
+
+  // ================================================================ 4. staff files: desk
+  function renderStaffDesk() {
+    const sent = A.sf.st === 'sent';
+    const list = (sent ? [{ k: 'n', nm: NEWW.nm, role: NEWW.role, ideco: '18 Nov 2026', since: 'Thu 19 Nov 2026', cell: NEWW.cell, nok: NEWW.nok, isNew: true }] : [])
+      .concat(PEOPLE.map(([nm, role], i) => ({ k: String(i), i, nm, role, ...STAFF[i] })));
+    const total = list.length, idecoN = list.filter((p) => p.ideco).length;
+    const tiles = [['Staff files', total, 'this build'], ['ID copies', total, 'of ' + total], ['Ideco checks', idecoN, 'of ' + total], ['Missing', total - idecoN, 'Ideco check']];
+    let h = `<div class="chd"><div><div class="ey">Staff files · Lodge rebuild, Timbavati · managers only</div><h3>Everyone's papers, <b>in one place</b></h3></div><div class="rt">${sent ? 'Mandla\'s papers <b>in</b>' : 'Mandla starts tomorrow'}</div></div>`;
+    h += `<div class="tiles">${tiles.map(([l, v, sm]) => `<div class="tile"><div class="ey">${l}</div><div class="v">${v}<small>${sm}</small></div></div>`).join('')}</div>`;
+    if (A.sf.st === 'queued' || A.sf.st === 'sending') h += `<div class="banner">${SIGNAL_OFF.replace('<svg', '<svg width="15" height="13"')} Mandla's papers are saved on Sello's phone. They arrive as soon as his phone has signal.</div>`;
+    else if (!sent) h += `<div class="banner">Mandla starts tomorrow. His file appears here once Sello adds his ID and Ideco result on site.</div>`;
+    h += `<div class="sflock">${LOCK}<span>Only you and your site managers can open these files. Every time one is opened, it's logged.</span></div>`;
+    const rows = list.map((p) => `<tr class="${p.isNew ? 'nw' : ''}"><td class="nm"><b>${esc(p.nm)}</b><small>${esc(p.role)}${p.isNew ? ' · starts tomorrow' : ''}</small></td><td><span class="chip ok">On file</span></td><td>${p.ideco ? `<span class="chip ok">Verified · ${esc(p.ideco)}</span>` : `<span class="chip wait">Not done yet</span><button class="bk" type="button" data-a="sfbook">Ask Sello to book it</button>`}</td><td>${esc(p.since)}</td><td><button class="opn" type="button" data-sfo="${p.k}">Open file</button></td></tr>`).join('');
+    h += `<div class="tblx"><table class="att"><thead><tr><th>Person</th><th>ID copy</th><th>Ideco check</th><th>With Carsen since</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    if (A.sfOpen !== null) {
+      const p = list.find((x) => x.k === A.sfOpen);
+      if (p) {
+        let hours = 'Starts Thu 19 Nov';
+        if (!p.isNew) { const a = A.att[p.i]; const tot = HIST[p.i].reduce((s2, d) => s2 + (d[0] === 'abs' ? 0 : hrs(d[0], d[1])), 0) + (a.out ? hrs(a.at, a.out) : 0); hours = fh(tot) + ' so far (from the roll calls)'; }
+        const log = A.sfLog.filter((x) => x === p.k).length;
+        h += `<div class="sfd"><div class="hx"><b>${esc(p.nm)}</b><span>${esc(p.role)} · Lodge rebuild, Timbavati</span><button type="button" data-a="sfclose">Close</button></div>
+          <div class="sfgrid"><div><div class="idc"><div class="pic"></div><div><div class="tl">Republic of South Africa</div><div class="ln m"></div><div class="ln"></div><div class="ln s"></div><div class="ln m"></div></div></div><div class="idcap">ID copy, both sides${p.isNew ? ' · added by Sello today' : ''} · blurred in this demo</div></div>
+          <table class="kv"><tbody>
+            <tr><td>Ideco check</td><td>${p.ideco ? 'Verified · ' + esc(p.ideco) + (p.isNew ? ' · slip photographed on site' : ' · result on file') : '<span class="chip wait">Not done yet</span>'}</td></tr>
+            <tr><td>Cellphone</td><td>${esc(p.cell)}</td></tr>
+            <tr><td>Emergency contact</td><td>${esc(p.nok)}</td></tr>
+            <tr><td>With Carsen since</td><td>${esc(p.since)}</td></tr>
+            <tr><td>Hours this week</td><td>${esc(hours)}</td></tr>
+          </tbody></table></div>
+          <div class="sflog">${LOCK.replace('<svg', '<svg width="12" height="12" style="vertical-align:-1px;margin-right:5px"')}Opened by <b>Carl</b>, just now${log > 1 ? ' (' + log + ' times today)' : ''}.${p.isNew ? ' Added by <b>Sello</b> on site today.' : ''}</div></div>`;
+      }
+    }
+    $('staff-desk').innerHTML = h;
+  }
+
   // ================================================================ steps strip
   const STEPS = {
     att: ['Tap "Mark everyone here"', 'Mark Given absent, sick', 'Send the roll call (no signal on the reserve? switch it on under the phone)', 'Clock everyone out at the end of the day'],
-    photos: ['Open "First fix · plumbing, Suite 3"', 'Take the 3 photos it asks for', 'See them filed in your drive'],
+    photos: ['Open "First fix · plumbing, Suite 3"', 'Take the 3 photos it asks for', 'See them filed in your OneDrive'],
     plan: ['Thatch: tap Update, then +10%', 'Sliding doors: Update, Delayed, a trade, +4 days', 'See your plan move, and what it means for handover'],
+    staff: ['On Sello\'s phone: photograph Mandla\'s ID', 'Photograph his Ideco result (no signal? switch it on under the phone)', 'Open his file in your office: managers only'],
     log: ['Add a thatcher', 'Save today\'s entry', 'Turn the signal on', 'See the week and the Friday update fill in'],
   };
   function renderSteps() {
@@ -1036,22 +1143,22 @@ table.att th.tot { text-align: right; }
     const waiting = !G.signal && Object.values(pending()).some(Boolean);
     $('steps').innerHTML = `<span class="lb">Try it:</span>` + STEPS[k].map((s, i) => `<span class="s ${done.has(i + 1) ? 'done' : ''}"><i>${done.has(i + 1) ? '✓' : i + 1}</i>${esc(s)}</span>`).join('') + (waiting ? `<span class="s sigc"><i>!</i>Saved on the phone: switch the signal on under the phone to send</span>` : '');
     document.querySelectorAll('#asks .ask').forEach((b) => { b.classList.toggle('on', b.dataset.ask === G.ask); b.classList.toggle('done', A.done.has(b.dataset.ask) || (b.dataset.ask === 'log' && L.guide.has(4))); });
-    document.querySelectorAll('#asks .ask .n').forEach((n, i) => { const key = ['att', 'photos', 'plan', 'log'][i]; const d = A.done.has(key) || (key === 'log' && L.guide.has(4)); n.textContent = d ? '✓' : (key === 'log' ? '+' : i + 1); });
+    document.querySelectorAll('#asks .ask .n').forEach((n, i) => { const key = ['att', 'photos', 'plan', 'staff', 'log'][i]; const d = A.done.has(key) || (key === 'log' && L.guide.has(4)); n.textContent = d ? '✓' : (key === 'log' ? '+' : i + 1); });
   }
 
   // ================================================================ navigation
-  const D_FOR = { att: 'att', photos: 'drive', plan: 'plan', log: 'week' };
-  const T_FOR = { att: 'att', drive: 'photos', plan: 'plan', week: 'log' };
+  const D_FOR = { att: 'att', photos: 'drive', plan: 'plan', staff: 'staff', log: 'week' };
+  const T_FOR = { att: 'att', drive: 'photos', plan: 'plan', staff: 'staff', week: 'log' };
   function setPhoneTab(t) {
     G.ask = t;
     document.querySelectorAll('#nt button').forEach((b) => b.classList.toggle('on', b.dataset.t === t));
-    ['att', 'photos', 'plan', 'log'].forEach((k) => $('pp-' + k).classList.toggle('on', k === t));
+    ['att', 'photos', 'plan', 'staff', 'log'].forEach((k) => $('pp-' + k).classList.toggle('on', k === t));
     setDeskTab(D_FOR[t]);
   }
   function setDeskTab(d) {
     G.dtab = d;
     document.querySelectorAll('#dtabs button').forEach((b) => b.classList.toggle('on', b.dataset.d === d));
-    ['att', 'drive', 'plan', 'week'].forEach((k) => $('dp-' + k).classList.toggle('on', k === d));
+    ['att', 'drive', 'plan', 'staff', 'week'].forEach((k) => $('dp-' + k).classList.toggle('on', k === d));
     $('dot-' + d).classList.remove('on');
   }
   function notifyDesk(d) {
@@ -1061,7 +1168,7 @@ table.att th.tot { text-align: right; }
 
   // ================================================================ signal + sending
   function pending() {
-    return { att: A.rc === 'queued' || A.co === 'queued', photos: A.ph === 'queued', plan: A.pl === 'queued', log: L.phase === 'queued' };
+    return { att: A.rc === 'queued' || A.co === 'queued', photos: A.ph === 'queued', plan: A.pl === 'queued', staff: A.sf.st === 'queued', log: L.phase === 'queued' };
   }
   function renderSig() {
     $('sig').className = 'sig ' + (G.signal ? '' : 'off');
@@ -1101,8 +1208,12 @@ table.att th.tot { text-align: right; }
       A.ph = 'sent'; A.phAt = '14:' + String(31 + A.shotN).padStart(2, '0'); A.newFiles = A.newFiles.concat(added); A.find = null;
       const c2 = A.cks.find((k) => k.id === 'c2'); if (c2.filed >= c2.shots.length) { A.steps.photos.add(3); A.done.add('photos'); }
       notifyDesk('drive'); render();
-      toast(added.length + ' photo' + (added.length === 1 ? '' : 's') + ' filed in your drive' + (last ? ': ' + last.folder + ' › ' + last.area + '.' : '.'));
+      toast(added.length + ' photo' + (added.length === 1 ? '' : 's') + ' filed in your OneDrive' + (last ? ': ' + last.folder + ' › ' + last.area + '.' : '.'));
     }, 1200);
+  }
+  function sendStaff() {
+    A.sf.st = 'sending'; render();
+    setTimeout(() => { A.sf.st = 'sent'; A.steps.staff.add(2); notifyDesk('staff'); render(); toast('Mandla\'s file is in the office: ID copy and Ideco result. Only managers can open it.'); }, 1100);
   }
   function sendPlan() {
     A.pl = 'sending'; render();
@@ -1117,6 +1228,7 @@ table.att th.tot { text-align: right; }
     if (kind === 'rc') { if (G.signal) sendRc(); else { A.rc = 'queued'; render(); toast('Saved on the phone. No signal on the reserve: switch it on under the phone to send.'); } }
     if (kind === 'co') { if (G.signal) sendCo(); else { A.co = 'queued'; render(); } }
     if (kind === 'ph') { if (G.signal) filePhotos(); else { A.ph = 'queued'; render(); toast('Photos saved on the phone. Switch the signal on under the phone to file them.'); } }
+    if (kind === 'sf') { if (G.signal) sendStaff(); else { A.sf.st = 'queued'; render(); toast('Saved on the phone. Switch the signal on under the phone to send it.'); } }
     if (kind === 'pl') { if (G.signal) { A.pl = 'queued'; render(); setTimeout(sendPlan, 400); } else { A.pl = 'queued'; render(); toast('Saved on the phone. Switch the signal on under the phone to send it.'); } }
   }
   function flush() {
@@ -1125,6 +1237,7 @@ table.att th.tot { text-align: right; }
     if (A.co === 'queued') setTimeout(sendCo, 700);
     if (A.ph === 'queued') setTimeout(filePhotos, 600);
     if (A.pl === 'queued') setTimeout(sendPlan, 650);
+    if (A.sf.st === 'queued') setTimeout(sendStaff, 700);
   }
   function sendLog() {
     L.phase = 'sending'; render();
@@ -1145,7 +1258,7 @@ table.att th.tot { text-align: right; }
     // asks + tabs
     if (d.ask) { setPhoneTab(d.ask); if (window.matchMedia('(max-width: 1080px)').matches) showView('phone'); render(); return; }
     if (d.t) { setPhoneTab(d.t); render(); return; }
-    if (d.d) { setDeskTab(d.d); G.ask = T_FOR[d.d]; document.querySelectorAll('#nt button').forEach((b) => b.classList.toggle('on', b.dataset.t === G.ask)); ['att', 'photos', 'plan', 'log'].forEach((k) => $('pp-' + k).classList.toggle('on', k === G.ask)); render(); return; }
+    if (d.d) { setDeskTab(d.d); G.ask = T_FOR[d.d]; document.querySelectorAll('#nt button').forEach((b) => b.classList.toggle('on', b.dataset.t === G.ask)); ['att', 'photos', 'plan', 'staff', 'log'].forEach((k) => $('pp-' + k).classList.toggle('on', k === G.ask)); render(); return; }
     if (d.v) { showView(d.v); return; }
     // attendance
     if (d.a === 'allhere') { A.att.forEach((p) => { if (!p.st) { p.st = 'here'; p.at = '07:00'; } }); A.steps.att.add(1); render(); return; }
@@ -1177,6 +1290,11 @@ table.att th.tot { text-align: right; }
     if (d.fold) { A.folder = d.fold; A.find = null; render(); return; }
     if (d.a === 'nofold') return;
     if (d.a === 'otherbuild') { toast('Every build gets the same folders, so photos are always in the same place.'); return; }
+    // staff files
+    if (d.a === 'sftake') { if (!A.sf.id) { A.sf.id = true; A.steps.staff.add(1); toast('ID copy taken. The real app opens the camera here.'); render(); } else if (!A.sf.ideco) { A.sf.ideco = true; queueOrSend('sf'); render(); } return; }
+    if (d.sfo !== undefined) { A.sfOpen = d.sfo; A.sfLog.push(d.sfo); if (d.sfo === 'n') { A.steps.staff.add(3); A.done.add('staff'); } render(); return; }
+    if (d.a === 'sfclose') { A.sfOpen = null; render(); return; }
+    if (d.a === 'sfbook') { toast('In the real app Sello gets a reminder to book Kagiso\'s Ideco check.'); return; }
     // plan
     if (d.ed) { A.ed = d.ed; A.edStep = null; render(); return; }
     if (d.a === 'edclose') { A.ed = null; A.edStep = null; render(); return; }
@@ -1238,6 +1356,7 @@ table.att th.tot { text-align: right; }
     renderAttPhone(); renderAttDesk();
     renderPhotosPhone(); renderDriveDesk();
     renderPlanPhone(); renderPlanDesk();
+    renderStaffPhone(); renderStaffDesk();
     renderLogPhone(); renderWeekDesk();
   }
   render();
