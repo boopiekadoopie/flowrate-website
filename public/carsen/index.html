@@ -65,6 +65,8 @@ button:focus-visible, [contenteditable]:focus-visible { outline: 2px solid var(-
 .steps span.s i { font-style: normal; width: 18px; height: 18px; border-radius: 5px; background: rgba(255,255,255,0.16); display: flex; align-items: center; justify-content: center; font-size: 10.5px; font-weight: 600; }
 .steps span.s.done { background: rgba(51,183,229,0.22); }
 .steps span.s.done i { background: var(--sky); color: var(--navy); }
+.steps span.s.sigc { background: var(--amber); color: var(--navy); font-weight: 600; }
+.steps span.s.sigc i { background: rgba(30,48,86,0.16); }
 
 /* tabs (phone/tablet only) */
 .tabs { display: none; max-width: 1320px; margin: 14px auto 0; padding: 0 16px; gap: 6px; }
@@ -180,6 +182,10 @@ table.att th.tot { text-align: right; }
 .fc .fn small { display: block; font-size: 10.5px; color: var(--muted); margin-top: 2px; }
 .fc .nwb { position: absolute; top: 6px; left: 6px; background: var(--sky); color: var(--navy); font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 4px; }
 .empty { font-size: 12.5px; color: var(--muted); padding: 22px 6px; }
+.finds { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-top: 8px; font-size: 12px; color: var(--muted); }
+.finds button { height: 28px; padding: 0 10px; border-radius: 7px; box-shadow: inset 0 0 0 1px #B9C0CE; font-size: 12px; font-weight: 500; color: var(--navy); }
+.finds button.on { background: var(--navy); color: #FFFFFF; box-shadow: none; }
+.sub2 { font-size: 13px; color: var(--muted); margin-top: -8px; }
 .cover { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
 .cover .hx { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
 .cover .hx b { font-size: 14px; font-weight: 600; }
@@ -644,14 +650,14 @@ table.att th.tot { text-align: right; }
   const PEOPLE = [['Sello M.', 'Foreman'], ['Joseph N.', 'Builder'], ['Petrus M.', 'Builder'], ['Simon K.', 'Bricklayer'], ['David M.', 'Bricklayer'], ['Given N.', 'General worker'], ['Kagiso B.', 'General worker'], ['Thabo S.', 'Carpenter']];
   // Mon and Tue: [in, out] or ['abs', reason]
   const HIST = [
-    [['06:40', '16:30'], ['06:40', '16:30']],
-    [['06:40', '16:30'], ['06:40', '17:30']],
-    [['06:40', '16:30'], ['06:40', '16:30']],
-    [['06:40', '16:30'], ['06:40', '16:30']],
-    [['06:40', '16:30'], ['06:40', '16:30']],
-    [['06:40', '16:30'], ['06:40', '16:30']],
-    [['06:40', '16:30'], ['abs', 'Sick']],
-    [['07:20', '16:30'], ['06:40', '16:30']],
+    [['07:00', '16:00'], ['07:00', '16:00']],
+    [['07:00', '16:00'], ['07:00', '17:00']],
+    [['07:00', '16:00'], ['07:00', '16:00']],
+    [['07:00', '16:00'], ['07:00', '16:00']],
+    [['07:00', '16:00'], ['07:00', '16:00']],
+    [['07:00', '16:00'], ['07:00', '16:00']],
+    [['07:00', '16:00'], ['abs', 'Sick']],
+    [['07:20', '16:00'], ['07:00', '16:00']],
   ];
   const OTHERS = [
     { site: 'New home, Hoedspruit Wildlife Estate', fm: 'Johan', here: 5, of: 5, late: 0, at: '06:55' },
@@ -661,28 +667,30 @@ table.att th.tot { text-align: right; }
 
   // ---------------------------------------------------------------- 2. photos
   const CKS = () => [
-    { id: 'c2', stage: 'First fix · plumbing', area: 'Suite 3', folder: '03 First fix', why: 'Before plaster starts Mon 23 Nov', shots: ['Wide: the whole wall, every pipe in view', 'Close-up: joints and fittings', 'Tape measure along the pipe runs'], got: 0, target: true },
-    { id: 'c3', stage: 'First fix · electrical', area: 'Suite 3', folder: '03 First fix', why: 'Before plaster starts Mon 23 Nov', shots: ['Wide: conduits and boxes', 'Close-up: the DB board feed', 'Tape measure to the plug points'], got: 1 },
-    { id: 'c1', stage: 'Foundations', area: 'Suite 4', folder: '01 Foundations', why: 'Done Mon 9 Nov', shots: ['Trenches and depth', 'Steel before the pour', 'The pour'], got: 3 },
-    { id: 'c4', stage: 'Roof', area: 'Main lodge', folder: '04 Roof', why: 'Done Tue 10 Nov', shots: ['Poles and battens', 'Thatch from below'], got: 2, img: '/carsen/roof.jpg' },
-    { id: 'c5', stage: 'Built-ins', area: 'Suite 2', folder: '05 Built-ins', why: 'Done Mon 16 Nov', shots: ['Finished joinery'], got: 1, img: '/carsen/joinery.jpg' },
+    { id: 'c2', stage: 'First fix · plumbing', area: 'Suite 3', folder: '03 First fix', stem: 'Suite 3 first fix plumbing', why: 'Before plaster starts Mon 23 Nov', shots: [['Wide: the whole wall, every pipe in view', 'wide'], ['Tape measure along the pipe runs', 'measured'], ['Pressure test: the gauge reading', 'pressure test']], got: 0, filed: 0, target: true },
+    { id: 'c3', stage: 'First fix · electrical', area: 'Suite 3', folder: '03 First fix', stem: 'Suite 3 first fix electrical', why: 'Before plaster starts Mon 23 Nov', shots: [['Wide: conduits and boxes', 'wide'], ['Tape measure to the plug points', 'measured'], ['The DB board and its conduits', 'db board']], got: 1, filed: 1 },
+    { id: 'c1', stage: 'Foundations', area: 'Boma', folder: '01 Foundations', stem: 'Boma foundations', why: 'Done Wed 11 Nov', shots: [['Trenches and depth', 'trenches'], ['Steel before the pour', 'steel'], ['The pour', 'pour']], got: 3, filed: 3 },
+    { id: 'c4', stage: 'Roof', area: 'Main lodge', folder: '04 Roof', stem: 'Main lodge roof', why: 'Done Fri 6 Nov, before thatching', shots: [['Poles and laths, the whole roof', 'poles and laths'], ['Close-up: fixings at the ridge', 'ridge fixings']], got: 2, filed: 2 },
+    { id: 'c5', stage: 'Built-ins', area: 'Suite 2', folder: '05 Built-ins', stem: 'Suite 2 built-ins', why: 'Done Mon 16 Nov', shots: [['Finished joinery', 'joinery']], got: 1, filed: 1 },
   ];
   const FOLDERS = ['01 Foundations', '02 Walls', '03 First fix', '04 Roof', '05 Built-ins', '06 Handover'];
   const baseFiles = () => ({
-    '01 Foundations': [['2026-11-09 Suite 4 foundations trenches 01.jpg', 'Sello · Mon 9 Nov 08:12'], ['2026-11-09 Suite 4 foundations steel 02.jpg', 'Sello · Mon 9 Nov 10:40'], ['2026-11-09 Suite 4 foundations pour 03.jpg', 'Sello · Mon 9 Nov 14:05']],
+    '01 Foundations': [['2026-11-09 Boma foundations 01 trenches.jpg', 'Sello · Mon 9 Nov 08:12'], ['2026-11-10 Boma foundations 02 steel.jpg', 'Sello · Tue 10 Nov 10:40'], ['2026-11-11 Boma foundations 03 pour.jpg', 'Sello · Wed 11 Nov 09:05']],
     '02 Walls': [['2026-11-12 Suite 3 walls at window height 01.jpg', 'Sello · Thu 12 Nov'], ['2026-11-12 Suite 3 lintels 02.jpg', 'Sello · Thu 12 Nov'], ['2026-11-13 Suite 3 wall plate 03.jpg', 'Sello · Fri 13 Nov']],
-    '03 First fix': [['2026-11-17 Suite 3 first fix electrical 01.jpg', 'Sello · Tue 17 Nov 15:20']],
-    '04 Roof': [['2026-11-10 Main lodge poles and battens 01.jpg', 'Sello · Tue 10 Nov', '/carsen/roof.jpg'], ['2026-11-10 Main lodge thatch from below 02.jpg', 'Sello · Tue 10 Nov']],
-    '05 Built-ins': [['2026-11-16 Suite 2 built-ins 01.jpg', 'Sello · Mon 16 Nov', '/carsen/joinery.jpg']],
+    '03 First fix': [['2026-11-17 Suite 3 first fix electrical 01 wide.jpg', 'Sello · Tue 17 Nov 15:20']],
+    '04 Roof': [['2026-11-06 Main lodge roof 01 poles and laths.jpg', 'Sello · Fri 6 Nov'], ['2026-11-06 Main lodge roof 02 ridge fixings.jpg', 'Sello · Fri 6 Nov'], ['2026-11-17 Main lodge thatch progress.jpg', 'Sello · Tue 17 Nov', '/carsen/roof.jpg']],
+    '05 Built-ins': [['2026-11-16 Suite 2 built-ins 01 joinery.jpg', 'Sello · Mon 16 Nov', '/carsen/joinery.jpg']],
     '06 Handover': [],
   });
+  const FINDS = [['Suite 3 plumbing', ['suite 3', 'plumbing']], ['Boma foundations', ['boma', 'foundations']], ['Main lodge roof', ['main lodge']]];
+  const firstFixMissing = () => A.cks.filter((k) => (k.id === 'c2' || k.id === 'c3') && k.filed < k.shots.length).length;
 
   // ---------------------------------------------------------------- 3. plan (day 0 = Mon 9 Nov, today = 9 = Wed 18 Nov)
   const TODAY = 9, SPAN = 35;
   const DAYNAME = (d) => { const dt = new Date(2026, 10, 9 + d); return dt.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }); };
   const DM = (d) => { const dt = new Date(2026, 10, 9 + d); return dt.getDate() + ' ' + dt.toLocaleDateString('en-GB', { month: 'short' }); };
   const TASKS = () => [
-    { id: 't1', name: 'Foundations and slab, Suites 3–4', s: 0, e: 4, p: 100 },
+    { id: 't1', name: 'Foundations, new boma', s: 0, e: 4, p: 100 },
     { id: 't2', name: 'Thatch, main lodge', s: 0, e: 18, p: 70 },
     { id: 't3', name: 'First fix, Suites 1–3', s: 7, e: 12, p: 60 },
     { id: 't4', name: 'Plaster, Suites 1–3', s: 14, e: 22, p: 0, needs: true },
@@ -693,7 +701,7 @@ table.att th.tot { text-align: right; }
 
   const freshA = () => ({
     att: PEOPLE.map(() => ({ st: null, at: null, why: null, out: null })), rc: 'draft', co: 'draft', ot: false, attFlash: false,
-    cks: CKS(), open: null, ph: 'idle', files: baseFiles(), newFiles: [], folder: '03 First fix', phAt: null,
+    cks: CKS(), open: null, ph: 'idle', files: baseFiles(), newFiles: [], folder: '03 First fix', phAt: null, shotN: 0, find: null,
     tasks: TASKS(), ed: null, edStep: null, reason: null, pl: 'clean', plAt: null, plFlash: [], planSent: false,
     done: new Set(), steps: { att: new Set(), photos: new Set(), plan: new Set() },
   });
@@ -706,7 +714,7 @@ table.att th.tot { text-align: right; }
   }
   function renderAttPhone() {
     const c = attCounts(), draft = A.rc === 'draft';
-    let h = `<div class="cd"><div class="hx"><span class="ey">Roll call · 06:40</span><span class="rt">${c.marked ? c.here + ' here' + (c.abs ? ' · ' + c.abs + ' absent' : '') : '8 on this build'}</span></div>`;
+    let h = `<div class="cd"><div class="hx"><span class="ey">Roll call · 07:00</span><span class="rt">${c.marked ? c.here + ' here' + (c.abs ? ' · ' + c.abs + ' absent' : '') : '8 on this build'}</span></div>`;
     if (draft && c.marked < PEOPLE.length) h += `<button class="allhere ${c.marked === 0 ? 'pulse' : ''}" type="button" data-a="allhere">Mark everyone here</button>`;
     const pulseGiven = draft && c.marked === PEOPLE.length && A.att[5].st !== 'abs';
     h += A.att.map((p, i) => {
@@ -723,8 +731,8 @@ table.att th.tot { text-align: right; }
     }).join('');
     h += `</div>`;
     if (A.rc === 'sent') {
-      h += `<div class="cd"><div class="hx"><span class="ey">End of the day</span><span class="rt">${A.co === 'sent' ? 'clocked out' : '16:30'}</span></div>
-        <div class="ot"><span>Joseph stays on to finish the boma posts</span><button type="button" data-a="ot" class="${A.ot ? 'on' : ''}" ${A.co === 'draft' ? '' : 'disabled'}>${A.ot ? 'Until 17:30 ✓' : 'Until 17:30'}</button></div></div>`;
+      h += `<div class="cd"><div class="hx"><span class="ey">End of the day</span><span class="rt">${A.co === 'sent' ? 'clocked out' : '16:00'}</span></div>
+        <div class="ot"><span>Joseph stays on to finish the boma posts</span><button type="button" data-a="ot" class="${A.ot ? 'on' : ''}" ${A.co === 'draft' ? '' : 'disabled'}>${A.ot ? 'Until 17:00 ✓' : 'Until 17:00'}</button></div></div>`;
     }
     h += `<p class="hint2">Each roll call is stamped with the time and the phone's location on site.</p>`;
     $('att-body').innerHTML = h;
@@ -737,7 +745,7 @@ table.att th.tot { text-align: right; }
       go.disabled = !ready; go.innerHTML = 'Send roll call'; if (ready) go.classList.add('pulse');
     } else if (A.rc === 'queued') { sg.className = 'sg q'; sg.innerHTML = SIGNAL_OFF + 'Saved on this phone. It sends itself when there\'s signal.'; go.disabled = true; go.textContent = 'Waiting for signal'; }
     else if (A.rc === 'sending') { sg.className = 'sg'; sg.innerHTML = SIGNAL_ON + 'Signal back. Sending the roll call…'; go.disabled = true; go.textContent = 'Sending…'; }
-    else if (A.co === 'draft') { sg.className = 'sg ok'; sg.innerHTML = CHECK + 'Roll call sent. Carl can see who\'s here.'; go.disabled = false; go.textContent = 'Clock everyone out · 16:30'; go.classList.add('pulse'); }
+    else if (A.co === 'draft') { sg.className = 'sg ok'; sg.innerHTML = CHECK + 'Roll call sent. Carl can see who\'s here.'; go.disabled = false; go.textContent = 'Clock everyone out · 16:00'; go.classList.add('pulse'); }
     else if (A.co === 'queued') { sg.className = 'sg q'; sg.innerHTML = SIGNAL_OFF + 'Saved on this phone. It sends itself when there\'s signal.'; go.disabled = true; go.textContent = 'Waiting for signal'; }
     else if (A.co === 'sending') { sg.className = 'sg'; sg.innerHTML = SIGNAL_ON + 'Sending…'; go.disabled = true; go.textContent = 'Sending…'; }
     else { sg.className = 'sg ok'; sg.innerHTML = CHECK + 'Clocked out. Today\'s hours are in for wages.'; go.disabled = true; go.textContent = 'Day done'; }
@@ -759,7 +767,7 @@ table.att th.tot { text-align: right; }
     else if (!sent) h += `<div class="banner">Timbavati hasn't sent today's roll call yet.</div>`;
     // table
     const rows = PEOPLE.map(([nm, role], i) => {
-      const cell = (d) => d[0] === 'abs' ? `<span class="ab">Absent</span><span class="hr">${esc(d[1])}</span>` : `<span class="tin ${toMin(d[0]) > toMin('06:45') ? 'lt' : ''}">${d[0]}–${d[1]}</span><span class="hr">${fh(hrs(d[0], d[1]))}</span>`;
+      const cell = (d) => d[0] === 'abs' ? `<span class="ab">Absent</span><span class="hr">${esc(d[1])}</span>` : `<span class="tin ${toMin(d[0]) > toMin('07:05') ? 'lt' : ''}">${d[0]}–${d[1]}</span><span class="hr">${fh(hrs(d[0], d[1]))}</span>`;
       const p = A.att[i];
       let wed = '<span class="wt2">–</span>', wedH = 0;
       if (sent) {
@@ -778,6 +786,8 @@ table.att th.tot { text-align: right; }
   }
 
   // ================================================================ 2. photos: phone
+  const phPending = () => A.cks.reduce((a, k) => a + (k.got - k.filed), 0);
+  const nextName = (k) => { const i = Math.min(k.got, k.shots.length - 1); return '2026-11-18 ' + k.stem + ' 0' + (i + 1) + ' ' + k.shots[i][1] + '.jpg'; };
   function renderPhotosPhone() {
     let h = '';
     if (!A.open) {
@@ -785,21 +795,22 @@ table.att th.tot { text-align: right; }
       h += `<div class="cd"><div class="hx"><span class="ey">Photo checkpoints · this build</span><span class="rt">${doneN} of ${A.cks.length} done</span></div>`;
       h += A.cks.map((k) => {
         const d = k.got >= k.shots.length;
-        return `<button class="ck ${d ? 'done' : 'todo'} ${k.target && !d ? 'target pulse' : ''}" type="button" data-ck="${k.id}"><span class="ic">${d ? '✓' : '!'}</span><span><b>${esc(k.stage)} · ${esc(k.area)}</b><small>${esc(d && k.target ? 'Done today' : k.why)}</small></span><span class="ct">${k.got} of ${k.shots.length}</span></button>`;
+        const sub = d && k.doneToday ? (k.filed >= k.got ? 'Done today, filed in your drive' : 'Done today, waiting for signal') : k.why;
+        return `<button class="ck ${d ? 'done' : 'todo'} ${k.target && !d ? 'target pulse' : ''}" type="button" data-ck="${k.id}"><span class="ic">${d ? '✓' : '!'}</span><span><b>${esc(k.stage)} · ${esc(k.area)}</b><small>${esc(sub)}</small></span><span class="ct">${k.got} of ${k.shots.length}</span></button>`;
       }).join('');
       h += `</div><p class="hint2">Each checkpoint says exactly which photos to take, before it gets covered up.</p>`;
     } else {
       const k = A.cks.find((x) => x.id === A.open), d = k.got >= k.shots.length;
       h += `<div class="cd"><button class="back" type="button" data-a="ckback">‹ All checkpoints</button>
-        <div class="ckh"><b>${esc(k.stage)} · ${esc(k.area)}</b><small>${esc(k.why)}</small></div>
-        <div class="shots">${k.shots.map((s, i) => `<div class="shot ${i < k.got ? 'got' : ''}"><span class="th">${i < k.got ? '' : CAM}</span><span><b>${i + 1}. ${esc(s)}</b><small>${i < k.got ? 'Taken ' + (k.target ? '14:3' + (i + 1) : 'earlier') + ' · named and stamped' : 'Not taken yet'}</small></span></div>`).join('')}</div>
+        <div class="ckh"><b>${esc(k.stage)} · ${esc(k.area)}</b><small>${esc(d && k.doneToday ? 'Done today' : k.why)}</small></div>
+        <div class="shots">${k.shots.map(([lab], i) => `<div class="shot ${i < k.got ? 'got' : ''}"><span class="th">${i < k.got ? '' : CAM}</span><span><b>${i + 1}. ${esc(lab)}</b><small>${i < k.got ? (k.times && k.times[i] ? 'Taken ' + k.times[i] + ' · named and stamped' : 'Taken earlier · in your drive') : 'Not taken yet'}</small></span></div>`).join('')}</div>
         <button class="take ${!d ? 'pulse' : ''}" type="button" data-a="take" ${d ? 'disabled' : ''}>${d ? CHECK + ' All photos taken' : CAM + ' Take photo ' + (k.got + 1) + ' of ' + k.shots.length}</button>
-        <div class="path">Files itself to <b>Carsen Projects › Lodge rebuild, Timbavati › ${esc(k.folder)} › ${esc(k.area)} ${esc(k.stage.split('·')[1] ? k.stage.split('·')[1].trim() : k.stage.toLowerCase())}</b></div></div>`;
+        <div class="path">Files itself to <b>Carsen Projects › Lodge rebuild, Timbavati › ${esc(k.folder)}</b>, named “${esc(nextName(k))}”</div></div>`;
     }
     $('ph-body').innerHTML = h;
-    const sg = $('ph-sg');
-    if (A.ph === 'queued') { sg.className = 'sg q'; sg.innerHTML = SIGNAL_OFF + '3 photos saved on this phone. They file to your drive when there\'s signal.'; }
-    else if (A.ph === 'sending') { sg.className = 'sg'; sg.innerHTML = SIGNAL_ON + 'Signal back. Filing 3 photos in your drive…'; }
+    const sg = $('ph-sg'), n = phPending();
+    if (A.ph === 'queued') { sg.className = 'sg q'; sg.innerHTML = SIGNAL_OFF + n + ' photo' + (n === 1 ? '' : 's') + ' saved on this phone. They file when there\'s signal.'; }
+    else if (A.ph === 'sending') { sg.className = 'sg'; sg.innerHTML = SIGNAL_ON + 'Signal back. Filing the photos in your drive…'; }
     else if (A.ph === 'sent') { sg.className = 'sg ok'; sg.innerHTML = CHECK + 'Filed in your drive at ' + A.phAt + '. Carl can find them.'; }
     else { sg.className = 'sg'; sg.innerHTML = 'Photos are named by build, area and stage, then filed for you.'; }
   }
@@ -807,23 +818,34 @@ table.att th.tot { text-align: right; }
   // ================================================================ 2. photos: desk (the drive)
   function renderDriveDesk() {
     const f = A.files, sel = A.folder;
-    const cnt = (n) => f[n].length;
+    const newIn = (n) => f[n].filter(([fn]) => A.newFiles.includes(fn)).length;
     let tree = `<div class="rt2">Your drive</div><button class="b0" type="button" data-a="nofold">${FOLDER} Carsen Projects</button><button class="b1" type="button" data-a="nofold">${FOLDER} Lodge rebuild, Timbavati</button>`;
-    tree += FOLDERS.map((n) => `<button class="b2 ${n === sel ? 'on' : ''}" type="button" data-fold="${n}">${FOLDER} ${esc(n)}<span class="c ${A.newFiles.length && n === '03 First fix' ? 'nw' : ''}">${cnt(n)}${A.newFiles.length && n === '03 First fix' ? ' · 3 new' : ''}</span></button>`).join('');
+    tree += FOLDERS.map((n) => `<button class="b2 ${!A.find && n === sel ? 'on' : ''}" type="button" data-fold="${n}">${FOLDER} ${esc(n)}<span class="c ${newIn(n) ? 'nw' : ''}">${f[n].length}${newIn(n) ? ' · ' + newIn(n) + ' new' : ''}</span></button>`).join('');
     tree += ['New home, HWE 372', 'Renovation, Raptors View', 'New home, Elephant Rock'].map((n) => `<button class="b1 x" type="button" data-a="otherbuild">${FOLDER} ${esc(n)}</button>`).join('');
-    const files = f[sel];
+    let files, crumb;
+    if (A.find) {
+      const words = FINDS.find((x) => x[0] === A.find)[1];
+      files = FOLDERS.flatMap((n) => f[n].map(([fn, meta, img]) => [fn, meta + ' · ' + n, img])).filter(([fn]) => words.every((w) => fn.toLowerCase().includes(w)));
+      crumb = `Search: <b>${esc(A.find)}</b> · ${files.length} photo${files.length === 1 ? '' : 's'}`;
+    } else { files = f[sel]; crumb = `Carsen Projects › Lodge rebuild, Timbavati › <b>${esc(sel)}</b>`; }
     const grid = files.length ? `<div class="fgrid">${files.map(([fn, meta, img]) => {
       const isNew = A.newFiles.includes(fn);
       return `<div class="fc ${isNew ? 'new' : ''}">${isNew ? '<span class="nwb">NEW</span>' : ''}<div class="th">${img ? `<img src="${img}" alt="">` : CAM}</div><div class="fn"><b>${esc(fn)}</b><small>${esc(meta)}</small></div></div>`;
-    }).join('')}</div>` : `<p class="empty">Empty for now. Handover photos land here at the end of the build.</p>`;
+    }).join('')}</div>` : (A.find ? `<p class="empty">Nothing yet. Take the ${esc(A.find)} photos on Sello's phone and they appear here.</p>` : `<p class="empty">Empty for now. Handover photos land here at the end of the build.</p>`);
+    const finds = `<div class="finds"><span>Find later:</span>${FINDS.map(([l]) => `<button type="button" data-find="${l}" class="${A.find === l ? 'on' : ''}">${l}</button>`).join('')}</div>`;
+    const row = (k, label) => {
+      const n = k.shots.length, filedAll = k.filed >= n, gotAll = k.got >= n;
+      const mk = filedAll ? 'y' : (k.got ? 'p' : 'n');
+      const txt = filedAll ? `${n} of ${n} photos` : (gotAll ? `${n} of ${n}, on Sello's phone` : (k.got ? `${k.got} of ${n} photos · Sello reminded` : 'no photos yet'));
+      return `<li><span class="mk ${mk}">${filedAll ? '✓' : (k.got ? '!' : '✕')}</span><span>${label}</span><span class="chip ${filedAll ? 'ok' : (k.got ? 'wait' : 'late')}">${txt}</span></li>`;
+    };
     const c2 = A.cks.find((k) => k.id === 'c2'), c3 = A.cks.find((k) => k.id === 'c3');
-    const c2ok = A.ph === 'sent', c3n = c3.got;
     let h = `<div class="chd"><div><div class="ey">Your drive · every photo filed for you</div><h3>Every checkpoint, <b>in the right folder</b></h3></div><span class="sim">Google Drive or OneDrive · example</span></div>`;
-    h += `<div class="drv"><div class="tree">${tree}</div><div class="files"><div class="crumb">Carsen Projects › Lodge rebuild, Timbavati › <b>${esc(sel)}</b></div>${grid}</div></div>`;
+    h += `<p class="sub2">Named and filed the moment the phone has signal. Years later, when an owner asks where a pipe runs, it takes seconds to find.</p>`;
+    h += `<div class="drv"><div class="tree">${tree}</div><div class="files"><div class="crumb">${crumb}</div>${finds}${grid}</div></div>`;
     h += `<div class="cover"><div class="hx"><b>Before it gets plastered over</b><span class="ey">Plaster starts Mon 23 Nov · Suites 1–3</span></div><ul>
-      <li><span class="mk ${c2ok ? 'y' : 'n'}">${c2ok ? '✓' : '✕'}</span><span>Suite 3 · first fix plumbing</span><span class="chip ${c2ok ? 'ok' : 'late'}">${c2ok ? '3 of 3 photos' : (c2.got ? c2.got + ' of 3, on Sello\'s phone' : 'no photos yet')}</span></li>
-      <li><span class="mk p">!</span><span>Suite 3 · first fix electrical</span><span class="chip wait">${c3n} of 3 photos · Sello reminded</span></li>
-      <li><span class="mk y">✓</span><span>Suites 1 and 2 · first fix</span><span class="chip ok">6 of 6 photos</span></li>
+      ${row(c2, 'Suite 3 · first fix plumbing')}${row(c3, 'Suite 3 · first fix electrical')}
+      <li><span class="mk y">✓</span><span>Suites 1 and 2 · first fix</span><span class="chip ok">12 of 12 photos</span></li>
     </ul><p>You see what's missing before it's covered up, not after.</p></div>`;
     $('drive-desk').innerHTML = h;
   }
@@ -852,7 +874,7 @@ table.att th.tot { text-align: right; }
         ctl = `<div class="ctl">${t.p < 100 ? `<button type="button" data-prog="10" class="${t.id === 't2' ? 'pulse' : ''}">+10%</button><button type="button" data-prog="100" class="pri">Done</button>` : ''}<button type="button" data-a="delay" class="amb ${t.id === 't5' ? 'pulse' : ''}">Delayed</button><button type="button" data-a="edclose">Close</button></div>`;
       }
       const dates = t.s === t.e ? DAYNAME(t.s) : DM(t.s) + ' – ' + DM(t.e);
-      const needs = t.needs ? ` · needs first fix photos ${A.ph === 'sent' ? '✓' : '(Suite 3 missing)'}` : '';
+      const miss = firstFixMissing(); const needs = t.needs ? (miss ? ` · first fix photos: ${miss} checkpoint${miss > 1 ? 's' : ''} missing` : ' · first fix photos ✓') : '';
       const stTxt = st.startsWith('Starts') ? 'not started' : st;
       return `<div class="tk ${cls}"><div class="r"><span><b>${esc(t.name)}</b><small>${esc(dates)} · ${esc(stTxt)}${t.p > 0 && t.p < 100 ? ' · ' + t.p + '%' : ''}${esc(needs)}</small></span>${open ? '' : `<button class="updb ${pulseU ? 'pulse' : ''}" type="button" data-ed="${t.id}">Update</button>`}</div><div class="pbr"><i style="width:${t.p}%"></i></div>${ctl}</div>`;
     }).join('');
@@ -877,7 +899,7 @@ table.att th.tot { text-align: right; }
       const bar = `<span class="bar ${cls}" style="left:${pct(view.s)}%;width:${pct(view.e - view.s + 1)}%"><i style="width:${view.p}%"></i></span>`;
       const wl = [7, 14, 21, 28].map((d) => `<span class="wl" style="left:${pct(d)}%"></span>`).join('');
       const vst = t.ms ? ['Handover Fri 11 Dec', 'go'] : (A.planSent ? [st, chip] : taskState(view).slice(1));
-      return `<div class="grw ${A.plFlash.includes(t.id) ? 'flash' : ''}"><div class="nm"><b>${esc(t.name)}</b><small>${esc(view.s === view.e ? DAYNAME(view.s) : DM(view.s) + ' – ' + DM(view.e))}</small></div><div class="trk">${wl}${ghost}${bar}</div><div class="st"><span class="chip ${vst[1]}">${esc(vst[0])}</span></div></div>`;
+      return `<div class="grw ${A.plFlash.includes(t.id) ? 'flash' : ''}"><div class="nm"><b>${esc(t.name)}</b><small>${esc(view.s === view.e ? DAYNAME(view.s) : DM(view.s) + ' – ' + DM(view.e))}${t.needs ? (firstFixMissing() ? ' · first fix photos missing' : ' · first fix photos ✓') : ''}</small></div><div class="trk">${wl}${ghost}${bar}</div><div class="st"><span class="chip ${vst[1]}">${esc(vst[0])}</span></div></div>`;
     }).join('');
     const upd = A.planSent ? `Updated from site by <b>Sello</b> at ${A.plAt}` : 'Last updated from site <b>yesterday 16:40</b>';
     let impact = 'Handover on track for <b>Fri 11 Dec</b>.';
@@ -905,7 +927,7 @@ table.att th.tot { text-align: right; }
   function renderLogPhone() {
     $('ppl').textContent = L.rows.reduce((a, r) => a + r.n, 0) + ' people';
     $('osrows').innerHTML = L.rows.map((r, i) => `
-      <div class="row"><span class="tp ${r.kind === 'own' ? 'own' : ''}">${esc(r.label)}</span><span class="nm"><b>${esc(r.who)}</b><small>${r.kind === 'own' ? 'all day' : 'in ' + esc(r.at)}</small></span>
+      <div class="row"><span class="tp ${r.kind === 'own' ? 'own' : ''}">${esc(r.label)}</span><span class="nm"><b>${esc(r.who)}</b><small>${r.kind === 'own' ? (r.fromRc ? 'from the roll call' : 'all day') : 'in ' + esc(r.at)}</small></span>
       <span class="step ${i === 1 && !L.guide.has(1) ? 'pulse' : ''}"><button type="button" aria-label="One fewer ${esc(r.label)}" data-dec="${i}">−</button><span>${r.n}</span><button type="button" aria-label="One more ${esc(r.label)}" data-inc="${i}">+</button></span></div>`).join('');
     $('pick-trade').innerHTML = L.trades.map((t) => `<button type="button" data-trade="${esc(t)}">${esc(t)}</button>`).join('');
     $('dcount').textContent = L.delivered.length;
@@ -1011,7 +1033,8 @@ table.att th.tot { text-align: right; }
   };
   function renderSteps() {
     const k = G.ask, done = k === 'log' ? L.guide : A.steps[k];
-    $('steps').innerHTML = `<span class="lb">Try it:</span>` + STEPS[k].map((s, i) => `<span class="s ${done.has(i + 1) ? 'done' : ''}"><i>${done.has(i + 1) ? '✓' : i + 1}</i>${esc(s)}</span>`).join('');
+    const waiting = !G.signal && Object.values(pending()).some(Boolean);
+    $('steps').innerHTML = `<span class="lb">Try it:</span>` + STEPS[k].map((s, i) => `<span class="s ${done.has(i + 1) ? 'done' : ''}"><i>${done.has(i + 1) ? '✓' : i + 1}</i>${esc(s)}</span>`).join('') + (waiting ? `<span class="s sigc"><i>!</i>Saved on the phone: switch the signal on under the phone to send</span>` : '');
     document.querySelectorAll('#asks .ask').forEach((b) => { b.classList.toggle('on', b.dataset.ask === G.ask); b.classList.toggle('done', A.done.has(b.dataset.ask) || (b.dataset.ask === 'log' && L.guide.has(4))); });
     document.querySelectorAll('#asks .ask .n').forEach((n, i) => { const key = ['att', 'photos', 'plan', 'log'][i]; const d = A.done.has(key) || (key === 'log' && L.guide.has(4)); n.textContent = d ? '✓' : (key === 'log' ? '+' : i + 1); });
   }
@@ -1055,6 +1078,7 @@ table.att th.tot { text-align: right; }
     A.rc = 'sending'; render();
     setTimeout(() => {
       A.rc = 'sent'; A.attFlash = true; A.steps.att.add(3);
+      { const own = L.rows.find((r) => r.kind === 'own'); if (own) { own.n = attCounts().here; own.fromRc = true; } }
       const c = attCounts(), ab = A.att.map((p, i) => p.st === 'abs' ? PEOPLE[i][0].split(' ')[0] + ({ Sick: ' off sick', Leave: ' on leave', 'No-show': ' didn\'t show' }[p.why] || ' absent') : null).filter(Boolean);
       notifyDesk('att'); render();
       toast(`Roll call is in: ${c.here} of 8 here${ab.length ? ', ' + ab.join(', ') : ''}. It's on your laptop.`);
@@ -1067,11 +1091,17 @@ table.att th.tot { text-align: right; }
   function filePhotos() {
     A.ph = 'sending'; render();
     setTimeout(() => {
-      A.ph = 'sent'; A.phAt = '14:34'; A.steps.photos.add(3); A.done.add('photos');
-      const names = ['2026-11-18 Suite 3 first fix plumbing 01 wide.jpg', '2026-11-18 Suite 3 first fix plumbing 02 joints.jpg', '2026-11-18 Suite 3 first fix plumbing 03 measured.jpg'];
-      A.files['03 First fix'] = names.map((n, i) => [n, 'Sello · today 14:3' + (i + 1) + ' · on site']).concat(A.files['03 First fix']);
-      A.newFiles = names; A.folder = '03 First fix';
-      notifyDesk('drive'); render(); toast('3 photos filed in your drive: 03 First fix › Suite 3 plumbing.');
+      const added = []; let last = null;
+      A.cks.forEach((k) => {
+        const fresh = [];
+        for (let i = k.filed; i < k.got; i++) { const fn = '2026-11-18 ' + k.stem + ' 0' + (i + 1) + ' ' + k.shots[i][1] + '.jpg'; fresh.push([fn, 'Sello · today ' + ((k.times && k.times[i]) || '') + ' · on site']); added.push(fn); }
+        if (fresh.length) { A.files[k.folder] = fresh.concat(A.files[k.folder]); A.folder = k.folder; last = k; }
+        k.filed = k.got;
+      });
+      A.ph = 'sent'; A.phAt = '14:' + String(31 + A.shotN).padStart(2, '0'); A.newFiles = A.newFiles.concat(added); A.find = null;
+      const c2 = A.cks.find((k) => k.id === 'c2'); if (c2.filed >= c2.shots.length) { A.steps.photos.add(3); A.done.add('photos'); }
+      notifyDesk('drive'); render();
+      toast(added.length + ' photo' + (added.length === 1 ? '' : 's') + ' filed in your drive' + (last ? ': ' + last.folder + ' › ' + last.area + '.' : '.'));
     }, 1200);
   }
   function sendPlan() {
@@ -1084,10 +1114,10 @@ table.att th.tot { text-align: right; }
     }, 1100);
   }
   function queueOrSend(kind) {
-    if (kind === 'rc') { if (G.signal) sendRc(); else { A.rc = 'queued'; render(); toast('Saved on the phone. No signal on the reserve yet.'); } }
+    if (kind === 'rc') { if (G.signal) sendRc(); else { A.rc = 'queued'; render(); toast('Saved on the phone. No signal on the reserve: switch it on under the phone to send.'); } }
     if (kind === 'co') { if (G.signal) sendCo(); else { A.co = 'queued'; render(); } }
-    if (kind === 'ph') { if (G.signal) filePhotos(); else { A.ph = 'queued'; render(); toast('Photos saved on the phone. They file when there\'s signal.'); } }
-    if (kind === 'pl') { if (G.signal) { A.pl = 'queued'; render(); setTimeout(sendPlan, 400); } else { A.pl = 'queued'; render(); } }
+    if (kind === 'ph') { if (G.signal) filePhotos(); else { A.ph = 'queued'; render(); toast('Photos saved on the phone. Switch the signal on under the phone to file them.'); } }
+    if (kind === 'pl') { if (G.signal) { A.pl = 'queued'; render(); setTimeout(sendPlan, 400); } else { A.pl = 'queued'; render(); toast('Saved on the phone. Switch the signal on under the phone to send it.'); } }
   }
   function flush() {
     if (L.phase === 'queued') setTimeout(sendLog, 500);
@@ -1103,7 +1133,7 @@ table.att th.tot { text-align: right; }
   function saveLog() {
     if (L.phase === 'queued' || L.phase === 'sending') return;
     L.guide.add(2);
-    if (G.signal) sendLog(); else { L.phase = 'queued'; render(); toast('Saved on the phone. No signal yet.'); }
+    if (G.signal) sendLog(); else { L.phase = 'queued'; render(); toast('Saved on the phone. Switch the signal on under the phone to send it.'); }
   }
   function changedLog() { if (L.phase === 'sent') L.dirty = true; render(); }
 
@@ -1118,16 +1148,16 @@ table.att th.tot { text-align: right; }
     if (d.d) { setDeskTab(d.d); G.ask = T_FOR[d.d]; document.querySelectorAll('#nt button').forEach((b) => b.classList.toggle('on', b.dataset.t === G.ask)); ['att', 'photos', 'plan', 'log'].forEach((k) => $('pp-' + k).classList.toggle('on', k === G.ask)); render(); return; }
     if (d.v) { showView(d.v); return; }
     // attendance
-    if (d.a === 'allhere') { A.att.forEach((p) => { if (!p.st) { p.st = 'here'; p.at = '06:40'; } }); A.steps.att.add(1); render(); return; }
+    if (d.a === 'allhere') { A.att.forEach((p) => { if (!p.st) { p.st = 'here'; p.at = '07:00'; } }); A.steps.att.add(1); render(); return; }
     if (d.st !== undefined && d.i !== undefined) {
-      const p = A.att[+d.i]; p.st = d.st; p.at = d.st === 'late' ? '07:25' : (d.st === 'here' ? '06:40' : null); p.why = d.st === 'abs' ? (p.why || null) : null;
+      const p = A.att[+d.i]; p.st = d.st; p.at = d.st === 'late' ? '07:25' : (d.st === 'here' ? '07:00' : null); p.why = d.st === 'abs' ? (p.why || null) : null;
       if (attCounts().marked === PEOPLE.length) A.steps.att.add(1);
       render(); return;
     }
     if (d.why) { A.att[+d.i].why = d.why; if (+d.i === 5) A.steps.att.add(2); render(); return; }
     if (t.id === 'att-go') {
       if (A.rc === 'draft') { if (A.att[5].st === 'abs') A.steps.att.add(2); queueOrSend('rc'); }
-      else if (A.rc === 'sent' && A.co === 'draft') { A.att.forEach((p, i) => { if (p.st && p.st !== 'abs') p.out = i === 1 && A.ot ? '17:30' : '16:30'; }); queueOrSend('co'); }
+      else if (A.rc === 'sent' && A.co === 'draft') { A.att.forEach((p, i) => { if (p.st && p.st !== 'abs') p.out = i === 1 && A.ot ? '17:00' : '16:00'; }); queueOrSend('co'); }
       return;
     }
     if (d.a === 'ot') { A.ot = !A.ot; render(); return; }
@@ -1138,13 +1168,13 @@ table.att th.tot { text-align: right; }
     if (d.a === 'ckback') { A.open = null; render(); return; }
     if (d.a === 'take') {
       const k = A.cks.find((x) => x.id === A.open);
-      if (k.got < k.shots.length) k.got++;
-      if (k.got >= k.shots.length && k.id === 'c2') { A.steps.photos.add(2); queueOrSend('ph'); }
-      else if (k.got >= k.shots.length) toast('Checkpoint done.');
+      if (k.got < k.shots.length) { k.times = k.times || []; k.times[k.got] = '14:' + String(31 + A.shotN++).padStart(2, '0'); k.got++; }
+      if (k.got >= k.shots.length) { k.doneToday = true; if (k.id === 'c2') A.steps.photos.add(2); queueOrSend('ph'); }
       else toast('Photo ' + k.got + ' taken. The real app opens the camera here.');
       render(); return;
     }
-    if (d.fold) { A.folder = d.fold; render(); return; }
+    if (d.find) { A.find = A.find === d.find ? null : d.find; render(); return; }
+    if (d.fold) { A.folder = d.fold; A.find = null; render(); return; }
     if (d.a === 'nofold') return;
     if (d.a === 'otherbuild') { toast('Every build gets the same folders, so photos are always in the same place.'); return; }
     // plan
