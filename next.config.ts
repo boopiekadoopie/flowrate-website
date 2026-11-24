@@ -33,6 +33,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/kaia", destination: "/kaia.html" },
       { source: "/carsen", destination: "/carsen/index.html" },
+      { source: "/trophy", destination: "/trophy/index.html" },
     ];
   },
   async redirects() {

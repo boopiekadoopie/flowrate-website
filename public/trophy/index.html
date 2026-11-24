@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Collections · a demo for Trophy Solutions Africa</title>
+<link rel="icon" href="/trophy/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Raleway:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #141006; --ink2: #1B1B1B; --char: #2E2D2A; --gold: #DCA54A; --gold2: #D09A40; --goldink: #8F6A22;
+  --cream: #FAF5E5; --cream2: #F3ECDC; --paper: #F7F4EC; --line: #E6DECB; --line2: #F1ECE1; --mut: #857C6B; --mut2: #6A6151;
+  --brick: #B54708; --brickink: #9A3A06; --brickbg: #FBE9DC; --okink: #2C5A25; --okbg: #E2EEDC; --chkbg: #F4E4C1; --chkink: #6E4B0E;
+  --page: #F5F0E6;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body { font-family: "Raleway", system-ui, sans-serif; color: var(--ink2); background: var(--page); font-size: 16px; line-height: 1.5; font-variant-numeric: lining-nums tabular-nums; min-height: 100vh; display: flex; flex-direction: column; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; text-align: inherit; }
+a.btn { text-decoration: none; cursor: pointer; }
+button:disabled { cursor: default; }
+button:focus-visible, a:focus-visible, canvas:focus-visible { outline: 3px solid var(--gold2); outline-offset: 2px; }
+.fj { font-family: "Fjalla One", sans-serif; font-weight: 400; letter-spacing: 0.01em; }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes ring { 0% { box-shadow: 0 0 0 0 rgba(220,165,74,0.75); } 70% { box-shadow: 0 0 0 12px rgba(220,165,74,0); } 100% { box-shadow: 0 0 0 0 rgba(220,165,74,0); } }
+@keyframes pop { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: none; opacity: 1; } }
+
+/* ---------- header + chapters ---------- */
+.hd { background: var(--ink); color: #FFFFFF; flex: none; }
+.hd .in { max-width: 1320px; margin: 0 auto; padding: 14px 24px 0; display: flex; align-items: center; gap: 16px; }
+.hd .lg { height: 19px; width: auto; display: block; }
+.hd .app { font-family: "Fjalla One"; font-size: 18px; padding-left: 16px; border-left: 1px solid #3A3426; color: #FFFFFF; }
+.hd .made { margin-left: auto; font-size: 13px; color: #CFC6B2; font-weight: 600; }
+.chap { max-width: 1320px; margin: 0 auto; padding: 12px 24px 0; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.chap::-webkit-scrollbar { display: none; }
+.chap button { display: flex; align-items: center; gap: 8px; padding: 9px 12px 12px; font-size: 14px; font-weight: 700; color: #A99F88; white-space: nowrap; border-bottom: 3px solid transparent; }
+.chap button i { font-style: normal; width: 22px; height: 22px; border-radius: 6px; background: #2A2419; color: #CFC6B2; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; }
+.chap button:hover { color: #FFFFFF; }
+.chap button.on { color: #FFFFFF; border-bottom-color: var(--gold); }
+.chap button.on i { background: var(--gold); color: var(--ink); }
+.chap button.done i { background: #3B3220; color: var(--gold); }
+.chap .bar { display: none; }
+
+/* ---------- scene layout ---------- */
+#app { flex: 1; }
+.scene { max-width: 1320px; margin: 0 auto; padding: 28px 24px 30px; display: grid; grid-template-columns: 430px minmax(0, 1fr); gap: 34px; align-items: start; }
+.enter { animation: rise .4s cubic-bezier(.22,1,.36,1); }
+.arrive { animation: rise .35s cubic-bezier(.22,1,.36,1); }
+.story { position: sticky; top: 20px; }
+.where { font-size: 14px; font-weight: 700; color: var(--goldink); display: flex; align-items: center; gap: 8px; }
+.where b { display: inline-flex; align-items: center; justify-content: center; height: 24px; padding: 0 9px; border-radius: 6px; background: var(--ink); color: var(--gold); font-size: 12.5px; font-weight: 800; }
+.story h1 { font-family: "Fjalla One"; font-weight: 400; font-size: 36px; line-height: 1.12; color: var(--ink); margin-top: 10px; letter-spacing: 0.005em; text-wrap: balance; }
+.story .lead { font-size: 17px; line-height: 1.6; color: var(--char); margin-top: 12px; font-weight: 500; text-wrap: pretty; }
+.task { margin-top: 20px; background: #FFFFFF; border-radius: 12px; box-shadow: 0 0 0 1.5px var(--gold), 0 10px 24px rgba(20,16,6,0.06); padding: 15px 16px; }
+.task .tl { font-size: 12.5px; font-weight: 800; color: var(--goldink); letter-spacing: 0.02em; }
+.task p { font-size: 16.5px; font-weight: 700; color: var(--ink); margin-top: 3px; line-height: 1.45; }
+.task .row { display: flex; align-items: center; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.task .prog { font-size: 13px; color: var(--mut2); font-weight: 700; }
+.task.ok { box-shadow: 0 0 0 1.5px #A8CF9D, 0 10px 24px rgba(20,16,6,0.05); background: #F6FBF3; }
+.task.ok .tl { color: var(--okink); }
+.task.ok p { color: var(--okink); }
+.show { height: 38px; padding: 0 14px; border-radius: 9px; background: var(--cream2); color: var(--ink); font-size: 14px; font-weight: 800; display: inline-flex; align-items: center; gap: 7px; }
+.show:hover { background: #ECE2CB; }
+.show svg { width: 15px; height: 15px; }
+.why { margin-top: 18px; padding-left: 14px; border-left: 3px solid var(--gold); }
+.why b { display: block; font-size: 13px; font-weight: 800; color: var(--goldink); }
+.why p { font-size: 15.5px; color: var(--char); line-height: 1.55; font-weight: 600; margin-top: 2px; }
+.nav { display: flex; gap: 10px; margin-top: 24px; align-items: center; }
+.btn { height: 48px; padding: 0 20px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-size: 16px; font-weight: 800; white-space: nowrap; }
+.btn.dk { background: var(--ink); color: #FFFFFF; }
+.btn.dk:hover { background: #2A2318; }
+.btn.dk em { font-style: normal; color: var(--gold); }
+.btn.dk:disabled { background: #D6CFBF; color: #FFFFFF; }
+.btn.dk:disabled em { color: #FFFFFF; }
+.btn.ln { box-shadow: inset 0 0 0 1.5px #CFC6B2; color: var(--ink); background: #FFFFFF; }
+.btn.ln:hover { background: var(--cream); }
+.btn.gd { background: var(--gold); color: var(--ink); }
+.btn.gd:hover { background: #E5B25C; }
+.btn.pulse { animation: ring 1.5s ease-out infinite; }
+.nav .hint { font-size: 13px; color: var(--mut2); font-weight: 700; }
+.stage { position: relative; background: #EDE6D7; border-radius: 18px; min-height: 600px; display: flex; align-items: center; justify-content: center; padding: 50px 20px 24px; }
+.stage.office { padding-top: 22px; }
+.stage .cap { position: absolute; left: 22px; top: 16px; font-size: 13px; font-weight: 800; color: var(--mut2); display: flex; gap: 8px; align-items: center; }
+.stage .cap i { font-style: normal; width: 8px; height: 8px; border-radius: 2px; background: var(--gold2); }
+
+/* ---------- hotspot ---------- */
+.hot { position: absolute; z-index: 30; pointer-events: none; border-radius: 10px; box-shadow: 0 0 0 3px var(--gold); animation: ring 1.5s ease-out infinite; display: none; }
+.hot.on { display: block; }
+.tip { position: absolute; z-index: 31; pointer-events: none; background: var(--ink); color: #FFFFFF; font-size: 14px; font-weight: 800; padding: 8px 12px; border-radius: 9px; white-space: nowrap; box-shadow: 0 8px 20px rgba(20,16,6,0.25); display: none; animation: pop .25s cubic-bezier(.22,1,.36,1); }
+.tip.on { display: block; }
+.tip::after { content: ""; position: absolute; width: 12px; height: 12px; background: var(--ink); transform: rotate(45deg); }
+.tip.l::after { right: -5px; top: calc(50% - 6px); }
+.tip.r::after { left: -5px; top: calc(50% - 6px); }
+.tip.t::after { bottom: -5px; left: calc(50% - 6px); }
+.tip.b::after { top: -5px; left: calc(50% - 6px); }
+.tip em { font-style: normal; color: var(--gold); }
+
+/* ---------- phone ---------- */
+.dev { width: 344px; height: 700px; border-radius: 52px; background: #0E0E0E; padding: 11px; box-shadow: 0 0 0 1.5px #3A3A3A, 0 30px 60px rgba(20,16,6,0.25); position: relative; flex: none; }
+.scr { width: 100%; height: 100%; border-radius: 42px; overflow: hidden; overflow: clip; background: var(--paper); position: relative; display: flex; flex-direction: column; }
+.isl { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 98px; height: 28px; border-radius: 15px; background: #000000; z-index: 5; }
+.ph-hd { background: var(--ink); color: #FFFFFF; padding: 0 16px; flex: none; }
+.sbar { height: 46px; display: flex; align-items: center; justify-content: space-between; padding: 0 8px 0 12px; font-size: 14px; font-weight: 800; }
+.sig { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 800; }
+.sig.off { color: #E7B567; }
+.ph-hd .k { font-size: 11px; font-weight: 800; letter-spacing: 0.1em; color: var(--gold); margin-top: 2px; }
+.ph-hd .t { display: flex; justify-content: space-between; align-items: baseline; margin-top: 1px; }
+.ph-hd .t b { font-family: "Fjalla One"; font-weight: 400; font-size: 23px; letter-spacing: 0.01em; }
+.ph-hd .t span { font-size: 12px; color: #CFC6B2; font-weight: 700; }
+.ph-hd .w { font-size: 12.5px; color: #CFC6B2; font-weight: 600; margin-top: 1px; }
+.htabs { display: flex; margin-top: 9px; }
+.htabs button { flex: 1; text-align: center; font-size: 13px; font-weight: 800; color: #A99F88; padding: 7px 0 9px; }
+.htabs button small { font-size: 11px; color: #7F7662; margin-left: 3px; }
+.htabs button.on { color: #FFFFFF; box-shadow: inset 0 -3px 0 var(--gold); }
+.htabs button .ok { display: inline-block; margin-left: 4px; color: var(--gold); font-size: 12px; }
+.ph-bd { flex: 1; min-height: 0; overflow-y: auto; padding: 11px 11px 12px; display: flex; flex-direction: column; gap: 10px; scrollbar-width: none; }
+.ph-bd::-webkit-scrollbar { display: none; }
+.cd { background: #FFFFFF; border-radius: 12px; box-shadow: 0 0 0 1px #E9E2D2; padding: 10px 12px 6px; }
+.cd .h { display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; font-weight: 800; letter-spacing: 0.09em; color: var(--mut); padding-bottom: 7px; border-bottom: 1.5px solid var(--ink2); }
+.cd .h em { font-style: normal; letter-spacing: 0.02em; color: var(--goldink); font-weight: 800; font-size: 11px; }
+.pt { display: grid; grid-template-columns: minmax(0, 1fr) auto 22px; align-items: center; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--line2); font-size: 13.5px; width: 100%; }
+.pt:last-child { border-bottom: 0; }
+.pt b { font-weight: 800; color: var(--ink); } .pt .pn { display: block; color: var(--mut2); font-weight: 600; font-size: 12.5px; line-height: 1.3; }
+.pt .tg { font-size: 11.5px; font-weight: 800; color: var(--char); background: #F4EFE2; border-radius: 4px; padding: 2px 6px; letter-spacing: 0.03em; }
+.pt .tops { font-size: 9px; font-weight: 800; color: var(--brickink); box-shadow: inset 0 0 0 1px #E2A27B; border-radius: 3px; padding: 0 3px; margin-left: 4px; vertical-align: 2px; }
+.bx { width: 22px; height: 22px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; background: #FFFFFF; box-shadow: inset 0 0 0 1.8px #BDB39C; flex: none; }
+.bx.on { background: var(--char); box-shadow: none; }
+.bx svg { width: 14px; height: 14px; }
+.bx.na { box-shadow: inset 0 0 0 1.8px #D9D2C2; } .bx.na::after { content: ""; width: 9px; height: 2px; background: #B3AB99; border-radius: 1px; }
+.bx.xx { background: var(--brick); box-shadow: none; color: #FFFFFF; font-size: 13px; font-weight: 800; }
+.bx.qq { box-shadow: inset 0 0 0 2px var(--gold2); }
+.done-line { font-size: 12.5px; color: var(--mut2); font-weight: 700; padding: 8px 0 4px; }
+.done-line b { color: var(--okink); }
+.pa button { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--line2); font-size: 14px; font-weight: 700; color: var(--char); width: 100%; }
+.pa button:last-child { border-bottom: 0; }
+.pa button small { display: block; font-size: 12px; color: var(--mut); font-weight: 600; }
+.pa button.x { color: var(--brickink); } .pa button.x small { color: var(--brickink); }
+.pa button .cd2 { font-size: 10.5px; font-weight: 800; color: var(--mut); letter-spacing: 0.04em; }
+.flag { background: var(--brickbg); border-radius: 10px; padding: 10px 12px; font-size: 13px; color: var(--brickink); font-weight: 800; line-height: 1.4; display: flex; gap: 10px; align-items: flex-start; }
+.flag small { display: block; font-weight: 600; color: #8A3A10; }
+.sum div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; padding: 6px 0; border-bottom: 1px solid var(--line2); font-size: 13.5px; font-weight: 800; color: var(--char); }
+.sum div:last-child { border-bottom: 0; }
+.sum div small { font-weight: 600; color: var(--mut); display: block; font-size: 12px; }
+.sum div .st { font-size: 12px; font-weight: 800; color: var(--okink); }
+.pad { margin-top: 8px; border-radius: 10px; box-shadow: inset 0 0 0 1.8px #D9D2C2; background: #FFFFFF; position: relative; height: 104px; touch-action: none; }
+.pad canvas { width: 100%; height: 100%; display: block; border-radius: 10px; cursor: crosshair; }
+.pad .ln { position: absolute; left: 14px; bottom: 28px; right: 14px; border-bottom: 1.5px dashed #D9D2C2; pointer-events: none; }
+.pad .lb { position: absolute; left: 14px; bottom: 8px; font-size: 11.5px; color: var(--mut); font-weight: 700; pointer-events: none; }
+.pad .clr { position: absolute; right: 10px; top: 8px; font-size: 12px; font-weight: 800; color: var(--goldink); }
+.tgl { display: flex; align-items: center; gap: 10px; margin: 8px 0 4px; font-size: 13px; font-weight: 700; color: var(--char); width: 100%; }
+.cpbtn { height: 46px; width: 100%; border-radius: 12px; background: var(--ink); color: #FFFFFF; font-size: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 6px; flex: none; }
+.cpbtn em { font-style: normal; color: var(--gold); }
+.cpbtn:disabled { background: #D6CFBF; } .cpbtn:disabled em { color: #FFFFFF; }
+.sg { text-align: center; font-size: 12.5px; color: var(--mut2); font-weight: 700; line-height: 1.4; }
+.sg.q { color: var(--brickink); }
+.card1 { background: #FFFFFF; border-radius: 12px; box-shadow: 0 0 0 1px #E9E2D2; padding: 12px 13px; font-size: 14px; font-weight: 800; color: var(--char); }
+.card1 small { display: block; color: var(--mut2); font-weight: 600; font-size: 12.5px; margin-top: 2px; line-height: 1.4; }
+.chip { display: inline-block; border-radius: 5px; padding: 3px 8px; font-size: 12px; font-weight: 800; line-height: 1.35; white-space: nowrap; margin-top: 7px; }
+.chip.wr { background: var(--brickbg); color: var(--brickink); }
+.chip.cf { background: var(--okbg); color: var(--okink); }
+.chip.chk { background: var(--chkbg); color: var(--chkink); }
+.chip.snt { background: #ECEAE4; color: #4A463D; }
+.tb { flex: none; background: #FFFFFF; border-top: 1px solid #E6DFCF; display: grid; grid-template-columns: repeat(3, 1fr); padding: 8px 0 22px; }
+.tb button { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; font-weight: 800; color: #9C927C; text-align: center; }
+.tb button svg { width: 21px; height: 21px; }
+.tb button.on { color: var(--ink); }
+.sheet-bg { position: absolute; inset: 0; background: rgba(20,16,6,0.4); z-index: 8; animation: rise .2s ease-out; }
+.sheet { position: absolute; left: 0; right: 0; bottom: 0; background: #FFFFFF; border-radius: 20px 20px 0 0; padding: 16px 14px 28px; z-index: 9; animation: up .3s cubic-bezier(.22,1,.36,1); }
+@keyframes up { from { transform: translateY(100%); } to { transform: none; } }
+.sheet h5 { font-size: 16px; font-weight: 800; color: var(--ink); }
+.sheet p.s { font-size: 12.5px; color: var(--mut2); font-weight: 600; margin-top: 2px; }
+.sheet .opts { margin-top: 12px; display: flex; flex-direction: column; gap: 7px; }
+.sheet .opts button { border-radius: 10px; box-shadow: inset 0 0 0 1.5px #E2DACA; padding: 12px 13px; font-size: 14.5px; font-weight: 800; color: var(--ink); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.sheet .opts button small { font-size: 12px; color: var(--mut); font-weight: 600; text-align: right; }
+.sheet .opts button.x { color: var(--brickink); }
+.sigrow { position: absolute; right: 18px; top: 12px; z-index: 12; }
+.sigbtn { display: flex; align-items: center; gap: 10px; height: 46px; padding: 0 18px 0 10px; border-radius: 23px; background: #FFFFFF; box-shadow: 0 0 0 1px var(--line); font-size: 14px; font-weight: 800; color: var(--ink); }
+.sigbtn .k { width: 42px; height: 26px; border-radius: 13px; background: #CFC8B8; position: relative; flex: none; transition: background .2s; }
+.sigbtn .k::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 10px; background: #FFFFFF; transition: left .2s; }
+.sigbtn.on .k { background: var(--okink); } .sigbtn.on .k::after { left: 19px; }
+.devcol { display: flex; flex-direction: column; align-items: center; }
+
+/* ---------- office window ---------- */
+.win { width: 100%; max-width: 860px; background: #FFFFFF; border-radius: 14px; overflow: hidden; box-shadow: 0 0 0 1px #DDD4C1, 0 30px 60px rgba(20,16,6,0.16); }
+.win .wb { height: 30px; background: #EFEAE0; display: flex; align-items: center; gap: 7px; padding: 0 14px; border-bottom: 1px solid #E2DACA; }
+.win .wb i { width: 11px; height: 11px; border-radius: 6px; background: #D6CDBA; }
+.win .wb span { margin-left: 10px; font-size: 12px; color: var(--mut2); font-weight: 700; }
+.oh { background: var(--ink); color: #FFFFFF; height: 54px; display: flex; align-items: center; gap: 14px; padding: 0 18px; }
+.oh img { height: 16px; width: auto; }
+.oh .a { font-family: "Fjalla One"; font-size: 17px; padding-left: 14px; border-left: 1px solid #3A3426; }
+.oh .u { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: #CFC6B2; }
+.oh .u i { font-style: normal; width: 26px; height: 26px; border-radius: 7px; background: var(--gold); color: var(--ink); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; }
+.ob { display: grid; grid-template-columns: 280px minmax(0, 1fr); }
+.ol { padding: 16px 16px 14px; border-right: 1px solid var(--line2); display: flex; flex-direction: column; gap: 8px; }
+.ol h4 { font-family: "Fjalla One"; font-weight: 400; font-size: 21px; color: var(--ink); line-height: 1.15; }
+.ol .sub { font-size: 13px; color: var(--mut2); font-weight: 600; margin-top: -4px; }
+.hrow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 8px; align-items: center; padding: 10px 12px; border-radius: 10px; box-shadow: inset 0 0 0 1px var(--line); text-align: left; width: 100%; }
+.hrow.sel { box-shadow: inset 0 0 0 2px var(--gold2); background: #FFFBF1; }
+.hrow b { font-size: 14.5px; font-weight: 800; color: var(--ink); }
+.hrow small { grid-column: 1 / -1; font-size: 12px; color: var(--mut); font-weight: 600; }
+.hrow .chip { margin-top: 0; }
+.pp { display: inline-flex; gap: 2px; grid-column: 1 / -1; }
+.pp i { font-style: normal; width: 22px; height: 18px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; background: var(--char); color: #F3EEDF; }
+.pp i.na { background: transparent; color: #B3AB99; box-shadow: inset 0 0 0 1px #D9D2C2; }
+.pp i.x { background: var(--brick); color: #FFFFFF; }
+.ol .lgd { margin-top: auto; font-size: 11.5px; color: var(--mut); font-weight: 600; line-height: 1.5; }
+.ol .lgd b { color: var(--char); }
+.clk { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 8px; padding: 10px 2px; border-bottom: 1px solid var(--line2); font-size: 13.5px; }
+.clk b { font-weight: 800; color: var(--ink); } .clk small { grid-column: 1 / -1; font-size: 12px; color: var(--mut); font-weight: 600; }
+.clk .d { font-weight: 800; color: var(--char); font-size: 13px; text-align: right; }
+.clk .d.w { color: var(--brickink); }
+.clk .bar { grid-column: 1 / -1; height: 5px; background: #ECE6D8; border-radius: 3px; position: relative; overflow: hidden; margin-top: 4px; }
+.clk .bar i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--gold2); border-radius: 3px; }
+.clk.new { background: #FFFBF1; border-radius: 8px; padding: 10px 8px; box-shadow: inset 0 0 0 1.5px var(--gold); }
+.or { padding: 14px 18px 16px; background: var(--cream); display: flex; flex-direction: column; min-width: 0; }
+.or .k { font-size: 12px; font-weight: 800; color: var(--goldink); letter-spacing: 0.04em; }
+.or h5 { font-family: "Fjalla One"; font-weight: 400; font-size: 22px; color: var(--ink); line-height: 1.15; margin-top: 2px; }
+.ml { margin-top: 8px; background: #FFFFFF; border: 1px solid #E8DFC8; border-radius: 10px; padding: 10px 13px; }
+.ml .r { display: grid; grid-template-columns: 66px minmax(0, 1fr); font-size: 13.5px; line-height: 1.55; color: var(--char); }
+.ml .r span { color: var(--mut); font-weight: 600; } .ml .r b { font-weight: 800; }
+.ml .bd { font-size: 13.5px; line-height: 1.48; color: var(--char); margin-top: 7px; padding-top: 7px; border-top: 1px solid #F1EBDD; font-weight: 500; }
+.ml .bd p + p { margin-top: 5px; }
+.ml .bd .os { display: block; background: var(--brickbg); color: #6B2A05; border-radius: 7px; padding: 7px 10px; font-weight: 600; }
+.att { margin-top: 10px; display: flex; align-items: center; gap: 8px; width: 100%; font-size: 13.5px; font-weight: 800; color: var(--ink); background: var(--cream2); border-radius: 7px; padding: 8px 10px; }
+.att:hover { background: #ECE2CB; }
+.att i { font-style: normal; font-size: 9.5px; font-weight: 800; color: #FFFFFF; background: var(--brickink); border-radius: 3px; padding: 2px 5px; }
+.att small { margin-left: auto; font-size: 12.5px; color: var(--goldink); font-weight: 800; }
+.cks { margin-top: 10px; }
+.cks .two2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+.cks .two2 button { box-shadow: inset 0 0 0 1px #E8DFC8; background: #FFFFFF; border-radius: 9px; padding: 8px 10px; }
+.cks > b { display: block; font-size: 12.5px; font-weight: 800; color: var(--goldink); margin-bottom: 4px; }
+.cks button { display: grid; grid-template-columns: 22px minmax(0, 1fr); align-items: center; gap: 10px; width: 100%; font-size: 14px; color: var(--char); padding: 5px 0; font-weight: 800; text-align: left; }
+.cks button small { display: block; font-size: 12.5px; color: var(--mut); font-weight: 600; }
+.cks .info { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; font-size: 13.5px; color: var(--mut2); font-weight: 700; padding: 6px 0; }
+.cks .info span:first-child { width: 22px; height: 22px; border-radius: 6px; background: var(--cream2); color: var(--goldink); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; }
+.sendrow { margin-top: 10px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.sendrow small { font-size: 12.5px; color: var(--mut2); font-weight: 600; line-height: 1.4; }
+.sentbox { margin-top: 10px; background: #FFFFFF; border: 1px solid #CFE3C6; border-radius: 10px; padding: 12px 14px; font-size: 14px; font-weight: 700; color: var(--okink); line-height: 1.5; }
+.sentbox small { display: block; color: var(--mut2); font-weight: 600; font-size: 12.5px; margin-top: 3px; }
+.reply { margin-top: 12px; display: flex; gap: 10px; align-items: flex-start; }
+.reply .av { width: 34px; height: 34px; border-radius: 9px; background: #DCE6F2; color: #2B4A6F; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; flex: none; }
+.reply .bb { background: #FFFFFF; border: 1px solid #E8DFC8; border-radius: 4px 12px 12px 12px; padding: 10px 13px; font-size: 14px; color: var(--char); line-height: 1.5; font-weight: 500; }
+.reply .bb b { display: block; font-size: 12.5px; color: var(--mut); font-weight: 700; margin-bottom: 2px; }
+.big99 { margin-top: 12px; background: #FFFFFF; border: 1px solid #E8DFC8; border-radius: 12px; padding: 14px 16px; }
+.big99 .v { font-family: "Fjalla One"; font-size: 40px; color: var(--ink); line-height: 1; }
+.big99 .v small { font-family: "Raleway"; font-size: 15px; color: var(--mut); font-weight: 700; margin-left: 6px; }
+.big99 .bar { height: 7px; background: #ECE6D8; border-radius: 4px; margin-top: 10px; position: relative; overflow: hidden; }
+.big99 .bar i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--gold2); border-radius: 4px; }
+.big99 p { font-size: 13px; color: var(--mut2); font-weight: 600; margin-top: 8px; line-height: 1.45; }
+.waiting { margin-top: 12px; font-size: 13.5px; color: var(--mut2); font-weight: 600; line-height: 1.5; background: #FFFFFF; border: 1px dashed #D9CDB0; border-radius: 10px; padding: 12px 14px; }
+.playbtn { align-self: flex-start; margin-top: 12px; height: 46px; padding: 0 16px; border-radius: 10px; background: #FFFFFF; box-shadow: inset 0 0 0 1.5px var(--gold2); color: var(--ink); font-size: 14.5px; font-weight: 800; display: inline-flex; align-items: center; gap: 9px; }
+.playbtn:hover { background: #FFFBF1; }
+.playbtn svg { width: 16px; height: 16px; }
+
+/* ---------- welcome + end ---------- */
+.wel { max-width: 1320px; margin: 0 auto; padding: 42px 24px 40px; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 46px; align-items: center; }
+.wel .hi { font-size: 17px; font-weight: 700; color: var(--goldink); }
+.wel h1 { font-family: "Fjalla One"; font-weight: 400; font-size: 54px; line-height: 1.04; color: var(--ink); margin-top: 8px; letter-spacing: 0.005em; text-wrap: balance; }
+.wel .lead { font-size: 19px; line-height: 1.6; color: var(--char); margin-top: 16px; font-weight: 500; max-width: 600px; text-wrap: pretty; }
+.wel ol { list-style: none; margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 620px; }
+.wel li { background: #FFFFFF; border-radius: 12px; box-shadow: 0 0 0 1px var(--line); padding: 13px 14px; display: flex; gap: 11px; align-items: flex-start; font-size: 15px; font-weight: 800; color: var(--ink); line-height: 1.35; }
+.wel li i { font-style: normal; flex: none; width: 26px; height: 26px; border-radius: 7px; background: var(--ink); color: var(--gold); font-size: 13px; display: flex; align-items: center; justify-content: center; font-weight: 800; }
+.wel li small { display: block; font-size: 13.5px; color: var(--mut2); font-weight: 600; margin-top: 2px; }
+.wel .go { margin-top: 26px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.wel .go small { font-size: 14px; color: var(--mut2); font-weight: 600; }
+.wel .note { margin-top: 18px; font-size: 13.5px; color: var(--mut); font-weight: 600; max-width: 600px; }
+.ph1 { position: relative; }
+.ph1 .im { border-radius: 18px; overflow: hidden; box-shadow: 0 30px 60px rgba(20,16,6,0.2); background: var(--ink); }
+.ph1 .im img { width: 100%; height: 380px; object-fit: cover; object-position: 55% 40%; display: block; }
+.ph1 .im p { color: #CFC6B2; font-size: 13px; font-weight: 600; padding: 10px 16px 12px; }
+.ph1 .badge { position: absolute; left: -22px; bottom: 58px; background: #FFFFFF; border-radius: 14px; box-shadow: 0 18px 40px rgba(20,16,6,0.2); padding: 13px 15px; width: 270px; }
+.ph1 .badge b { font-size: 12px; font-weight: 800; color: var(--goldink); letter-spacing: 0.04em; display: block; }
+.ph1 .badge span { display: block; font-size: 15.5px; font-weight: 800; color: var(--ink); margin-top: 3px; line-height: 1.35; }
+.ph1 .badge small { display: block; font-size: 12.5px; color: var(--mut2); font-weight: 600; margin-top: 3px; }
+.end { max-width: 1180px; margin: 0 auto; padding: 40px 24px 40px; }
+.end .hi { font-size: 17px; font-weight: 700; color: var(--goldink); }
+.end h1 { font-family: "Fjalla One"; font-weight: 400; font-size: 46px; line-height: 1.08; color: var(--ink); margin-top: 6px; text-wrap: balance; }
+.vals { margin-top: 24px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.val { background: #FFFFFF; border-radius: 14px; box-shadow: 0 0 0 1px var(--line); padding: 18px 18px 18px; }
+.val i { font-style: normal; width: 36px; height: 36px; border-radius: 9px; background: var(--ink); display: flex; align-items: center; justify-content: center; }
+.val i svg { width: 20px; height: 20px; }
+.val b { display: block; font-family: "Fjalla One"; font-weight: 400; font-size: 21px; color: var(--ink); margin-top: 12px; line-height: 1.15; }
+.val p { font-size: 14.5px; color: var(--char); font-weight: 600; line-height: 1.5; margin-top: 5px; }
+.two { margin-top: 14px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+.box { background: #FFFFFF; border-radius: 14px; box-shadow: 0 0 0 1px var(--line); padding: 18px 20px; }
+.box b { display: block; font-size: 13px; font-weight: 800; color: var(--goldink); letter-spacing: 0.03em; }
+.box p { font-size: 15.5px; color: var(--char); font-weight: 600; line-height: 1.55; margin-top: 5px; }
+.box.dk { background: var(--ink); box-shadow: none; }
+.box.dk b { color: var(--gold); } .box.dk p { color: #E9E2D0; }
+.box.dk .acts { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+.box.dk .btn.ln { background: transparent; color: #FFFFFF; box-shadow: inset 0 0 0 1.5px #5A5140; }
+.box.dk .btn.ln:hover { background: #241E10; }
+.end .foot2 { margin-top: 16px; font-size: 13px; color: var(--mut); font-weight: 600; line-height: 1.55; }
+.end .again { margin-top: 18px; }
+
+/* ---------- modal ---------- */
+.modal { position: fixed; inset: 0; background: rgba(20,16,6,0.5); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 50; }
+.modal.on { display: flex; }
+.modal .bx2 { background: #FFFFFF; border-radius: 14px; width: min(720px, 100%); max-height: calc(100vh - 40px); overflow-y: auto; padding: 22px 24px 20px; animation: rise .3s cubic-bezier(.22,1,.36,1); }
+.modal h3 { font-family: "Fjalla One"; font-weight: 400; font-size: 24px; color: var(--ink); }
+.modal p.s { font-size: 14px; color: var(--mut2); font-weight: 600; margin-top: 4px; }
+.reg { border: 1px solid #E8DFC8; border-radius: 10px; padding: 18px 20px; margin-top: 14px; }
+.reg .rh { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding-bottom: 10px; border-bottom: 2px solid var(--ink2); }
+.reg .rh img { height: 18px; width: auto; }
+.reg .rh .t { font-family: "Fjalla One"; font-size: 21px; color: var(--ink); line-height: 1.1; }
+.reg .rh .t small { display: block; font-family: "Raleway"; font-size: 11.5px; color: var(--mut); font-weight: 700; letter-spacing: 0.06em; }
+.reg .kv { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px 14px; margin-top: 10px; font-size: 13px; }
+.reg .kv span { display: block; font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; color: var(--mut); }
+.reg .kv b { font-weight: 800; color: var(--ink); }
+.reg table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
+.reg th { text-align: left; font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; color: var(--mut); border-bottom: 1.5px solid var(--ink2); padding: 0 6px 5px; }
+.reg td { padding: 6px; border-bottom: 1px solid #EFEAE0; font-weight: 600; }
+.reg .sgn { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-top: 14px; font-size: 12px; color: var(--mut2); font-weight: 600; }
+.reg .sgn img { height: 46px; width: auto; display: block; border-bottom: 1px solid var(--ink2); }
+.modal .act { margin-top: 16px; display: flex; justify-content: flex-end; }
+
+.foot { max-width: 1320px; margin: 0 auto; padding: 0 24px 22px; font-size: 12.5px; color: var(--mut); font-weight: 600; line-height: 1.55; width: 100%; }
+
+/* ---------- smaller screens ---------- */
+@media (min-width: 1081px) and (max-height: 820px) {
+  .dev { transform: scale(0.86); transform-origin: center; margin: -49px 0; }
+  .stage { min-height: 0; }
+  .scene { padding-top: 18px; }
+  .stage { padding-top: 42px; padding-bottom: 14px; }
+  .stage .cap { top: 13px; }
+  .stage.office { padding-top: 14px; padding-bottom: 14px; }
+  .story h1 { font-size: 32px; }
+  .or { padding-top: 12px; }
+}
+@media (min-width: 1081px) and (max-height: 790px) {
+  .dev { transform: scale(0.8); margin: -70px 0; }
+}
+@media (max-width: 1080px) {
+  .scene { grid-template-columns: minmax(0, 1fr); gap: 18px; padding-top: 20px; }
+  .story { position: static; }
+  .wel { grid-template-columns: minmax(0, 1fr); gap: 30px; padding-top: 28px; }
+  .ph1 .badge { left: 14px; }
+  .vals { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  .sigrow { position: static; margin: 14px auto 0; display: flex; justify-content: center; }
+  .hd .made { display: none; }
+  .hd .in { padding: 12px 16px 0; }
+  .chap { padding: 10px 12px 0; }
+  .chap button { padding: 8px 9px 11px; font-size: 13px; }
+  .chap button span { display: none; }
+  .chap button.on span { display: inline; }
+  .scene, .wel, .end { padding-left: 16px; padding-right: 16px; }
+  .story h1 { font-size: 30px; }
+  .wel h1 { font-size: 40px; }
+  .end h1 { font-size: 34px; }
+  .wel ol { grid-template-columns: minmax(0, 1fr); }
+  .vals, .two { grid-template-columns: minmax(0, 1fr); }
+  .stage { padding: 18px 8px; min-height: 0; border-radius: 14px; flex-direction: column; }
+  .stage .cap { display: none; }
+  .ob { grid-template-columns: minmax(0, 1fr); }
+  .cks .two2 { grid-template-columns: minmax(0, 1fr); }
+  .ol { border-right: 0; border-bottom: 1px solid var(--line2); }
+  .oh .u span { display: none; }
+  .nav { position: sticky; bottom: 0; background: var(--page); padding: 10px 0 12px; margin-top: 16px; z-index: 20; }
+  .nav .btn { flex: 1; }
+  .nav .hint { display: none; }
+}
+@media (max-width: 380px) {
+  .dev { transform: scale(0.9); transform-origin: top center; margin-bottom: -72px; }
+}
+</style>
+</head>
+<body>
+<header class="hd">
+  <div class="in"><img class="lg" src="/trophy/logo-white.png" alt="Trophy Solutions Africa"><span class="app">Collections</span><span class="made">A demo made for Trophy Solutions Africa by Flowrate</span></div>
+  <nav class="chap" id="chap" aria-label="Steps"></nav>
+</header>
+<main id="app"></main>
+<p class="foot" id="foot">Everything in this demo is an example: the hunters, outfitters, staff, tag and TSA numbers. Nothing you do here is sent or saved. The logo and the truck photo are your own, from trophy-care.com. Not affiliated with Trophy Solutions Africa.</p>
+<div class="modal" id="modal" role="dialog" aria-modal="true"><div class="bx2" id="mbox"></div></div>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const TICK = '<svg viewBox="0 0 10 10" fill="none" stroke="#FFF" stroke-width="1.6"><path d="M2 5.2l2 2 4-4.4"/></svg>';
+  const BARS = (on) => `<svg width="17" height="11" viewBox="0 0 17 11" fill="${on ? '#FFF' : '#6F6655'}"><rect x="0" y="7" width="3" height="4" rx=".8"/><rect x="4.5" y="5" width="3" height="6" rx=".8"/><rect x="9" y="2.6" width="3" height="8.4" rx=".8"/><rect x="13.5" y="0" width="3" height="11" rx=".8"/></svg>`;
+  const HAND = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8V3a1 1 0 0 1 2 0v4M8 7V2.5a1 1 0 0 1 2 0V7M10 7V4a1 1 0 0 1 2 0v5.5A4.5 4.5 0 0 1 7.5 14h-.3a4 4 0 0 1-3.3-1.8L2.3 9.8a1 1 0 0 1 1.6-1.2L6 10"/></svg>';
+  const PLAY = '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.5v11l9-5.5z"/></svg>';
+  const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const DAY = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const now = new Date();
+  const today = `${DAY[now.getDay()]} ${now.getDate()} ${MON[now.getMonth()]}`;
+  const hm = (d) => `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+  const D = (y, m, d) => new Date(y, m - 1, d);
+  // the 99 days: counted from the written OK, December not counted (their Confirmation page)
+  function day99(from) {
+    const b = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    let n = 0;
+    for (let d = new Date(from.getFullYear(), from.getMonth(), from.getDate()); d <= b; d.setDate(d.getDate() + 1)) if (d.getMonth() !== 11) n++;
+    return Math.max(1, Math.min(99, n));
+  }
+
+  const PAPERS = [
+    { k: 'PH', n: 'PH-Register' }, { k: 'EX', n: 'Exemption / CAE' }, { k: 'TR', n: 'Transfer of hunting rights' },
+    { k: 'PM', n: 'Permission to hunt' }, { k: 'CI', n: 'CITES hunting permit' }, { k: 'TO', n: 'TOPS hunting permit' },
+  ];
+  const PST = { ok: 'Original handed over', na: 'Not needed', unsigned: 'Not signed by the client', missing: 'Not handed over' };
+
+  function fresh() {
+    return {
+      step: 0, maxStep: 0,
+      cur: 'w',
+      hunters: [
+        { id: 'w', name: 'William C.', from: 'USA · Texas', agent: true, parts: [
+          ['Kudu', 'skull & horns', '0412', 1], ['Kudu', 'cape', '0413', 1], ['Blue wildebeest', 'skull & horns', '0414', 1], ['Blue wildebeest', 'flat skin', '0415', 1],
+          ['Black wildebeest', 'skull & horns', '0416', 0, 'TOPS'], ['Impala', 'skull & horns', '0417', 1], ['Warthog', 'skull & tusks', '0418', 0]],
+          papers: { PH: 'ok', EX: 'ok', TR: 'ok', PM: 'ok', CI: 'na', TO: null } },
+        { id: 'k', name: 'Kyle R.', from: 'USA · Wyoming', agent: false, parts: [
+          ['Kudu', 'skull & horns', '0419', 1], ['Kudu', 'flat skin', '0420', 1], ['Impala', 'skull & horns', '0421', 1], ['Warthog', 'skull & tusks', '0422', 1], ['Blue wildebeest', 'skull & horns', '0423', 1]],
+          papers: { PH: 'ok', EX: 'ok', TR: 'ok', PM: 'ok', CI: 'na', TO: 'na' } },
+        { id: 'j', name: 'Jürgen M.', from: 'Germany', agent: true, parts: [
+          ['Impala', 'skull & horns', '0424', 1], ['Impala', 'cape', '0425', 1], ['Warthog', 'skull & tusks', '0426', 1], ['Blue wildebeest', 'flat skin', '0427', 1]],
+          papers: { PH: 'ok', EX: 'ok', TR: 'ok', PM: 'ok', CI: 'na', TO: 'na' } },
+      ],
+      sheet: null, sig: null, copyOut: true, phone: 'draft', signal: false, arrivedAt: null,
+      checks: [0, 0], sent: false, sentAt: null, replied: false,
+    };
+  }
+  let S = fresh();
+  const seen = new Set();
+  const once = (k) => (seen.has(k) ? '' : (seen.add(k), ' arrive'));
+  const H = (id) => S.hunters.find((h) => h.id === id);
+  const W = () => H('w');
+  const parts = () => S.hunters.reduce((n, h) => n + h.parts.length, 0);
+  const flags = (h) => PAPERS.filter((p) => h.papers[p.k] === 'unsigned' || h.papers[p.k] === 'missing');
+
+  // ---------------------------------------------------------------- steps
+  const CH = ['Welcome', 'At the farm', 'The papers', 'Sign and send', 'In the office', 'The 99 days', 'What it gives you'];
+  const done = [
+    () => true,
+    () => W().parts.every((p) => p[3]),
+    () => !!W().papers.TO,
+    () => S.phone === 'sent',
+    () => S.sent,
+    () => S.replied,
+    () => true,
+  ];
+  // jumping ahead fills in the earlier steps, so every screen makes sense
+  function ensure(n) {
+    if (n >= 2) W().parts.forEach((p) => (p[3] = 1));
+    if (n >= 3 && !W().papers.TO) W().papers.TO = 'unsigned';
+    if (n >= 4 && S.phone !== 'sent') { if (!S.sig) S.sig = demoSig(); S.phone = 'sent'; S.signal = true; S.arrivedAt = S.arrivedAt || hm(new Date()); }
+    if (n >= 5 && !S.sent) { S.checks = [1, 1]; S.sent = true; S.sentAt = hm(new Date()); }
+    if (n >= 6) S.replied = true;
+  }
+  function go(n) {
+    n = Math.max(0, Math.min(6, n));
+    ensure(n); S.step = n; S.maxStep = Math.max(S.maxStep, n); S.sheet = null; S.acted = false;
+    render(); window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ---------------------------------------------------------------- the phone
+  const TABICON = {
+    parts: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2.5 10.3V3.7a1.2 1.2 0 0 1 1.2-1.2h6.6l7.2 7.2-7.7 7.7z"/><circle cx="6.6" cy="6.6" r="1.3"/></svg>',
+    papers: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 2.5h7l3 3v12H5z"/><path d="M7.5 10h5M7.5 13h5"/></svg>',
+    sign: '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17.5h14M5 14.2l9.3-9.3 2.3 2.3-9.3 9.3H5z"/></svg>',
+  };
+  function phone(view) {
+    const h = H(S.cur);
+    let b = '';
+    if (view === 'parts') {
+      const n = h.parts.filter((p) => p[3]).length;
+      b += `<div class="cd"><div class="h">TROPHY PARTS · TAG · CHECKED</div>`;
+      b += h.parts.map((p, i) => `<button type="button" class="pt" data-part="${i}" aria-pressed="${!!p[3]}"><span><b>${esc(p[0])}</b>${p[4] ? '<span class="tops">' + p[4] + '</span>' : ''}<span class="pn">${esc(p[1])}</span></span><span class="tg">${p[2]}</span><span class="bx ${p[3] ? 'on' : ''}">${p[3] ? TICK : ''}</span></button>`).join('');
+      b += `<p class="done-line">${n === h.parts.length ? `<b>✓ All ${n} parts checked</b> against their tags` : `${n} of ${h.parts.length} checked against their tags`}</p></div>`;
+    } else if (view === 'papers') {
+      b += `<div class="cd"><div class="h">PAPERS HANDED OVER <em>originals only</em></div><div class="pa">`;
+      b += PAPERS.map((p) => {
+        const st = h.papers[p.k]; const bad = st === 'unsigned' || st === 'missing';
+        const box = st === 'ok' ? `<span class="bx on">${TICK}</span>` : st === 'na' ? '<span class="bx na"></span>' : bad ? '<span class="bx xx">!</span>' : '<span class="bx qq"></span>';
+        const sub = !st ? 'Tap to record' : st === 'na' ? (p.k === 'CI' ? 'No CITES species hunted' : 'No TOPS species hunted') : st === 'ok' && p.k === 'PH' ? 'Signed by client, PH and outfitter' : PST[st];
+        return `<button type="button" class="${bad ? 'x' : ''}" data-paper="${p.k}">${box}<span>${esc(p.n)}<small>${esc(sub)}</small></span><span class="cd2">${p.k}</span></button>`;
+      }).join('');
+      b += `</div></div>`;
+      if (flags(h).length) b += `<div class="flag${once('flag')}"><span class="bx xx">!</span><span>${flags(h).map((p) => esc(p.n) + ': ' + esc(PST[h.papers[p.k]].toLowerCase())).join('; ')}<small>Flagged for the office straight away.</small></span></div>`;
+    } else {
+      b += `<div class="cd"><div class="h">TODAY'S REGISTER <em>${S.hunters.length} hunters · ${parts()} parts</em></div><div class="sum">`;
+      b += S.hunters.map((x) => `<div><span>${esc(x.name)}<small>${x.parts.length} parts · ${flags(x).length ? flags(x).map((p) => p.k + ' not signed').join(', ') : 'papers complete'}</small></span><span class="st">Ready</span></div>`).join('');
+      b += `</div></div>`;
+      if (S.phone === 'draft') {
+        b += `<div class="cd"><div class="h">SIGN FOR TROPHY SOLUTIONS AFRICA</div><div class="pad" id="pad"><canvas id="cv" tabindex="0" aria-label="Signature box: draw a signature"></canvas><div class="ln"></div><span class="lb">Sign here</span>${S.sig ? '<button type="button" class="clr" id="clr">Clear</button>' : ''}</div>
+          <button type="button" class="tgl" id="copy"><span class="bx ${S.copyOut ? 'on' : ''}">${S.copyOut ? TICK : ''}</span>Send a copy to Doringkop (outfitter)</button></div>`;
+        b += `<button type="button" class="cpbtn" id="save" ${S.sig ? '' : 'disabled'}>Sign &amp; save</button>`;
+      } else {
+        const st = S.phone;
+        b += `<div class="card1${once('card1')}">Signed by your collector${S.copyOut ? ' · copy to Doringkop' : ''}<small>${st === 'queued' ? 'No signal here. It\'s saved on this phone and sends itself as soon as there\'s signal.' : st === 'sending' ? 'Signal is back. Sending to the office…' : 'Sent to the office at ' + S.arrivedAt + '.'}</small><span class="chip ${st === 'queued' ? 'wr' : st === 'sending' ? 'snt' : 'cf'}">${st === 'queued' ? 'Waiting for signal' : st === 'sending' ? 'Sending' : '✓ In the office'}</span></div>`;
+      }
+    }
+    const tabs = [['parts', 'Parts', 1], ['papers', 'Papers', 2], ['sign', 'Sign', 3]].map(([k, l, s]) => `<button type="button" data-go="${s}" class="${view === k ? 'on' : ''}" aria-label="${l}">${TABICON[k]}${l}</button>`).join('');
+    const htabs = view === 'sign' ? '' : `<div class="htabs">${S.hunters.map((x) => `<button type="button" data-h="${x.id}" class="${x.id === S.cur ? 'on' : ''}">${esc(x.name)}<small>${x.parts.length}</small>${x.id !== 'w' || (view === 'parts' ? W().parts.every((p) => p[3]) : !!W().papers.TO) ? '<span class="ok">✓</span>' : ''}</button>`).join('')}</div>`;
+    let sheet = '';
+    if (S.sheet) {
+      const k = S.sheet;
+      const opts = [['ok', 'Original handed over', 'a photo is kept too'], ['unsigned', 'Not signed by the client', 'flags the office'], ['missing', 'Not handed over', 'flags the office'], ['na', 'Not needed', k === 'TO' ? 'no TOPS species' : '']];
+      sheet = `<div class="sheet-bg" data-close></div><div class="sheet"><h5>${esc(PAPERS.find((p) => p.k === k).n)}</h5><p class="s">${esc(h.name)} · originals only, no copies or scans</p><div class="opts">${opts.map(([v, l, s]) => `<button type="button" data-ps="${v}" class="${v === 'unsigned' || v === 'missing' ? 'x' : ''}"><span>${esc(l)}</span><small>${esc(s)}</small></button>`).join('')}</div></div>`;
+    }
+    return `<div class="dev"><div class="scr" id="scr"><div class="isl"></div>
+      <div class="ph-hd"><div class="sbar"><span>${hm(new Date())}</span><span class="sig ${S.signal ? '' : 'off'}">${BARS(S.signal)} ${S.signal ? 'LTE' : 'No signal'}</span></div>
+        <p class="k">COLLECTION · ${today.toUpperCase()}</p><div class="t"><b>Doringkop Safaris</b><span>${parts()} parts</span></div><p class="w">Vaalwater, Limpopo · 3 hunters</p>${htabs}</div>
+      <div class="ph-bd">${b}</div><div class="tb">${tabs}</div>${sheet}</div></div>`;
+  }
+
+  // ---------------------------------------------------------------- the office
+  function marks(p) { return `<span class="pp">${PAPERS.map((q) => { const st = p[q.k]; return `<i class="${st === 'na' ? 'na' : st === 'unsigned' || st === 'missing' ? 'x' : ''}" title="${esc(q.n)}: ${esc(PST[st] || '')}">${q.k}</i>`; }).join('')}</span>`; }
+  function office(view) {
+    const w = W();
+    let left = '', right = '';
+    if (view === 'email') {
+      left = `<h4>Today's collection</h4><p class="sub">Doringkop Safaris · from your collector's phone at ${S.arrivedAt}</p>`;
+      left += S.hunters.map((x) => `<div class="hrow ${x.id === 'w' ? 'sel' : ''}"><b>${esc(x.name)}</b>${x.id === 'w' && S.sent ? '<span class="chip snt">Sent</span>' : '<span class="chip chk">To check</span>'}<small>${esc(x.from)} · ${x.parts.length} parts · TSA# to add</small>${marks(x.papers)}</div>`).join('');
+      left += `<p class="lgd">The six papers per hunter: <b>PH</b> <b>EX</b> <b>TR</b> <b>PM</b> <b>CI</b> <b>TO</b>. Red: not signed, or not handed over.</p>`;
+      const first = 'William';
+      right = `<p class="k">${S.sent ? 'SENT' : 'DRAFT · READY TO CHECK'}</p><h5>${S.sent ? 'Sent to William C.' : 'Confirmation email to William C.'}</h5>`;
+      if (!S.sent) {
+        right += `<div class="ml"><div class="r"><span>From</span><b>Trophy Solutions Africa · your usual address</b></div><div class="r"><span>To</span><b>William C. · cc his agent</b></div><div class="r"><span>Subject</span><b>Your trophies are with us</b></div>
+          <div class="bd"><p>Dear ${first},</p><p>Your trophies from Doringkop Safaris are with us: ${w.parts.length} parts, listed on the attached Collection Register.</p><p>Please confirm in writing that they are all yours, and send your shipping details (taxidermist or clearing agent). Your 99 days start from there.</p>${flags(w).length ? `<p><span class="os">${w.papers.TO === 'missing' ? 'Your TOPS hunting permit for the black wildebeest wasn\'t handed over at the farm. We\'re asking the outfitter for the original.' : 'Your TOPS permit for the black wildebeest isn\'t signed yet. We\'ll courier it to you to sign.'}</span></p>` : ''}<p>Kind regards,<br>The Trophy Solutions Africa team</p></div>
+          <button type="button" class="att" id="reg"><i>PDF</i>Collection Register<small>Open it</small></button></div>`;
+        const C = [['Name as on the register', 'William, not Bill'], ['Physical address', 'not a PO Box']];
+        right += `<div class="cks"><b>A person checks it before it goes</b><div class="two2">${C.map(([a, s], i) => `<button type="button" data-ck="${i}" aria-pressed="${!!S.checks[i]}"><span class="bx ${S.checks[i] ? 'on' : ''}">${S.checks[i] ? TICK : ''}</span><span>${esc(a)}<small>${esc(s)}</small></span></button>`).join('')}</div></div>`;
+        const ok = S.checks[0] && S.checks[1];
+        right += `<div class="sendrow"><button type="button" class="btn dk" id="send" ${ok ? '' : 'disabled'}>Checked: <em>send</em></button>${ok ? '' : '<small>Tick both checks first.</small>'}</div>`;
+      } else {
+        right += `<div class="sentbox${once('sent4')}">✓ Sent at ${S.sentAt} to William C.${w.agent ? ', cc his agent' : ''}<small>From your own email address, with the Collection Register attached. A copy goes into your system the way you capture it today. (In this demo nothing is really sent.)</small></div>`;
+        right += `<button type="button" class="att" id="reg"><i>PDF</i>Collection Register, as sent<small>Open it</small></button>`;
+      }
+    } else { // the 99 days
+      const clocks = [
+        { n: 'William C.', s: S.replied ? 'Doringkop · confirmed today' : 'Doringkop · email sent today', d: S.replied ? day99(now) : null, w: S.replied ? null : 'Waiting for his written OK', nw: S.replied },
+        { n: 'Mikkel S.', s: 'Kremetart · confirmed 2 Nov', d: day99(D(2026, 11, 2)) },
+        { n: 'Anna K.', s: 'Klipbok · confirmed 5 Nov', d: day99(D(2026, 11, 5)) },
+        { n: 'Robert T.', s: 'Klipbok · confirmed 6 Nov', w: 'Waiting: shipping details' },
+        { n: 'Lars H.', s: 'Kremetart · email sent 13 Nov', w: 'Waiting: his written OK' },
+      ];
+      left = `<h4>Your 99-day clocks</h4><p class="sub">Every hunter in one list · December not counted</p>`;
+      left += clocks.map((c) => `<div class="clk ${c.nw ? 'new' : ''}"><b>${esc(c.n)}</b><span class="d ${c.d ? '' : 'w'}">${c.d ? 'Day ' + c.d + ' of 99' : 'Not started'}</span><small>${esc(c.s)}${c.w ? ' · ' + esc(c.w) : ''}</small>${c.d ? `<span class="bar"><i style="width:${(c.d / 99 * 100).toFixed(1)}%"></i></span>` : ''}</div>`).join('');
+      right = `<p class="k">WILLIAM C. · DORINGKOP SAFARIS</p><h5>${S.replied ? 'Confirmed in writing' : 'Waiting for his written OK'}</h5>`;
+      right += `<div class="sentbox" style="color:var(--char);border-color:#E8DFC8">Confirmation email sent at ${S.sentAt}<small>To William C.${w.agent ? ', cc his agent' : ''}, with the Collection Register attached.</small></div>`;
+      if (!S.replied) {
+        right += `<div class="waiting">His 99 days haven't started yet. They start once he confirms in writing and his shipping details are in.</div>`;
+        right += `<button type="button" class="playbtn" id="reply">${PLAY}Play William's reply</button>`;
+      } else {
+        right += `<div class="reply${once('reply')}"><span class="av">W</span><div class="bb"><b>William C. · today ${hm(new Date())}</b>All ${w.parts.length} parts are mine, thank you. Shipping goes through my taxidermist in Texas; his details are attached. Please send the TOPS permit and I'll sign it.</div></div>`;
+        const d = day99(now);
+        right += `<div class="big99${once('big99')}"><div class="v">Day ${d}<small>of 99</small></div><div class="bar"><i style="width:${(d / 99 * 100).toFixed(1)}%"></i></div><p>Started today: written OK and shipping details are in. December isn't counted. The TOPS permit goes to him by courier to sign.</p></div>`;
+      }
+    }
+    return `<div class="win"><div class="wb"><i></i><i></i><i></i><span>Collections · Trophy Solutions Africa</span></div>
+      <div class="oh"><img src="/trophy/logo-white.png" alt="Trophy Solutions Africa"><span class="a">Collections</span><span class="u"><span>Client liaison</span><i><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="8" cy="5.5" r="2.7"/><path d="M2.8 14c.6-2.8 2.7-4.3 5.2-4.3s4.6 1.5 5.2 4.3"/></svg></i></span></div>
+      <div class="ob"><div class="ol">${left}</div><div class="or">${right}</div></div></div>`;
+  }
+
+  // ---------------------------------------------------------------- scenes
+  const SC = {
+    1: { where: 'At Doringkop Safaris, Vaalwater', title: 'Tick each trophy against its tag',
+      lead: 'Your collector is at the outfitter with three hunters\' trophies. On the phone, they tick each part once they\'ve seen its tag.',
+      why: 'Your Collection Register is typed once, here at the farm. Nobody types it again in the office.' },
+    2: { where: 'Still at the farm', title: 'Check the six papers before the bakkie leaves',
+      lead: 'Your six documents, originals only. Your collector records each one for each hunter. William\'s TOPS permit for the black wildebeest hasn\'t been signed by him.',
+      why: 'A missing or unsigned paper shows up at the farm, on the day, not weeks later in Polokwane.' },
+    3: { where: 'Leaving the farm', title: 'Sign once. It sends itself when there\'s signal',
+      lead: 'Your collector signs for Trophy Solutions and Doringkop gets its copy. There\'s no signal on the farm, so the register waits safely on the phone.',
+      why: 'Nothing to remember to send, and nothing lost on the drive home.' },
+    4: { where: 'Your office in Polokwane', title: 'The email is already written. A person checks it',
+      lead: 'The office sees today\'s three hunters. William\'s confirmation email is already drafted, with the register attached and his unsigned TOPS permit mentioned.',
+      why: 'No re-typing, and nothing goes to a client without someone checking it first.' },
+    5: { where: 'A few days later', title: 'He confirms in writing. His 99 days start',
+      lead: 'When William confirms his trophies and his shipping details are in, his 99-day count starts by itself. December isn\'t counted.',
+      why: 'Every hunter\'s 99 days in one list: whose clock is running, and who you\'re still waiting on.' },
+  };
+  // the next thing to do on each step: [selector, tooltip, side, action]
+  function todo() {
+    const w = W();
+    if (S.step === 1) {
+      if (S.cur !== 'w') return ['[data-h="w"]', 'Back to William', 'b', () => { S.cur = 'w'; }];
+      const i = w.parts.findIndex((p) => !p[3]);
+      if (i >= 0) return [`[data-part="${i}"]`, `Tap to tick: <em>${w.parts[i][0].toLowerCase()}</em>`, 'l', () => { w.parts[i][3] = 1; }];
+    }
+    if (S.step === 2 && !w.papers.TO) {
+      if (S.cur !== 'w') return ['[data-h="w"]', 'Back to William', 'b', () => { S.cur = 'w'; }];
+      if (S.sheet !== 'TO') return ['[data-paper="TO"]', 'Tap the <em>TOPS permit</em>', 'l', () => { S.sheet = 'TO'; }];
+      return ['[data-ps="unsigned"]', 'This one: <em>not signed</em>', 'l', () => { w.papers.TO = 'unsigned'; S.sheet = null; }];
+    }
+    if (S.step === 3) {
+      if (S.phone === 'draft' && !S.sig) return ['#pad', 'Sign here with your <em>mouse or finger</em>', 'l', () => { S.sig = demoSig(); }];
+      if (S.phone === 'draft') return ['#save', 'Tap <em>Sign &amp; save</em>', 'l', () => save()];
+      if (S.phone === 'queued') return ['#sigbtn', 'Back in signal: <em>switch it on</em>', 'b', () => signalOn()];
+    }
+    if (S.step === 4 && !S.sent) {
+      const i = S.checks.findIndex((c) => !c);
+      if (i >= 0) return [`[data-ck="${i}"]`, i === 0 ? 'Check the name' : 'Check the address', 'l', () => { S.checks[i] = 1; }];
+      return ['#send', 'Looks right: <em>send it</em>', 'r', () => send()];
+    }
+    if (S.step === 5 && !S.replied) return ['#reply', 'Tap to <em>play it</em>', 'r', () => reply()];
+    return null;
+  }
+  const NEXTL = { 0: 'Start: today\'s collection', 1: 'Next: the papers', 2: 'Next: sign and send', 3: 'Next: the office', 4: 'Next: the 99 days', 5: 'See what it gives you' };
+
+  function render() {
+    const E = render._last !== S.step ? ' enter' : ''; render._last = S.step;
+    const sheetNew = S.sheet && render._sheet !== S.sheet; render._sheet = S.sheet;
+    // chapter bar
+    $('chap').innerHTML = CH.map((c, i) => `<button type="button" data-go="${i}" class="${i === S.step ? 'on' : ''} ${i < S.step || (i <= S.maxStep && done[i]()) && i !== S.step ? 'done' : ''}"><i>${i === 0 ? '→' : i === 6 ? '★' : (i < S.step ? '✓' : i)}</i><span>${c}</span></button>`).join('');
+    { const ch = $('chap'), on = ch.querySelector('.on'); if (on && ch.scrollWidth > ch.clientWidth) { const x = on.getBoundingClientRect().left - ch.getBoundingClientRect().left + ch.scrollLeft; ch.scrollLeft = Math.max(0, x - (ch.clientWidth - on.offsetWidth) / 2); } }
+    const app = $('app');
+    if (S.step === 0) {
+      app.innerHTML = `<section class="wel${E}"><div>
+        <p class="hi">For Johan and Estie, at Trophy Solutions Africa</p>
+        <h1>Collected at the farm. Confirmed the same day.</h1>
+        <p class="lead">This is one collection day, the way your team could run it: the Collection Register and the six papers done on a phone at the outfitter, and each hunter's confirmation email already written in the office, ready for a person to check.</p>
+        <ol><li><i>1</i><span>At the farm<small>Tick each trophy against its tag</small></span></li><li><i>2</i><span>The papers<small>Anything unsigned is flagged there</small></span></li><li><i>3</i><span>Sign and send<small>Even with no signal on the farm</small></span></li><li><i>4</i><span>In the office<small>The email is written; a person checks it</small></span></li><li><i>5</i><span>The 99 days<small>Start when the hunter confirms</small></span></li><li><i>★</i><span>What it gives you<small>And what stays exactly as it is</small></span></li></ol>
+        <div class="go"><button type="button" class="btn dk" data-go="1">Start: today's collection <em>→</em></button><small>About two minutes. You tap through it the way your team would.</small></div></div>
+        <div class="ph1"><div class="im"><img src="/trophy/truck.jpg" alt="Your truck with trophy crates"><p>Your truck and crates, a photo from your own website</p></div>
+        <div class="badge"><b>TODAY · DORINGKOP SAFARIS</b><span>3 hunters · 16 trophy parts</span><small>Collected at the farm · checked in the office</small></div></div></section>`;
+      hideHot(); return;
+    }
+    if (S.step === 6) { app.innerHTML = endScene(E); hideHot(); return; }
+    const sc = SC[S.step]; const isOffice = S.step >= 4;
+    const t = todo(); const ok = done[S.step]();
+    const doneTxt = { 1: 'All 7 of William\'s parts are checked. Kyle and Jürgen were done earlier.', 2: 'Flagged on the phone: the office will see it in William\'s email.', 3: 'Signed, saved, and in the office the moment the phone had signal.', 4: 'Sent, after a person checked it.', 5: 'Written OK in: William\'s 99 days are running.' }[S.step];
+    const taskTxt = { 1: 'Tick William\'s last two parts: the black wildebeest and the warthog.', 2: 'Tap the TOPS permit, then choose "Not signed by the client".', 3: S.phone === 'queued' ? 'Your collector drives back into signal. Switch the phone\'s signal on.' : 'Sign in the box with your mouse or finger, then tap "Sign & save".', 4: 'Tick the two checks, then send the email.', 5: 'Play William\'s reply to the email.' }[S.step];
+    let stage = '';
+    if (!isOffice) {
+      const view = { 1: 'parts', 2: 'papers', 3: 'sign' }[S.step];
+      stage = `<div class="devcol">${phone(view)}</div>${S.step === 3 ? `<div class="sigrow"><button type="button" class="sigbtn ${S.signal ? 'on' : ''}" id="sigbtn" aria-pressed="${S.signal}"><span class="k"></span><span>${S.signal ? 'Phone signal: on' : 'Phone signal: off (on the farm)'}</span></button></div>` : ''}`;
+    } else stage = office(S.step === 4 ? 'email' : 'days');
+    app.innerHTML = `<section class="scene${E}">
+      <div class="story"><p class="where"><b>Step ${S.step} of 5</b>${esc(sc.where)}</p><h1>${esc(sc.title)}</h1><p class="lead">${esc(sc.lead)}</p>
+        <div class="task ${ok ? 'ok' : ''}"><p class="tl">${ok ? '✓ Done' : 'Your turn'}</p><p>${esc(ok ? doneTxt : taskTxt)}</p>${ok ? '' : `<div class="row"><button type="button" class="show" id="showme">${HAND}Show me</button><span class="prog">${progress()}</span></div>`}</div>
+        <div class="why"><b>Why it helps</b><p>${esc(sc.why)}</p></div>
+        <div class="nav"><button type="button" class="btn ln" data-go="${S.step - 1}">← Back</button><button type="button" class="btn dk ${ok ? 'pulse' : ''}" id="next" ${ok ? '' : 'disabled'}>${NEXTL[S.step]} <em>→</em></button></div></div>
+      <div class="stage ${isOffice ? 'office' : ''}" id="stage">${isOffice ? '' : '<span class="cap"><i></i>Your collector\'s phone, at the farm</span>'}${stage}<div class="hot" id="hot"></div><div class="tip" id="tip"></div></div>
+    </section>`;
+    if (S.step === 3 && S.phone === 'draft') setupPad();
+    clearTimeout(render._t);
+    if (sheetNew) { hideHot(); render._t = setTimeout(placeHot, 330); } // wait for the sheet to slide up
+    else { placeHot(); render._t = setTimeout(placeHot, 360); }
+  }
+  function progress() {
+    const w = W();
+    if (S.step === 1) return `${w.parts.filter((p) => p[3]).length} of ${w.parts.length} ticked`;
+    if (S.step === 3) return S.phone === 'draft' ? (S.sig ? 'Signed. Now save.' : '') : '';
+    if (S.step === 4) return `${S.checks.filter(Boolean).length} of 2 checks`;
+    return '';
+  }
+  function endScene(E) {
+    const ic = (p) => `<i><svg viewBox="0 0 20 20" fill="none" stroke="#DCA54A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${p}</svg></i>`;
+    return `<section class="end${E}"><p class="hi">For Johan and Estie</p><h1>What this gives Trophy Solutions, on every collection</h1>
+      <div class="vals">
+        <div class="val">${ic('<path d="M4 10.5l3.5 3.5L16 5.5"/>')}<b>Typed once</b><p>The Collection Register is typed at the farm. Nobody types it again in the office.</p></div>
+        <div class="val">${ic('<path d="M10 3l8 14H2z"/><path d="M10 8.5v3.5M10 14.6v.4"/>')}<b>Problems found on the day</b><p>Missing or unsigned papers are flagged before the trophies leave the farm.</p></div>
+        <div class="val">${ic('<path d="M3 5h14v10H3z"/><path d="M3 5l7 6 7-6"/>')}<b>Emails written for you</b><p>Each hunter's confirmation is drafted with the register attached. A person checks and sends it.</p></div>
+        <div class="val">${ic('<circle cx="10" cy="10" r="7.5"/><path d="M10 5.5V10l3 2"/>')}<b>Every 99 days in view</b><p>Whose clock is running, who hasn't confirmed yet, who still owes shipping details.</p></div>
+      </div>
+      <div class="two">
+        <div class="box"><b>What stays exactly as it is</b><p>Your own system and client numbers, the paper originals, e-permits, dip and pack, processing and billing. Your team decides everything; the app just saves the typing and the chasing. Your team uses the phones they already have.</p></div>
+        <div class="box dk"><b>How we'd start</b><p>A 15-minute video call, so we can see how your register gets into your system today. Then one small first step at a fixed price, agreed before we begin.</p>
+          <div class="acts"><a class="btn gd" href="https://wa.me/27824104936?text=${encodeURIComponent('Hi Andrew, I tried the collections demo for Trophy Solutions Africa.')}" target="_blank" rel="noopener">WhatsApp Andrew</a><a class="btn ln" href="mailto:andrew@flowrate.agency?subject=${encodeURIComponent('Collections demo: Trophy Solutions Africa')}">Email Andrew</a></div></div>
+      </div>
+      <p class="foot2">Andrew Murray · Flowrate · Tzaneen, about 90 minutes from you · +27 82 410 4936 · andrew@flowrate.agency</p>
+      <div class="again"><button type="button" class="btn ln" id="again">↺ Play it again</button></div></section>`;
+  }
+
+  // ---------------------------------------------------------------- hotspot
+  function hideHot() { const h = $('hot'), t = $('tip'); if (h) h.classList.remove('on'); if (t) t.classList.remove('on'); }
+  function placeHot() {
+    const st = $('stage'); const hot = $('hot'); const tip = $('tip'); if (!st || !hot) return;
+    const nx = $('next');
+    const t = todo();
+    if (!t) { hot.classList.remove('on'); tip.classList.remove('on'); return; }
+    const el = st.querySelector(t[0]); if (!el) { hot.classList.remove('on'); tip.classList.remove('on'); return; }
+    const a = st.getBoundingClientRect(), r = el.getBoundingClientRect();
+    if (S.acted && (r.bottom > window.innerHeight - 10 || r.top < 0)) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    const pad = 4;
+    Object.assign(hot.style, { left: (r.left - a.left - pad) + 'px', top: (r.top - a.top - pad) + 'px', width: (r.width + pad * 2) + 'px', height: (r.height + pad * 2) + 'px' });
+    hot.classList.add('on');
+    tip.innerHTML = t[1]; tip.className = 'tip on';
+    const narrow = a.width < 620;
+    // on a narrow screen the tip sits above the target, over what is already done
+    let side = narrow ? 't' : t[2];
+    tip.classList.add(side === 'l' ? 'l' : side === 'r' ? 'r' : side === 't' ? 't' : 'b');
+    const tw = tip.offsetWidth, th = tip.offsetHeight;
+    let x, y;
+    if (side === 'l') { x = r.left - a.left - tw - 18; y = r.top - a.top + r.height / 2 - th / 2; if (x < 6) { side = 'b'; } }
+    if (side === 'r') { x = r.right - a.left + 18; y = r.top - a.top + r.height / 2 - th / 2; if (x + tw > a.width - 6) { side = 't'; tip.className = 'tip on t'; } }
+    if (side === 't') { x = r.left - a.left + r.width / 2 - tw / 2; y = r.top - a.top - th - 16; if (y < 6) side = 'b'; }
+    if (side === 'b') { tip.className = 'tip on b'; x = r.left - a.left + r.width / 2 - tw / 2; y = r.bottom - a.top + 14; }
+    x = Math.max(6, Math.min(a.width - tw - 6, x));
+    Object.assign(tip.style, { left: x + 'px', top: y + 'px' });
+  }
+
+  // ---------------------------------------------------------------- signature
+  function demoSig() {
+    const c = document.createElement('canvas'); c.width = 600; c.height = 220; const g = c.getContext('2d');
+    g.strokeStyle = '#141006'; g.lineWidth = 4; g.lineCap = 'round'; g.lineJoin = 'round'; g.beginPath();
+    const pts = [[40, 150], [62, 92], [80, 150], [96, 110], [120, 140], [140, 96], [150, 150], [176, 118], [200, 138], [226, 102], [240, 146], [268, 120], [300, 132], [330, 108], [352, 140], [390, 124], [430, 130], [470, 116], [520, 122]];
+    g.moveTo(pts[0][0], pts[0][1]); for (let i = 1; i < pts.length; i++) { const [x0, y0] = pts[i - 1], [x1, y1] = pts[i]; g.quadraticCurveTo(x0, y0, (x0 + x1) / 2, (y0 + y1) / 2); }
+    g.stroke(); g.beginPath(); g.moveTo(30, 170); g.lineTo(540, 160); g.lineWidth = 2.5; g.stroke();
+    return c.toDataURL('image/png');
+  }
+  function setupPad() {
+    const cv = $('cv'); if (!cv) return;
+    const r = cv.getBoundingClientRect(); const dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr);
+    const c = cv.getContext('2d'); c.scale(dpr, dpr); c.lineWidth = 2.4; c.lineCap = 'round'; c.lineJoin = 'round'; c.strokeStyle = '#141006';
+    if (S.sig) { const im = new Image(); im.onload = () => c.drawImage(im, 0, 0, r.width, r.height); im.src = S.sig; }
+    let down = false, last = null, drew = false;
+    const pt = (e) => { const b = cv.getBoundingClientRect(); return [e.clientX - b.left, e.clientY - b.top]; };
+    cv.onpointerdown = (e) => { down = true; last = pt(e); drew = false; cv.setPointerCapture(e.pointerId); };
+    cv.onpointermove = (e) => { if (!down) return; const p = pt(e); c.beginPath(); c.moveTo(last[0], last[1]); c.lineTo(p[0], p[1]); c.stroke(); last = p; drew = true; };
+    cv.onpointerup = () => { down = false; if (drew) { S.sig = cv.toDataURL('image/png'); S.acted = true; render(); } };
+    cv.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); S.sig = demoSig(); render(); } };
+  }
+
+  // ---------------------------------------------------------------- actions
+  function save() {
+    if (!S.sig) return;
+    if (S.signal) { S.phone = 'sending'; render(); setTimeout(arrive, 1000); } else { S.phone = 'queued'; render(); }
+  }
+  function signalOn() { S.signal = true; if (S.phone === 'queued') { S.phone = 'sending'; setTimeout(arrive, 1200); } render(); }
+  function arrive() { S.phone = 'sent'; S.arrivedAt = hm(new Date()); render(); }
+  function send() { if (!(S.checks[0] && S.checks[1])) return; S.sent = true; S.sentAt = hm(new Date()); render(); }
+  function reply() { S.replied = true; render(); }
+  function openRegister() {
+    const h = W();
+    $('mbox').innerHTML = `<h3>Collection Register</h3><p class="s">The PDF attached to William's email: the same list your collector checked on the phone.</p>
+      <div class="reg"><div class="rh"><div class="t">COLLECTION REGISTER<small>TROPHY SOLUTIONS AFRICA · EXAMPLE</small></div><img src="/trophy/logo-beige.png" alt="Trophy Solutions Africa"></div>
+      <div class="kv"><div><span>HUNTER</span><b>${esc(h.name)}</b><br>${esc(h.from)}</div><div><span>OUTFITTER</span><b>Doringkop Safaris</b><br>Vaalwater, Limpopo</div><div><span>COLLECTED</span><b>${today}</b><br>by your collector · TSA# to add</div></div>
+      <table><tr><th>SPECIES</th><th>TROPHY PART</th><th>TAG</th></tr>${h.parts.map((p) => `<tr><td>${esc(p[0])}${p[4] ? ' <b style="font-size:9.5px;color:#9A3A06">TOPS</b>' : ''}</td><td>${esc(p[1])}</td><td>${p[2]}</td></tr>`).join('')}</table>
+      <table><tr><th>PAPER</th><th>ON THE DAY</th></tr>${PAPERS.map((p) => { const st = h.papers[p.k]; return `<tr><td>${esc(p.n)}</td><td style="${st === 'unsigned' || st === 'missing' ? 'color:#9A3A06;font-weight:800' : ''}">${esc(PST[st] || 'not recorded')}</td></tr>`; }).join('')}</table>
+      <div class="sgn"><span>Signed for Trophy Solutions Africa${S.copyOut ? ' · copy to Doringkop Safaris' : ''}</span>${S.sig ? `<img src="${S.sig}" alt="Signature">` : ''}</div></div>
+      <div class="act"><button type="button" class="btn dk" data-close>Close</button></div>`;
+    $('modal').classList.add('on'); $('mbox').querySelector('[data-close]').focus();
+  }
+  function closeModal() { $('modal').classList.remove('on'); }
+  function showMe() {
+    const t = todo(); if (!t) return;
+    const st = $('stage'); const el = st && st.querySelector(t[0]);
+    let wait = 0;
+    if (el) { const r = el.getBoundingClientRect(); if (r.bottom > window.innerHeight - 10 || r.top < 0) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); wait = 520; } }
+    setTimeout(() => { placeHot(); const hot = $('hot'); if (hot) hot.style.boxShadow = '0 0 0 5px #DCA54A'; }, wait);
+    setTimeout(() => { S.acted = true; t[3](); render(); }, wait + 380);
+  }
+
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest('button, a.btn, [data-close]');
+    if (!t) { if (e.target.id === 'modal') closeModal(); return; }
+    if (t.hasAttribute('data-close')) { if (t.closest('.modal')) closeModal(); else { S.sheet = null; render(); } return; }
+    if (t.dataset.go !== undefined) { go(+t.dataset.go); return; }
+    if (t.closest('#stage')) S.acted = true;
+    if (t.id === 'next') { go(S.step + 1); return; }
+    if (t.id === 'again') { S = fresh(); seen.clear(); render(); window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+    if (t.id === 'showme') { showMe(); return; }
+    if (t.dataset.h) { S.cur = t.dataset.h; render(); return; }
+    if (t.dataset.part !== undefined) { const p = H(S.cur).parts[+t.dataset.part]; p[3] = p[3] ? 0 : 1; render(); return; }
+    if (t.dataset.paper) { if (S.cur !== 'w' && t.dataset.paper) { /* other hunters are complete */ } S.sheet = t.dataset.paper; render(); return; }
+    if (t.dataset.ps) { H(S.cur).papers[S.sheet] = t.dataset.ps; S.sheet = null; render(); return; }
+    if (t.id === 'clr') { S.sig = null; render(); return; }
+    if (t.id === 'copy') { S.copyOut = !S.copyOut; render(); return; }
+    if (t.id === 'save') { save(); return; }
+    if (t.id === 'sigbtn') { if (!S.signal) signalOn(); else { S.signal = false; render(); } return; }
+    if (t.dataset.ck !== undefined) { S.checks[+t.dataset.ck] = S.checks[+t.dataset.ck] ? 0 : 1; render(); return; }
+    if (t.id === 'send') { send(); return; }
+    if (t.id === 'reg') { openRegister(); return; }
+    if (t.id === 'reply') { reply(); return; }
+    if (t.dataset.hunter) { return; }
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeModal(); if (S.sheet) { S.sheet = null; render(); } } });
+  window.addEventListener('resize', () => { placeHot(); if (S.step === 3 && S.phone === 'draft') setupPad(); });
+  document.addEventListener('scroll', () => {}, { passive: true });
+  setInterval(() => { const sb = document.querySelector('.sbar span'); if (sb) sb.textContent = hm(new Date()); }, 20000);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeHot);
+  render();
+})();
+</script>
+</body>
+</html>
