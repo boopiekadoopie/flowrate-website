@@ -116,7 +116,7 @@ button:focus-visible, a:focus-visible, canvas:focus-visible { outline: 3px solid
 .htabs button small { font-size: 11px; color: #7F7662; margin-left: 3px; }
 .htabs button.on { color: #FFFFFF; box-shadow: inset 0 -3px 0 var(--gold); }
 .htabs button .ok { display: inline-block; margin-left: 4px; color: var(--gold); font-size: 12px; }
-.ph-bd { flex: 1; min-height: 0; overflow-y: auto; padding: 11px 11px 12px; display: flex; flex-direction: column; gap: 10px; scrollbar-width: none; }
+.ph-bd { flex: 1; min-height: 0; overflow-y: auto; padding: 10px 11px 10px; display: flex; flex-direction: column; gap: 8px; scrollbar-width: none; }
 .ph-bd::-webkit-scrollbar { display: none; }
 .cd { background: #FFFFFF; border-radius: 12px; box-shadow: 0 0 0 1px #E9E2D2; padding: 10px 12px 6px; }
 .cd .h { display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; font-weight: 800; letter-spacing: 0.09em; color: var(--mut); padding-bottom: 7px; border-bottom: 1.5px solid var(--ink2); }
@@ -134,7 +134,7 @@ button:focus-visible, a:focus-visible, canvas:focus-visible { outline: 3px solid
 .bx.qq { box-shadow: inset 0 0 0 2px var(--gold2); }
 .done-line { font-size: 12.5px; color: var(--mut2); font-weight: 700; padding: 8px 0 4px; }
 .done-line b { color: var(--okink); }
-.pa button { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--line2); font-size: 14px; font-weight: 700; color: var(--char); width: 100%; }
+.pa button { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--line2); font-size: 14px; font-weight: 700; color: var(--char); width: 100%; }
 .pa button:last-child { border-bottom: 0; }
 .pa button small { display: block; font-size: 12px; color: var(--mut); font-weight: 600; }
 .pa button.x { color: var(--brickink); } .pa button.x small { color: var(--brickink); }
@@ -266,6 +266,8 @@ button:focus-visible, a:focus-visible, canvas:focus-visible { outline: 3px solid
 .wel li small { display: block; font-size: 13.5px; color: var(--mut2); font-weight: 600; margin-top: 2px; }
 .wel .go { margin-top: 26px; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
 .wel .go small { font-size: 14px; color: var(--mut2); font-weight: 600; }
+.wel .go .btn.ln svg { width: 13px; height: 13px; }
+.wel .gosub { margin-top: 10px; font-size: 14px; color: var(--mut2); font-weight: 600; }
 .wel .note { margin-top: 18px; font-size: 13.5px; color: var(--mut); font-weight: 600; max-width: 600px; }
 .ph1 { position: relative; }
 .ph1 .im { border-radius: 18px; overflow: hidden; box-shadow: 0 30px 60px rgba(20,16,6,0.2); background: var(--ink); }
@@ -294,7 +296,34 @@ button:focus-visible, a:focus-visible, canvas:focus-visible { outline: 3px solid
 .box.dk .btn.ln { background: transparent; color: #FFFFFF; box-shadow: inset 0 0 0 1.5px #5A5140; }
 .box.dk .btn.ln:hover { background: #241E10; }
 .end .foot2 { margin-top: 16px; font-size: 13px; color: var(--mut); font-weight: 600; line-height: 1.55; }
-.end .again { margin-top: 18px; }
+.end .again { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+.end .again .btn.ln svg { width: 13px; height: 13px; }
+.keep { margin-top: 14px; }
+.start { margin-top: 14px; background: var(--ink); border-radius: 14px; padding: 22px 22px 20px; }
+.start h2 { font-family: "Fjalla One"; font-weight: 400; font-size: 27px; line-height: 1.1; color: #FFFFFF; letter-spacing: 0.005em; }
+.opts2 { margin-top: 14px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+.opt { background: #1F1A10; border-radius: 12px; box-shadow: inset 0 0 0 1px #3A3426; padding: 16px 18px 18px; display: flex; flex-direction: column; }
+.opt .n { width: 28px; height: 28px; border-radius: 7px; background: var(--gold); color: var(--ink); font-weight: 800; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
+.opt b { display: block; font-size: 18px; font-weight: 800; color: #FFFFFF; margin-top: 10px; line-height: 1.3; }
+.opt p { font-size: 15px; line-height: 1.55; color: #E9E2D0; font-weight: 600; margin-top: 4px; }
+.opt .qs { margin-top: 6px; padding-left: 22px; font-size: 14.5px; line-height: 1.5; color: #E9E2D0; font-weight: 600; }
+.opt .qs li { padding-left: 2px; } .opt .qs li + li { margin-top: 4px; }
+.opt .qs li::marker { color: var(--gold); font-weight: 800; }
+.opt .acts { display: flex; gap: 10px; margin-top: auto; padding-top: 16px; flex-wrap: wrap; }
+.opt .btn.ln { background: transparent; color: #FFFFFF; box-shadow: inset 0 0 0 1.5px #5A5140; }
+.opt .btn.ln:hover { background: #2A2318; }
+.opt p.sm { font-size: 13.5px; color: #A99F88; margin-top: 8px; }
+.opt small { display: block; font-size: 12.5px; color: #A99F88; font-weight: 600; margin-top: 8px; line-height: 1.45; }
+.start .after { margin-top: 14px; font-size: 14.5px; color: #CFC6B2; font-weight: 600; line-height: 1.5; }
+
+/* ---------- walkthrough video ---------- */
+.vmodal { position: fixed; inset: 0; background: rgba(20,16,6,0.86); display: none; align-items: center; justify-content: center; padding: 24px; z-index: 70; }
+.vmodal.on { display: flex; }
+.vbox { width: min(1180px, 100%); display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.vbox video { width: 100%; aspect-ratio: 16 / 9; display: block; border-radius: 12px; background: #000; box-shadow: 0 30px 70px rgba(0,0,0,0.45); }
+.vclose { height: 38px; padding: 0 14px; border-radius: 9px; background: rgba(255,255,255,0.12); color: #FFFFFF; font-size: 14px; font-weight: 800; }
+.vclose:hover { background: rgba(255,255,255,0.22); }
+.vnote { align-self: flex-start; font-size: 13px; color: #CFC6B2; font-weight: 600; }
 
 /* ---------- modal ---------- */
 .modal { position: fixed; inset: 0; background: rgba(20,16,6,0.5); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 50; }
@@ -353,7 +382,9 @@ button:focus-visible, a:focus-visible, canvas:focus-visible { outline: 3px solid
   .wel h1 { font-size: 40px; }
   .end h1 { font-size: 34px; }
   .wel ol { grid-template-columns: minmax(0, 1fr); }
-  .vals, .two { grid-template-columns: minmax(0, 1fr); }
+  .vals, .two, .opts2 { grid-template-columns: minmax(0, 1fr); }
+  .start { padding: 18px 14px 16px; }
+  .start h2 { font-size: 24px; }
   .stage { padding: 18px 8px; min-height: 0; border-radius: 14px; flex-direction: column; }
   .stage .cap { display: none; }
   .ob { grid-template-columns: minmax(0, 1fr); }
@@ -377,6 +408,7 @@ button:focus-visible, a:focus-visible, canvas:focus-visible { outline: 3px solid
 <main id="app"></main>
 <p class="foot" id="foot">Everything in this demo is an example: the hunters, outfitters, staff, tag and TSA numbers. Nothing you do here is sent or saved. The logo and the truck photo are your own, from trophy-care.com. Not affiliated with Trophy Solutions Africa.</p>
 <div class="modal" id="modal" role="dialog" aria-modal="true"><div class="bx2" id="mbox"></div></div>
+<div class="vmodal" id="vmodal" role="dialog" aria-modal="true" aria-label="How it works: a 2-minute walkthrough"><div class="vbox"><button type="button" class="vclose" id="vclose">✕ Close</button><video id="vid" src="/trophy/walkthrough.mp4" poster="/trophy/walkthrough-poster.jpg" controls playsinline loop preload="none"></video><p class="vnote">A 2-minute walkthrough with sound. It plays on a loop; close it any time.</p></div></div>
 
 <script>
 (() => {
@@ -617,8 +649,8 @@ button:focus-visible, a:focus-visible, canvas:focus-visible { outline: 3px solid
         <p class="hi">For Johan and Estie, at Trophy Solutions Africa</p>
         <h1>Collected at the farm. Confirmed the same day.</h1>
         <p class="lead">This is one collection day, the way your team could run it: the Collection Register and the six papers done on a phone at the outfitter, and each hunter's confirmation email already written in the office, ready for a person to check.</p>
-        <ol><li><i>1</i><span>At the farm<small>Tick each trophy against its tag</small></span></li><li><i>2</i><span>The papers<small>Anything unsigned is flagged there</small></span></li><li><i>3</i><span>Sign and send<small>Even with no signal on the farm</small></span></li><li><i>4</i><span>In the office<small>Email written; a person checks it</small></span></li><li><i>5</i><span>The 99 days<small>Start when the hunter confirms</small></span></li><li><i>★</i><span>What it gives you<small>And what stays exactly as it is</small></span></li></ol>
-        <div class="go"><button type="button" class="btn dk" data-go="1">Start: today's collection <em>→</em></button><small>About two minutes. You tap through it the way your team would.</small></div></div>
+        <ol><li><i>1</i><span>At the farm<small>Tick each trophy against its tag</small></span></li><li><i>2</i><span>The papers<small>Anything unsigned is flagged there</small></span></li><li><i>3</i><span>Sign and send<small>Even with no signal on the farm</small></span></li><li><i>4</i><span>In the office<small>Email written; a person checks it</small></span></li><li><i>5</i><span>The 99 days<small>Start when the hunter confirms</small></span></li><li><i>★</i><span>What it gives you<small>What stays the same, and how we'd start</small></span></li></ol>
+        <div class="go"><button type="button" class="btn dk" data-go="1">Start: today's collection <em>→</em></button><button type="button" class="btn ln" data-watch>${PLAY}Watch how it works · 2 min</button></div><p class="gosub">Tap through it yourself, the way your team would, or sit back and watch it play.</p></div>
         <div class="ph1"><div class="im"><img src="/trophy/truck.jpg" alt="Your truck with trophy crates"><p>Your truck and crates, a photo from your own website</p></div>
         <div class="badge"><b>TODAY · DORINGKOP SAFARIS</b><span>3 hunters · 16 trophy parts</span><small>Collected at the farm · checked in the office</small></div></div></section>`;
       hideHot(); return;
@@ -652,6 +684,9 @@ button:focus-visible, a:focus-visible, canvas:focus-visible { outline: 3px solid
     if (S.step === 4) return `${S.checks.filter(Boolean).length} of 2 checks`;
     return '';
   }
+  const QS = ['Back from a collection, how does the Collection Register get into your system?', 'What program holds your clients and trophies? (Excel counts.)', 'Who writes each hunter\'s confirmation email today?', 'How do you keep track of each hunter\'s 99 days?'];
+  const ANS_MSG = 'Hi Andrew, here\'s how we work today at Trophy Solutions Africa:\n1. Back from a collection, the Collection Register gets into our system by: \n2. Our clients and trophies are kept in: \n3. Each hunter\'s confirmation email is written by: \n4. We keep track of the 99 days by: ';
+  const CALL_MSG = 'Hi Andrew, I tried the collections demo for Trophy Solutions Africa. Let\'s do a 15-minute video call. A good time for us: ';
   function endScene(E) {
     const ic = (p) => `<i><svg viewBox="0 0 20 20" fill="none" stroke="#DCA54A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${p}</svg></i>`;
     return `<section class="end${E}"><p class="hi">For Johan and Estie</p><h1>What this gives Trophy Solutions, on every collection</h1>
@@ -661,13 +696,19 @@ button:focus-visible, a:focus-visible, canvas:focus-visible { outline: 3px solid
         <div class="val">${ic('<path d="M3 5h14v10H3z"/><path d="M3 5l7 6 7-6"/>')}<b>Emails written for you</b><p>Each hunter's confirmation is drafted with the register attached. A person checks and sends it.</p></div>
         <div class="val">${ic('<circle cx="10" cy="10" r="7.5"/><path d="M10 5.5V10l3 2"/>')}<b>Every 99 days in view</b><p>Whose clock is running, who hasn't confirmed yet, who still owes shipping details.</p></div>
       </div>
-      <div class="two">
-        <div class="box"><b>What stays exactly as it is</b><p>Your own system and client numbers, the paper originals, e-permits, dip and pack, processing and billing. Your team decides everything; the app just saves the typing and the chasing. Your team uses the phones they already have.</p></div>
-        <div class="box dk"><b>How we'd start</b><p>A 15-minute video call, so we can see how your register gets into your system today. Then one small first step at a fixed price, agreed before we begin.</p>
-          <div class="acts"><a class="btn gd" href="https://wa.me/27824104936?text=${encodeURIComponent('Hi Andrew, I tried the collections demo for Trophy Solutions Africa.')}" target="_blank" rel="noopener">WhatsApp Andrew</a><a class="btn ln" href="mailto:andrew@flowrate.agency?subject=${encodeURIComponent('Collections demo: Trophy Solutions Africa')}">Email Andrew</a></div></div>
-      </div>
+      <div class="box keep"><b>What stays exactly as it is</b><p>Your own system and client numbers, the paper originals, e-permits, dip and pack, processing and billing. Your team decides everything; the app just saves the typing and the chasing. Your team uses the phones they already have.</p></div>
+      <div class="start" id="start"><h2>How we'd start: two easy ways</h2>
+        <div class="opts2">
+          <div class="opt"><span class="n">1</span><b>A 15-minute video call</b><p>You, Estie and us. You show us how a collection gets into your system today, and ask anything you like.</p><p class="sm">Any time this week that suits you. It works on a phone or a computer, with nothing to install.</p>
+            <div class="acts"><a class="btn gd" href="https://wa.me/27824104936?text=${encodeURIComponent(CALL_MSG)}" target="_blank" rel="noopener">WhatsApp Andrew</a><a class="btn ln" href="mailto:andrew@flowrate.agency?subject=${encodeURIComponent('15-minute call: the collections demo')}&body=${encodeURIComponent(CALL_MSG)}">Email Andrew</a></div></div>
+          <div class="opt"><span class="n">2</span><b>Rather write? Four short questions</b>
+            <ol class="qs">${QS.map((q) => `<li>${esc(q)}</li>`).join('')}</ol>
+            <div class="acts"><a class="btn gd" href="https://wa.me/27824104936?text=${encodeURIComponent(ANS_MSG)}" target="_blank" rel="noopener">Answer on WhatsApp</a><a class="btn ln" href="mailto:andrew@flowrate.agency?subject=${encodeURIComponent('How we work today: Trophy Solutions Africa')}&body=${encodeURIComponent(ANS_MSG)}">Answer by email</a></div>
+            <small>Tap a button and the questions open already typed out. Short answers are perfect.</small></div>
+        </div>
+        <p class="after">Either way, nothing changes until you say so. The first step is small, at a fixed price agreed before we begin.</p></div>
       <p class="foot2">Andrew Murray · Flowrate · Tzaneen, about 90 minutes from you · +27 82 410 4936 · andrew@flowrate.agency</p>
-      <div class="again"><button type="button" class="btn ln" id="again">↺ Play it again</button></div></section>`;
+      <div class="again"><button type="button" class="btn ln" id="again">↺ Tap through it again</button><button type="button" class="btn ln" data-watch>${PLAY}Watch the 2-minute walkthrough</button></div></section>`;
   }
 
   // ---------------------------------------------------------------- hotspot
@@ -742,6 +783,8 @@ button:focus-visible, a:focus-visible, canvas:focus-visible { outline: 3px solid
     $('modal').classList.add('on'); $('mbox').querySelector('[data-close]').focus();
   }
   function closeModal() { $('modal').classList.remove('on'); }
+  function openVid() { $('vmodal').classList.add('on'); const v = $('vid'); try { v.currentTime = 0; } catch (e) {} const pr = v.play(); if (pr) pr.catch(() => {}); $('vclose').focus(); }
+  function closeVid() { const v = $('vid'); v.pause(); $('vmodal').classList.remove('on'); }
   function showMe() {
     const t = todo(); if (!t) return;
     const st = $('stage'); const el = st && st.querySelector(t[0]);
@@ -753,11 +796,13 @@ button:focus-visible, a:focus-visible, canvas:focus-visible { outline: 3px solid
 
   document.addEventListener('click', (e) => {
     const t = e.target.closest('button, a.btn, [data-close]');
-    if (!t) { if (e.target.id === 'modal') closeModal(); return; }
+    if (!t) { if (e.target.id === 'modal') closeModal(); if (e.target.id === 'vmodal') closeVid(); return; }
     if (t.hasAttribute('data-close')) { if (t.closest('.modal')) closeModal(); else { S.sheet = null; render(); } return; }
     if (t.dataset.go !== undefined) { go(+t.dataset.go); return; }
     if (t.closest('#stage')) S.acted = true;
     if (t.id === 'next') { go(S.step + 1); return; }
+    if (t.hasAttribute('data-watch')) { openVid(); return; }
+    if (t.id === 'vclose') { closeVid(); return; }
     if (t.id === 'again') { S = fresh(); seen.clear(); render(); window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
     if (t.id === 'showme') { showMe(); return; }
     if (t.dataset.h) { S.cur = t.dataset.h; render(); return; }
@@ -774,7 +819,7 @@ button:focus-visible, a:focus-visible, canvas:focus-visible { outline: 3px solid
     if (t.id === 'reply') { reply(); return; }
     if (t.dataset.hunter) { return; }
   });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeModal(); if (S.sheet) { S.sheet = null; render(); } } });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closeModal(); if ($('vmodal').classList.contains('on')) closeVid(); if (S.sheet) { S.sheet = null; render(); } } });
   window.addEventListener('resize', () => { placeHot(); if (S.step === 3 && S.phone === 'draft') setupPad(); });
   document.addEventListener('scroll', () => {}, { passive: true });
   setInterval(() => { const sb = document.querySelector('.sbar span'); if (sb) sb.textContent = hm(new Date()); }, 20000);
