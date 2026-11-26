@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="en-NA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Treatments | Elite Biodental, Windhoek</title>
+<meta name="description" content="Treatments at Elite Biodental in Eros, Windhoek: check-up and Guided Biofilm Therapy, safe amalgam removal, zirconia or titanium implants, metal-free fillings and crowns, gum treatment, orthodontics and functional medicine.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#244d54">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Elite Biodental: a first look at a new website">
+<meta property="og:description" content="A working preview made for Dr Martin Wucher by Flowrate.">
+<meta property="og:image" content="https://flowrate.agency/dr-wucher/assets/img/og.jpg">
+<meta property="og:url" content="https://flowrate.agency/dr-wucher/treatments">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Crect width='34' height='34' rx='10' fill='%23244d54'/%3E%3Ccircle cx='15' cy='15' r='7.5' fill='none' stroke='%23fff' stroke-width='2.4'/%3E%3Ccircle cx='22.5' cy='22.5' r='4.5' fill='%23c9ab78'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/dr-wucher/assets/preview.css">
+<link rel="stylesheet" href="/dr-wucher/assets/site.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://elitebiodental.com/"},{"@type":"ListItem","position":2,"name":"Treatments","item":"https://elitebiodental.com/treatments"}]},{"@type":"MedicalWebPage","name":"Treatments at Elite Biodental","about":[{"@type":"MedicalProcedure","name":"Guided Biofilm Therapy"},{"@type":"MedicalProcedure","name":"Safe amalgam removal"},{"@type":"MedicalProcedure","name":"Zirconia and titanium dental implants"},{"@type":"MedicalProcedure","name":"Metal-free fillings and crowns"},{"@type":"MedicalProcedure","name":"Gum treatment"},{"@type":"MedicalProcedure","name":"Orthodontics"},{"@type":"MedicalProcedure","name":"Functional medicine consultation"}]}]}</script>
+<style>
+/* Treatments page: page-level additions to site.css (jump bar, treatment sections, code-native visuals). */
+html{scroll-padding-top:168px}
+.phead .wrap{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:56px;align-items:end}
+.phead .lead{max-width:720px}
+.authors{display:flex;align-items:center;gap:16px;padding:20px 22px;border:1px solid var(--line);border-radius:22px;max-width:470px;justify-self:end}
+.authors .avs{display:flex;flex:0 0 auto}
+.authors .av{border-color:#fff;background:#dfe9e8;color:var(--teal)}
+.authors p{font-size:15px;line-height:1.45;color:var(--graphite)}
+.authors p b{display:block;color:var(--ink);font-weight:500;font-size:16px;text-wrap:balance}
+
+/* sticky jump bar */
+.jump{position:sticky;top:var(--nav);z-index:40;background:rgba(255,255,255,.95);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--line)}
+.jump .wrap{position:relative;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-top:12px;padding-bottom:12px}
+.jump:before,.jump:after{content:"";position:absolute;top:0;bottom:1px;width:48px;z-index:1;pointer-events:none;opacity:0;transition:opacity .2s var(--ease)}
+.jump:before{left:0;background:linear-gradient(90deg,#fff 25%,rgba(255,255,255,0))}
+.jump:after{right:0;background:linear-gradient(270deg,#fff 25%,rgba(255,255,255,0))}
+.jump.fade-l:before,.jump.fade-r:after{opacity:1}
+.jump .wrap::-webkit-scrollbar{display:none}
+.jchip{flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:10px 17px;border:1px solid var(--line);border-radius:999px;font-size:15px;font-weight:500;color:var(--graphite);white-space:nowrap;transition:background .2s var(--ease),border-color .2s var(--ease),color .2s var(--ease)}
+.jchip:hover{border-color:var(--teal);color:var(--ink)}
+.jchip.on{background:var(--teal);border-color:var(--teal);color:#fff}
+
+/* treatment sections */
+.tx{padding:108px 0;border-top:1px solid var(--line)}
+.tx.first{border-top:0;padding-top:80px}
+.tx-grid{display:grid;grid-template-columns:minmax(0,.84fr) minmax(0,1fr);grid-template-areas:"vis head" "vis body";column-gap:72px;row-gap:0;align-items:start}
+.tx-head{grid-area:head}
+.tx-body{grid-area:body}
+.vis{grid-area:vis;align-self:start;position:sticky;top:176px;height:min(620px,calc(100vh - 204px));min-height:480px;border-radius:28px;border:1px solid var(--line);overflow:hidden;background:var(--bone);isolation:isolate}
+.vis>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vis .badge{position:absolute;left:20px;top:20px;z-index:2}
+.vis .mat{min-height:0;height:100%}
+.vnote{position:absolute;left:20px;bottom:20px;z-index:2;background:rgba(255,255,255,.94);border-radius:16px;padding:13px 16px;font-size:14px;line-height:1.4;color:var(--graphite);max-width:calc(100% - 140px)}
+.vnote b{display:block;color:var(--ink);font-weight:600;font-size:15px}
+.vstage{position:absolute;inset:0;display:grid;place-items:center;padding:28px;background:linear-gradient(180deg,#f3f5f5,#e8eded)}
+.vcard{width:min(460px,100%);background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px 26px 22px}
+.vh{font-size:19px;font-weight:600;letter-spacing:-0.015em;color:var(--ink);display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.vh small{font-size:13px;font-weight:500;color:var(--slate);letter-spacing:0}
+.check .sheet .vh{font-size:17px;letter-spacing:-0.01em}
+.check .sheet .vh small{font-size:12px}
+.vfoot{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--slate);margin-top:16px}
+.vfoot i{flex:0 0 auto;width:14px;height:14px;border-radius:4px;background:#dff3ec;border:1px solid #bfe7d8}
+.vquote{position:absolute;left:20px;bottom:20px;z-index:2;background:#fff;border-radius:20px;padding:22px 24px;max-width:calc(100% - 40px);width:360px}
+.vquote blockquote{font-size:24px;line-height:1.2;font-weight:500;letter-spacing:-0.025em;color:var(--ink);text-wrap:balance}
+.vquote figcaption{margin-top:10px;font-size:14px;color:var(--slate)}
+
+/* fillings: material swatches */
+.sw-list{list-style:none;margin-top:18px;display:grid;gap:12px}
+.sw-list li{display:grid;grid-template-columns:72px minmax(0,1fr);gap:18px;align-items:center;padding:14px;border:1px solid var(--line);border-radius:18px}
+.swatch{width:72px;height:72px;border-radius:16px;border:1px solid rgba(0,0,0,.07)}
+.swatch.comp{background:linear-gradient(160deg,rgba(255,255,255,.85) 0 16%,rgba(255,255,255,0) 34%),linear-gradient(145deg,#fbf5ea 0%,#eee1c9 55%,#dfcdaf 100%)}
+.swatch.gi{background:linear-gradient(145deg,#efece6 0%,#e3dfd6 60%,#d8d2c6 100%)}
+.swatch.cer{background:linear-gradient(160deg,rgba(255,255,255,.95) 0 14%,rgba(255,255,255,0) 30%),radial-gradient(120% 90% at 100% 100%,rgba(160,190,200,.38),rgba(160,190,200,0) 58%),linear-gradient(135deg,#fcfbf8 0%,#efeae1 52%,#e3dccf 100%)}
+.sw-list b{display:block;font-weight:600;font-size:17px;color:var(--ink)}
+.sw-list span{display:block;font-size:15px;line-height:1.4;color:var(--graphite)}
+.sw-list small{display:block;font-size:13.5px;color:var(--slate);margin-top:3px}
+
+/* gums: example chart */
+.gt{width:100%;border-collapse:collapse;margin-top:16px;font-size:16px}
+.gt th{font-size:12.5px;font-weight:600;letter-spacing:.02em;color:var(--slate);text-align:left;padding:10px 0;border-bottom:1px solid var(--line)}
+.gt td{padding:12px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;color:var(--graphite);vertical-align:middle}
+.gt td:first-child{font-weight:600;color:var(--ink);width:52px}
+.gt tr:last-child td{border-bottom:0}
+.gt td span{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:10px;margin-right:6px;background:var(--mist);color:var(--ink)}
+.gt td span.deep{background:#dff3ec;color:#14604a;font-weight:600;box-shadow:inset 0 0 0 1px #bfe7d8}
+
+/* orthodontics: options path */
+.path{list-style:none;counter-reset:p;margin-top:14px;position:relative}
+.path:before{content:"";position:absolute;left:16px;top:26px;bottom:26px;width:1px;background:var(--line)}
+.path li{counter-increment:p;position:relative;display:grid;grid-template-columns:34px minmax(0,1fr);gap:16px;align-items:start;padding:11px 0}
+.path li:before{content:counter(p);position:relative;z-index:1;width:33px;height:33px;border-radius:10px;border:1.5px solid var(--teal);background:#fff;color:var(--teal);font-size:14px;font-weight:600;display:grid;place-items:center}
+.path li:last-child:before{background:var(--mint);border-color:var(--mint);color:var(--ink)}
+.path b{display:block;font-weight:600;font-size:17px;color:var(--ink);padding-top:4px}
+.path span{display:block;font-size:15px;color:var(--graphite);line-height:1.4}
+
+/* content column */
+.tx-head h2{font-size:clamp(38px,3.9vw,54px);line-height:1.03}
+.tx-what{font-size:21px;line-height:1.5;color:var(--graphite);margin-top:20px;max-width:34em}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.pills span{display:inline-flex;align-items:center;gap:8px;min-height:34px;padding:6px 14px;border:1px solid var(--line);border-radius:999px;font-size:14px;font-weight:500;color:var(--graphite)}
+.pills span i{width:7px;height:7px;border-radius:50%;background:var(--mint)}
+.rows{margin-top:40px;border-bottom:1px solid var(--line)}
+.srow{display:grid;grid-template-columns:160px minmax(0,1fr);gap:28px;padding:24px 0;border-top:1px solid var(--line)}
+.srow h3{font-size:17px;font-weight:600;letter-spacing:-0.005em;line-height:1.35;padding-top:1px}
+.srow p{color:var(--graphite);font-size:17px;line-height:1.6}
+.srow p+p,.srow p+.note,.srow ol+.note,.srow ul+.note{margin-top:12px}
+.srow .note{font-size:14.5px;color:var(--slate);line-height:1.5}
+.srow .note .tbc{font-size:13px;display:inline-block}
+.steps{list-style:none;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:38px minmax(0,1fr);gap:10px;padding:12px 0;border-top:1px solid var(--line)}
+.steps li:first-child{border-top:0;padding-top:0}
+.steps li:last-child{padding-bottom:0}
+.steps li:before{content:counter(s,decimal-leading-zero);font-size:14px;font-weight:600;color:var(--teal);font-variant-numeric:tabular-nums;padding-top:3px}
+.steps b{display:block;font-weight:500;font-size:17px;color:var(--ink);line-height:1.4}
+.steps span{display:block;color:var(--graphite);font-size:16px;line-height:1.5}
+.mlist{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.mlist li{border:1px solid var(--line);border-radius:12px;padding:8px 13px;font-size:15px;line-height:1.3;color:var(--ink);font-weight:500;background:var(--mist)}
+.srow details{border-top:0;border-bottom:1px solid var(--line)}
+.srow details:last-of-type{border-bottom:0}
+.srow summary{font-size:18px;padding:14px 0;letter-spacing:-0.01em}
+.srow details:first-of-type summary{padding-top:0}
+.srow summary .pl{flex-basis:34px;height:34px}
+.srow details .ans{padding:0 0 16px;font-size:16.5px}
+.srow details:last-of-type .ans{padding-bottom:4px}
+.src{margin-top:28px;font-size:14.5px;color:var(--slate);line-height:1.65}
+.src a{color:var(--graphite);text-decoration:underline;text-decoration-color:rgba(21,21,21,.25);text-underline-offset:3px}
+.src a:hover{text-decoration-color:var(--ink)}
+.byline{margin-top:8px;font-size:14.5px;color:var(--slate);display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
+.byline .tbc{font-size:13px;display:inline-block}
+.tx-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+
+/* closing band */
+.close-band{background:var(--teal);color:#fff;padding:112px 0}
+.close-band h2{color:#fff}
+.close-band .lead{color:var(--on-teal);margin-top:18px;max-width:540px}
+.close-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:56px;align-items:end}
+.close-cta{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end}
+.close-band :focus-visible{outline-color:var(--soft)}
+
+@media (max-width:1080px){
+  .phead .wrap{grid-template-columns:1fr;gap:32px}
+  .authors{justify-self:start}
+  .tx{padding:88px 0}
+  .tx-grid{grid-template-columns:1fr;grid-template-areas:"head" "vis" "body";row-gap:36px}
+  .vis{position:relative;top:auto;height:520px;min-height:0}
+  .close-grid{grid-template-columns:1fr;gap:32px}
+  .close-cta{justify-content:flex-start}
+}
+@media (max-width:640px){
+  html{scroll-padding-top:146px}
+  .phead .lead{font-size:18px}
+  .authors{padding:16px 18px}
+  .jump .wrap{padding-top:10px;padding-bottom:10px}
+  .tx{padding:72px 0}
+  .tx-grid{row-gap:28px}
+  .jump{background:#fff;backdrop-filter:none;-webkit-backdrop-filter:none}
+  .vis{border-radius:24px}
+  .vis.img{height:auto;aspect-ratio:1/1}
+  .vis.code{height:auto}
+  .vis.code .check,.vis.code .vstage{position:relative;inset:auto;padding:16px}
+  .vis.matv{height:auto}
+  .vis.matv .mat{min-height:420px}
+  .vnote{max-width:calc(100% - 40px);bottom:56px}
+  .vquote{left:14px;bottom:14px;max-width:calc(100% - 28px);padding:18px 20px}
+  .vquote blockquote{font-size:21px}
+  .tx-head h2{font-size:clamp(34px,9.4vw,42px)}
+  .tx-what{font-size:19px}
+  .rows{margin-top:0}
+  .srow{grid-template-columns:1fr;gap:10px;padding:20px 0}
+  .srow p{font-size:18px}
+  .steps span{font-size:17px}
+  .srow summary{font-size:18px}
+  .srow details .ans{font-size:17px}
+  .tx-cta .btn{flex:1 1 100%}
+  .close-band{padding:84px 0}
+  .close-cta .btn{flex:1 1 auto}
+  .close-cta .btn-mint{flex-basis:100%}
+}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+</style>
+</head>
+<body>
+<div class="pv-bar" data-site="practice"></div><script src="/dr-wucher/assets/preview.js"></script>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" id="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="/dr-wucher" aria-label="Elite Biodental, home">
+      <svg class="mark" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="10" fill="#244d54"/><circle cx="15" cy="15" r="7.5" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="22.5" cy="22.5" r="4.5" fill="#c9ab78"/></svg>
+      <span><b>Elite Biodental</b><small>Biological dentistry · Eros, Windhoek</small></span>
+    </a>
+    <div class="links">
+      <a href="/dr-wucher/treatments" aria-current="page">Treatments</a>
+      <a href="/dr-wucher/dentists">Your dentists</a>
+      <a href="/dr-wucher/book#first-visit">Your first visit</a>
+      <a href="/dr-wucher#visit">Visit us</a>
+    </div>
+    <div class="nav-cta">
+      <a class="icon-btn hide-sm" href="#call" data-demo="call" aria-label="Call the practice"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></a>
+      <a class="icon-btn hide-sm" href="#whatsapp" data-demo="whatsapp" data-msg="Hello, I'd like to request a time at Elite Biodental." aria-label="WhatsApp the practice"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/><path d="M9 9.5c.3 1.6 1.9 3.6 4 4.4l1.3-1.1 2 .9-.4 1.6c-3.6.6-7.6-3.4-7.3-7l1.6-.5.9 2z"/></svg></a>
+      <a class="btn btn-mint btn-sm" href="/dr-wucher/book">Request a time</a>
+      <button class="icon-btn menu-btn" type="button" aria-label="Open the menu" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="1.6" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg></button>
+    </div>
+  </div>
+</nav>
+<div class="msheet">
+  <div class="panel" role="dialog" aria-label="Menu">
+    <div class="top"><span class="brand"><svg class="mark" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="10" fill="#244d54"/><circle cx="15" cy="15" r="7.5" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="22.5" cy="22.5" r="4.5" fill="#c9ab78"/></svg><b>Elite Biodental</b></span><button class="icon-btn" type="button" data-close aria-label="Close the menu"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#151515" stroke-width="1.6" stroke-linecap="round"><path d="M2 2l10 10M12 2L2 12"/></svg></button></div>
+    <nav aria-label="Menu"><a href="/dr-wucher/treatments">Treatments <span class="arrow">→</span></a><a href="/dr-wucher/dentists">Your dentists <span class="arrow">→</span></a><a href="/dr-wucher/book#first-visit">Your first visit <span class="arrow">→</span></a><a href="/dr-wucher#visit">Visit us <span class="arrow">→</span></a></nav>
+    <div class="acts"><a class="btn btn-ghost" href="#call" data-demo="call">Call</a><a class="btn btn-ghost" href="#whatsapp" data-demo="whatsapp" data-msg="Hello, I'd like to request a time at Elite Biodental.">WhatsApp</a><a class="btn btn-mint" href="/dr-wucher/book">Request a time</a></div>
+  </div>
+</div>
+
+<main id="main">
+<header class="phead">
+  <div class="wrap">
+    <div>
+      <p class="crumbs"><a href="/dr-wucher">Home</a><span aria-hidden="true">/</span><span>Treatments</span></p>
+      <h1><span class="ln"><span>Treatments</span></span></h1>
+      <p class="lead pop" style="--d:220ms">Every treatment below answers the same questions in the same order: what it is, who it suits, the steps, the materials, the limits, and who should wait.</p>
+    </div>
+    <div class="authors pop" style="--d:340ms">
+      <div class="avs"><span class="av"><img src="/dr-wucher/assets/img/dr-wucher-face.jpg" alt="" width="50" height="50"></span><span class="av">RA</span></div>
+      <p><b>Written by the dentists who do the work.</b>Each treatment ends with its sources, so you can read further.</p>
+    </div>
+  </div>
+</header>
+
+<nav class="jump" aria-label="Jump to a treatment">
+  <div class="wrap">
+    <a class="jchip" href="#gbt">Check-up and GBT clean</a>
+    <a class="jchip" href="#amalgam">Safe amalgam removal</a>
+    <a class="jchip" href="#implants">Implants</a>
+    <a class="jchip" href="#fillings">Fillings and crowns</a>
+    <a class="jchip" href="#gums">Gum treatment</a>
+    <a class="jchip" href="#orthodontics">Orthodontics</a>
+    <a class="jchip" href="#functional">Functional medicine</a>
+  </div>
+</nav>
+
+<section class="tx first" id="gbt" aria-labelledby="gbt-h">
+  <div class="wrap tx-grid">
+    <div class="tx-head">
+      <h2 id="gbt-h" class="rv">Check-up and GBT clean</h2>
+      <p class="tx-what rv" style="--d:60ms">Guided Biofilm Therapy (GBT) is a thorough, gentle cleaning protocol. Warm water, air and a fine powder lift the biofilm from your teeth and gums, and a slim ultrasonic tip removes hard tartar only where it's needed.</p>
+      <div class="pills rv" style="--d:120ms"><span><i></i>45 min</span><span><i></i>8 steps</span></div>
+    </div>
+    <div class="vis img rv">
+      <img src="/dr-wucher/assets/img/mist.webp" alt="A fine mist of water droplets in soft light" loading="lazy">
+      <span class="badge">Certified practice</span>
+      <span class="ci">Concept image</span>
+    </div>
+    <div class="tx-body">
+      <div class="rows">
+        <div class="srow rv"><h3>Who it suits</h3><div><p>Most patients, as part of a regular check-up. It also suits implants, crowns and braces.</p></div></div>
+        <div class="srow rv"><h3>Step by step</h3><ol class="steps">
+          <li><span><b>Assess</b>We check your teeth, gums and any implants.</span></li>
+          <li><span><b>Disclose</b>A harmless dye colours the biofilm, so you can see where it sits.</span></li>
+          <li><span><b>Explain</b>We show you the coloured areas and how to reach them at home.</span></li>
+          <li><span><b>AIRFLOW</b>Warm water, air and a fine powder lift biofilm and light stains.</span></li>
+          <li><span><b>PERIOFLOW</b>A fine nozzle cleans deeper pockets, where you have them.</span></li>
+          <li><span><b>PIEZON</b>A slim ultrasonic tip removes any tartar that's left.</span></li>
+          <li><span><b>Check</b>The dentist makes a final check, including for decay.</span></li>
+          <li><span><b>Recall</b>We agree when you should come back, based on what we found.</span></li>
+        </ol></div>
+        <div class="srow rv"><h3>Materials</h3><div><ul class="mlist"><li>AIRFLOW: erythritol-based powder, warm water, air</li><li>PERIOFLOW nozzle</li><li>PIEZON ultrasonic tip</li></ul><p class="note">Equipment and protocol by EMS, the Swiss maker of GBT.</p></div></div>
+        <div class="srow rv"><h3>Limits and alternatives</h3><div><p>GBT is a cleaning protocol. Studies find air-polishing with erythritol powder safe, with results similar to other non-surgical cleaning. If we find deeper gum problems, we'll explain the options, starting with <a class="link" href="#gums">gum treatment</a>.</p></div></div>
+        <div class="srow rv"><h3>Questions</h3><div>
+          <details><summary>Will it be uncomfortable? <span class="pl" aria-hidden="true">+</span></summary><div class="ans"><p>Most people find it comfortable. Tell us if an area is sensitive, and we'll adjust or numb it.</p></div></details>
+          <details><summary>How often should I come? <span class="pl" aria-hidden="true">+</span></summary><div class="ans"><p>At the end, we agree a recall time with you, based on what we found. Some people need a clean every six months, others more or less often.</p></div></details>
+        </div></div>
+      </div>
+      <p class="src">Sources: <a href="https://www.nature.com/articles/s41407-024-2662-7.pdf" target="_blank" rel="noopener">the eight GBT steps (BDJ In Practice, 2024)</a> · <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9319203/" target="_blank" rel="noopener">air-polishing review (Medicina, 2022)</a></p>
+      <p class="byline">Written by Dr Martin Wucher · reviewed: <span class="tbc">to confirm</span></p>
+      <div class="tx-cta"><a class="btn btn-mint" href="/dr-wucher/book?type=gbt">Request a time for this <span class="arrow" aria-hidden="true">→</span></a><a class="btn btn-ghost" href="#whatsapp" data-demo="whatsapp" data-msg="Hello, I'd like to book a check-up and GBT clean.">Ask on WhatsApp</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="tx" id="amalgam" aria-labelledby="amalgam-h">
+  <div class="wrap tx-grid">
+    <div class="tx-head">
+      <h2 id="amalgam-h" class="rv">Safe amalgam removal</h2>
+      <p class="tx-what rv" style="--d:60ms">Taking out old amalgam (mercury) fillings with protective steps, and restoring each tooth with a metal-free material.</p>
+      <div class="pills rv" style="--d:120ms"><span><i></i>Consultation first</span><span><i></i>Planned with you</span></div>
+    </div>
+    <div class="vis code rv">
+      <div class="check">
+            <div class="sheet">
+              <p class="vh">Protective steps <small>Example, to confirm</small></p>
+              <ol>
+                <li><span class="bx"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="#151515" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.8l2.6 2.6 5.4-5.8"/></svg></span><span><b>A dental dam</b>isolates the tooth</span></li>
+                <li><span class="bx"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="#151515" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.8l2.6 2.6 5.4-5.8"/></svg></span><span><b>High-volume suction</b>right at the tooth</span></li>
+                <li><span class="bx"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="#151515" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.8l2.6 2.6 5.4-5.8"/></svg></span><span><b>Air filtration</b>close to your mouth</span></li>
+                <li><span class="bx"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="#151515" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.8l2.6 2.6 5.4-5.8"/></svg></span><span><b>Removed in pieces,</b>not ground away</span></li>
+                <li><span class="bx"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="#151515" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.8l2.6 2.6 5.4-5.8"/></svg></span><span><b>A thorough rinse</b>afterwards</span></li>
+              </ol>
+              <p class="foot">Not during pregnancy or breastfeeding. Based on the IAOMT's SMART checklist; the practice's own steps go here.</p>
+            </div>
+          </div>
+    </div>
+    <div class="tx-body">
+      <div class="rows">
+        <div class="srow rv"><h3>Who it suits</h3><div><p>People who've decided, with us, to replace old amalgam fillings: for example a filling that's cracked, leaking or worn, or because you'd prefer metal-free materials.</p><p>Fillings in good condition don't have to come out. Removing them can briefly raise exposure to mercury vapour and costs some healthy tooth. We'll look at yours, explain what we see, and you decide.</p></div></div>
+        <div class="srow rv"><h3>Step by step</h3><div><ol class="steps">
+          <li><span><b>Plan</b>We check each filling and agree the order and the number of visits.</span></li>
+          <li><span><b>Isolate</b>A non-latex dental dam isolates the tooth, with suction under it.</span></li>
+          <li><span><b>Capture</b>High-volume suction at the tooth, and air filtration close to your mouth.</span></li>
+          <li><span><b>Cool</b>Plenty of water keeps the filling cool while it's cut.</span></li>
+          <li><span><b>Section</b>The filling is cut into pieces and lifted out, not ground away.</span></li>
+          <li><span><b>Rinse</b>Your mouth is rinsed thoroughly afterwards.</span></li>
+          <li><span><b>Restore</b>The tooth is rebuilt with a metal-free material.</span></li>
+        </ol><p class="note">Based on the IAOMT's SMART recommendations. <span class="tbc">The practice's own steps go here</span></p></div></div>
+        <div class="srow rv"><h3>Materials</h3><div><ul class="mlist"><li>Non-latex dental dam</li><li>High-volume suction</li><li>Air filtration at the source</li><li>Composite resin</li><li>Glass ionomer</li><li>Ceramic inlays, onlays and crowns</li></ul></div></div>
+        <div class="srow rv"><h3>Limits and alternatives</h3><div><p>Removal can't be undone, and each replacement takes a little more tooth. Leaving a sound filling in place is a reasonable choice, and we'll keep checking it at your check-ups.</p></div></div>
+        <div class="srow rv"><h3>Who should wait</h3><div><p>We don't remove amalgam during pregnancy or while breastfeeding.</p></div></div>
+        <div class="srow rv"><h3>The wider picture</h3><div><p>The practice hasn't placed amalgam in about 30 years, and the rules have moved the same way. In 2020 the US FDA advised some higher-risk groups to avoid new amalgam fillings where possible. The European Union banned dental amalgam from 1 January 2025. Under the Minamata Convention, which Namibia joined in 2017, countries agreed in 2025 to phase out dental amalgam by 2034.</p></div></div>
+        <div class="srow rv"><h3>Questions</h3><div>
+          <details><summary>Will removing my fillings make me feel better? <span class="pl" aria-hidden="true">+</span></summary><div class="ans"><p>We can't promise that, and we won't. We replace amalgam when a filling needs replacing, or because you'd prefer metal-free materials, and we do it with protective steps. If you have health concerns, we'll talk them through alongside your own doctor.</p></div></details>
+          <details><summary>How many visits will it take? <span class="pl" aria-hidden="true">+</span></summary><div class="ans"><p>That depends on how many fillings you have and where they are. Your written plan shows the visits, in the order we'd do them.</p></div></details>
+        </div></div>
+      </div>
+      <p class="src">Sources: <a href="https://www.fda.gov/news-events/press-announcements/fda-issues-recommendations-certain-high-risk-groups-regarding-mercury-containing-dental-amalgam" target="_blank" rel="noopener">US FDA, 24 September 2020</a> · <a href="https://environment.ec.europa.eu/news/revised-mercury-regulation-enters-force-2024-07-30_en" target="_blank" rel="noopener">European Commission, 2024</a> · <a href="https://minamataconvention.org/amendments" target="_blank" rel="noopener">Minamata Convention amendments</a> · <a href="https://files.iaomt.org/wp-content/uploads/SMART-Patient-Dentist-Checklist.pdf" target="_blank" rel="noopener">IAOMT SMART checklist</a></p>
+      <p class="byline">Written by Dr Martin Wucher · reviewed: <span class="tbc">to confirm</span></p>
+      <div class="tx-cta"><a class="btn btn-mint" href="/dr-wucher/book?type=amalgam">Request a time for this <span class="arrow" aria-hidden="true">→</span></a><a class="btn btn-ghost" href="#whatsapp" data-demo="whatsapp" data-msg="Hello, I'd like to ask about having my amalgam fillings replaced.">Ask on WhatsApp</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="tx" id="implants" aria-labelledby="implants-h">
+  <div class="wrap tx-grid">
+    <div class="tx-head">
+      <h2 id="implants-h" class="rv">Zirconia and titanium implants</h2>
+      <p class="tx-what rv" style="--d:60ms">An implant replaces the root of a missing tooth and carries a crown, a bridge or a full arch. You choose between zirconia, a white ceramic, and titanium, a metal.</p>
+      <div class="pills rv" style="--d:120ms"><span><i></i>Consultation first</span><span><i></i>One tooth to a full arch</span></div>
+    </div>
+    <div class="vis matv rv">
+      <div class="mat" data-m="zr">
+            <img class="zr" src="/dr-wucher/assets/img/implant-zr.webp" alt="A white zirconia implant with a ceramic crown" loading="lazy">
+            <img class="ti" src="/dr-wucher/assets/img/implant-ti.webp" alt="A grey titanium implant with a ceramic crown" loading="lazy">
+            <div class="seg" role="group" aria-label="Implant material"><button type="button" data-m="zr" aria-pressed="true">Zirconia</button><button type="button" data-m="ti" aria-pressed="false">Titanium</button></div>
+            <div class="spec"><b class="sw">Zirconia</b><span class="sw">White ceramic. A metal-free option, with good results so far.</span><em>Concept image</em></div>
+          </div>
+    </div>
+    <div class="tx-body">
+      <div class="rows">
+        <div class="srow rv"><h3>Who it suits</h3><div><p>Adults with one or more missing teeth, and enough healthy bone, or bone that can be built up first.</p></div></div>
+        <div class="srow rv"><h3>Step by step</h3><ol class="steps">
+          <li><span><b>Consultation</b>We look at your mouth, gums and X-rays, and talk through the materials.</span></li>
+          <li><span><b>Plan</b>Scans and a written plan in three levels, with the visits and a quote.</span></li>
+          <li><span><b>Healthy gums first</b>Any gum treatment comes before the implant.</span></li>
+          <li><span><b>Placement</b>The implant is placed under local anaesthetic.</span></li>
+          <li><span><b>Healing</b>Usually a few months, while the implant joins the bone.</span></li>
+          <li><span><b>Your new tooth</b>The crown, bridge or arch is fitted.</span></li>
+          <li><span><b>Looking after it</b>Regular check-ups and GBT cleans, which suit implants.</span></li>
+        </ol></div>
+        <div class="srow rv"><h3>Materials</h3><div><ul class="mlist"><li>Zirconia implants, one-piece or two-piece</li><li>Titanium implants</li><li>Ceramic crowns</li></ul><p class="note"><span class="tbc">The implant systems the practice uses: to confirm</span></p></div></div>
+        <div class="srow rv"><h3>Limits and alternatives</h3><div><p>Zirconia is a metal-free option with good results so far. Titanium has the longest track record. In studies, two-piece zirconia implants have done less well than one-piece ones. A bridge or a removable denture can also replace a tooth, and we'll talk these through too.</p></div></div>
+        <div class="srow rv"><h3>The evidence</h3><div><p>In a 2023 review of zirconia implants (25 studies, 4,017 implants), 95.1% were still in place after 10 years. A 2023 meta-analysis found similar survival for zirconia and titanium at 12 months, and called for longer trials.</p></div></div>
+        <div class="srow rv"><h3>Who should wait</h3><div><p>Gum disease is treated first. We'll ask about your health, smoking and medicines, because some need planning before an implant.</p></div></div>
+        <div class="srow rv"><h3>Questions</h3><div>
+          <details><summary>Is zirconia better than titanium? <span class="pl" aria-hidden="true">+</span></summary><div class="ans"><p>Neither is better for everyone. Zirconia is metal-free and white; titanium has the longest track record. We'll look at your mouth and talk through which suits you.</p></div></details>
+          <details><summary>Can implants replace a full arch? <span class="pl" aria-hidden="true">+</span></summary><div class="ans"><p>Yes. Implants can carry anything from one crown to a full arch of teeth. Dr Andreae's work includes implants and full-mouth rehabilitation.</p></div></details>
+        </div></div>
+      </div>
+      <p class="src">Sources: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10746607/" target="_blank" rel="noopener">zirconia implant review (Mohseni et al., 2023)</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/37740825/" target="_blank" rel="noopener">zirconia and titanium meta-analysis (Clinical Oral Investigations, 2023)</a></p>
+      <p class="byline">Written by Dr Roland Andreae · reviewed: <span class="tbc">to confirm</span></p>
+      <div class="tx-cta"><a class="btn btn-mint" href="/dr-wucher/book?type=implant">Request a time for this <span class="arrow" aria-hidden="true">→</span></a><a class="btn btn-ghost" href="#whatsapp" data-demo="whatsapp" data-msg="Hello, I'd like to ask about a zirconia or titanium implant.">Ask on WhatsApp</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="tx" id="fillings" aria-labelledby="fillings-h">
+  <div class="wrap tx-grid">
+    <div class="tx-head">
+      <h2 id="fillings-h" class="rv">Fillings and crowns</h2>
+      <p class="tx-what rv" style="--d:60ms">Repairing a tooth with metal-free materials: tooth-coloured composite, glass ionomer or ceramic.</p>
+      <div class="pills rv" style="--d:120ms"><span><i></i>Metal-free materials</span><span><i></i>Usually one visit</span></div>
+    </div>
+    <div class="vis code rv">
+      <div class="vstage">
+        <div class="vcard">
+          <p class="vh">Metal-free materials <small>What we use</small></p>
+          <ul class="sw-list">
+            <li><span class="swatch comp" aria-hidden="true"></span><span><b>Composite resin</b><span>Tooth-coloured, bonded in thin layers.</span><small>Most fillings</small></span></li>
+            <li><span class="swatch gi" aria-hidden="true"></span><span><b>Glass ionomer</b><span>Bonds chemically to the tooth.</span><small>Near the gum line, and children's teeth</small></span></li>
+            <li><span class="swatch cer" aria-hidden="true"></span><span><b>Ceramic</b><span>Hard-wearing, made to fit the tooth.</span><small>Inlays, onlays and crowns</small></span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="tx-body">
+      <div class="rows">
+        <div class="srow rv"><h3>Who it suits</h3><div><p>Anyone with a cavity, a cracked or worn tooth, or an old filling that needs replacing.</p></div></div>
+        <div class="srow rv"><h3>Step by step</h3><ol class="steps">
+          <li><span><b>Check</b>We look at the tooth, with an X-ray if it's needed.</span></li>
+          <li><span><b>Choose</b>We explain your options and the material we'd suggest.</span></li>
+          <li><span><b>Comfort</b>Local anaesthetic, if you need it.</span></li>
+          <li><span><b>Clean out</b>Decay or the old filling is removed.</span></li>
+          <li><span><b>Restore</b>Most fillings take one visit; ceramic inlays, onlays and crowns may take two.</span></li>
+          <li><span><b>Finish</b>We check your bite and polish the surface.</span></li>
+        </ol></div>
+        <div class="srow rv"><h3>Materials</h3><div><ul class="mlist"><li>Composite resin</li><li>Glass ionomer cement</li><li>Ceramics</li></ul><p class="note">The US FDA names composite resin and glass ionomer cement as non-mercury options.</p></div></div>
+        <div class="srow rv"><h3>Limits and alternatives</h3><div><p>Every filling material wears over time. A large filling may need an inlay or a crown to protect the tooth, and we'll tell you when that's the better route.</p></div></div>
+        <div class="srow rv"><h3>Questions</h3><div>
+          <details><summary>Can I have a white filling instead of a silver one? <span class="pl" aria-hidden="true">+</span></summary><div class="ans"><p>Yes. The practice has been amalgam-free for about 30 years, so new fillings are tooth-coloured.</p></div></details>
+          <details><summary>How long will a filling last? <span class="pl" aria-hidden="true">+</span></summary><div class="ans"><p>It depends on its size, where it is and how you chew. We check every filling at your check-ups.</p></div></details>
+        </div></div>
+      </div>
+      <p class="src">Source: <a href="https://www.fda.gov/news-events/press-announcements/fda-issues-recommendations-certain-high-risk-groups-regarding-mercury-containing-dental-amalgam" target="_blank" rel="noopener">US FDA, 24 September 2020</a></p>
+      <p class="byline">Written by Dr Martin Wucher · reviewed: <span class="tbc">to confirm</span></p>
+      <div class="tx-cta"><a class="btn btn-mint" href="/dr-wucher/book?type=first">Request a time for this <span class="arrow" aria-hidden="true">→</span></a><a class="btn btn-ghost" href="#whatsapp" data-demo="whatsapp" data-msg="Hello, I'd like to ask about a filling or a crown.">Ask on WhatsApp</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="tx" id="gums" aria-labelledby="gums-h">
+  <div class="wrap tx-grid">
+    <div class="tx-head">
+      <h2 id="gums-h" class="rv">Gum treatment</h2>
+      <p class="tx-what rv" style="--d:60ms">Treating inflamed gums and the pockets between gum and tooth, so your teeth and implants have healthy support.</p>
+      <div class="pills rv" style="--d:120ms"><span><i></i>60 min</span><span><i></i>Healthy gums first</span></div>
+    </div>
+    <div class="vis code rv">
+      <div class="vstage">
+        <div class="vcard">
+          <p class="vh">Gum check <small>Example</small></p>
+          <table class="gt">
+            <caption class="sr-only">Example gum check: pocket depths in millimetres at three points around four teeth</caption>
+            <thead><tr><th scope="col">Tooth</th><th scope="col">Pocket depth, mm</th><th scope="col">Bleeding</th></tr></thead>
+            <tbody>
+              <tr><td>16</td><td><span>3</span><span>2</span><span>3</span></td><td>No</td></tr>
+              <tr><td>26</td><td><span class="deep">4</span><span>3</span><span class="deep">5</span></td><td>Yes</td></tr>
+              <tr><td>36</td><td><span>2</span><span>2</span><span>3</span></td><td>No</td></tr>
+              <tr><td>46</td><td><span>3</span><span>3</span><span class="deep">4</span></td><td>Light</td></tr>
+            </tbody>
+          </table>
+          <p class="vfoot"><i aria-hidden="true"></i>4 mm or more: we take a closer look</p>
+        </div>
+      </div>
+    </div>
+    <div class="tx-body">
+      <div class="rows">
+        <div class="srow rv"><h3>Who it suits</h3><div><p>Anyone whose gums bleed when they brush, feel tender or have pulled back, and anyone with implants.</p></div></div>
+        <div class="srow rv"><h3>Step by step</h3><ol class="steps">
+          <li><span><b>Gum check</b>We measure the pockets around each tooth, like the example.</span></li>
+          <li><span><b>Deep clean</b>GBT, and careful cleaning below the gum line, with local anaesthetic if needed.</span></li>
+          <li><span><b>At home</b>We show you what to change at home, and why.</span></li>
+          <li><span><b>Re-check</b>We measure again after a few weeks.</span></li>
+          <li><span><b>Keep it up</b>Regular cleans, at an interval we agree with you.</span></li>
+        </ol></div>
+        <div class="srow rv"><h3>Materials</h3><div><ul class="mlist"><li>Guided Biofilm Therapy: AIRFLOW, PERIOFLOW, PIEZON</li><li>Hand instruments where needed</li></ul></div></div>
+        <div class="srow rv"><h3>Limits and alternatives</h3><div><p>Bone that's been lost around a tooth doesn't grow back on its own. Treatment aims to stop gum disease getting worse. Some advanced cases need surgery, and Dr Andreae's work includes oral surgery.</p></div></div>
+        <div class="srow rv"><h3>Questions</h3><div>
+          <details><summary>Why do my gums matter for my implants? <span class="pl" aria-hidden="true">+</span></summary><div class="ans"><p>Implants need healthy gum and bone around them, just like natural teeth. That's why gum health comes first in every plan.</p></div></details>
+          <details><summary>Will the deep clean hurt? <span class="pl" aria-hidden="true">+</span></summary><div class="ans"><p>We use local anaesthetic where it helps, and you can ask us to pause at any time.</p></div></details>
+        </div></div>
+      </div>
+      <p class="src">Source: <a href="https://www.nature.com/articles/s41407-024-2662-7.pdf" target="_blank" rel="noopener">the eight GBT steps (BDJ In Practice, 2024)</a></p>
+      <p class="byline">Written by Dr Martin Wucher · reviewed: <span class="tbc">to confirm</span></p>
+      <div class="tx-cta"><a class="btn btn-mint" href="/dr-wucher/book?type=gum">Request a time for this <span class="arrow" aria-hidden="true">→</span></a><a class="btn btn-ghost" href="#whatsapp" data-demo="whatsapp" data-msg="Hello, my gums bleed when I brush. I'd like to have them checked.">Ask on WhatsApp</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="tx" id="orthodontics" aria-labelledby="ortho-h">
+  <div class="wrap tx-grid">
+    <div class="tx-head">
+      <h2 id="ortho-h" class="rv">Orthodontics</h2>
+      <p class="tx-what rv" style="--d:60ms">Moving teeth into a better position with clear aligners or braces, planned around your whole face, jaw and bite.</p>
+      <div class="pills rv" style="--d:120ms"><span><i></i>Consultation first</span><span><i></i>Children and adults</span></div>
+    </div>
+    <div class="vis code rv">
+      <div class="vstage">
+        <div class="vcard">
+          <p class="vh">Your options <small>Example</small></p>
+          <ol class="path">
+            <li><span><b>Consultation</b><span>Teeth, bite, jaw and face</span></span></li>
+            <li><span><b>Records</b><span>Photos, scans and X-rays</span></span></li>
+            <li><span><b>Your plan</b><span>Options, timing and a written quote</span></span></li>
+            <li><span><b>Aligners or braces</b><span>With regular check-ins</span></span></li>
+            <li><span><b>Retainer</b><span>Keeps your teeth where they are</span></span></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div class="tx-body">
+      <div class="rows">
+        <div class="srow rv"><h3>Who it suits</h3><div><p>Children, teenagers and adults with crowded or crooked teeth, gaps, or a bite that doesn't meet comfortably.</p></div></div>
+        <div class="srow rv"><h3>Step by step</h3><ol class="steps">
+          <li><span><b>Consultation</b>We look at your teeth, bite, jaw and face.</span></li>
+          <li><span><b>Records</b>Photos, scans and X-rays.</span></li>
+          <li><span><b>Your plan</b>Your options, how long each takes, and a written quote.</span></li>
+          <li><span><b>Treatment</b>Clear aligners or braces, with regular check-ins.</span></li>
+          <li><span><b>Retainer</b>A retainer keeps your teeth in their new place.</span></li>
+        </ol></div>
+        <div class="srow rv"><h3>Materials</h3><div><ul class="mlist"><li>Clear aligners</li><li>Tooth-coloured or metal braces</li><li>Fixed or removable retainers</li></ul><p class="note"><span class="tbc">Which systems the practice uses: to confirm</span></p></div></div>
+        <div class="srow rv"><h3>Limits and alternatives</h3><div><p>Teeth tend to move back without a retainer, so a retainer is part of every plan. Some bites also need jaw surgery, and we'll tell you if yours might.</p></div></div>
+        <div class="srow rv"><h3>Questions</h3><div>
+          <details><summary>Am I too old for orthodontics? <span class="pl" aria-hidden="true">+</span></summary><div class="ans"><p>No. Adults can have orthodontic treatment too, as long as their gums and bone are healthy.</p></div></details>
+          <details><summary>Do you look at the jaw and face, not just the teeth? <span class="pl" aria-hidden="true">+</span></summary><div class="ans"><p>Yes. Planning looks at your bite, jaw and face, not only at how straight your teeth are.</p></div></details>
+        </div></div>
+      </div>
+      <p class="byline">Written by the dentists at Elite Biodental · reviewed: <span class="tbc">to confirm</span></p>
+      <div class="tx-cta"><a class="btn btn-mint" href="/dr-wucher/book?type=first">Request a time for this <span class="arrow" aria-hidden="true">→</span></a><a class="btn btn-ghost" href="#whatsapp" data-demo="whatsapp" data-msg="Hello, I'd like to ask about orthodontics.">Ask on WhatsApp</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="tx" id="functional" aria-labelledby="functional-h">
+  <div class="wrap tx-grid">
+    <div class="tx-head">
+      <h2 id="functional-h" class="rv">Functional medicine consultation</h2>
+      <p class="tx-what rv" style="--d:60ms">A consultation with Dr Wucher about nutrition and lifestyle, using nutritional therapy and orthomolecular medicine, alongside your dental care or on its own.</p>
+      <div class="pills rv" style="--d:120ms"><span><i></i>60 min</span><span><i></i>With Dr Wucher</span></div>
+    </div>
+    <div class="vis img rv">
+      <img src="/dr-wucher/assets/img/room.webp" alt="A calm treatment room with timber, a plant and a window onto acacia trees" style="object-position:62% 55%" loading="lazy">
+      <figure class="vquote"><blockquote>“Not instead of your doctor. Alongside them.”</blockquote><figcaption>Dr Martin Wucher</figcaption></figure>
+      <span class="ci top">Concept image</span>
+    </div>
+    <div class="tx-body">
+      <div class="rows">
+        <div class="srow rv"><h3>Who it suits</h3><div><p>Adults and families who want to understand how nutrition, sleep, stress and surroundings fit together with their dental care.</p><p>It works alongside your own doctor, never instead of them.</p></div></div>
+        <div class="srow rv"><h3>Step by step</h3><div><ol class="steps">
+          <li><span><b>Before</b>A short questionnaire about your health history, diet, sleep and medicines.</span></li>
+          <li><span><b>The conversation</b>Dr Wucher asks about your diet, sleep, stress, energy, surroundings and dental history.</span></li>
+          <li><span><b>Tests, if useful</b>He may suggest tests that your doctor or a laboratory can arrange.</span></li>
+          <li><span><b>Your plan</b>A written plan: nutrition, lifestyle and, where it helps, supplements.</span></li>
+          <li><span><b>Your doctor</b>Your own doctor stays in charge of your medical care.</span></li>
+          <li><span><b>Follow-up</b>We meet again to see how the plan is going.</span></li>
+        </ol><p class="note"><span class="tbc">Process to confirm with Dr Wucher</span></p></div></div>
+        <div class="srow rv"><h3>Methods</h3><div><ul class="mlist"><li>Nutritional therapy</li><li>Orthomolecular medicine</li></ul><p class="note">Orthomolecular medicine plans vitamins, minerals and other nutrients in the amounts that suit you.</p></div></div>
+        <div class="srow rv"><h3>Limits</h3><div><p>This consultation doesn't diagnose illness or replace medical treatment. If something needs your doctor, we'll say so.</p></div></div>
+        <div class="srow rv"><h3>Questions</h3><div>
+          <details><summary>Do I need to be a dental patient? <span class="pl" aria-hidden="true">+</span></summary><div class="ans"><p>No. You can book a functional medicine consultation on its own.</p></div></details>
+          <details><summary>How does this fit with my own doctor? <span class="pl" aria-hidden="true">+</span></summary><div class="ans"><p>Your doctor stays in charge of your medical care. With your permission, we share your plan, so everyone works from the same picture.</p></div></details>
+        </div></div>
+      </div>
+      <p class="src">More about <a href="/dr-wucher/dentists#wucher">Dr Wucher's background and qualifications</a></p>
+      <p class="byline">Written by Dr Martin Wucher · reviewed: <span class="tbc">to confirm</span></p>
+      <div class="tx-cta"><a class="btn btn-mint" href="/dr-wucher/book?type=fm&amp;who=mw">Request a time for this <span class="arrow" aria-hidden="true">→</span></a><a class="btn btn-ghost" href="#whatsapp" data-demo="whatsapp" data-msg="Hello, I'd like to book a functional medicine consultation with Dr Wucher.">Ask on WhatsApp</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="close-band" aria-labelledby="close-h">
+  <div class="wrap close-grid">
+    <div><h2 id="close-h" class="rv">Not sure which one you need?</h2><p class="lead rv" style="--d:80ms">Start with a first visit. We'll look, explain what we see, and write your plan in three levels, so you can decide where to begin.</p></div>
+    <div class="close-cta rv" style="--d:140ms"><a class="btn btn-line-light" href="#call" data-demo="call">Call</a><a class="btn btn-line-light" href="#whatsapp" data-demo="whatsapp" data-msg="Hello, I'm not sure which treatment I need. Could I book a first visit?">WhatsApp</a><a class="btn btn-mint" href="/dr-wucher/book?type=first">Request a first visit <span class="arrow" aria-hidden="true">→</span></a></div>
+  </div>
+</section>
+</main>
+
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <span class="brand"><svg class="mark" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="10" fill="#2f5e65"/><circle cx="15" cy="15" r="7.5" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="22.5" cy="22.5" r="4.5" fill="#c9ab78"/></svg><span><b>Elite Biodental</b><small>Biological dentistry · Eros, Windhoek</small></span></span>
+        <div class="fcta"><a class="btn btn-line-light btn-sm" href="#call" data-demo="call">Call</a><a class="btn btn-line-light btn-sm" href="#whatsapp" data-demo="whatsapp" data-msg="Hello, I'd like to request a time at Elite Biodental.">WhatsApp</a><a class="btn btn-mint btn-sm" href="/dr-wucher/book">Request a time</a></div>
+      </div>
+      <div><h4>Practice</h4><nav aria-label="Practice"><a href="/dr-wucher/treatments">Treatments</a><a href="/dr-wucher/dentists">Your dentists</a><a href="/dr-wucher/book#first-visit">Your first visit</a><a href="/dr-wucher/book">Request a time</a></nav></div>
+      <div><h4>Treatments</h4><nav aria-label="Treatments"><a href="/dr-wucher/treatments#gbt">Check-up and GBT clean</a><a href="/dr-wucher/treatments#amalgam">Safe amalgam removal</a><a href="/dr-wucher/treatments#implants">Implants</a><a href="/dr-wucher/treatments#functional">Functional medicine</a></nav></div>
+      <div><h4>Visit</h4><address>36 General Murtala Muhammed Ave<br>Eros, Windhoek, Namibia<br><a href="https://www.google.com/maps/dir/?api=1&amp;destination=36+General+Murtala+Muhammed+Ave,+Eros,+Windhoek,+Namibia" target="_blank" rel="noopener">Directions</a></address></div>
+    </div>
+    <a class="edu" href="/dr-wucher/puzzle-of-health"><span><b>Dr Wucher's health education.</b> Puzzle of Health: courses, kits and a book for families.</span><span class="arrow">→</span></a>
+    <div class="legal"><span>© 2026 Elite Biodental. Information on this website is general and doesn't replace a consultation.</span><nav aria-label="Legal"><a href="#privacy" data-demo="note" data-title="Privacy notice" data-msg="The live site has a privacy notice that explains what the booking form collects and why.">Privacy</a><a href="#terms" data-demo="note" data-title="Terms" data-msg="The live site has plain-language terms for bookings and cancellations.">Terms</a></nav></div>
+  </div>
+</footer>
+
+<a class="wa-float" id="waf" href="#whatsapp" data-demo="whatsapp" data-msg="Hello, I'd like to request a time at Elite Biodental."><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg>WhatsApp us</a>
+<div class="mbar" id="mbar"><a class="btn btn-ghost" href="#call" data-demo="call" aria-label="Call the practice"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></a><a class="btn btn-ghost" href="#whatsapp" data-demo="whatsapp" data-msg="Hello, I'd like to request a time at Elite Biodental.">WhatsApp</a><a class="btn btn-mint" href="/dr-wucher/book">Request a time</a></div>
+
+<script src="/dr-wucher/assets/site.js"></script>
+<script>
+/* Treatments page: the jump bar follows the treatment in view. */
+(() => {
+  const jump = document.querySelector('.jump');
+  const bar = jump && jump.querySelector('.wrap');
+  const chips = [...document.querySelectorAll('.jchip')];
+  if (!bar || !chips.length) return;
+  const byId = new Map(chips.map(c => [c.getAttribute('href').slice(1), c]));
+  const fades = () => { const max = bar.scrollWidth - bar.clientWidth; jump.classList.toggle('fade-l', bar.scrollLeft > 4); jump.classList.toggle('fade-r', bar.scrollLeft < max - 4); };
+  bar.addEventListener('scroll', fades, { passive: true }); addEventListener('resize', fades); fades();
+  let current = null;
+  const setOn = (id) => {
+    if (id === current) return; current = id;
+    chips.forEach(c => {
+      const on = c === byId.get(id);
+      c.classList.toggle('on', on);
+      if (on) c.setAttribute('aria-current', 'location'); else c.removeAttribute('aria-current');
+    });
+    const c = byId.get(id); if (!c) return;
+    // keep the active chip in view inside the bar (phones), without moving the page
+    const left = c.offsetLeft - 28, right = c.offsetLeft + c.offsetWidth + 56 - bar.clientWidth;
+    if (bar.scrollLeft > left) bar.scrollLeft = Math.max(0, left); else if (bar.scrollLeft < right) bar.scrollLeft = right;
+    fades();
+  };
+  const io = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) setOn(e.target.id || ''); }), { rootMargin: '-42% 0px -52% 0px' });
+  document.querySelectorAll('.tx[id], .close-band, .phead').forEach(s => io.observe(s));
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en-NA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Request a time | Elite Biodental, Windhoek</title>
+<meta name="description" content="Request a time at Elite Biodental in Eros, Windhoek. Choose your visit, your dentist and a free time. Reception confirms on WhatsApp.">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#244d54">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Elite Biodental: a first look at a new website">
+<meta property="og:description" content="A working preview made for Dr Martin Wucher by Flowrate.">
+<meta property="og:image" content="https://flowrate.agency/dr-wucher/assets/img/og.jpg">
+<meta property="og:url" content="https://flowrate.agency/dr-wucher/book">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Crect width='34' height='34' rx='10' fill='%23244d54'/%3E%3Ccircle cx='15' cy='15' r='7.5' fill='none' stroke='%23fff' stroke-width='2.4'/%3E%3Ccircle cx='22.5' cy='22.5' r='4.5' fill='%23c9ab78'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/dr-wucher/assets/preview.css">
+<link rel="stylesheet" href="/dr-wucher/assets/site.css">
+<style>
+/* Book page: one step per screen, a summary that follows you, and what the patient receives afterwards. */
+.bhead{padding:64px 0 34px}
+.bhead .crumbs{font-size:15px;color:var(--slate);display:flex;gap:8px;margin-bottom:18px}
+.bhead .crumbs a{color:var(--graphite);text-decoration:underline;text-decoration-color:rgba(21,21,21,.2);text-underline-offset:3px}
+.bhead h1{font-size:clamp(44px,5.4vw,76px);line-height:.98;letter-spacing:-0.05em}
+.bhead .lead{margin-top:18px;max-width:620px}
+.flow{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:48px;align-items:start;padding-bottom:110px}
+.steps{display:flex;gap:6px;margin-bottom:30px;list-style:none;counter-reset:s}
+.steps li{flex:1;counter-increment:s}
+.steps button{width:100%;text-align:left;padding:12px 0 0;border-top:3px solid var(--bone);font-size:14px;font-weight:500;color:var(--fog);display:flex;gap:8px;align-items:baseline;transition:border-color .35s var(--ease),color .35s var(--ease)}
+.steps button:before{content:counter(s);font-size:12px;font-weight:600}
+.steps li.done button{border-top-color:var(--teal);color:var(--graphite)}
+.steps li.now button{border-top-color:var(--mint);color:var(--ink)}
+.steps button[disabled]{cursor:default}
+.panel{display:none}
+.panel.on{display:block;animation:lift .5s var(--ease)}
+@keyframes lift{from{opacity:0;transform:translateY(14px)}}
+.panel h2{font-size:clamp(30px,3.2vw,42px);letter-spacing:-0.035em;line-height:1.06}
+.panel .sub{color:var(--slate);margin-top:8px;font-size:17px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px}
+.opt{position:relative;text-align:left;border:1px solid var(--line);border-radius:20px;padding:20px 22px;display:flex;flex-direction:column;gap:6px;min-height:118px;transition:border-color .2s var(--ease),background .2s var(--ease),transform .25s var(--ease)}
+.opt:hover:not([disabled]){border-color:var(--teal)}
+.opt b{font-size:19px;font-weight:500;letter-spacing:-0.015em;padding-right:34px}
+.opt span{font-size:15px;color:var(--slate);line-height:1.45}
+.opt small{margin-top:auto;font-size:13px;font-weight:600;color:var(--teal);letter-spacing:.02em}
+.opt:after{content:"";position:absolute;top:20px;right:20px;width:22px;height:22px;border-radius:50%;border:1.5px solid #cdd3d5;transition:all .25s var(--ease)}
+.opt[aria-pressed="true"]{border-color:var(--teal);background:#f3f8f7}
+.opt[aria-pressed="true"]:after{border-color:var(--teal);background:var(--teal) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cpath d='M6.5 11.4l3 3 6-6.4' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/22px no-repeat}
+.opt[disabled]{opacity:.45;cursor:not-allowed}
+.opt.who{flex-direction:row;align-items:center;gap:16px;min-height:96px}
+.opt.who .pic{width:58px;height:58px;border-radius:50%;flex:0 0 58px;overflow:hidden;background:#dfe9e8;display:grid;place-items:center;font-weight:600;color:var(--teal);font-size:18px}
+.opt.who .pic img{width:100%;height:100%;object-fit:cover}
+.opt.who div{display:flex;flex-direction:column;gap:3px}
+.callout{margin-top:16px;border-radius:18px;background:#fff7ec;border:1px solid #f1dfc2;padding:16px 18px;font-size:16px;color:#5b4a2f;display:none;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.callout.show{display:flex}
+.note{margin-top:14px;font-size:15px;color:var(--slate);min-height:22px}
+.dgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:26px}
+.dcard{border:1px solid var(--line);border-radius:16px;padding:12px 10px;text-align:center;display:flex;flex-direction:column;gap:2px;transition:all .2s var(--ease)}
+.dcard b{font-size:15px;font-weight:600}
+.dcard span{font-size:22px;font-weight:500;letter-spacing:-0.03em}
+.dcard small{font-size:12px;color:var(--teal);font-weight:500}
+.dcard:hover{border-color:var(--teal)}
+.dcard[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
+.dcard[aria-pressed="true"] small{color:var(--soft)}
+.tgroup{margin-top:26px}
+.tgroup h3{font-size:14px;font-weight:600;color:var(--slate);letter-spacing:.02em;margin-bottom:10px}
+.tgroup .slots{grid-template-columns:repeat(4,1fr)}
+.quick{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-size:15px;color:var(--teal);font-weight:500;border:1px dashed rgba(36,77,84,.4);border-radius:999px;padding:9px 16px}
+.quick:hover{border-style:solid}
+.form{display:grid;gap:18px;margin-top:28px;max-width:560px}
+.field label{display:block;font-size:15px;font-weight:600;margin-bottom:8px}
+.field label small{font-weight:400;color:var(--slate)}
+.field input,.field textarea{width:100%;min-height:54px;border:1px solid #cfd4d6;border-radius:14px;padding:14px 16px;font-size:18px;background:#fff;transition:border-color .2s,box-shadow .2s}
+.field textarea{min-height:96px;resize:vertical}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 4px rgba(36,77,84,.12)}
+.field .err{display:none;color:#b42318;font-size:14px;margin-top:6px}
+.field.bad input{border-color:#b42318}
+.field.bad .err{display:block}
+.tel{display:flex}
+.tel span{display:grid;place-items:center;padding:0 14px;border:1px solid #cfd4d6;border-right:0;border-radius:14px 0 0 14px;background:var(--mist);font-size:17px;color:var(--graphite)}
+.tel input{border-radius:0 14px 14px 0}
+.tick{display:flex;gap:12px;align-items:flex-start;font-size:15px;color:var(--graphite);cursor:pointer}
+.tick input{width:22px;height:22px;margin-top:1px;accent-color:var(--teal);flex:0 0 22px}
+.nav-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:34px;padding-top:24px;border-top:1px solid var(--line)}
+.nav-row .btn[disabled]{opacity:.4;cursor:not-allowed}
+/* summary */
+.sum{position:sticky;top:104px;border:1px solid var(--line);border-radius:26px;overflow:hidden}
+.sum .top{background:var(--teal);color:#fff;padding:22px 24px}
+.sum .top b{display:block;font-size:22px;font-weight:500;letter-spacing:-0.02em}
+.sum .top span{font-size:14px;color:var(--on-teal)}
+.sum dl{padding:6px 24px}
+.sum .row{display:grid;grid-template-columns:96px 1fr auto;gap:10px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line);font-size:16px}
+.sum dt{color:var(--slate);font-size:14px}
+.sum dd{font-weight:500}
+.sum dd.empty{color:var(--fog);font-weight:400}
+.sum .ch{font-size:14px;color:var(--teal);text-decoration:underline;text-underline-offset:3px}
+.sum .next3{padding:16px 24px 22px}
+.sum .next3 h4{font-size:15px;font-weight:600;margin-bottom:10px}
+.sum .next3 ol{list-style:none;counter-reset:n;display:grid;gap:10px}
+.sum .next3 li{counter-increment:n;display:grid;grid-template-columns:24px 1fr;gap:10px;font-size:15px;color:var(--graphite);line-height:1.4}
+.sum .next3 li:before{content:counter(n);width:24px;height:24px;border-radius:50%;background:var(--bone);display:grid;place-items:center;font-size:12px;font-weight:600;color:var(--ink)}
+.sum .talk{border-top:1px solid var(--line);padding:16px 24px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:15px;color:var(--slate)}
+/* done */
+#done{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:48px;align-items:start;padding-bottom:110px}
+.okmark{width:64px;height:64px;border-radius:50%;background:var(--mint);display:grid;place-items:center;animation:pop .6s var(--ease)}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+#done h2{margin-top:22px}
+#done .card2{margin-top:26px;border:1px solid var(--line);border-radius:22px;padding:8px 22px}
+#done .card2 .row{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);font-size:16px}
+#done .card2 .row:last-child{border-bottom:0}
+#done .card2 .row span:first-child{color:var(--slate);font-size:14px}
+#done .acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.demo-note{margin-top:16px;font-size:14px;color:var(--slate)}
+.phone{width:100%;max-width:340px;justify-self:center;border-radius:46px;background:#0f1416;padding:12px;box-shadow:0 30px 60px -30px rgba(12,24,27,.55)}
+.phone .scr{border-radius:36px;overflow:hidden;background:#efeae2;height:620px;display:flex;flex-direction:column}
+.phone .bar2{background:#f6f6f6;padding:16px 16px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #e3e3e3}
+.phone .bar2 .lg{width:36px;height:36px;border-radius:50%;background:var(--teal);display:grid;place-items:center}
+.phone .bar2 b{font-size:15px;font-weight:600;display:block;line-height:1.2}
+.phone .bar2 small{font-size:12px;color:#6b7b70}
+.thread{flex:1;padding:14px 12px;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.day{align-self:center;font-size:11px;background:#fff;border-radius:8px;padding:3px 10px;color:#5d6b63;box-shadow:0 1px 0 rgba(0,0,0,.05)}
+.msg{max-width:86%;background:#fff;border-radius:4px 14px 14px 14px;padding:9px 12px 6px;font-size:14px;line-height:1.42;color:#151515;box-shadow:0 1px 0 rgba(0,0,0,.06);opacity:0;transform:translateY(10px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.msg.me{align-self:flex-end;background:#d9fdd3;border-radius:14px 4px 14px 14px}
+.msg.in{opacity:1;transform:none}
+.msg small{display:block;text-align:right;font-size:10.5px;color:#7b8a80;margin-top:2px}
+.msg b{font-weight:600}
+/* first visit */
+.fv{border-top:1px solid var(--line)}
+.fv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px}
+.fv-card{border:1px solid var(--line);border-radius:24px;padding:28px}
+.fv-card .when{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--teal)}
+.fv-card h3{margin-top:10px}
+.fv-card ul{list-style:none;margin-top:14px;display:grid;gap:9px}
+.fv-card li{position:relative;padding-left:18px;color:var(--graphite);font-size:16px;line-height:1.45}
+.fv-card li:before{content:"";position:absolute;left:0;top:.65em;width:8px;height:1.5px;background:var(--teal)}
+.calm{margin-top:18px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;border-radius:24px;background:var(--mist);padding:24px 28px;font-size:18px}
+.mob-go{display:none}
+@media (max-width:1080px){
+  .flow,#done{grid-template-columns:1fr}
+  .sum{position:static}
+  .fv-grid{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .bhead{padding:40px 0 22px}
+  .steps button{font-size:0;padding-top:10px}
+  .steps button:before{font-size:13px}
+  .steps li.now button{font-size:13px}
+  .opts{grid-template-columns:1fr}
+  .opt{min-height:0}
+  .dgrid{grid-template-columns:repeat(5,minmax(64px,1fr));overflow-x:auto;scrollbar-width:none}
+  .tgroup .slots{grid-template-columns:repeat(3,1fr)}
+  .nav-row{position:sticky;bottom:0;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);margin:24px -20px 0;padding:12px 20px calc(12px + env(safe-area-inset-bottom));z-index:5}
+  .nav-row .btn{flex:1}
+  .flow{gap:32px;padding-bottom:60px}
+  .sum{display:none}
+  .phone .scr{height:560px}
+  .calm{padding:20px}
+}
+</style>
+</head>
+<body>
+<div class="pv-bar" data-site="practice"></div><script src="/dr-wucher/assets/preview.js"></script>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" id="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="/dr-wucher" aria-label="Elite Biodental, home">
+      <svg class="mark" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="10" fill="#244d54"/><circle cx="15" cy="15" r="7.5" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="22.5" cy="22.5" r="4.5" fill="#c9ab78"/></svg>
+      <span><b>Elite Biodental</b><small>Biological dentistry · Eros, Windhoek</small></span>
+    </a>
+    <div class="links">
+      <a href="/dr-wucher/treatments">Treatments</a>
+      <a href="/dr-wucher/dentists">Your dentists</a>
+      <a href="/dr-wucher/book#first-visit">Your first visit</a>
+      <a href="/dr-wucher#visit">Visit us</a>
+    </div>
+    <div class="nav-cta">
+      <a class="icon-btn hide-sm" href="#call" data-demo="call" aria-label="Call the practice"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></a>
+      <a class="icon-btn hide-sm" href="#whatsapp" data-demo="whatsapp" data-msg="Hello, I'd like to request a time at Elite Biodental." aria-label="WhatsApp the practice"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/><path d="M9 9.5c.3 1.6 1.9 3.6 4 4.4l1.3-1.1 2 .9-.4 1.6c-3.6.6-7.6-3.4-7.3-7l1.6-.5.9 2z"/></svg></a>
+      <a class="btn btn-mint btn-sm" href="/dr-wucher/book" aria-current="page">Request a time</a>
+      <button class="icon-btn menu-btn" type="button" aria-label="Open the menu" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#151515" stroke-width="1.6" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg></button>
+    </div>
+  </div>
+</nav>
+<div class="msheet">
+  <div class="panel" role="dialog" aria-label="Menu">
+    <div class="top"><span class="brand"><svg class="mark" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="10" fill="#244d54"/><circle cx="15" cy="15" r="7.5" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="22.5" cy="22.5" r="4.5" fill="#c9ab78"/></svg><b>Elite Biodental</b></span><button class="icon-btn" type="button" data-close aria-label="Close the menu"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#151515" stroke-width="1.6" stroke-linecap="round"><path d="M2 2l10 10M12 2L2 12"/></svg></button></div>
+    <nav aria-label="Menu"><a href="/dr-wucher/treatments">Treatments <span class="arrow">→</span></a><a href="/dr-wucher/dentists">Your dentists <span class="arrow">→</span></a><a href="/dr-wucher/book#first-visit">Your first visit <span class="arrow">→</span></a><a href="/dr-wucher#visit">Visit us <span class="arrow">→</span></a></nav>
+    <div class="acts"><a class="btn btn-ghost" href="#call" data-demo="call">Call</a><a class="btn btn-ghost" href="#whatsapp" data-demo="whatsapp" data-msg="Hello, I'd like to request a time at Elite Biodental.">WhatsApp</a><a class="btn btn-mint" href="/dr-wucher/book">Request a time</a></div>
+  </div>
+</div>
+
+<main id="main">
+<header class="bhead">
+  <div class="wrap">
+    <div class="crumbs"><a href="/dr-wucher">Home</a><span aria-hidden="true">/</span><span>Request a time</span></div>
+    <h1>Request a time</h1>
+    <p class="lead">Four short steps. Reception confirms your time on WhatsApp, and you get a reminder the day before.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="flow" id="flow">
+    <div>
+      <ol class="steps" aria-label="Steps">
+        <li data-s="1"><button type="button" data-go="1">Visit</button></li>
+        <li data-s="2"><button type="button" data-go="2">Dentist</button></li>
+        <li data-s="3"><button type="button" data-go="3">When</button></li>
+        <li data-s="4"><button type="button" data-go="4">Your details</button></li>
+      </ol>
+
+      <section class="panel" data-p="1" aria-labelledby="h1s" style="padding:0">
+        <h2 id="h1s" tabindex="-1">What is the visit for?</h2>
+        <p class="sub">Choose the closest one. You can add a note at the end.</p>
+        <div class="opts" id="o-type"></div>
+        <div class="callout" id="pain"><span><b>In pain?</b> Calling is quickest. Reception will find you the soonest time.</span><a class="btn btn-dark btn-sm" href="#call" data-demo="call">Call the practice</a></div>
+      </section>
+
+      <section class="panel" data-p="2" aria-labelledby="h2s" style="padding:0">
+        <h2 id="h2s" tabindex="-1">Who would you like to see?</h2>
+        <p class="sub">Both dentists share the same biological approach.</p>
+        <div class="opts" id="o-who"></div>
+      </section>
+
+      <section class="panel" data-p="3" aria-labelledby="h3s" style="padding:0">
+        <h2 id="h3s" tabindex="-1">Pick a day and time</h2>
+        <p class="sub" id="t-sub">Taken times are crossed out.</p>
+        <button class="quick" type="button" id="earliest">Earliest free time</button>
+        <div class="dgrid" id="o-days"></div>
+        <div class="tgroup"><h3>Morning</h3><div class="slots" id="o-am"></div></div>
+        <div class="tgroup"><h3>Afternoon</h3><div class="slots" id="o-pm"></div></div>
+        <p class="note" id="t-note" aria-live="polite"></p>
+      </section>
+
+      <section class="panel" data-p="4" aria-labelledby="h4s" style="padding:0">
+        <h2 id="h4s" tabindex="-1">Your details</h2>
+        <p class="sub">Only what reception needs to confirm your time.</p>
+        <form class="form" id="form" novalidate>
+          <div class="field" id="f-name"><label for="name">Full name</label><input id="name" name="name" autocomplete="name" required><p class="err">Please add your name.</p></div>
+          <div class="field" id="f-tel"><label for="tel">Mobile number <small>(we confirm on WhatsApp)</small></label><div class="tel"><span>+264</span><input id="tel" name="tel" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="81 234 5678" required></div><p class="err">Please add a number we can WhatsApp.</p></div>
+          <div class="field"><label for="note">Anything we should know? <small>(optional)</small></label><textarea id="note" name="note" placeholder="For example: I'm nervous about the dentist, or I'm travelling from Swakopmund."></textarea></div>
+          <label class="tick"><input type="checkbox" id="first"> This is my first visit to the practice</label>
+          <label class="tick" id="f-ok"><input type="checkbox" id="ok" required> I'm happy for the practice to contact me about this request.</label>
+        </form>
+      </section>
+
+      <div class="nav-row" id="navrow">
+        <button class="btn btn-ghost" type="button" id="back">Back</button>
+        <button class="btn btn-mint" type="button" id="next">Continue <span class="arrow" aria-hidden="true">→</span></button>
+      </div>
+    </div>
+
+    <aside class="sum" aria-label="Your request">
+      <div class="top"><b>Your request</b><span>Elite Biodental, Eros, Windhoek</span></div>
+      <dl>
+        <div class="row"><dt>Visit</dt><dd id="s-type" class="empty">Not chosen yet</dd><button class="ch" type="button" data-go="1">Change</button></div>
+        <div class="row"><dt>Dentist</dt><dd id="s-who" class="empty">Not chosen yet</dd><button class="ch" type="button" data-go="2">Change</button></div>
+        <div class="row"><dt>When</dt><dd id="s-when" class="empty">Not chosen yet</dd><button class="ch" type="button" data-go="3">Change</button></div>
+        <div class="row" style="border-bottom:0"><dt>Takes</dt><dd id="s-mins" class="empty">–</dd><span></span></div>
+      </dl>
+      <div class="next3"><h4>What happens next</h4><ol><li>Reception confirms your time on WhatsApp.</li><li>A reminder arrives the day before.</li><li>After a consultation, you get your plan in writing.</li></ol></div>
+      <div class="talk">Rather talk to someone? <a class="link" href="#call" data-demo="call">Call</a> · <a class="link" href="#whatsapp" data-demo="whatsapp" data-msg="Hello, I'd like to request a time at Elite Biodental.">WhatsApp</a></div>
+    </aside>
+  </div>
+
+  <div class="done" id="done" hidden>
+    <div>
+      <span class="okmark" aria-hidden="true"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" stroke="#151515" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 15.5l4.6 4.6L22.5 10"/></svg></span>
+      <h2 tabindex="-1" id="done-h">Request sent</h2>
+      <p class="lead" style="margin-top:12px" id="done-lead">Reception will confirm your time on WhatsApp.</p>
+      <div class="card2" id="done-card"></div>
+      <div class="acts"><button class="btn btn-mint" type="button" id="ics">Add to calendar</button><a class="btn btn-ghost" href="/dr-wucher">Back to the home page</a><button class="btn btn-ghost" type="button" id="again">Make another request</button></div>
+      <p class="demo-note">Preview: nothing was sent. On the live site, your request lands with reception straight away.</p>
+    </div>
+    <div class="phone" aria-label="What you receive on WhatsApp">
+      <div class="scr">
+        <div class="bar2"><span class="lg"><svg width="18" height="18" viewBox="0 0 34 34" aria-hidden="true"><circle cx="15" cy="15" r="7.5" fill="none" stroke="#fff" stroke-width="2.6"/><circle cx="22.5" cy="22.5" r="4.5" fill="#c9ab78"/></svg></span><span><b>Elite Biodental</b><small>Business account</small></span></div>
+        <div class="thread" id="thread"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="fv" id="first-visit">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="rv">Your first visit</h2>
+      <p class="lead rv" style="--d:80ms">What to expect, from the moment you request a time to the plan you take home.</p>
+    </div>
+    <div class="fv-grid">
+      <article class="fv-card rv"><span class="when">Before</span><h3>Getting ready</h3><ul><li>Reception confirms your time on WhatsApp</li><li>Bring your ID and medical aid card</li><li>Bring a list of medicines and supplements you take</li><li>Old X-rays, if you have them</li></ul></article>
+      <article class="fv-card rv" style="--d:80ms"><span class="when">On the day</span><h3>About 45 to 60 minutes</h3><ul><li>A conversation about your health, not only your teeth</li><li>A full check of teeth, gums and bite</li><li>X-rays only if they're needed</li><li>Time for your questions</li></ul></article>
+      <article class="fv-card rv" style="--d:160ms"><span class="when">After</span><h3>Your plan, in writing</h3><ul><li>Three levels: must be done, should be done, nice to have</li><li>A quote for each level before anything starts</li><li>You decide the pace</li></ul></article>
+    </div>
+    <div class="calm rv"><span><b>Nervous about the dentist?</b> Tell us when you request a time, and we'll go at your pace.</span><a class="btn btn-ghost btn-sm" href="#whatsapp" data-demo="whatsapp" data-msg="Hello, I'm a little nervous about the dentist. Can I ask a few questions first?">Ask a question first</a></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <span class="brand"><svg class="mark" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="10" fill="#2f5e65"/><circle cx="15" cy="15" r="7.5" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="22.5" cy="22.5" r="4.5" fill="#c9ab78"/></svg><span><b>Elite Biodental</b><small>Biological dentistry · Eros, Windhoek</small></span></span>
+        <div class="fcta"><a class="btn btn-line-light btn-sm" href="#call" data-demo="call">Call</a><a class="btn btn-line-light btn-sm" href="#whatsapp" data-demo="whatsapp" data-msg="Hello, I'd like to request a time at Elite Biodental.">WhatsApp</a><a class="btn btn-mint btn-sm" href="/dr-wucher/book">Request a time</a></div>
+      </div>
+      <div><h4>Practice</h4><nav aria-label="Practice"><a href="/dr-wucher/treatments">Treatments</a><a href="/dr-wucher/dentists">Your dentists</a><a href="/dr-wucher/book#first-visit">Your first visit</a><a href="/dr-wucher/book">Request a time</a></nav></div>
+      <div><h4>Treatments</h4><nav aria-label="Treatments"><a href="/dr-wucher/treatments#gbt">Check-up and GBT clean</a><a href="/dr-wucher/treatments#amalgam">Safe amalgam removal</a><a href="/dr-wucher/treatments#implants">Implants</a><a href="/dr-wucher/treatments#functional">Functional medicine</a></nav></div>
+      <div><h4>Visit</h4><address>36 General Murtala Muhammed Ave<br>Eros, Windhoek, Namibia<br><a href="https://www.google.com/maps/dir/?api=1&amp;destination=36+General+Murtala+Muhammed+Ave,+Eros,+Windhoek,+Namibia" target="_blank" rel="noopener">Directions</a></address></div>
+    </div>
+    <a class="edu" href="/dr-wucher/puzzle-of-health"><span><b>Dr Wucher's health education.</b> Puzzle of Health: courses, kits and a book for families.</span><span class="arrow">→</span></a>
+    <div class="legal"><span>© 2026 Elite Biodental. Information on this website is general and doesn't replace a consultation.</span><nav aria-label="Legal"><a href="#privacy" data-demo="note" data-title="Privacy notice" data-msg="The live site has a privacy notice that explains what the booking form collects and why.">Privacy</a><a href="#terms" data-demo="note" data-title="Terms" data-msg="The live site has plain-language terms for bookings and cancellations.">Terms</a></nav></div>
+  </div>
+</footer>
+
+<script src="/dr-wucher/assets/site.js"></script>
+<script>
+(() => {
+  const EB = window.EB, $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const q = new URLSearchParams(location.search);
+  const days = EB.days(10);
+  const st = { type: q.get('type'), who: q.get('who'), day: q.get('day'), time: q.get('time'), step: 1 };
+  if (st.type && !EB.types.some(t => t.id === st.type)) st.type = null;
+  if (st.day && !days.some(d => d.key === st.day)) { st.day = null; st.time = null; }
+  if (st.type === 'fm') st.who = 'mw';
+  const blurbs = { gbt: 'A full check and a thorough, gentle clean.', first: 'New to the practice? Start here.', amalgam: 'Talk through your old fillings first.', implant: 'Zirconia or titanium, planned with you.', gum: 'Bleeding or tender gums.', fm: 'Nutritional and orthomolecular medicine with Dr Wucher.', pain: 'We\'ll find you the soonest time.' };
+  const whoText = { mw: 'Biological dentistry and functional medicine', ra: 'Implants, rehabilitation and surgery', any: 'The first free time with either dentist' };
+
+  /* step 1 */
+  $('#o-type').innerHTML = EB.types.map(t => `<button class="opt" type="button" data-v="${t.id}" aria-pressed="${t.id === st.type}"><b>${t.name}</b><span>${blurbs[t.id]}</span><small>${t.mins} min</small></button>`).join('');
+  /* step 2 */
+  const renderWho = () => {
+    $('#o-who').innerHTML = EB.dentists.map(d => { const off = st.type === 'fm' && d.id !== 'mw'; return `<button class="opt who" type="button" data-v="${d.id}" aria-pressed="${d.id === st.who}" ${off ? 'disabled' : ''}><span class="pic">${d.img ? `<img src="${d.img}" alt="">` : (d.initials || '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#244d54" stroke-width="1.7" stroke-linecap="round"><circle cx="9" cy="9" r="3.2"/><circle cx="16.5" cy="10.5" r="2.6"/><path d="M3.5 19c.8-3 3-4.6 5.5-4.6S13.7 16 14.5 19M14 15.2c.8-.5 1.6-.8 2.5-.8 2 0 3.6 1.4 4.1 3.6"/></svg>')}</span><div><b>${d.name}</b><span>${off ? 'Functional medicine is with Dr Wucher' : whoText[d.id]}</span></div></button>`; }).join('');
+  };
+  /* step 3 */
+  const freeCount = (k) => EB.times.length - EB.taken(k, st.who || 'any').length;
+  const renderDays = () => {
+    $('#o-days').innerHTML = days.map(d => `<button class="dcard" type="button" data-v="${d.key}" aria-pressed="${d.key === st.day}"><b>${d.dow}</b><span>${d.date.getDate()}</span><small>${freeCount(d.key)} free</small></button>`).join('');
+  };
+  const renderTimes = () => {
+    const tk = st.day ? EB.taken(st.day, st.who || 'any') : [];
+    const btn = x => `<button class="slot-btn" type="button" data-v="${x}" ${!st.day || tk.includes(x) ? `disabled aria-label="${x}, ${st.day ? 'taken' : 'pick a day first'}"` : ''} aria-pressed="${x === st.time}">${x}</button>`;
+    $('#o-am').innerHTML = EB.times.filter(x => x < '12:00').map(btn).join('');
+    $('#o-pm').innerHTML = EB.times.filter(x => x >= '12:00').map(btn).join('');
+  };
+  const fixTime = () => {
+    if (!st.day || !st.time) return '';
+    const tk = EB.taken(st.day, st.who || 'any');
+    if (!tk.includes(st.time)) return '';
+    const was = st.time, nx = EB.times.find(x => x > was && !tk.includes(x)) || EB.times.find(x => !tk.includes(x));
+    st.time = nx; return `${was} isn't free with ${EB.dentist(st.who).name.replace('No preference', 'either dentist')}, so we picked ${nx} instead.`;
+  };
+
+  /* summary */
+  const renderSum = () => {
+    const set = (id, v) => { const el = $(id); el.textContent = v || 'Not chosen yet'; el.classList.toggle('empty', !v); };
+    const day = days.find(d => d.key === st.day);
+    set('#s-type', st.type && EB.type(st.type).name);
+    set('#s-who', st.who && EB.dentist(st.who).name);
+    set('#s-when', day && st.time ? `${day.label}, ${st.time}` : '');
+    const m = $('#s-mins'); m.textContent = st.type ? EB.type(st.type).mins + ' minutes' : '–'; m.classList.toggle('empty', !st.type);
+  };
+  const ready = (n) => n === 1 ? !!st.type : n === 2 ? !!st.who : n === 3 ? !!(st.day && st.time) : true;
+  const go = (n, focus = true) => {
+    st.step = n;
+    $$('.panel').forEach(p => p.classList.toggle('on', +p.dataset.p === n));
+    $$('.steps li').forEach(li => { const s = +li.dataset.s; li.classList.toggle('now', s === n); li.classList.toggle('done', s < n || (s !== n && ready(s) && s < 4)); li.querySelector('button').disabled = s > n && !Array.from({ length: s - 1 }, (_, i) => ready(i + 1)).every(Boolean); });
+    $('#back').style.visibility = n === 1 ? 'hidden' : 'visible';
+    const nx = $('#next'); nx.innerHTML = n === 4 ? 'Send request <span class="arrow" aria-hidden="true">→</span>' : 'Continue <span class="arrow" aria-hidden="true">→</span>';
+    if (n === 2) renderWho();
+    if (n === 3) { if (!st.day) { const f = EB.firstFree(st.who || 'any'); st.day = f.day.key; st.time = f.time; } const note = fixTime(); renderDays(); renderTimes(); $('#t-note').textContent = note; }
+    nx.disabled = !ready(n);
+    $('#pain').classList.toggle('show', st.type === 'pain' && n === 1);
+    renderSum();
+    if (focus) { const h = $(`.panel[data-p="${n}"] h2`); h && h.focus({ preventScroll: true }); const top = $('#flow').getBoundingClientRect().top + scrollY - 110; if (scrollY > top) scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' }); }
+  };
+
+  document.addEventListener('click', (e) => {
+    const g = e.target.closest('[data-go]'); if (g && !g.disabled) { go(+g.dataset.go); return; }
+    const o = e.target.closest('#o-type .opt'); if (o) { st.type = o.dataset.v; if (st.type === 'fm') st.who = 'mw'; $$('#o-type .opt').forEach(b => b.setAttribute('aria-pressed', String(b === o))); go(1, false); return; }
+    const w = e.target.closest('#o-who .opt'); if (w && !w.disabled) { st.who = w.dataset.v; $$('#o-who .opt').forEach(b => b.setAttribute('aria-pressed', String(b === w))); go(2, false); return; }
+    const d = e.target.closest('#o-days .dcard'); if (d) { st.day = d.dataset.v; const tk = EB.taken(st.day, st.who || 'any'); if (!st.time || tk.includes(st.time)) st.time = EB.times.find(x => !tk.includes(x)); $('#t-note').textContent = ''; renderDays(); renderTimes(); go(3, false); return; }
+    const t = e.target.closest('#o-am .slot-btn, #o-pm .slot-btn'); if (t && !t.disabled) { st.time = t.dataset.v; $('#t-note').textContent = ''; renderTimes(); go(3, false); return; }
+  });
+  $('#earliest').addEventListener('click', () => { const f = EB.firstFree(st.who || 'any'); st.day = f.day.key; st.time = f.time; $('#t-note').textContent = `Earliest free time: ${f.day.label} at ${f.time}.`; renderDays(); renderTimes(); go(3, false); });
+  $('#back').addEventListener('click', () => go(Math.max(1, st.step - 1)));
+
+  /* step 4 validation: on leaving a field, any phone format */
+  const check = (id) => { const f = $(id), i = f.querySelector('input'); const okv = id === '#f-tel' ? i.value.replace(/\D/g, '').length >= 7 : i.value.trim().length > 1; f.classList.toggle('bad', !okv); return okv; };
+  $('#name').addEventListener('blur', () => $('#name').value && check('#f-name'));
+  $('#tel').addEventListener('blur', () => $('#tel').value && check('#f-tel'));
+  $('#next').addEventListener('click', () => {
+    if (st.step < 4) { if (ready(st.step)) go(st.step + 1); return; }
+    const a = check('#f-name'), b = check('#f-tel'); const c = $('#ok').checked;
+    $('#f-ok').style.color = c ? '' : '#b42318';
+    if (!a) return $('#name').focus(); if (!b) return $('#tel').focus(); if (!c) return $('#ok').focus();
+    finish();
+  });
+
+  /* done: summary, WhatsApp thread, calendar file */
+  const finish = () => {
+    const day = days.find(d => d.key === st.day), t = EB.type(st.type), who = EB.dentist(st.who);
+    const first = ($('#name').value.trim().split(/\s+/)[0] || 'there');
+    const dName = st.who === 'any' ? 'the first free dentist' : who.name;
+    $('#flow').hidden = true; const done = $('#done'); done.hidden = false;
+    $('#done-lead').textContent = `Thanks, ${first}. Reception will confirm your time on WhatsApp.`;
+    $('#done-card').innerHTML = [['Visit', t.name], ['Dentist', st.who === 'any' ? 'First free dentist' : who.name], ['When', `${day.label}, ${st.time} (${t.mins} min)`], ['Where', '36 General Murtala Muhammed Ave, Eros, Windhoek']].map(r => `<div class="row"><span>${r[0]}</span><span>${r[1]}</span></div>`).join('');
+    const end = (() => { const [h, m] = st.time.split(':').map(Number); const e = h * 60 + m + t.mins; return String(Math.floor(e / 60)).padStart(2, '0') + ':' + String(e % 60).padStart(2, '0'); })();
+    const now = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    const msgs = [
+      ['', '<span class="day">Today</span>'],
+      ['msg', `Hi ${first}, thanks for your request: <b>${t.name}</b> with ${dName} on <b>${day.label} at ${st.time}</b>. We'll confirm shortly.<small>${now}</small>`],
+      ['msg', `Confirmed ✓ See you on ${day.label} at ${st.time}. Elite Biodental, 36 General Murtala Muhammed Ave, Eros.<small>${now}</small>`],
+      ['msg me', `Thank you!<small>${now} ✓✓</small>`],
+      ['', '<span class="day">The day before, 18:00</span>'],
+      ['msg', `Reminder: your visit is tomorrow at <b>${st.time}</b>. Reply 1 to confirm, or 2 if you need to move it.<small>18:00</small>`]
+    ];
+    $('#thread').innerHTML = msgs.map(([c, h]) => c ? `<div class="${c}">${h}</div>` : h).join('');
+    $$('#thread .msg').forEach((m, i) => setTimeout(() => m.classList.add('in'), reduce ? 0 : 500 + i * 900));
+    $('#ics').onclick = () => {
+      const dt = (k, hm) => k.replace(/-/g, '') + 'T' + hm.replace(':', '') + '00';
+      const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Elite Biodental//Preview//EN', 'BEGIN:VEVENT', 'UID:' + Date.now() + '@elitebiodental', 'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z', 'DTSTART:' + dt(st.day, st.time), 'DTEND:' + dt(st.day, end), 'SUMMARY:Elite Biodental: ' + t.name, 'LOCATION:36 General Murtala Muhammed Ave\\, Eros\\, Windhoek', 'DESCRIPTION:Requested time. Reception confirms on WhatsApp.', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+      const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' })); a.download = 'elite-biodental-visit.ics'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    };
+    $('#done-h').focus({ preventScroll: true });
+    scrollTo({ top: done.getBoundingClientRect().top + scrollY - 120, behavior: reduce ? 'auto' : 'smooth' });
+  };
+  $('#again').addEventListener('click', () => { $('#done').hidden = true; $('#flow').hidden = false; Object.assign(st, { type: null, who: null, day: null, time: null }); $$('#o-type .opt').forEach(b => b.setAttribute('aria-pressed', 'false')); $('#form').reset(); go(1); });
+
+  /* start where the link left off */
+  const startAt = !st.type ? 1 : !st.who ? 2 : !(st.day && st.time) ? 3 : 4;
+  for (let n = 1; n <= startAt; n++) go(n, false);
+  if (location.hash === '#first-visit') setTimeout(() => document.getElementById('first-visit').scrollIntoView(), 60);
+})();
+</script>
+</body>
+</html>

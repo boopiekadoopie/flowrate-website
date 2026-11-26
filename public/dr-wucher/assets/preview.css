@@ -1,0 +1,85 @@
+/*
+  Preview chrome shared by both demo sites (Elite Biodental practice + Puzzle of Health shop).
+  A thin bar that says this is a preview, a switch between the two sites, an "About this preview"
+  sheet, a one-time welcome addressed to Dr Wucher, and the demo sheet that explains what a call or
+  WhatsApp button does on the live site. Made by Flowrate, November 2026.
+*/
+.pv-bar{--pv-ink:#151515;position:relative;z-index:80;background:var(--pv-ink);color:#cfd3d5;font:500 13px/1.3 "Inter Tight",Inter,system-ui,-apple-system,"Segoe UI",sans-serif;view-transition-name:pv-bar}
+.pv-bar .pv-in{max-width:1240px;margin:0 auto;padding:6px 32px;min-height:44px;display:flex;align-items:center;gap:18px}
+.pv-bar .pv-note{display:flex;align-items:center;gap:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pv-bar .pv-dot{flex:0 0 8px;height:8px;border-radius:50%;background:#c9ab78;box-shadow:0 0 0 3px rgba(201,171,120,.18)}
+.pv-bar .pv-note b{color:#fff;font-weight:600}
+.pv-switch{margin-left:auto;display:flex;gap:2px;padding:3px;border-radius:999px;background:rgba(255,255,255,.08)}
+.pv-switch a{display:inline-flex;align-items:center;min-height:30px;padding:4px 14px;border-radius:999px;color:#cfd3d5;text-decoration:none;white-space:nowrap;transition:background .2s,color .2s}
+.pv-switch a:hover{color:#fff}
+.pv-switch a[aria-current="page"]{background:#fff;color:#151515}
+.pv-about{min-height:32px;padding:4px 2px;color:#fff;background:none;border:0;font:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(255,255,255,.35);white-space:nowrap}
+.pv-about:hover{text-decoration-color:#fff}
+.pv-bar :focus-visible{outline:2px solid #c9ab78;outline-offset:2px;border-radius:8px}
+
+/* dialogs: about + welcome */
+.pv-dlg{border:0;padding:0;margin:auto;width:min(560px,calc(100% - 32px));max-height:calc(100dvh - 48px);border-radius:24px;background:#fff;color:#151515;font:400 16px/1.55 "Inter Tight",Inter,system-ui,-apple-system,"Segoe UI",sans-serif;overflow:auto;overscroll-behavior:contain}
+.pv-dlg::backdrop{background:rgba(12,24,27,.52);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.pv-dlg[open]{animation:pv-pop .42s cubic-bezier(.22,1,.36,1)}
+.pv-dlg[open]::backdrop{animation:pv-fade .3s ease}
+@keyframes pv-pop{from{opacity:0;transform:translateY(14px) scale(.98)}}
+@keyframes pv-fade{from{opacity:0}}
+.pv-dlg .pv-body{padding:32px 32px 28px}
+.pv-dlg h2{font-size:28px;line-height:1.1;font-weight:500;letter-spacing:-0.03em;text-wrap:balance}
+.pv-dlg p{color:#454a4d;margin-top:12px;text-wrap:pretty}
+.pv-dlg h3{font-size:15px;font-weight:600;margin-top:22px;color:#151515}
+.pv-dlg ul{list-style:none;margin-top:8px;display:grid;gap:7px}
+.pv-dlg li{position:relative;padding-left:18px;color:#454a4d;font-size:15px}
+.pv-dlg li:before{content:"";position:absolute;left:0;top:.62em;width:8px;height:1.5px;background:#244d54}
+.pv-dlg .pv-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.pv-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:11px 22px;border-radius:999px;font:500 15px/1 "Inter Tight",Inter,system-ui,sans-serif;border:1px solid #151515;color:#151515;background:#fff;cursor:pointer;text-decoration:none}
+.pv-btn:hover{background:#f0f1f2}
+.pv-btn.pv-primary{background:#151515;color:#fff}
+.pv-btn.pv-primary:hover{background:#2a2e30}
+.pv-x{position:absolute;top:14px;right:14px;width:40px;height:40px;border-radius:50%;border:1px solid #e5e7eb;background:#fff;display:grid;place-items:center;cursor:pointer}
+.pv-x:hover{border-color:#151515}
+.pv-sign{display:flex;align-items:center;gap:12px;margin-top:22px;padding-top:18px;border-top:1px solid #e5e7eb;font-size:14px;color:#646b6e}
+.pv-sign b{color:#151515;font-weight:600}
+.pv-sign img{width:40px;height:40px;border-radius:50%;object-fit:cover}
+
+/* welcome */
+.pv-welcome .pv-hero{position:relative;height:150px;background:#244d54;overflow:hidden}
+.pv-welcome .pv-hero img{position:absolute;right:0;top:0;height:100%;width:56%;object-fit:cover;object-position:50% 28%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 38%);mask-image:linear-gradient(90deg,transparent,#000 38%)}
+.pv-welcome .pv-hero span{position:absolute;left:28px;bottom:22px;color:#fff;font-size:15px;line-height:1.3;max-width:52%}
+.pv-welcome .pv-hero span b{display:block;font-size:21px;font-weight:500;letter-spacing:-0.02em}
+.pv-try{counter-reset:t;display:grid;grid-template-columns:1fr 1fr;gap:8px!important;margin-top:16px!important}
+.pv-try li{counter-increment:t;padding:12px 12px 12px 44px!important;border:1px solid #e5e7eb;border-radius:14px;color:#151515!important;font-weight:500;font-size:14.5px!important;line-height:1.3}
+.pv-try li:before{content:counter(t)!important;left:12px!important;top:50%!important;transform:translateY(-50%);width:22px!important;height:22px!important;border-radius:50%;background:#c9ab78!important;color:#151515;font-size:12px;font-weight:600;display:grid;place-items:center}
+
+/* demo sheet: what a call / WhatsApp button does on the live site */
+.pv-sheet{position:fixed;left:50%;bottom:20px;z-index:120;width:min(440px,calc(100% - 24px));transform:translate(-50%,calc(100% + 40px));background:#fff;color:#151515;border-radius:22px;border:1px solid #e5e7eb;box-shadow:0 24px 60px -20px rgba(12,24,27,.45);padding:20px 20px 18px;font:400 15px/1.5 "Inter Tight",Inter,system-ui,sans-serif;visibility:hidden;transition:transform .42s cubic-bezier(.22,1,.36,1),visibility 0s linear .42s}
+.pv-sheet.show{transform:translate(-50%,0);visibility:visible;transition:transform .42s cubic-bezier(.22,1,.36,1)}
+.pv-sheet .pv-t{display:flex;align-items:center;gap:10px;font-weight:600;font-size:16px}
+.pv-sheet .pv-t i{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#e9f8f2;flex:0 0 auto}
+.pv-sheet p{color:#454a4d;margin-top:8px}
+.pv-bubble{margin-top:12px;background:#e7f7dd;border-radius:14px 14px 4px 14px;padding:10px 14px;font-size:15px;color:#151515;justify-self:end;max-width:92%;margin-left:auto;position:relative}
+.pv-bubble small{display:block;text-align:right;color:#6b7b70;font-size:11px;margin-top:2px}
+.pv-chat{background:#efeae2;border-radius:14px;padding:12px;margin-top:12px;display:grid}
+.pv-sheet .pv-row{display:flex;justify-content:flex-end;margin-top:14px}
+
+/* cross-page glide (Chrome, Edge, Safari 18.2+); nothing changes in other browsers */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:pv-out .2s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:pv-in .42s cubic-bezier(.22,1,.36,1) both}
+@keyframes pv-out{to{opacity:0;transform:translateY(-6px)}}
+@keyframes pv-in{from{opacity:0;transform:translateY(12px)}}
+
+@media (max-width:760px){
+  .pv-bar .pv-in{padding:6px 12px;gap:10px}
+  .pv-bar .pv-note .pv-long{display:none}
+  .pv-switch a{padding:4px 11px}
+  .pv-switch .pv-long{display:none}
+  .pv-dlg .pv-body{padding:26px 22px 22px}
+  .pv-try{grid-template-columns:1fr}
+}
+@media (max-width:420px){ .pv-bar .pv-note{display:none} .pv-switch{margin-left:0} .pv-about{margin-left:auto} }
+@media (prefers-reduced-motion:reduce){
+  @view-transition{navigation:none}
+  .pv-dlg[open],.pv-dlg[open]::backdrop{animation:none}
+  .pv-sheet{transition:none}
+}

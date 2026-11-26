@@ -24,6 +24,15 @@ const nextConfig: NextConfig = {
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
         ],
       },
+      {
+        // unlisted client preview: keep it out of search results
+        source: "/dr-wucher/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
+        source: "/dr-wucher",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
     ];
   },
   // One canonical host: send www to the bare domain so search engines
@@ -34,6 +43,11 @@ const nextConfig: NextConfig = {
       { source: "/kaia", destination: "/kaia.html" },
       { source: "/carsen", destination: "/carsen/index.html" },
       { source: "/trophy", destination: "/trophy/index.html" },
+      { source: "/dr-wucher", destination: "/dr-wucher/index.html" },
+      { source: "/dr-wucher/treatments", destination: "/dr-wucher/treatments.html" },
+      { source: "/dr-wucher/dentists", destination: "/dr-wucher/dentists.html" },
+      { source: "/dr-wucher/book", destination: "/dr-wucher/book.html" },
+      { source: "/dr-wucher/puzzle-of-health", destination: "/dr-wucher/puzzle-of-health.html" },
     ];
   },
   async redirects() {
