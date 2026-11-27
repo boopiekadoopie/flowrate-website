@@ -16,11 +16,12 @@
   if (bar) {
     bar.innerHTML = `<div class="pv-in">
       <span class="pv-note"><i class="pv-dot" aria-hidden="true"></i><span><b>Preview for Dr Wucher</b><span class="pv-long"> · made by Flowrate · not the live website</span></span></span>
-      <nav class="pv-switch" aria-label="Switch between the two preview sites">
+      <nav class="pv-switch" aria-label="Switch between the preview pages">
         <a href="${BASE}"${site === 'practice' ? ' aria-current="page"' : ''}>Practice<span class="pv-long">&nbsp;site</span></a>
-        <a href="${BASE}/puzzle-of-health"${site === 'poh' ? ' aria-current="page"' : ''}>Puzzle of Health<span class="pv-long">&nbsp;shop</span></a>
+        <a href="${BASE}/puzzle-of-health"${site === 'poh' ? ' aria-current="page"' : ''}>Puzzle<span class="pv-mid">&nbsp;of Health</span><span class="pv-long">&nbsp;shop</span></a>
+        <a href="${BASE}/plan"${site === 'plan' ? ' aria-current="page"' : ''}><span class="pv-mid">Our&nbsp;plan</span><span class="pv-short">Plan</span></a>
       </nav>
-      <button class="pv-about" type="button" data-pv-open="about">About this preview</button>
+      <button class="pv-about" type="button" data-pv-open="about">About<span class="pv-mid">&nbsp;this preview</span></button>
     </div>`;
   }
 
@@ -98,7 +99,7 @@
     [about, welcome].forEach(dlg => dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); }));
     welcome.addEventListener('close', () => { store.set('pv-welcomed', '1'); resolveReady(); });
 
-    if (!shot && !store.get('pv-welcomed') && typeof welcome.showModal === 'function') {
+    if (!shot && site !== 'plan' && !store.get('pv-welcomed') && typeof welcome.showModal === 'function') {
       welcome.showModal();
       setTimeout(() => welcome.querySelector('[data-pv-close]').focus({ preventScroll: true }), 50);
     } else resolveReady();

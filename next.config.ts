@@ -48,6 +48,7 @@ const nextConfig: NextConfig = {
       { source: "/dr-wucher/dentists", destination: "/dr-wucher/dentists.html" },
       { source: "/dr-wucher/book", destination: "/dr-wucher/book.html" },
       { source: "/dr-wucher/puzzle-of-health", destination: "/dr-wucher/puzzle-of-health.html" },
+      { source: "/dr-wucher/plan", destination: "/dr-wucher/plan.html" },
     ];
   },
   async redirects() {

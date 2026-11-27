@@ -77,7 +77,9 @@
   .pv-dlg .pv-body{padding:26px 22px 22px}
   .pv-try{grid-template-columns:1fr}
 }
-@media (max-width:420px){ .pv-bar .pv-note{display:none} .pv-switch{margin-left:0} .pv-about{margin-left:auto} }
+.pv-short{display:none}
+@media (max-width:560px){ .pv-bar .pv-note{display:none} .pv-switch{margin-left:0} .pv-about{margin-left:auto} }
+@media (max-width:420px){ .pv-bar .pv-mid{display:none} .pv-bar .pv-short{display:inline} .pv-switch a{padding:4px 10px} }
 @media (prefers-reduced-motion:reduce){
   @view-transition{navigation:none}
   .pv-dlg[open],.pv-dlg[open]::backdrop{animation:none}
