@@ -50,7 +50,7 @@
     if (!chat) return;
     const comp = $('.ch-in', chat), body = $('.ch-body', chat);
     const out = $('.bub.out', chat), reply = $('.bub.in', chat), sub = $('.ping .roll');
-    const URL = 'safland.com/lease/grove/desert-bloom';
+    const URL = 'safland.com/lease/grove/desert-bloom-florist';
     if (!anim) { sub.textContent = '3 minutes on unit 14'; return; }
     let gen = 0, running = false, first = true;
     const reset = () => {
@@ -59,7 +59,7 @@
       ping.classList.remove('show'); sub.textContent = 'Just now';
     };
     async function loop(g) {
-      if (first) { first = false; await wait(1200); }
+      if (first) { first = false; const w = 1300 - performance.now(); if (w > 0) await wait(w); } // let the hero arrive first, but never make a late visitor wait
       while (running && g === gen) {
         reset(); await wait(350); if (g !== gen) return;
         for (let i = 1; i <= URL.length; i++) { comp.textContent = URL.slice(0, i); await wait(24); if (g !== gen) return; }
@@ -275,11 +275,13 @@
     const dvs = $$('.dv'); if (!dvs.length) return;
     const tot = $('#tot'), set = $('.stack .s-set'), web = $('.stack .s-web'), xs = $$('.stack .s-x');
     const lgSet = $('#lg-set span'), lgX = $('#lg-x'), first = () => dvs.find((d) => d.getAttribute('aria-pressed') === 'true');
-    const W = 92500, pct = (v) => (v / W * 100).toFixed(2) + '%';
+    const yr = $('#yr');
+    const W = 95000, pct = (v) => (v / W * 100).toFixed(2) + '%';
     function draw() {
       const on = dvs.filter((d) => d.getAttribute('aria-pressed') === 'true');
       const n = on.length;
-      roll(tot, 45000 + (n ? 25000 + (n - 1) * 2500 : 0));
+      const once = 45000 + (n ? 25000 + (n - 1) * 2500 : 0);
+      roll(tot, once); roll(yr, once + 12 * 2500);
       web.style.width = pct(45000);
       set.style.width = n ? pct(25000) : '0%'; set.classList.toggle('on', n > 0);
       xs.forEach((x, i) => { const v = i < n - 1; x.style.width = v ? pct(2500) : '0%'; x.classList.toggle('on', v); });
