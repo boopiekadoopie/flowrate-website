@@ -108,8 +108,8 @@ a:hover .arrow,button:hover .arrow{transform:translateX(4px)}
 .hero{display:grid;grid-template-columns:1.04fr .96fr;min-height:min(820px,calc(100vh - 120px))}
 .hero-copy{background:var(--teal);color:#fff;padding:92px 64px 52px max(32px,calc((100vw - var(--max))/2 + 32px));display:flex;flex-direction:column;justify-content:space-between;gap:56px}
 .hero h1{font-size:clamp(48px,5.7vw,84px);line-height:.98;letter-spacing:-0.047em;color:#fff}
-.ln{display:block;overflow:hidden;padding-bottom:.07em;margin-bottom:-.07em}
-.ln>span{display:block;transform:translateY(108%);transition:transform 1s var(--ease)}
+.ln{display:block;overflow:hidden;padding-bottom:.22em;margin-bottom:-.22em}
+.ln>span{display:block;transform:translateY(130%);transition:transform 1s var(--ease)}
 .ready .ln>span{transform:none}
 .ready .ln:nth-child(2)>span{transition-delay:.09s}
 .ready .ln:nth-child(3)>span{transition-delay:.18s}
