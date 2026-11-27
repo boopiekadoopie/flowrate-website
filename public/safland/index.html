@@ -14,8 +14,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/safland/assets/safland.css">
-<script>document.documentElement.classList.remove('no-js');if(/[?&]shot\b/.test(location.search))document.documentElement.classList.add('shot-mode');</script>
+<link rel="stylesheet" href="/safland/assets/safland.css?v=2">
+<script>(function(d){d.classList.remove('no-js');if(/[?&]shot\b/.test(location.search))d.classList.add('shot-mode');else if(!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('anim');})(document.documentElement);</script>
+<script src="/safland/assets/safland.js?v=2" defer></script>
 </head>
 <body>
 
@@ -32,23 +33,23 @@
 <section class="hero">
   <div class="wrap">
     <div>
-      <h1 class="rv">Lease your centres with one link.</h1>
-      <p class="lead rv">A new Safland website, plus a live leasing page for every development. Your team sends one link instead of an email, and the tenant sees the photos, the plan and the free units on their phone.</p>
-      <div class="acts rv">
+      <h1><span class="ln"><span>Lease your</span></span><span class="ln"><span>centres with</span></span><span class="ln"><span>one link.</span></span></h1>
+      <p class="lead rv" style="--d:.35s">A new Safland website, plus a live leasing page for every development. Your team sends one link instead of an email, and the tenant sees the photos, the plan and the free units on their phone.</p>
+      <div class="acts rv" style="--d:.5s">
         <a class="btn btn-go" href="#prices">See the prices</a>
         <a class="btn btn-line" href="#link">Try the example link</a>
       </div>
     </div>
-    <div class="hero-vis rv" aria-label="A leasing link sent to a tenant by WhatsApp, over a photo of The Grove Mall">
-      <div class="photo">
-        <img src="/safland/assets/img/grove.webp" alt="The Grove Mall in Windhoek at sunset" width="1024" height="576">
+    <div class="hero-vis" role="img" aria-label="A Safland leasing link for The Grove Mall sent to a tenant on WhatsApp. The tenant opens it and asks to come and see the unit.">
+      <div class="photo wp" style="--d:.1s">
+        <img src="/safland/assets/img/grove.webp" alt="" width="1024" height="576">
         <span>The Grove Mall</span>
       </div>
       <div class="ping">
         <i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></i>
-        <div><b>Desert Bloom opened the link</b><span>3 minutes on unit 14</span></div>
+        <div><b>Desert Bloom opened the link</b><span class="roll-w"><span class="roll">3 minutes on unit 14</span></span></div>
       </div>
-      <div class="ph">
+      <div class="ph st" style="--d:.45s">
         <div class="phone"><div class="scr">
           <div class="chat">
             <div class="ch-top">
@@ -60,15 +61,15 @@
               <span class="ch-day">Today</span>
               <div class="bub out">
                 <span class="card">
-                  <img src="/safland/assets/img/grove.webp" alt="" width="1024" height="576">
-                  <span><b>The Grove Mall: unit 14</b><span>Prepared for Desert Bloom Florist</span><span>safland.com/lease/grove</span></span>
+                  <span class="ci"><img src="/safland/assets/img/grove.webp" alt="" width="1024" height="576"></span>
+                  <span class="cm"><b>The Grove Mall: unit 14</b><span>Prepared for Desert Bloom Florist</span><span>safland.com/lease/grove/desert-bloom</span></span>
                 </span>
-                Hi Sam, here's the space we spoke about. The plan and photos are all on the link.
+                <span class="tx">Hi Sam, here's the space we spoke about. The plan and photos are all on the link.</span>
                 <small>09:41</small>
               </div>
-              <div class="bub in">Love it. Can we come and see it on Tuesday?<small>09:58</small></div>
+              <div class="bub in"><span class="dots"><i></i><i></i><i></i></span><span class="tx">Love it. Can we come and see it on Tuesday?</span><small>09:58</small></div>
             </div>
-            <div class="ch-bar">Message</div>
+            <div class="ch-bar"><span class="ch-in"></span><span class="ch-send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span></div>
           </div>
         </div></div>
       </div>
@@ -77,111 +78,172 @@
 </section>
 
 <!-- 2. the website -->
-<section class="sec mist">
+<section class="sec mist" id="web">
   <div class="wrap">
-    <h2 class="rv">A website that shows Namibia what you've built.</h2>
+    <h2 class="mh"><span>A website that shows Namibia what you've built.</span></h2>
     <p class="sub rv">More than 30 years, 10+ major developments and a N$2B+ portfolio, told clearly, with every development one tap away.</p>
     <div class="split">
-      <ul class="points rv">
-        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>A page for every development</b>, with photos, the site plan, the tenants and the map.</span></li>
-        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>“Lease a space” on every page</b>, showing what's free right now across all your centres.</span></li>
-        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>Your team updates it</b>: new projects, free units, properties and news, without waiting on anyone.</span></li>
-        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>Found on Google</b> when someone searches for retail space to let in Windhoek, Ondangwa or Rundu.</span></li>
-        <li><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>Fast on a phone</b>, where most tenants and buyers will open it.</span></li>
+      <ul class="points">
+        <li class="rv"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>A page for every development</b>, with photos, the site plan, the tenants and the map.</span></li>
+        <li class="rv" style="--d:.06s"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>“Lease a space” on every page</b>, showing what's free right now across all your centres.</span></li>
+        <li class="rv" style="--d:.12s"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>Your team updates it</b>: new projects, free units, properties and news, without waiting on anyone.</span></li>
+        <li class="rv" style="--d:.18s"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>Found on Google</b> when someone searches for retail space to let in Windhoek, Ondangwa or Rundu.</span></li>
+        <li class="rv" style="--d:.24s"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>Fast on a phone</b>, where most tenants and buyers will open it.</span></li>
       </ul>
-      <div class="rv">
-        <div class="browser">
+      <div>
+        <div class="browser st">
           <div class="chrome"><i></i><i></i><i></i><span>safland.com</span></div>
           <div class="ws">
             <div class="ws-nav">
-              <img src="/safland/assets/img/safland-logo-white.png" alt="" width="216" height="82">
-              <nav><span>Portfolio</span><span>Solutions</span><span>Properties</span><span>About</span></nav>
-              <em>Lease a space</em>
+              <img src="/safland/assets/img/safland-logo-white.png" alt="Safland" width="216" height="82">
+              <nav aria-hidden="true"><span>Portfolio</span><span>Solutions</span><span>Properties</span><span>About</span></nav>
+              <button class="ws-cta" type="button" aria-expanded="false" aria-controls="drop">Lease a space</button>
+            </div>
+            <div class="drop" id="drop">
+              <small>Free right now</small>
+              <a class="row" href="#link"><img src="/safland/assets/img/grove.webp" alt="" width="1024" height="576"><span>The Grove Mall</span><em>5 free</em></a>
+              <span class="row"><img src="/safland/assets/img/gwashamba.webp" alt="" width="1024" height="576"><span>Gwashamba Mall</span><em>2 free</em></span>
+              <span class="row"><img src="/safland/assets/img/rundu.webp" alt="" width="1000" height="562"><span>Rundu Shopping Mall</span><em>1 free</em></span>
+              <span class="row"><img src="/safland/assets/img/goreangab.webp" alt="" width="1000" height="666"><span>Goreangab Mall</span><em>Pre-letting</em></span>
             </div>
             <div class="ws-hero">
               <img src="/safland/assets/img/gwashamba.webp" alt="" width="1024" height="576">
-              <div><b>Places Namibia shops, works and meets.</b><p>30+ years · 10+ major developments · N$2B+ portfolio</p><span>See free spaces</span></div>
+              <div><b>Places Namibia shops, works and meets.</b><p>30+ years · 10+ major developments · N$2B+ portfolio</p><button class="see" type="button">See free spaces</button></div>
             </div>
             <div class="ws-grid">
               <h6>Our developments</h6>
-              <div class="ws-card"><img src="/safland/assets/img/grove.webp" alt="" width="1024" height="576"><div>The Grove Mall<em>3 free</em></div></div>
-              <div class="ws-card"><img src="/safland/assets/img/gwashamba.webp" alt="" width="1024" height="576"><div>Gwashamba Mall<em>2 free</em></div></div>
-              <div class="ws-card"><img src="/safland/assets/img/goreangab.webp" alt="" width="1000" height="666"><div>Goreangab Mall<em>Pre-letting</em></div></div>
+              <div class="ws-card"><img src="/safland/assets/img/grove.webp" alt="" width="1024" height="576"><div>The Grove Mall<em style="--i:0">5 free</em></div></div>
+              <div class="ws-card"><img src="/safland/assets/img/gwashamba.webp" alt="" width="1024" height="576"><div>Gwashamba Mall<em style="--i:1">2 free</em></div></div>
+              <div class="ws-card"><img src="/safland/assets/img/goreangab.webp" alt="" width="1000" height="666"><div>Goreangab Mall<em style="--i:2">Pre-letting</em></div></div>
               <div class="ws-card"><img src="/safland/assets/img/mutual.webp" alt="" width="1000" height="562"><div>Mutual Platz</div></div>
-              <div class="ws-card"><img src="/safland/assets/img/rundu.webp" alt="" width="1000" height="562"><div>Rundu Mall<em>1 free</em></div></div>
+              <div class="ws-card"><img src="/safland/assets/img/rundu.webp" alt="" width="1000" height="562"><div>Rundu Mall<em style="--i:3">1 free</em></div></div>
               <div class="ws-card"><img src="/safland/assets/img/steps.webp" alt="" width="1000" height="562"><div>The Steps</div></div>
             </div>
+            <svg class="cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l14 8.2-6.2 1.5L9.6 19z" fill="#16181d" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
           </div>
         </div>
-        <p class="cap">A first idea for the new homepage, using your own photos. The free-unit counts are examples.</p>
+        <p class="cap rv">A first idea for the new homepage, using your own photos. <span class="no-print">Try “Lease a space”. </span>The free-unit counts are examples.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 3. the leasing link -->
+<!-- 3. the leasing link: a builder on the left, what the tenant opens on the right -->
 <section class="sec" id="link">
   <div class="wrap">
-    <h2 class="rv">Every development gets its own leasing link.</h2>
-    <p class="sub rv">Here's The Grove Mall as an example of what a tenant opens. <span class="no-print">Tap a green unit on the plan.</span><span class="print-only">Try it live at flowrate.agency/safland.</span></p>
+    <h2 class="mh"><span>Every development gets its own leasing link.</span></h2>
+    <p class="sub rv"><span class="no-print">Try it: type a tenant's name, pick a unit and create their link. The phone shows what they'll open.</span><span class="print-only">Each tenant gets their own link, with their name and the unit you picked for them. Try it live at flowrate.agency/safland.</span></p>
     <div class="split rev">
-      <div class="rv">
-        <ol class="steps">
-          <li><div><b>Pick the units</b><p>Choose the development, the units to offer and the tenant's name. It takes about a minute.</p></div></li>
-          <li><div><b>Send one link</b><p>By WhatsApp or email. It opens on any phone, with no app and no attachments.</p></div></li>
-          <li><div><b>They look around</b><p>Photos, the plan with the free units, sizes, who else trades there, and the map.</p></div></li>
-          <li><div><b>They reply in one tap</b><p>“I'm interested” or “Book a viewing” goes straight to your leasing team, and you can see when they opened it.</p></div></li>
-        </ol>
-        <p class="instead">Instead of <s>an email with a large PDF brochure attached</s>, a link that's always up to date.</p>
+      <div>
+        <div class="builder rv">
+          <div class="b-head"><b>New leasing link</b><span class="b-dev"><img src="/safland/assets/img/grove.webp" alt="" width="1024" height="576">The Grove Mall</span></div>
+          <label class="b-field"><span>Tenant's name</span><input id="tenant" type="text" value="Desert Bloom Florist" maxlength="40" autocomplete="off" spellcheck="false"></label>
+          <div class="b-field"><span id="units-l">Unit to offer</span>
+            <div class="chips" role="radiogroup" aria-labelledby="units-l">
+              <button class="chip" type="button" role="radio" aria-checked="false" data-u="03"><i></i>03 · 118 m²</button>
+              <button class="chip" type="button" role="radio" aria-checked="false" data-u="04"><i></i>04 · 92 m²</button>
+              <button class="chip" type="button" role="radio" aria-checked="false" data-u="10"><i></i>10 · 109 m²</button>
+              <button class="chip" type="button" role="radio" aria-checked="false" data-u="11"><i></i>11 · 64 m²</button>
+              <button class="chip" type="button" role="radio" aria-checked="true" data-u="14"><i></i>14 · 86 m²</button>
+            </div>
+          </div>
+          <button class="btn btn-go b-go" id="make" type="button">Create their link</button>
+          <div class="b-out" id="b-out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg><span class="b-url">safland.com/lease/grove/<span id="b-slug">desert-bloom-florist</span></span></div>
+          <p class="b-note" id="b-note" aria-live="polite">Ready to send by WhatsApp or email.</p>
+        </div>
+        <ul class="after">
+          <li class="rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span><span><b>They look around</b> on any phone: photos, the plan, the free units and who trades there.</span></li>
+          <li class="rv" style="--d:.06s"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V10m0-.5a1.5 1.5 0 0 1 3 0v1m0-.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-2.7L3.7 15a1.5 1.5 0 0 1 2.5-1.7L9 16"/></svg></span><span><b>One tap replies.</b> “I'm interested” or a viewing request goes straight to your leasing team.</span></li>
+          <li class="rv" style="--d:.12s"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span><span><b>You see when they open it</b>, and which unit they looked at.</span></li>
+        </ul>
+        <p class="instead rv">Instead of <s>an email with a large PDF attached</s>, one link that's always up to date.</p>
       </div>
-      <div class="rv">
-        <div class="phone big"><div class="scr">
-          <div class="ll">
-            <div class="ll-for"><i></i>Prepared for Desert Bloom Florist</div>
+      <div>
+        <div class="phone big st"><div class="scr" id="scr">
+          <i class="ll-bar" id="ll-bar" aria-hidden="true"></i>
+          <div class="ll" id="ll">
+            <div class="ll-for"><i></i><span>Prepared for <b class="swp" id="ll-name">Desert Bloom Florist</b></span></div>
             <div class="ll-hero"><img src="/safland/assets/img/grove.webp" alt="The Grove Mall" width="1024" height="576"><b>The Grove Mall</b><small>Kleine Kuppe, Windhoek</small></div>
             <div class="ll-facts">
               <div><small>Free units</small><b>5</b></div>
-              <div><small>Sizes</small><b>42–186 m²</b></div>
+              <div><small>Sizes</small><b>64–118 m²</b></div>
               <div><small>Open</small><b>7 days</b></div>
             </div>
-            <p class="ll-ex">Example only: units and sizes are placeholders.</p>
-            <div class="ll-h">Ground floor</div>
-            <div class="plan" id="plan" role="group" aria-label="Site plan. Green units are free.">
-              <i class="big">ANCHOR</i><i>01</i><i>02</i><button class="av" type="button" data-u="03" data-m="64" data-w="Near the main entrance" data-r="Ready now">03</button><i>04</i>
-              <i>05</i><i>06</i><button class="av" type="button" data-u="07" data-m="42" data-w="Kiosk on the main walkway" data-r="Ready now">07</button><i>08</i>
-              <i class="mall">MALL WALKWAY</i>
-              <i>09</i><i>10</i><button class="av" type="button" data-u="11" data-m="118" data-w="Corner unit, two shopfronts" data-r="From March 2027">11</button><i>12</i><i>13</i><button class="sel" type="button" aria-pressed="true" data-u="14" data-m="86" data-w="Next to the food court" data-r="Ready now">14</button>
-              <i>15</i><i>16</i><button class="av" type="button" data-u="17" data-m="186" data-w="Double-volume, by the parking" data-r="Ready now">17</button><i>18</i><i>19</i><i>20</i>
-            </div>
-            <div class="unit" aria-live="polite"><b id="u-t">Unit 14 · 86 m²</b><p id="u-d">Next to the food court · Ready now</p></div>
-            <div class="ll-btn" id="u-b">I'm interested in unit 14</div>
-            <div class="ll-btn2">Book a viewing</div>
+            <p class="ll-ex">Example only: the plan, units and sizes are placeholders.</p>
+            <div class="ll-h">Ground floor<span>Tap a green unit</span></div>
+            <svg class="site" id="site" viewBox="0 0 300 196" role="group" aria-label="Ground floor plan. Green units are free: select one to see it.">
+              <rect class="s-bld" x="6" y="10" width="288" height="144" rx="10" pathLength="1"/>
+              <g class="s-fade">
+                <rect class="s-walk" x="62" y="64" width="176" height="36" rx="4"/>
+                <rect class="s-walk" x="144" y="98" width="10" height="60"/>
+                <text class="s-lbl" x="150" y="84.4">MALL WALKWAY</text>
+                <g class="s-anchor"><rect x="12" y="16" width="46" height="132" rx="5"/><text transform="translate(35 82) rotate(-90)" y="2.2">ANCHOR STORE</text></g>
+                <g class="s-anchor"><rect x="242" y="16" width="46" height="132" rx="5"/><text transform="translate(265 82) rotate(90)" y="2.2">ANCHOR STORE</text></g>
+                <path class="s-arrow" d="M149 159.5l-4.5 6h9z"/>
+                <text class="s-lbl" x="149" y="173.5">MAIN ENTRANCE</text>
+                <rect class="s-park" x="40" y="178" width="220" height="16" rx="5"/>
+                <text class="s-lbl" x="150" y="188.4">PARKING</text>
+              </g>
+              <g class="u" data-u="01"><rect class="b" x="64" y="16" width="20" height="46" rx="3"/><text x="74" y="41.6">01</text></g>
+              <g class="u" data-u="02"><rect class="b" x="86" y="16" width="24" height="46" rx="3"/><text x="98" y="41.6">02</text></g>
+              <g class="u free" data-u="03" tabindex="0" role="button" aria-pressed="false" aria-label="Unit 03, 118 square metres, free"><rect class="halo" x="112" y="16" width="28" height="46" rx="3"/><rect class="b" x="112" y="16" width="28" height="46" rx="3"/><text x="126" y="41.6">03</text></g>
+              <g class="u free" data-u="04" tabindex="0" role="button" aria-pressed="false" aria-label="Unit 04, 92 square metres, free"><rect class="halo" x="142" y="16" width="22" height="46" rx="3"/><rect class="b" x="142" y="16" width="22" height="46" rx="3"/><text x="153" y="41.6">04</text></g>
+              <g class="u" data-u="05"><rect class="b" x="166" y="16" width="26" height="46" rx="3"/><text x="179" y="41.6">05</text></g>
+              <g class="u" data-u="06"><rect class="b" x="194" y="16" width="20" height="46" rx="3"/><text x="204" y="41.6">06</text></g>
+              <g class="u" data-u="07"><rect class="b" x="216" y="16" width="20" height="46" rx="3"/><text x="226" y="41.6">07</text></g>
+              <g class="u" data-u="08"><rect class="b" x="64" y="102" width="22" height="46" rx="3"/><text x="75" y="127.6">08</text></g>
+              <g class="u" data-u="09"><rect class="b" x="88" y="102" width="26" height="46" rx="3"/><text x="101" y="127.6">09</text></g>
+              <g class="u free" data-u="10" tabindex="0" role="button" aria-pressed="false" aria-label="Unit 10, 109 square metres, free"><rect class="halo" x="116" y="102" width="26" height="46" rx="3"/><rect class="b" x="116" y="102" width="26" height="46" rx="3"/><text x="129" y="127.6">10</text></g>
+              <g class="u free" data-u="11" tabindex="0" role="button" aria-pressed="false" aria-label="Unit 11, 64 square metres, free"><rect class="halo" x="156" y="102" width="18" height="46" rx="3"/><rect class="b" x="156" y="102" width="18" height="46" rx="3"/><text x="165" y="127.6">11</text></g>
+              <g class="u" data-u="12"><rect class="b" x="176" y="102" width="18" height="46" rx="3"/><text x="185" y="127.6">12</text></g>
+              <g class="u" data-u="13"><rect class="b" x="196" y="102" width="18" height="46" rx="3"/><text x="205" y="127.6">13</text></g>
+              <g class="u free sel" data-u="14" tabindex="0" role="button" aria-pressed="true" aria-label="Unit 14, 86 square metres, free"><rect class="halo" x="216" y="102" width="20" height="46" rx="3"/><rect class="b" x="216" y="102" width="20" height="46" rx="3"/><text x="226" y="127.6">14</text></g>
+            </svg>
+            <div class="unit" id="unit" aria-live="polite"><div class="unit-in" id="unit-in"><b id="u-t">Unit 14 · 86 m²</b><p id="u-d">Corner unit next to the anchor store · Ready now</p><span class="tag" id="u-tag">Picked for you</span></div></div>
+            <button class="ll-btn" id="interest" type="button"><span id="i-l">I'm interested in unit 14</span></button>
+            <button class="ll-btn2" id="viewing" type="button"><span id="v-l">Book a viewing</span></button>
             <div class="ll-h">Trading here</div>
             <div class="ll-mix"><span>Supermarket</span><span>Banks</span><span>Pharmacy</span><span>Restaurants</span><span>Fashion</span></div>
+            <p class="ll-foot">Questions? Safland leasing, +264 61 254 972</p>
+          </div>
+          <div class="dim" id="dim" aria-hidden="true"></div>
+          <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-t" inert>
+            <span class="grab" aria-hidden="true"></span>
+            <div class="sh-pick">
+              <b id="sh-t">Book a viewing of unit 14</b>
+              <p>Pick a time. Safland's leasing team confirms it on WhatsApp.</p>
+              <div class="slots" role="radiogroup" aria-labelledby="sh-t">
+                <button class="slot" type="button" role="radio" aria-checked="false">Tue 10:00</button>
+                <button class="slot" type="button" role="radio" aria-checked="false">Wed 14:00</button>
+                <button class="slot" type="button" role="radio" aria-checked="false">Thu 10:00</button>
+              </div>
+              <button class="ll-btn" id="req" type="button" disabled>Pick a time</button>
+            </div>
+            <div class="sh-ok" aria-live="polite"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path pathLength="1" d="M5 12.5l4.5 4.5L19 7.5"/></svg><b id="ok-t">Viewing requested</b><p>The leasing team will confirm it on WhatsApp.</p></div>
           </div>
         </div></div>
-        <p class="hint"><i></i>Green units are free. Tap one to see it.</p>
+        <p class="hint rv"><i></i>Green units are free. Tap one, then try the buttons.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- 4. portfolio -->
-<section class="sec mist">
+<section class="sec mist" id="devs">
   <div class="wrap">
-    <h2 class="rv">One link for each of your developments.</h2>
+    <h2 class="mh"><span>One link for each of your developments.</span></h2>
     <p class="sub rv">Including the ones still being built. Goreangab Mall can start letting from the plan before it opens.</p>
     <div class="port">
-      <div class="pt rv"><img src="/safland/assets/img/grove.webp" alt="" width="1024" height="576"><div><b>The Grove Mall</b><span class="url"><span class="dom">safland.com</span>/lease/grove</span></div></div>
-      <div class="pt rv"><img src="/safland/assets/img/goreangab.webp" alt="" width="1000" height="666"><div><b>Goreangab Mall</b><span class="url"><span class="dom">safland.com</span>/lease/goreangab</span><em>Pre-letting</em></div></div>
-      <div class="pt rv"><img src="/safland/assets/img/gwashamba.webp" alt="" width="1024" height="576"><div><b>Gwashamba Mall</b><span class="url"><span class="dom">safland.com</span>/lease/gwashamba</span></div></div>
-      <div class="pt rv"><img src="/safland/assets/img/steps.webp" alt="" width="1000" height="562"><div><b>The Steps</b><span class="url"><span class="dom">safland.com</span>/lease/the-steps</span></div></div>
-      <div class="pt rv"><img src="/safland/assets/img/megacenter.webp" alt="" width="1024" height="600"><div><b>Megacenter</b><span class="url"><span class="dom">safland.com</span>/lease/megacenter</span></div></div>
-      <div class="pt rv"><img src="/safland/assets/img/mutual.webp" alt="" width="1000" height="562"><div><b>Mutual Platz</b><span class="url"><span class="dom">safland.com</span>/lease/mutual-platz</span></div></div>
-      <div class="pt rv"><img src="/safland/assets/img/rundu.webp" alt="" width="1000" height="562"><div><b>Rundu Shopping Mall</b><span class="url"><span class="dom">safland.com</span>/lease/rundu</span></div></div>
-      <div class="pt rv"><img src="/safland/assets/img/gobabis.webp" alt="" width="1000" height="562"><div><b>Gobabis Shoprite Center</b><span class="url"><span class="dom">safland.com</span>/lease/gobabis</span></div></div>
-      <div class="pt rv"><img src="/safland/assets/img/townsquare.webp" alt="" width="1000" height="562"><div><b>Otjiwarongo Town Square</b><span class="url"><span class="dom">safland.com</span>/lease/town-square</span></div></div>
-      <div class="pt rv"><img src="/safland/assets/img/westport.webp" alt="" width="1000" height="562"><div><b>West Port Industrial</b><span class="url"><span class="dom">safland.com</span>/lease/west-port</span></div></div>
+      <a class="pt" href="#link"><span class="pim wp"><img src="/safland/assets/img/grove.webp" alt="" width="1024" height="576"></span><div><b>The Grove Mall</b><span class="url"><span class="dom">safland.com</span>/lease/grove</span><span class="see">See the example</span></div></a>
+      <div class="pt" style="--d:.06s"><span class="pim wp" style="--d:.06s"><img src="/safland/assets/img/goreangab.webp" alt="" width="1000" height="666"></span><div><b>Goreangab Mall</b><span class="url"><span class="dom">safland.com</span>/lease/goreangab</span><em>Pre-letting</em></div></div>
+      <div class="pt" style="--d:.12s"><span class="pim wp" style="--d:.12s"><img src="/safland/assets/img/gwashamba.webp" alt="" width="1024" height="576"></span><div><b>Gwashamba Mall</b><span class="url"><span class="dom">safland.com</span>/lease/gwashamba</span></div></div>
+      <div class="pt" style="--d:.18s"><span class="pim wp" style="--d:.18s"><img src="/safland/assets/img/steps.webp" alt="" width="1000" height="562"></span><div><b>The Steps</b><span class="url"><span class="dom">safland.com</span>/lease/the-steps</span></div></div>
+      <div class="pt" style="--d:.24s"><span class="pim wp" style="--d:.24s"><img src="/safland/assets/img/megacenter.webp" alt="" width="1024" height="600"></span><div><b>Megacenter</b><span class="url"><span class="dom">safland.com</span>/lease/megacenter</span></div></div>
+      <div class="pt"><span class="pim wp"><img src="/safland/assets/img/mutual.webp" alt="" width="1000" height="562"></span><div><b>Mutual Platz</b><span class="url"><span class="dom">safland.com</span>/lease/mutual-platz</span></div></div>
+      <div class="pt" style="--d:.06s"><span class="pim wp" style="--d:.06s"><img src="/safland/assets/img/rundu.webp" alt="" width="1000" height="562"></span><div><b>Rundu Shopping Mall</b><span class="url"><span class="dom">safland.com</span>/lease/rundu</span></div></div>
+      <div class="pt" style="--d:.12s"><span class="pim wp" style="--d:.12s"><img src="/safland/assets/img/gobabis.webp" alt="" width="1000" height="562"></span><div><b>Gobabis Shoprite Center</b><span class="url"><span class="dom">safland.com</span>/lease/gobabis</span></div></div>
+      <div class="pt" style="--d:.18s"><span class="pim wp" style="--d:.18s"><img src="/safland/assets/img/townsquare.webp" alt="" width="1000" height="562"></span><div><b>Otjiwarongo Town Square</b><span class="url"><span class="dom">safland.com</span>/lease/town-square</span></div></div>
+      <div class="pt" style="--d:.24s"><span class="pim wp" style="--d:.24s"><img src="/safland/assets/img/westport.webp" alt="" width="1000" height="562"></span><div><b>West Port Industrial</b><span class="url"><span class="dom">safland.com</span>/lease/west-port</span></div></div>
     </div>
   </div>
 </section>
@@ -189,7 +251,7 @@
 <!-- 5. prices -->
 <section class="sec" id="prices">
   <div class="wrap">
-    <h2 class="rv">What it costs.</h2>
+    <h2 class="mh"><span>What it costs.</span></h2>
     <p class="sub rv">Start with the website and The Grove Mall, then add developments whenever you need them.</p>
     <div class="prices">
       <div class="pc rv">
@@ -203,7 +265,7 @@
           <li>Set up for Google, and fast on a phone</li>
         </ul>
       </div>
-      <div class="pc main rv">
+      <div class="pc main rv" style="--d:.08s">
         <h3>Leasing links</h3>
         <p class="pr">N$25&nbsp;000 <small>once</small></p>
         <p class="pn">Sets up the leasing pages and your first development.</p>
@@ -215,7 +277,7 @@
         </ul>
         <p class="then">Each extra development: N$2&nbsp;500 once</p>
       </div>
-      <div class="pc rv">
+      <div class="pc rv" style="--d:.16s">
         <h3>Care plan</h3>
         <p class="pr">N$2&nbsp;500 <small>a month</small></p>
         <p class="pn">Keeps everything live, safe and up to date.</p>
@@ -231,14 +293,32 @@
 
     <div class="calc rv">
       <div>
-        <label for="devs">Developments with a leasing link: <span id="devs-n">3</span></label>
-        <input type="range" id="devs" min="0" max="10" step="1" value="3" aria-describedby="tot-p">
-        <div class="ticks" aria-hidden="true"><span>0</span><span>5</span><span>10</span></div>
+        <p class="calc-h" id="pick-h">Which developments get a leasing link?</p>
+        <p class="calc-s">Tap to add or remove. The first one is included in the N$25&nbsp;000.</p>
+        <div class="devs" role="group" aria-labelledby="pick-h">
+          <button class="dv" type="button" aria-pressed="true"><img src="/safland/assets/img/grove.webp" alt="" width="1024" height="576">The Grove Mall</button>
+          <button class="dv" type="button" aria-pressed="false"><img src="/safland/assets/img/goreangab.webp" alt="" width="1000" height="666">Goreangab Mall</button>
+          <button class="dv" type="button" aria-pressed="false"><img src="/safland/assets/img/gwashamba.webp" alt="" width="1024" height="576">Gwashamba Mall</button>
+          <button class="dv" type="button" aria-pressed="false"><img src="/safland/assets/img/steps.webp" alt="" width="1000" height="562">The Steps</button>
+          <button class="dv" type="button" aria-pressed="false"><img src="/safland/assets/img/megacenter.webp" alt="" width="1024" height="600">Megacenter</button>
+          <button class="dv" type="button" aria-pressed="false"><img src="/safland/assets/img/mutual.webp" alt="" width="1000" height="562">Mutual Platz</button>
+          <button class="dv" type="button" aria-pressed="false"><img src="/safland/assets/img/rundu.webp" alt="" width="1000" height="562">Rundu Shopping Mall</button>
+          <button class="dv" type="button" aria-pressed="false"><img src="/safland/assets/img/gobabis.webp" alt="" width="1000" height="562">Gobabis Shoprite Center</button>
+          <button class="dv" type="button" aria-pressed="false"><img src="/safland/assets/img/townsquare.webp" alt="" width="1000" height="562">Otjiwarongo Town Square</button>
+          <button class="dv" type="button" aria-pressed="false"><img src="/safland/assets/img/westport.webp" alt="" width="1000" height="562">West Port Industrial</button>
+        </div>
+        <div class="calc-q"><button type="button" id="all">Select all 10</button><button type="button" id="none">Website only</button></div>
       </div>
       <div class="tot" aria-live="polite">
         <small>Once-off, website included</small>
-        <b id="tot">N$75 000</b>
-        <p id="tot-p">Website N$45 000 + leasing links N$25 000 + 2 more developments N$5 000. Then N$2 500 a month.</p>
+        <b id="tot" data-v="70000">N$70&nbsp;000</b>
+        <div class="stack" aria-hidden="true"><i class="s-web on" style="width:48.65%"></i><i class="s-set on" style="width:27.03%"></i><i class="s-x"></i><i class="s-x"></i><i class="s-x"></i><i class="s-x"></i><i class="s-x"></i><i class="s-x"></i><i class="s-x"></i><i class="s-x"></i><i class="s-x"></i></div>
+        <ul class="legend">
+          <li><i class="k-web"></i>Website N$45&nbsp;000</li>
+          <li id="lg-set"><i class="k-set"></i><span>Leasing links, with The Grove Mall: N$25&nbsp;000</span></li>
+          <li id="lg-x" hidden><i class="k-x"></i><span></span></li>
+        </ul>
+        <p>Then N$2&nbsp;500 a month for the care plan.</p>
       </div>
     </div>
     <table class="calc-print">
@@ -255,11 +335,11 @@
 </section>
 
 <!-- 6. timeline + terms -->
-<section class="sec mist short">
+<section class="sec mist short" id="time">
   <div class="wrap">
-    <h2 class="rv">Live in six weeks.</h2>
+    <h2 class="mh"><span>Live in six weeks.</span></h2>
     <p class="sub rv">The Grove Mall's leasing link is ready by the end of week two, so your leasing team can use it while we build the rest.</p>
-    <div class="tl rv">
+    <div class="tl">
       <div><small>Weeks 1–2</small><b>Design and first link</b><p>We agree on the look, then build the leasing pages with The Grove Mall first.</p></div>
       <div><small>Weeks 3–5</small><b>The website</b><p>Every development gets its page, and every development you choose gets its link.</p></div>
       <div><small>Week 6</small><b>Launch and handover</b><p>The site goes live and your team learns to add projects and send links. A new development goes live within two working days.</p></div>
@@ -293,46 +373,16 @@
 
 </main>
 
+<nav class="dock" aria-label="Sections of this proposal">
+  <i class="dock-ind" aria-hidden="true"></i>
+  <a href="#web">Website</a><a href="#link">Leasing link</a><a href="#devs">Developments</a><a href="#prices">Prices</a><a href="#time">Timeline</a>
+</nav>
+
 <footer class="foot">
   <div class="wrap">
     <span>Prepared for Safland by Andrew Murray, Flowrate · 27 November 2026</span>
     <span>Photos: Safland. A private page, not listed on search engines.</span>
   </div>
 </footer>
-
-<script>
-(() => {
-  const fmt = (n) => 'N$' + n.toLocaleString('en-ZA').replace(/[\s,]/g, ' ');
-  // price calculator
-  const r = document.getElementById('devs');
-  const draw = () => {
-    const n = +r.value;
-    let total = 45000, parts = ['Website ' + fmt(45000)];
-    if (n >= 1) { total += 25000; parts.push('leasing links ' + fmt(25000)); }
-    if (n >= 2) { total += (n - 1) * 2500; parts.push((n - 1) + ' more development' + (n > 2 ? 's ' : ' ') + fmt((n - 1) * 2500)); }
-    document.getElementById('devs-n').textContent = n === 0 ? 'none' : n;
-    document.getElementById('tot').textContent = fmt(total);
-    document.getElementById('tot-p').textContent = parts.join(' + ') + '. Then ' + fmt(2500) + ' a month.';
-  };
-  r.addEventListener('input', draw); draw();
-
-  // site plan: tap a free unit
-  const plan = document.getElementById('plan');
-  plan.addEventListener('click', (e) => {
-    const b = e.target.closest('button'); if (!b) return;
-    plan.querySelectorAll('button').forEach(x => { x.className = 'av'; x.setAttribute('aria-pressed', 'false'); });
-    b.className = 'sel'; b.setAttribute('aria-pressed', 'true');
-    document.getElementById('u-t').textContent = 'Unit ' + b.dataset.u + ' · ' + b.dataset.m + ' m²';
-    document.getElementById('u-d').textContent = b.dataset.w + ' · ' + b.dataset.r;
-    document.getElementById('u-b').textContent = "I'm interested in unit " + b.dataset.u;
-  });
-
-  // arrival: a short rise, once
-  const rv = document.querySelectorAll('.rv');
-  if (!('IntersectionObserver' in window) || document.documentElement.classList.contains('shot-mode')) { rv.forEach(el => el.classList.add('in')); return; }
-  const io = new IntersectionObserver((es) => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }), { rootMargin: '0px 0px -8% 0px' });
-  rv.forEach((el, i) => { el.style.transitionDelay = (el.parentElement.classList.contains('port') ? (i % 5) * 60 : 0) + 'ms'; io.observe(el); });
-})();
-</script>
 </body>
 </html>
