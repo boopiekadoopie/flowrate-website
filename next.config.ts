@@ -33,6 +33,15 @@ const nextConfig: NextConfig = {
         source: "/dr-wucher",
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
       },
+      {
+        // unlisted proposal for Safland: keep it out of search results
+        source: "/safland/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+      {
+        source: "/safland",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
     ];
   },
   // One canonical host: send www to the bare domain so search engines
@@ -49,6 +58,7 @@ const nextConfig: NextConfig = {
       { source: "/dr-wucher/book", destination: "/dr-wucher/book.html" },
       { source: "/dr-wucher/puzzle-of-health", destination: "/dr-wucher/puzzle-of-health.html" },
       { source: "/dr-wucher/plan", destination: "/dr-wucher/plan.html" },
+      { source: "/safland", destination: "/safland/index.html" },
     ];
   },
   async redirects() {
