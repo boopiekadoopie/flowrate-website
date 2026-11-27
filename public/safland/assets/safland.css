@@ -284,4 +284,11 @@ button.av:focus-visible,button.sel:focus-visible{outline:2px solid var(--ink);ou
   .plan .sel{animation:none}
   .phone.big{width:330px}
   .foot{padding:10px 0 0}
+  /* soft shadows become large bitmaps in a PDF: swap them for thin outlines */
+  .hero-vis .photo,.bub{box-shadow:none}
+  .phone{box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.12)}
+  .browser{box-shadow:0 0 0 1px rgba(16,24,40,.14)}
+  .steps li,.pc,.ping,.unit{box-shadow:0 0 0 1px #dfe2e7}
+  .pc.main{box-shadow:0 0 0 2px var(--ink)}
+  .hero-vis .photo span{backdrop-filter:none;background:rgba(16,35,63,.82)}
 }
